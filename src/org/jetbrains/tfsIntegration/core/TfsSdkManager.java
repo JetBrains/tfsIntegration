@@ -6,6 +6,7 @@ import com.intellij.openapi.application.PluginPathManager;
 import com.intellij.openapi.extensions.PluginId;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.util.ObjectUtils;
+import com.microsoft.tfs.core.config.persistence.DefaultPersistenceStoreProvider;
 import com.microsoft.tfs.core.httpclient.DefaultNTCredentials;
 import com.microsoft.tfs.core.httpclient.UsernamePasswordCredentials;
 import com.microsoft.tfs.jni.loader.NativeLoader;
@@ -20,6 +21,11 @@ public class TfsSdkManager {
 
   public static void activate() {
     setupNativeLibrariesPath();
+  }
+
+  @NotNull
+  public static File getCacheFile() {
+    return new File(DefaultPersistenceStoreProvider.INSTANCE.getCachePersistenceStore().getStoreFile(), "VersionControl.config");
   }
 
   private static void setupNativeLibrariesPath() {

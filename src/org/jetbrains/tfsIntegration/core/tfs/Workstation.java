@@ -16,21 +16,18 @@
 
 package org.jetbrains.tfsIntegration.core.tfs;
 
-import com.intellij.openapi.application.PathManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.JDOMUtil;
 import com.intellij.openapi.util.Ref;
-import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.vcs.FilePath;
-import com.intellij.util.SystemProperties;
 import org.apache.axis2.databinding.utils.ConverterUtil;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
-import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.tfsIntegration.config.TfsServerConnectionHelper;
+import org.jetbrains.tfsIntegration.core.TfsSdkManager;
 import org.jetbrains.tfsIntegration.core.configuration.TFSConfigurationManager;
 import org.jetbrains.tfsIntegration.exceptions.DuplicateMappingException;
 import org.jetbrains.tfsIntegration.exceptions.TfsException;
@@ -50,13 +47,6 @@ public class Workstation {
 
   // to be used in tests
   public static boolean PRESERVE_CONFIG_FILE = false;
-
-  private static File getCacheFileWindows(String version) {
-    String path = "Local Settings\\Application Data\\Microsoft\\Team Foundation\\" + version + "\\Cache\\VersionControl.config";
-    return new File(SystemProperties.getUserHome(), path);
-  }
-
-  @NonNls private static final String CACHE_FILE_LINUX_MAC = "tfs-servers.xml";
 
   private static final Logger LOG = Logger.getInstance(Workstation.class.getName());
 
@@ -141,18 +131,7 @@ public class Workstation {
       return null;
     }
 
-    File cacheFile;
-    String [] versions = new String[] {"4.0", "3.0", "2.0", "1.0"};
-    if (SystemInfo.isWindows) {
-      int i = 0;
-      do {
-        cacheFile = getCacheFileWindows(versions[i++]);
-      }
-      while (!cacheFile.exists() && i < versions.length);
-    }
-    else {
-      cacheFile = new File(PathManager.getOptionsPath(), CACHE_FILE_LINUX_MAC);
-    }
+    File cacheFile = TfsSdkManager.getCacheFile();
     return (cacheFile.exists() || !existingOnly) ? cacheFile : null;
   }
 
