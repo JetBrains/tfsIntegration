@@ -16,8 +16,10 @@
 
 package org.jetbrains.tfsIntegration.core.tfs;
 
+import com.intellij.util.containers.ContainerUtil;
 import com.intellij.vcsUtil.VcsUtil;
 import org.apache.axis2.databinding.utils.ConverterUtil;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.tfsIntegration.core.TfsBeansHolder;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -26,13 +28,14 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static org.jetbrains.tfsIntegration.core.tfs.XmlConstants.*;
+
 class WorkstationCacheReader extends DefaultHandler {
 
-  private final List<ServerInfo> myServerInfos = new ArrayList<>();
+  @NotNull private final List<ServerInfo> myServerInfos = ContainerUtil.newArrayList();
 
   private ServerInfo myCurrentServerInfo;
   private WorkspaceInfo myCurrentWorkspaceInfo;
@@ -46,42 +49,42 @@ class WorkstationCacheReader extends DefaultHandler {
   }
 
   public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-    if (XmlConstants.SERVER_INFO.equals(qName)) {
+    if (SERVER_INFO.equals(qName)) {
       try {
-        URI serverUri = new URI(attributes.getValue(XmlConstants.URI_ATTR));
+        URI serverUri = new URI(attributes.getValue(URI_ATTR));
         myCurrentServerInfo =
-          new ServerInfo(serverUri, attributes.getValue(XmlConstants.GUID_ATTR), new TfsBeansHolder(serverUri));
+          new ServerInfo(serverUri, attributes.getValue(GUID_ATTR), new TfsBeansHolder(serverUri));
       }
       catch (URISyntaxException e) {
         throw new SAXException(e);
       }
     }
-    else if (XmlConstants.WORKSPACE_INFO.equals(qName)) {
-      String name = attributes.getValue(XmlConstants.NAME_ATTR);
-      String owner = attributes.getValue(XmlConstants.OWNER_NAME_ATTR);
-      String computer = attributes.getValue(XmlConstants.COMPUTER_ATTR);
-      String comment = attributes.getValue(XmlConstants.COMMENT_ATTR);
-      Calendar timestamp = ConverterUtil.convertToDateTime(attributes.getValue(XmlConstants.TIMESTAMP_ATTR));
+    else if (WORKSPACE_INFO.equals(qName)) {
+      String name = attributes.getValue(NAME_ATTR);
+      String owner = attributes.getValue(OWNER_NAME_ATTR);
+      String computer = attributes.getValue(COMPUTER_ATTR);
+      String comment = attributes.getValue(COMMENT_ATTR);
+      Calendar timestamp = ConverterUtil.convertToDateTime(attributes.getValue(TIMESTAMP_ATTR));
       myCurrentWorkspaceInfo = new WorkspaceInfo(myCurrentServerInfo, name, owner, computer, comment, timestamp);
     }
-    else if (XmlConstants.MAPPED_PATH.equals(qName)) {
+    else if (MAPPED_PATH.equals(qName)) {
       myCurrentWorkspaceInfo
-        .addWorkingFolderInfo(new WorkingFolderInfo(VcsUtil.getFilePath(attributes.getValue(XmlConstants.PATH_ATTR), true)));
+        .addWorkingFolderInfo(new WorkingFolderInfo(VcsUtil.getFilePath(attributes.getValue(PATH_ATTR), true)));
     }
   }
 
   public void endElement(String uri, String localName, String qName) throws SAXException {
-    if (XmlConstants.SERVER_INFO.equals(qName)) {
+    if (SERVER_INFO.equals(qName)) {
       myServerInfos.add(myCurrentServerInfo);
       myCurrentServerInfo = null;
     }
-    else if (XmlConstants.WORKSPACE_INFO.equals(qName)) {
+    else if (WORKSPACE_INFO.equals(qName)) {
       myCurrentServerInfo.addWorkspaceInfo(myCurrentWorkspaceInfo);
-      //myCurrentWorkspaceInfo.setWorkingFoldersCached(true);
       myCurrentWorkspaceInfo = null;
     }
   }
 
+  @NotNull
   public List<ServerInfo> getServers() {
     return myServerInfos;
   }

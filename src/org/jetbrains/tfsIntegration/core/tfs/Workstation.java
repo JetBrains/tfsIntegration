@@ -19,7 +19,10 @@ package org.jetbrains.tfsIntegration.core.tfs;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.JDOMUtil;
 import com.intellij.openapi.util.Ref;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vcs.FilePath;
+import com.intellij.util.Function;
+import com.intellij.util.containers.ContainerUtil;
 import org.apache.axis2.databinding.utils.ConverterUtil;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -38,10 +41,12 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
+import static com.intellij.util.containers.ContainerUtil.newArrayList;
+import static org.jetbrains.tfsIntegration.core.tfs.XmlConstants.*;
 
 public class Workstation {
 
@@ -50,7 +55,7 @@ public class Workstation {
 
   private static final Logger LOG = Logger.getInstance(Workstation.class.getName());
 
-  private final List<ServerInfo> myServerInfos;
+  @NotNull private final List<ServerInfo> myServerInfos;
 
   private @Nullable Ref<FilePath> myDuplicateMappedPath;
 
@@ -64,36 +69,24 @@ public class Workstation {
     private static final Workstation ourInstance = new Workstation();
   }
 
+  @NotNull
   public static Workstation getInstance() {
     return WorkstationHolder.ourInstance;
   }
 
+  @NotNull
   public List<ServerInfo> getServers() {
     return Collections.unmodifiableList(myServerInfos);
   }
 
   @Nullable
-  public ServerInfo getServer(URI uri) {
-    for (ServerInfo server : getServers()) {
-      if (server.getUri().equals(uri)) {
-        return server;
-      }
-    }
-    return null;
+  public ServerInfo getServer(@NotNull URI uri) {
+    return ContainerUtil.find(getServers(), serverInfo -> serverInfo.getUri().equals(uri));
   }
 
-  @Nullable
-  public ServerInfo getServerByInstanceId(final String instanceId) {
-    for (ServerInfo server : getServers()) {
-      if (server.getGuid().equals(instanceId)) {
-        return server;
-      }
-    }
-    return null;
-  }
-
+  @NotNull
   private List<WorkspaceInfo> getAllWorkspacesForCurrentOwnerAndComputer(boolean showLoginIfNoCredentials) {
-    List<WorkspaceInfo> result = new ArrayList<>();
+    List<WorkspaceInfo> result = newArrayList();
     for (final ServerInfo server : getServers()) {
       if (showLoginIfNoCredentials && server.getQualifiedUsername() == null) {
         try {
@@ -108,6 +101,7 @@ public class Workstation {
     return result;
   }
 
+  @NotNull
   private static List<ServerInfo> loadCache() {
     // TODO: validate against schema
     File cacheFile = getCacheFile(true);
@@ -121,7 +115,7 @@ public class Workstation {
         LOG.info("Cannot read workspace cache", e);
       }
     }
-    return new ArrayList<>();
+    return newArrayList();
   }
 
 
@@ -144,57 +138,69 @@ public class Workstation {
         cacheFile.getParentFile().mkdirs();
       }
       try {
-        Document d = new Document();
-        Element rootElement = new Element(XmlConstants.ROOT);
-        d.setRootElement(rootElement);
-        Element serversElement = new Element(XmlConstants.SERVERS);
-        rootElement.addContent(serversElement);
+        Element serversElement = new Element(SERVERS);
+
         for (ServerInfo serverInfo : getServers()) {
-          Element serverInfoElement = new Element(XmlConstants.SERVER_INFO);
+          Element serverInfoElement = new Element(SERVER_INFO)
+            .setAttribute(URI_ATTR, serverInfo.getUri().toString())
+            .setAttribute(GUID_ATTR, serverInfo.getGuid());
+
           serversElement.addContent(serverInfoElement);
-          serverInfoElement.setAttribute(XmlConstants.URI_ATTR, serverInfo.getUri().toString());
-          serverInfoElement.setAttribute(XmlConstants.GUID_ATTR, serverInfo.getGuid());
 
           for (WorkspaceInfo workspaceInfo : serverInfo.getWorkspaces()) {
-            Element workspaceInfoElement = new Element(XmlConstants.WORKSPACE_INFO);
-            serverInfoElement.addContent(workspaceInfoElement);
-
-            workspaceInfoElement.setAttribute(XmlConstants.COMPUTER_ATTR, workspaceInfo.getComputer());
-            workspaceInfoElement.setAttribute(XmlConstants.OWNER_NAME_ATTR, workspaceInfo.getOwnerName());
-            workspaceInfoElement.setAttribute(XmlConstants.TIMESTAMP_ATTR, ConverterUtil.convertToString(workspaceInfo.getTimestamp()));
-            workspaceInfoElement.setAttribute(XmlConstants.NAME_ATTR, workspaceInfo.getName());
+            Element workspaceInfoElement = new Element(WORKSPACE_INFO)
+              .setAttribute(COMPUTER_ATTR, workspaceInfo.getComputer())
+              .setAttribute(OWNER_NAME_ATTR, workspaceInfo.getOwnerName())
+              .setAttribute(TIMESTAMP_ATTR, ConverterUtil.convertToString(workspaceInfo.getTimestamp()))
+              .setAttribute(NAME_ATTR, workspaceInfo.getName());
             if (workspaceInfo.getComment() != null) {
-              workspaceInfoElement.setAttribute(XmlConstants.COMMENT_ATTR, workspaceInfo.getComment());
+              workspaceInfoElement.setAttribute(COMMENT_ATTR, workspaceInfo.getComment());
             }
 
-            Element mappedPathsElement = new Element(XmlConstants.MAPPED_PATHS);
-            workspaceInfoElement.addContent(mappedPathsElement);
+            addItems(workspaceInfoElement, MAPPED_PATHS, MAPPED_PATH, PATH_ATTR, workspaceInfo.getWorkingFoldersCached(),
+                     folderInfo -> folderInfo.getLocalPath().getPath());
 
-            for (WorkingFolderInfo folderInfo : workspaceInfo.getWorkingFoldersCached()) {
-              Element e = new Element(XmlConstants.MAPPED_PATH);
-              e.setAttribute(XmlConstants.PATH_ATTR, folderInfo.getLocalPath().getPath());
-              mappedPathsElement.addContent(e);
-            }
+            serverInfoElement.addContent(workspaceInfoElement);
           }
         }
 
+        Document document = new Document().setRootElement(
+          new Element(ROOT).addContent(serversElement));
 
-        OutputStream stream = new BufferedOutputStream(new FileOutputStream(cacheFile));
-        try {
-          XMLOutputter o = JDOMUtil.createOutputter("\n");
-          o.setFormat(o.getFormat().setOmitDeclaration(true));
-          o.output(d, stream);
-        }
-        catch (NullPointerException e) {
-          LOG.warn(e);
-        }
-        finally {
-          stream.close();
-        }
+        saveDocument(cacheFile, document);
       }
       catch (IOException e) {
         LOG.info("Cannot update workspace cache", e);
       }
+    }
+  }
+
+  private static void saveDocument(@NotNull File cacheFile, @NotNull Document document) throws IOException {
+    OutputStream stream = new BufferedOutputStream(new FileOutputStream(cacheFile));
+    try {
+      XMLOutputter o = JDOMUtil.createOutputter("\n");
+      o.setFormat(o.getFormat().setOmitDeclaration(true));
+      o.output(document, stream);
+    }
+    catch (NullPointerException e) {
+      LOG.warn(e);
+    }
+    finally {
+      stream.close();
+    }
+  }
+
+  private static <T> void addItems(@NotNull Element parentElement,
+                                   @NotNull String elementName,
+                                   @NotNull String itemElementName,
+                                   @NotNull String itemAttributeName,
+                                   @NotNull List<T> items,
+                                   @NotNull Function<T, String> valueProvider) {
+    Element element = new Element(elementName);
+    parentElement.addContent(element);
+
+    for (T item : items) {
+      element.addContent(new Element(itemElementName).setAttribute(itemAttributeName, StringUtil.notNullize(valueProvider.fun(item))));
     }
   }
 
@@ -235,9 +241,10 @@ public class Workstation {
     return ourComputerName;
   }
 
+  @NotNull
   public Collection<WorkspaceInfo> findWorkspacesCached(final @NotNull FilePath localPath, boolean considerChildMappings) {
     // try cached working folders first
-    Collection<WorkspaceInfo> result = new ArrayList<>();
+    Collection<WorkspaceInfo> result = newArrayList();
     for (WorkspaceInfo workspace : getAllWorkspacesForCurrentOwnerAndComputer(false)) {
       if (workspace.hasMappingCached(localPath, considerChildMappings)) {
         result.add(workspace);
@@ -250,6 +257,7 @@ public class Workstation {
     return result;
   }
 
+  @NotNull
   public Collection<WorkspaceInfo> findWorkspaces(final @NotNull FilePath localPath,
                                                   boolean considerChildMappings,
                                                   Object projectOrComponent) throws TfsException {
@@ -267,8 +275,8 @@ public class Workstation {
     else {
       // TODO: exclude servers that are unavailable during current application run
       // not found in cached info, but workspaces may be out of date -> try to search all the workspaces reloaded
-      Collection<WorkspaceInfo> result = new ArrayList<>();
-      Collection<ServerInfo> serversToSkip = new ArrayList<>();
+      Collection<WorkspaceInfo> result = newArrayList();
+      Collection<ServerInfo> serversToSkip = newArrayList();
       for (WorkspaceInfo workspace : getAllWorkspacesForCurrentOwnerAndComputer(true)) {
         if (serversToSkip.contains(workspace.getServer())) {
           // if server is somehow unavailable, don't try every workspace on it
@@ -310,9 +318,9 @@ public class Workstation {
   @Nullable
   private FilePath findDuplicateMappedPath() {
     // don't check duplicate mappings within the same server, server side should take care about this
-    Collection<FilePath> otherServersPaths = new ArrayList<>();
+    Collection<FilePath> otherServersPaths = newArrayList();
     for (ServerInfo server : getServers()) {
-      Collection<FilePath> currentServerPaths = new ArrayList<>();
+      Collection<FilePath> currentServerPaths = newArrayList();
       for (WorkspaceInfo workspace : server.getWorkspacesForCurrentOwnerAndComputer()) {
         for (WorkingFolderInfo workingFolder : workspace.getWorkingFoldersCached()) {
           final FilePath currentServerPath = workingFolder.getLocalPath();
