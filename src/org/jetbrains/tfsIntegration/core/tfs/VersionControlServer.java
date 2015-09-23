@@ -33,7 +33,6 @@ import com.microsoft.schemas.teamfoundation._2005._06.services.authorization._03
 import com.microsoft.schemas.teamfoundation._2005._06.services.groupsecurity._03.ReadIdentity;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.*;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.ArrayOfInt;
-import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.ArrayOfString;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.CheckinOptions;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.MergeOptions;
 import com.microsoft.schemas.teamfoundation._2005._06.workitemtracking.clientservices._03.*;
@@ -1209,15 +1208,10 @@ public class VersionControlServer {
         @Override
         public ResultWithFailures<CheckinResult> execute(Collection<String> items, Credentials credentials, ProgressIndicator pi)
           throws RemoteException, HostNotApplicableException {
-          final ArrayOfString serverItemsArray = new ArrayOfString();
-          for (String serverItem : items) {
-            serverItemsArray.addString(serverItem);
-          }
-
           CheckIn param = new CheckIn();
           param.setWorkspaceName(workspaceName);
           param.setOwnerName(workspaceOwnerName);
-          param.setServerItems(serverItemsArray);
+          param.setServerItems(TfsUtil.toArrayOfString(items));
           param.setInfo(changeset);
           param.setCheckinNotificationInfo(checkinNotificationInfo);
           param.setCheckinOptions(checkinOptions);
@@ -1300,11 +1294,6 @@ public class VersionControlServer {
   public List<CheckinNoteFieldDefinition> queryCheckinNoteDefinition(final Collection<String> teamProjects,
                                                                      Object projectOrComponent,
                                                                      String progressTitle) throws TfsException {
-    final ArrayOfString associatedServerItem = new ArrayOfString();
-    for (String teamProject : teamProjects) {
-      associatedServerItem.addString(teamProject);
-    }
-
     final ArrayOfCheckinNoteFieldDefinition result =
       TfsRequestManager
         .executeRequest(myServerUri, projectOrComponent, new TfsRequestManager.Request<ArrayOfCheckinNoteFieldDefinition>(progressTitle) {
@@ -1312,7 +1301,7 @@ public class VersionControlServer {
           public ArrayOfCheckinNoteFieldDefinition execute(Credentials credentials, URI serverUri, @Nullable ProgressIndicator pi)
             throws Exception {
             QueryCheckinNoteDefinition param = new QueryCheckinNoteDefinition();
-            param.setAssociatedServerItem(associatedServerItem);
+            param.setAssociatedServerItem(TfsUtil.toArrayOfString(teamProjects));
             return myBeans.getRepositoryStub(credentials, pi).queryCheckinNoteDefinition(param).getQueryCheckinNoteDefinitionResult();
           }
         });

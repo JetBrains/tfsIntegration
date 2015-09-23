@@ -29,11 +29,13 @@ import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.wm.ToolWindowId;
+import com.intellij.util.ArrayUtil;
 import com.intellij.util.ThrowableConsumer;
 import com.intellij.util.ThrowableRunnable;
 import com.intellij.util.UriUtil;
 import com.intellij.util.io.URLUtil;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.*;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.tfsIntegration.core.revision.TFSContentRevision;
@@ -227,5 +229,17 @@ public class TfsUtil {
 
   public static <E extends Throwable> void forcePluginClassLoader(@NotNull ThrowableRunnable<E> runnable) throws E {
     ClassLoaderUtil.runWithClassLoader(null, runnable);
+  }
+
+  @Contract(pure = true, value = "null -> null; !null -> !null")
+  public static ArrayOfString toArrayOfString(@Nullable Collection<String> values) {
+    ArrayOfString result = null;
+
+    if (values != null) {
+      result = new ArrayOfString();
+      result.setString(ArrayUtil.toStringArray(values));
+    }
+
+    return result;
   }
 }
