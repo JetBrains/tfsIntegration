@@ -82,6 +82,6 @@ public class LockItemModel {
   }
 
   public boolean canBeUnlocked() {
-    return myWorkspace.getOwnerName().equalsIgnoreCase(myExtendedItem.getLowner());
+    return myWorkspace.isWorkspaceOwner(myExtendedItem.getLowner());
   }
 }

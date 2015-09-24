@@ -124,7 +124,7 @@ public class ServerInfo {
 
     for (Iterator<WorkspaceInfo> i = myWorkspaceInfos.iterator(); i.hasNext();) {
       WorkspaceInfo workspaceInfo = i.next();
-      if (workspaceInfo.getOwnerName().equalsIgnoreCase(owner)) {
+      if (workspaceInfo.isWorkspaceOwner(owner)) {
         i.remove();
       }
     }

@@ -188,13 +188,12 @@ public class WorkspaceInfo {
 
   boolean hasCurrentOwnerAndComputer() {
     String owner = getServer().getQualifiedUsername();
-    if (owner == null || !owner.equalsIgnoreCase(getOwnerName())) {
-      return false;
-    }
-    if (!Workstation.getComputerName().equalsIgnoreCase(getComputer())) {
-      return false;
-    }
-    return true;
+
+    return owner != null && isWorkspaceOwner(owner) && Workstation.getComputerName().equalsIgnoreCase(getComputer());
+  }
+
+  public boolean isWorkspaceOwner(@NotNull String owner) {
+    return owner.equalsIgnoreCase(myOwnerName) || ContainerUtil.or(myOwnerAliases, alias -> owner.equalsIgnoreCase(alias));
   }
 
   private void checkCurrentOwnerAndComputer() {
