@@ -47,5 +47,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="vcs-impl" scope="TEST" />
+    <orderEntry type="module" module-name="vcs-tests" scope="TEST" />
   </component>
 </module>
