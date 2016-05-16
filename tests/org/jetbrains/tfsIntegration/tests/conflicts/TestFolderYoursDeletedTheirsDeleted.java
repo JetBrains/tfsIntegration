@@ -98,24 +98,6 @@ public class TestFolderYoursDeletedTheirsDeleted extends TestFolderConflict {
     return null;
   }
 
-  @Nullable
-  protected String getExpectedBaseContent() {
-    Assert.fail("not supported");
-    return null;
-  }
-
-  @Nullable
-  protected String getExpectedYoursContent() {
-    Assert.fail("not supported");
-    return null;
-  }
-
-  @Nullable
-  protected String getExpectedTheirsContent() {
-    Assert.fail("not supported");
-    return null;
-  }
-
   @Test
   public void testAcceptYours() throws VcsException, IOException {
     super.testAcceptYours();

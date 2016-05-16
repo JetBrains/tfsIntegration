@@ -64,10 +64,6 @@ public class TestChangeListBuilder extends MockChangelistBuilder {
     myIgnoredFiles.add(file);
   }
 
-  public void processSwitchedFile(VirtualFile file, String branch, final boolean recursive) {
-    // TODO
-  }
-
   public void assertUnversioned(FilePath file) {
     Assert.assertTrue(toString(), isUnversioned(file));
   }
