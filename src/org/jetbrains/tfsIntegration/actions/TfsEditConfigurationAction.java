@@ -2,8 +2,6 @@ package org.jetbrains.tfsIntegration.actions;
 
 import com.intellij.openapi.actionSystem.ActionPlaces;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.project.DumbAwareAction;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.tfsIntegration.ui.ManageWorkspacesDialog;
@@ -15,7 +13,7 @@ public class TfsEditConfigurationAction extends DumbAwareAction {
 
   @Override
   public void update(AnActionEvent e) {
-    Project project = CommonDataKeys.PROJECT.getData(e.getDataContext());
+    Project project = e.getProject();
     if (ActionPlaces.isPopupPlace(e.getPlace())) {
       e.getPresentation().setVisible(project != null);
     }
@@ -26,7 +24,7 @@ public class TfsEditConfigurationAction extends DumbAwareAction {
 
   @Override
   public void actionPerformed(AnActionEvent e) {
-    Project project = CommonDataKeys.PROJECT.getData(e.getDataContext());
+    Project project = e.getProject();
     ManageWorkspacesDialog d = new ManageWorkspacesDialog(project);
     d.show();
   }
