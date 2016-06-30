@@ -183,7 +183,7 @@ public class Credentials {
 
   @NonNls
   public String toString() {
-    //noinspection ConstantConditions
+    //noinspection ConstantConditions,ReplaceAllDot
     return myType.name() +
            ": " +
            getQualifiedUsername() +
