@@ -55,7 +55,7 @@ public class TFSHistoryProvider implements VcsHistoryProvider {
   }
 
   public AnAction[] getAdditionalActions(final Runnable refresher) {
-    return new AnAction[0];
+    return AnAction.EMPTY_ARRAY;
   }
 
   public boolean isDateOmittable() {
