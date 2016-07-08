@@ -57,7 +57,7 @@ public class HTTPProxyInfo {
       if (hc.USE_HTTP_PROXY) {
         if (hc.PROXY_AUTHENTICATION) {
           // here we assume proxy auth dialog was shown if needed, see promptForPassword() caller
-          return new HTTPProxyInfo(hc.PROXY_HOST, hc.PROXY_PORT, hc.PROXY_LOGIN, hc.getPlainProxyPassword());
+          return new HTTPProxyInfo(hc.PROXY_HOST, hc.PROXY_PORT, hc.getProxyLogin(), hc.getPlainProxyPassword());
         }
         else {
           return new HTTPProxyInfo(hc.PROXY_HOST, hc.PROXY_PORT, null, null);
