@@ -66,7 +66,7 @@ public class CheckinParameters {
 
   private static class TeamProjectData {
     public TfsCheckinPoliciesCompatibility myCompatibility = TFSConfigurationManager.getInstance().getCheckinPoliciesCompatibility();
-    public final List<PolicyDescriptor> myPolicies = new ArrayList<PolicyDescriptor>();
+    public final List<PolicyDescriptor> myPolicies = new ArrayList<>();
   }
 
   private static class ServerData {
@@ -107,7 +107,7 @@ public class CheckinParameters {
 
   public CheckinParameters(final CheckinProjectPanel panel, final boolean evaluatePolicies) throws OperationFailedException {
     myPanel = panel;
-    final Collection<FilePath> filePaths = new ArrayList<FilePath>(panel.getFiles().size());
+    final Collection<FilePath> filePaths = new ArrayList<>(panel.getFiles().size());
     for (File file : panel.getFiles()) {
       FilePath filePath = VcsContextFactory.SERVICE.getInstance().createFilePathOn(file);
       if (!TFSVcs.isUnderTFS(filePath, myPanel.getProject())) {
@@ -125,12 +125,12 @@ public class CheckinParameters {
           }
           pi.setText("Loading checkin notes and policy definitions");
           final MultiMap<ServerInfo, String> serverToProjects = MultiMap.createSet();
-          final Map<ServerInfo, Collection<FilePath>> serverToFiles = new HashMap<ServerInfo, Collection<FilePath>>();
+          final Map<ServerInfo, Collection<FilePath>> serverToFiles = new HashMap<>();
           WorkstationHelper.processByWorkspaces(filePaths, false, panel.getProject(), new WorkstationHelper.VoidProcessDelegate() {
             public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) throws TfsException {
               Collection<FilePath> files = serverToFiles.get(workspace.getServer());
               if (files == null) {
-                files = new ArrayList<FilePath>();
+                files = new ArrayList<>();
                 serverToFiles.put(workspace.getServer(), files);
               }
               for (ItemPath path : paths) {
@@ -145,46 +145,46 @@ public class CheckinParameters {
           }
           pi.checkCanceled();
 
-          List<ServerInfo> sortedServers = new ArrayList<ServerInfo>(serverToProjects.keySet());
+          List<ServerInfo> sortedServers = new ArrayList<>(serverToProjects.keySet());
           Collections.sort(sortedServers, new Comparator<ServerInfo>() {
             public int compare(ServerInfo o1, ServerInfo o2) {
               return o1.getPresentableUri().compareTo(o2.getPresentableUri());
             }
           });
 
-          Map<ServerInfo, ServerData> data = new LinkedHashMap<ServerInfo, ServerData>();
+          Map<ServerInfo, ServerData> data = new LinkedHashMap<>();
           StringBuilder policiesLoadError = new StringBuilder();
           for (ServerInfo server : sortedServers) {
             final Collection<String> teamProjects = serverToProjects.get(server);
             final List<CheckinNoteFieldDefinition> checkinNoteDefinitions =
               server.getVCS().queryCheckinNoteDefinition(teamProjects, myPanel.getProject(), null);
             pi.checkCanceled();
-            Map<String, CheckinNoteFieldDefinition> nameToDefinition = new HashMap<String, CheckinNoteFieldDefinition>();
+            Map<String, CheckinNoteFieldDefinition> nameToDefinition = new HashMap<>();
             // factorize different team projects definitions by name and sort them by display order field
             for (CheckinNoteFieldDefinition definition : checkinNoteDefinitions) {
               if (!nameToDefinition.containsKey(definition.getName()) || definition.getReq()) {
                 nameToDefinition.put(definition.getName(), definition);
               }
             }
-            List<CheckinNoteFieldDefinition> sortedDefinitions = new ArrayList<CheckinNoteFieldDefinition>(nameToDefinition.values());
+            List<CheckinNoteFieldDefinition> sortedDefinitions = new ArrayList<>(nameToDefinition.values());
             Collections.sort(sortedDefinitions, new Comparator<CheckinNoteFieldDefinition>() {
               public int compare(final CheckinNoteFieldDefinition o1, final CheckinNoteFieldDefinition o2) {
                 return o1.get_do() - o2.get_do();
               }
             });
 
-            List<CheckinNote> checkinNotes = new ArrayList<CheckinNote>(sortedDefinitions.size());
+            List<CheckinNote> checkinNotes = new ArrayList<>(sortedDefinitions.size());
             for (CheckinNoteFieldDefinition checkinNote : sortedDefinitions) {
               checkinNotes.add(new CheckinNote(checkinNote.getName(), checkinNote.getReq()));
             }
 
-            Map<String, TeamProjectData> project2policies = new HashMap<String, TeamProjectData>();
+            Map<String, TeamProjectData> project2policies = new HashMap<>();
             for (String teamProject : teamProjects) {
               project2policies.put(teamProject, new TeamProjectData());
             }
 
             try {
-              Collection<Annotation> overridesAnnotations = new ArrayList<Annotation>();
+              Collection<Annotation> overridesAnnotations = new ArrayList<>();
               for (String teamProjectPath : teamProjects) {
                 overridesAnnotations.addAll(
                   server.getVCS().queryAnnotations(TFSConstants.OVERRRIDES_ANNOTATION, teamProjectPath, myPanel.getProject(), null, false));
@@ -204,7 +204,7 @@ public class CheckinParameters {
               }
 
               if (teamExplorerFound) {
-                Collection<Annotation> annotations = new ArrayList<Annotation>();
+                Collection<Annotation> annotations = new ArrayList<>();
                 for (String teamProjectPath : teamProjects) {
                   annotations.addAll(server.getVCS()
                                        .queryAnnotations(TFSConstants.TFS_CHECKIN_POLICIES_ANNOTATION, teamProjectPath,
@@ -227,7 +227,7 @@ public class CheckinParameters {
               }
 
               if (teampriseFound) {
-                Collection<Annotation> annotations = new ArrayList<Annotation>();
+                Collection<Annotation> annotations = new ArrayList<>();
                 for (String teamProjectPath : teamProjects) {
                   annotations.addAll(server.getVCS()
                                        .queryAnnotations(TFSConstants.STATEFUL_CHECKIN_POLICIES_ANNOTATION, teamProjectPath,
@@ -293,7 +293,7 @@ public class CheckinParameters {
     for (final Map.Entry<ServerInfo, ServerData> entry : myData.entrySet()) {
       PolicyContext context = createPolicyContext(entry.getKey());
 
-      List<PolicyFailure> allFailures = new ArrayList<PolicyFailure>();
+      List<PolicyFailure> allFailures = new ArrayList<>();
       for (Map.Entry<String, TeamProjectData> teamProjectDataEntry : entry.getValue().myPolicies.entrySet()) {
         for (PolicyDescriptor descriptor : teamProjectDataEntry.getValue().myPolicies) {
           PolicyBase policy;
@@ -370,7 +370,7 @@ public class CheckinParameters {
       }
 
       public Map<WorkItem, WorkItemAction> getWorkItems() {
-        Map<WorkItem, WorkItemAction> result = new HashMap<WorkItem, WorkItemAction>(serverData.myWorkItems.getWorkItemsActions().size());
+        Map<WorkItem, WorkItemAction> result = new HashMap<>(serverData.myWorkItems.getWorkItemsActions().size());
         for (Map.Entry<WorkItem, CheckinWorkItemAction> entry : serverData.myWorkItems.getWorkItemsActions().entrySet()) {
           result
             .put(entry.getKey(), entry.getValue() == CheckinWorkItemAction.Associate ? WorkItemAction.Associate : WorkItemAction.Resolve);
@@ -448,7 +448,7 @@ public class CheckinParameters {
   public void validateNotes() {
     //noinspection ConstantConditions
     for (ServerData serverData : myData.values()) {
-      List<String> emptyNotes = new ArrayList<String>();
+      List<String> emptyNotes = new ArrayList<>();
       for (CheckinNote checkinNote : serverData.myCheckinNotes) {
         if (checkinNote.required && StringUtil.isEmptyOrSpaces(checkinNote.value)) {
           emptyNotes.add(checkinNote.name);
@@ -506,7 +506,7 @@ public class CheckinParameters {
 
   public List<ServerInfo> getServers() {
     //noinspection ConstantConditions
-    return new ArrayList<ServerInfo>(myData.keySet());
+    return new ArrayList<>(myData.keySet());
   }
 
   @NotNull
@@ -551,7 +551,7 @@ public class CheckinParameters {
       return Collections.emptyList();
     }
     else {
-      List<PolicyFailure> result = new ArrayList<PolicyFailure>();
+      List<PolicyFailure> result = new ArrayList<>();
       for (ServerData data : myData.values()) {
         result.addAll(data.myPolicyFailures);
       }
@@ -608,11 +608,11 @@ public class CheckinParameters {
   //}
 
   public CheckinParameters createCopy() {
-    @SuppressWarnings({"ConstantConditions"}) Map<ServerInfo, ServerData> result = new LinkedHashMap<ServerInfo, ServerData>(myData.size());
+    @SuppressWarnings({"ConstantConditions"}) Map<ServerInfo, ServerData> result = new LinkedHashMap<>(myData.size());
     //noinspection ConstantConditions
     for (Map.Entry<ServerInfo, ServerData> entry : myData.entrySet()) {
       final ServerData serverData = entry.getValue();
-      List<CheckinNote> checkinNotesCopy = new ArrayList<CheckinNote>(serverData.myCheckinNotes.size());
+      List<CheckinNote> checkinNotesCopy = new ArrayList<>(serverData.myCheckinNotes.size());
       for (CheckinNote original : serverData.myCheckinNotes) {
         CheckinNote copy = new CheckinNote(original.name, original.required);
         copy.value = original.value;
@@ -620,7 +620,7 @@ public class CheckinParameters {
       }
       ServerData serverDataCopy =
         new ServerData(checkinNotesCopy, serverData.myWorkItems.createCopy(), serverData.myFiles, serverData.myPolicies);
-      serverDataCopy.myEmptyNotes = new ArrayList<String>(serverData.myEmptyNotes);
+      serverDataCopy.myEmptyNotes = new ArrayList<>(serverData.myEmptyNotes);
       serverDataCopy.myPolicyFailures = serverData.myPolicyFailures;
       result.put(entry.getKey(), serverDataCopy);
     }
@@ -637,7 +637,7 @@ public class CheckinParameters {
       return null;
     }
 
-    Map<String, String> failures = new LinkedHashMap<String, String>();
+    Map<String, String> failures = new LinkedHashMap<>();
     for (PolicyFailure policyFailure : myData.get(server).myPolicyFailures) {
       failures.put(policyFailure.getPolicyName(), policyFailure.getMessage());
     }

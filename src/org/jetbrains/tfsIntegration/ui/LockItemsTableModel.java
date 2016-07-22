@@ -117,7 +117,7 @@ public class LockItemsTableModel extends AbstractTableModel {
   }
 
   public List<LockItemModel> getSelectedItems() {
-    final List<LockItemModel> result = new ArrayList<LockItemModel>();
+    final List<LockItemModel> result = new ArrayList<>();
     for (LockItemModel item : myContent) {
       if (item.getSelectionStatus() == Boolean.TRUE) {
         result.add(item);

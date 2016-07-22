@@ -38,7 +38,7 @@ public class TFSEditFileProvider implements EditFileProvider {
   }
 
   public void editFiles(final VirtualFile[] files) throws VcsException {
-    final Collection<VcsException> errors = new ArrayList<VcsException>();
+    final Collection<VcsException> errors = new ArrayList<>();
     try {
       Collection<FilePath> orphans =
         WorkstationHelper.processByWorkspaces(TfsFileUtil.getFilePaths(files), false, myProject,
@@ -47,7 +47,7 @@ public class TFSEditFileProvider implements EditFileProvider {
             final ResultWithFailures<GetOperation> processResult =
               workspace.getServer().getVCS()
                 .checkoutForEdit(workspace.getName(), workspace.getOwnerName(), paths, myProject, TFSBundle.message("checking.out"));
-            Collection<VirtualFile> makeWritable = new ArrayList<VirtualFile>();
+            Collection<VirtualFile> makeWritable = new ArrayList<>();
             for (GetOperation getOperation : processResult.getResult()) {
               TFSVcs.assertTrue(getOperation.getSlocal().equals(getOperation.getTlocal()));
               VirtualFile file = VersionControlPath.getVirtualFile(getOperation.getSlocal());

@@ -47,7 +47,7 @@ public class ChooseTeamProjectCollectionForm {
       };
 
     List<TfsServerConnectionHelper.TeamProjectCollectionDescriptor> sorted =
-      new ArrayList<TfsServerConnectionHelper.TeamProjectCollectionDescriptor>(items);
+      new ArrayList<>(items);
     Collections.sort(sorted, new Comparator<TfsServerConnectionHelper.TeamProjectCollectionDescriptor>() {
       @Override
       public int compare(TfsServerConnectionHelper.TeamProjectCollectionDescriptor o1,
@@ -87,7 +87,7 @@ public class ChooseTeamProjectCollectionForm {
     new TableSpeedSearch(myTable);
 
     myTable.setModelAndUpdateColumns(
-      new ListTableModel<TfsServerConnectionHelper.TeamProjectCollectionDescriptor>(new ColumnInfo[]{displayNameColumn}, sorted, 0));
+      new ListTableModel<>(new ColumnInfo[]{displayNameColumn}, sorted, 0));
     myTable.setSelection(Collections.singletonList(sorted.get(0)));
   }
 

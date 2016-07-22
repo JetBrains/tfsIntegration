@@ -43,7 +43,7 @@ public class TfsExceptionManager {
   private static final Map<String, Class<?>> ourExceptionsBySubcodes;
 
   static {
-    ourExceptionsBySubcodes = new HashMap<String, Class<?>>();
+    ourExceptionsBySubcodes = new HashMap<>();
     ourExceptionsBySubcodes.put(WorkspaceNotFoundException.CODE, WorkspaceNotFoundException.class);
     ourExceptionsBySubcodes.put(IllegalIdentityException.CODE, IllegalIdentityException.class);
     ourExceptionsBySubcodes.put(IdentityNotFoundException.CODE, IdentityNotFoundException.class);

@@ -53,7 +53,7 @@ public class ServerPathCellEditor extends AbstractTableCellEditor {
         }
       }
     };
-    myComponent = new CellEditorComponentWithBrowseButton<JTextField>(new TextFieldWithBrowseButton(listener), this);
+    myComponent = new CellEditorComponentWithBrowseButton<>(new TextFieldWithBrowseButton(listener), this);
     myComponent.getChildComponent().setText((String)value);
     return myComponent;
   }

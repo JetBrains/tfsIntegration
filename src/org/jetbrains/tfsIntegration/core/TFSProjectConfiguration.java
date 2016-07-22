@@ -30,7 +30,7 @@ import java.util.Map;
 public class TFSProjectConfiguration implements PersistentStateComponent<TFSProjectConfiguration.ConfigurationBean> {
   private ConfigurationBean myConfigurationBean;
 
-  private final Map<WorkspaceInfo, UpdateWorkspaceInfo> myUpdateWorkspaceInfos = new HashMap<WorkspaceInfo, UpdateWorkspaceInfo>();
+  private final Map<WorkspaceInfo, UpdateWorkspaceInfo> myUpdateWorkspaceInfos = new HashMap<>();
 
   public static class ConfigurationBean {
     public boolean UPDATE_RECURSIVELY = true;

@@ -37,7 +37,7 @@ public class ScheduleForDeletion {
     // recursively undo pending changes except schedule for deletion => map: modified_name->original_name
     // schedule roots for deletion using their original names (+updateLocalVersion)
 
-    Collection<VcsException> errors = new ArrayList<VcsException>();
+    Collection<VcsException> errors = new ArrayList<>();
 
     try {
       RootsCollection.ItemPathRootsCollection roots = new RootsCollection.ItemPathRootsCollection(paths);
@@ -46,7 +46,7 @@ public class ScheduleForDeletion {
         .queryPendingSetsByLocalPaths(workspace.getName(), workspace.getOwnerName(), roots, RecursionType.Full, project,
                                       TFSBundle.message("loading.changes"));
 
-      Collection<String> revert = new ArrayList<String>();
+      Collection<String> revert = new ArrayList<>();
       for (PendingChange pendingChange : pendingChanges) {
         ChangeTypeMask change = new ChangeTypeMask(pendingChange.getChg());
         if (!change.contains(ChangeType_type0.Delete)) {
@@ -59,13 +59,13 @@ public class ScheduleForDeletion {
         UndoPendingChanges.execute(project, workspace, revert, true, ApplyProgress.EMPTY, false);
       errors.addAll(undoResult.errors);
 
-      List<ItemPath> undoneRoots = new ArrayList<ItemPath>(roots.size());
+      List<ItemPath> undoneRoots = new ArrayList<>(roots.size());
       for (ItemPath originalRoot : roots) {
         ItemPath undoneRoot = undoResult.undonePaths.get(originalRoot);
         undoneRoots.add(undoneRoot != null ? undoneRoot : originalRoot);
       }
 
-      final List<FilePath> scheduleForDeletion = new ArrayList<FilePath>();
+      final List<FilePath> scheduleForDeletion = new ArrayList<>();
       StatusProvider.visitByStatus(workspace, undoneRoots, false, null, new StatusVisitor() {
 
         public void unversioned(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull ServerStatus serverStatus)

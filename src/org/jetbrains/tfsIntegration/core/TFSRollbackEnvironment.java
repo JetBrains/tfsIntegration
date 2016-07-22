@@ -56,7 +56,7 @@ public class TFSRollbackEnvironment extends DefaultRollbackEnvironment {
   public void rollbackChanges(final List<Change> changes,
                               final List<VcsException> vcsExceptions,
                               @NotNull final RollbackProgressListener listener) {
-    List<FilePath> localPaths = new ArrayList<FilePath>();
+    List<FilePath> localPaths = new ArrayList<>();
 
     listener.determinate();
     for (Change change : changes) {
@@ -72,8 +72,8 @@ public class TFSRollbackEnvironment extends DefaultRollbackEnvironment {
     try {
       WorkstationHelper.processByWorkspaces(files, false, myProject, new WorkstationHelper.VoidProcessDelegate() {
         public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) throws TfsException {
-          final List<VersionControlServer.GetRequestParams> download = new ArrayList<VersionControlServer.GetRequestParams>();
-          final Collection<String> undo = new ArrayList<String>();
+          final List<VersionControlServer.GetRequestParams> download = new ArrayList<>();
+          final Collection<String> undo = new ArrayList<>();
           StatusProvider.visitByStatus(workspace, paths, false, null, new StatusVisitor() {
 
             public void unversioned(final @NotNull FilePath localPath,
@@ -173,7 +173,7 @@ public class TFSRollbackEnvironment extends DefaultRollbackEnvironment {
           //Map<ItemPath, ExtendedItem> extendedItems = workspace.getExtendedItems(paths);
 
           // query GetOperation-s
-          List<VersionControlServer.GetRequestParams> requests = new ArrayList<VersionControlServer.GetRequestParams>(paths.size());
+          List<VersionControlServer.GetRequestParams> requests = new ArrayList<>(paths.size());
           final WorkspaceVersionSpec versionSpec = new WorkspaceVersionSpec(workspace.getName(), workspace.getOwnerName());
           for (ItemPath e : paths) {
             requests.add(new VersionControlServer.GetRequestParams(e.getServerPath(), RecursionType.None, versionSpec));
@@ -225,7 +225,7 @@ public class TFSRollbackEnvironment extends DefaultRollbackEnvironment {
     try {
       WorkstationHelper.processByWorkspaces(localPaths, false, myProject, new WorkstationHelper.VoidProcessDelegate() {
         public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) throws TfsException {
-          Collection<String> serverPaths = new ArrayList<String>(paths.size());
+          Collection<String> serverPaths = new ArrayList<>(paths.size());
           for (ItemPath itemPath : paths) {
             serverPaths.add(itemPath.getServerPath());
           }
@@ -233,7 +233,7 @@ public class TFSRollbackEnvironment extends DefaultRollbackEnvironment {
             .execute(myProject, workspace, serverPaths, false, new ApplyProgress.RollbackProgressWrapper(listener),
                      tolerateNoChangesFailure);
           errors.addAll(undoResult.errors);
-          List<VirtualFile> refresh = new ArrayList<VirtualFile>(paths.size());
+          List<VirtualFile> refresh = new ArrayList<>(paths.size());
           for (ItemPath path : paths) {
             listener.accept(path.getLocalPath());
 

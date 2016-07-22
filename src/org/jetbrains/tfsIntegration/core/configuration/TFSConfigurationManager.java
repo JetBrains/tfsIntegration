@@ -51,7 +51,7 @@ public class TFSConfigurationManager implements PersistentStateComponent<TFSConf
   public static class State {
 
     @MapAnnotation(entryTagName = "server", keyAttributeName = "uri", surroundValueWithTag = false)
-    public Map<String, ServerConfiguration> config = new HashMap<String, ServerConfiguration>();
+    public Map<String, ServerConfiguration> config = new HashMap<>();
 
     public boolean useIdeaHttpProxy = true;
     public boolean supportTfsCheckinPolicies = true;
@@ -60,7 +60,7 @@ public class TFSConfigurationManager implements PersistentStateComponent<TFSConf
 
   }
 
-  private Map<String, ServerConfiguration> myServersConfig = new HashMap<String, ServerConfiguration>();
+  private Map<String, ServerConfiguration> myServersConfig = new HashMap<>();
   private boolean myUseIdeaHttpProxy = true;
   private boolean mySupportTfsCheckinPolicies = true;
   private boolean mySupportStatefulCheckinPolicies = true;

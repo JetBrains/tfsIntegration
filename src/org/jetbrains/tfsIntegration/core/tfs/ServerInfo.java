@@ -40,7 +40,7 @@ public class ServerInfo {
   private final String myGuid;
   private VersionControlServer myServer;
 
-  private final List<WorkspaceInfo> myWorkspaceInfos = new ArrayList<WorkspaceInfo>();
+  private final List<WorkspaceInfo> myWorkspaceInfos = new ArrayList<>();
   private final TfsBeansHolder myBeans;
 
   public ServerInfo(URI uri, String guid, TfsBeansHolder beans) {
@@ -84,7 +84,7 @@ public class ServerInfo {
   }
 
   public List<WorkspaceInfo> getWorkspacesForCurrentOwnerAndComputer() {
-    List<WorkspaceInfo> result = new ArrayList<WorkspaceInfo>();
+    List<WorkspaceInfo> result = new ArrayList<>();
     final List<WorkspaceInfo> workspaces = getWorkspaces();
     for (WorkspaceInfo workspaceInfo : workspaces) {
       if (workspaceInfo.hasCurrentOwnerAndComputer()) {

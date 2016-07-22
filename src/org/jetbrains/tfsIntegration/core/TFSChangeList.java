@@ -53,10 +53,10 @@ public class TFSChangeList implements CommittedChangeList {
   private Date myDate;
   private @NotNull String myComment;
   private List<Change> myCachedChanges;
-  private final Map<FilePath, Integer/*previous revision*/> myModifiedPaths = new HashMap<FilePath, Integer>();
-  private final Set<FilePath> myAddedPaths = new HashSet<FilePath>();
-  private final Map<FilePath, Integer/*previous revision*/> myDeletedPaths = new HashMap<FilePath, Integer>();
-  private final Map<FilePath, Pair<FilePath, Integer/*previous revision*/>> myMovedPaths = new HashMap<FilePath, Pair<FilePath, Integer>>();
+  private final Map<FilePath, Integer/*previous revision*/> myModifiedPaths = new HashMap<>();
+  private final Set<FilePath> myAddedPaths = new HashSet<>();
+  private final Map<FilePath, Integer/*previous revision*/> myDeletedPaths = new HashMap<>();
+  private final Map<FilePath, Pair<FilePath, Integer/*previous revision*/>> myMovedPaths = new HashMap<>();
   private URI myServerUri;
   private String myWorkspaceName;
 
@@ -111,7 +111,7 @@ public class TFSChangeList implements CommittedChangeList {
           loadChanges();
         }
 
-        myCachedChanges = new ArrayList<Change>();
+        myCachedChanges = new ArrayList<>();
         for (FilePath path : myAddedPaths) {
           myCachedChanges.add(new Change(null, TFSContentRevision.create(myVcs.getProject(), path, myRevisionNumber)));
         }

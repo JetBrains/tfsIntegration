@@ -134,7 +134,7 @@ public class TFSFileListener extends VcsVFSListener {
     // revert all pending schedules for addition recursively
     // throw out all the unversioned items
 
-    List<FilePath> deletedFiles = new ArrayList<FilePath>(myDeletedFiles);
+    List<FilePath> deletedFiles = new ArrayList<>(myDeletedFiles);
     deletedFiles.addAll(myDeletedWithoutConfirmFiles);
 
     try {
@@ -146,9 +146,9 @@ public class TFSFileListener extends VcsVFSListener {
             .queryPendingSetsByLocalPaths(workspace.getName(), workspace.getOwnerName(), roots, RecursionType.Full, myProject,
                                           TFSBundle.message("loading.changes"));
 
-          final List<String> revertImmediately = new ArrayList<String>();
+          final List<String> revertImmediately = new ArrayList<>();
 
-          final List<ItemPath> pathsToProcess = new ArrayList<ItemPath>(paths);
+          final List<ItemPath> pathsToProcess = new ArrayList<>(paths);
 
           for (PendingChange pendingChange : pendingChanges) {
             final ChangeTypeMask changeType = new ChangeTypeMask(pendingChange.getChg());
@@ -168,7 +168,7 @@ public class TFSFileListener extends VcsVFSListener {
 
           if (!undoResult.errors.isEmpty()) {
             // TODO list -> collection
-            AbstractVcsHelper.getInstance(myProject).showErrors(new ArrayList<VcsException>(undoResult.errors), TFSVcs.TFS_NAME);
+            AbstractVcsHelper.getInstance(myProject).showErrors(new ArrayList<>(undoResult.errors), TFSVcs.TFS_NAME);
           }
 
           StatusProvider.visitByStatus(workspace, pathsToProcess, false, null, new StatusVisitor() {
@@ -243,7 +243,7 @@ public class TFSFileListener extends VcsVFSListener {
   }
 
   protected void performDeletion(final List<FilePath> filesToDelete) {
-    final List<VcsException> errors = new ArrayList<VcsException>();
+    final List<VcsException> errors = new ArrayList<>();
     try {
       WorkstationHelper.processByWorkspaces(filesToDelete, false, myProject, new WorkstationHelper.VoidProcessDelegate() {
         public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) {
@@ -268,7 +268,7 @@ public class TFSFileListener extends VcsVFSListener {
   }
 
   protected void performAdding(final Collection<VirtualFile> addedFiles, final Map<VirtualFile, VirtualFile> copyFromMap) {
-    final List<VcsException> errors = new ArrayList<VcsException>();
+    final List<VcsException> errors = new ArrayList<>();
     try {
       final List<FilePath> orphans =
         WorkstationHelper.processByWorkspaces(TfsFileUtil.getFilePaths(addedFiles), false, myProject,
@@ -311,12 +311,12 @@ public class TFSFileListener extends VcsVFSListener {
   }
 
   protected void performMoveRename(final List<MovedFileInfo> movedFiles) {
-    final Map<FilePath, FilePath> movedPaths = new HashMap<FilePath, FilePath>(movedFiles.size());
+    final Map<FilePath, FilePath> movedPaths = new HashMap<>(movedFiles.size());
     for (MovedFileInfo movedFileInfo : movedFiles) {
       movedPaths.put(VcsUtil.getFilePath(movedFileInfo.myOldPath), VcsUtil.getFilePath(movedFileInfo.myNewPath));
     }
-    final List<VcsException> errors = new ArrayList<VcsException>();
-    final Map<FilePath, FilePath> scheduleMove = new HashMap<FilePath, FilePath>();
+    final List<VcsException> errors = new ArrayList<>();
+    final Map<FilePath, FilePath> scheduleMove = new HashMap<>();
     try {
       WorkstationHelper.processByWorkspaces(movedPaths.keySet(), false, myProject, new WorkstationHelper.VoidProcessDelegate() {
 
@@ -389,7 +389,7 @@ public class TFSFileListener extends VcsVFSListener {
                                            TFSBundle.message("renaming"));
           errors.addAll(TfsUtil.getVcsExceptions(renameResult.getFailures()));
 
-          Collection<FilePath> invalidate = new ArrayList<FilePath>(renameResult.getResult().size());
+          Collection<FilePath> invalidate = new ArrayList<>(renameResult.getResult().size());
           for (GetOperation getOperation : renameResult.getResult()) {
             invalidate.add(VersionControlPath.getFilePath(getOperation.getTlocal(), getOperation.getType() == ItemType.Folder));
             //invalidate.add(VcsUtil.getFilePath(getOperation.getSlocal()));

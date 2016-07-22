@@ -32,7 +32,7 @@ import java.util.List;
 
 class WorkstationCacheReader extends DefaultHandler {
 
-  private final List<ServerInfo> myServerInfos = new ArrayList<ServerInfo>();
+  private final List<ServerInfo> myServerInfos = new ArrayList<>();
 
   private ServerInfo myCurrentServerInfo;
   private WorkspaceInfo myCurrentWorkspaceInfo;

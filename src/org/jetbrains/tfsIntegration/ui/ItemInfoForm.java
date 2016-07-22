@@ -97,7 +97,7 @@ public class ItemInfoForm {
 
   private void createUIComponents() {
     List<TreeTableColumn<BranchRelative>> columns = Arrays.asList(SERVER_PATH_COLUMN, TREE_TABLE_COLUMN);
-    myBranchesTree = new CustomTreeTable<BranchRelative>(columns, new ContentProviderImpl(), new CellRendererImpl(), false, false);
+    myBranchesTree = new CustomTreeTable<>(columns, new ContentProviderImpl(), new CellRendererImpl(), false, false);
     myBranchesTree.expandAll();
   }
 
@@ -112,7 +112,7 @@ public class ItemInfoForm {
     }
 
     public Collection<BranchRelative> getChildren(final @NotNull BranchRelative parent) {
-      final Collection<BranchRelative> children = new ArrayList<BranchRelative>();
+      final Collection<BranchRelative> children = new ArrayList<>();
       for (BranchRelative branch : myBranches) {
         if (branch.getRelfromid() == parent.getReltoid()) {
           children.add(branch);

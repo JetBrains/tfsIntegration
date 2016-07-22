@@ -401,7 +401,7 @@ public class TfsServerConnectionHelper {
       QueryNodesResponse queryNodesResponse = catalogService.queryNodes(queryNodesParam);
       CatalogResource[] teamProjectCollections = queryNodesResponse.getQueryNodesResult().getCatalogResources().getCatalogResource();
 
-      List<TeamProjectCollectionDescriptor> descriptors = new ArrayList<TeamProjectCollectionDescriptor>(teamProjectCollections.length);
+      List<TeamProjectCollectionDescriptor> descriptors = new ArrayList<>(teamProjectCollections.length);
       for (CatalogResource collectionNode : teamProjectCollections) {
         String instanceId = getPropertyValue(collectionNode.getProperties(), TFSConstants.INSTANCE_ID_ATTRIBUTE);
         if (instanceId == null) {

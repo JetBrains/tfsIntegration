@@ -58,8 +58,8 @@ public class ApplyGetOperations {
   private final Collection<GetOperation> myOperations;
   private final @NotNull ApplyProgress myProgress;
   private final @Nullable UpdatedFiles myUpdatedFiles;
-  private final Collection<VcsException> myErrors = new ArrayList<VcsException>();
-  private final Collection<LocalVersionUpdate> myUpdateLocalVersions = new ArrayList<LocalVersionUpdate>();
+  private final Collection<VcsException> myErrors = new ArrayList<>();
+  private final Collection<LocalVersionUpdate> myUpdateLocalVersions = new ArrayList<>();
   private final DownloadMode myDownloadMode;
 
   public enum DownloadMode {
@@ -113,7 +113,7 @@ public class ApplyGetOperations {
     }
 
     // parent folders modificating operations should be processed before children to update affected child paths correctly
-    List<GetOperation> sortedOperations = new ArrayList<GetOperation>(myOperations);//GetOperationsUtil.sortGetOperations(myOperations);
+    List<GetOperation> sortedOperations = new ArrayList<>(myOperations);//GetOperationsUtil.sortGetOperations(myOperations);
     // TODO do we need to sort them or they come in apply order?
 
     try {
@@ -557,7 +557,7 @@ public class ApplyGetOperations {
       final String message = MessageFormat.format("Local conflict detected. Override local item?\n {0}", path);
       // TODO: more detailed message needed
       final String title = "Modify Files";
-      final Ref<Integer> result = new Ref<Integer>();
+      final Ref<Integer> result = new Ref<>();
       WaitForProgressToShow.runOrInvokeAndWaitAboveProgress(new Runnable() {
         public void run() {
           result.set(Messages.showYesNoDialog(message, title, Messages.getQuestionIcon()));

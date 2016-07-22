@@ -114,7 +114,7 @@ public class VersionControlServer {
       public U merge(Collection<U> results) {
         return operation.merge(results);
       }
-    }, projectOrComponent, new ArrayList<T>(items), progressTitle);
+    }, projectOrComponent, new ArrayList<>(items), progressTitle);
   }
 
   private <T, U> U execute(final OperationOnList<T, U> operation,
@@ -126,7 +126,7 @@ public class VersionControlServer {
       return operation.merge(Collections.<U>emptyList());
     }
 
-    final Collection<U> results = new ArrayList<U>();
+    final Collection<U> results = new ArrayList<>();
     TfsUtil.consumeInParts(items, ITEMS_IN_GROUP, new ThrowableConsumer<List<T>, TfsException>() {
       public void consume(final List<T> ts) throws TfsException {
         U result = TfsRequestManager.executeRequest(myServerUri, projectOrComponent, new TfsRequestManager.Request<U>(progressTitle) {
@@ -188,7 +188,7 @@ public class VersionControlServer {
           return myBeans.getRepositoryStub(credentials, pi).queryItemsById(param).getQueryItemsByIdResult();
         }
       });
-    ArrayList<Item> result = new ArrayList<Item>();
+    ArrayList<Item> result = new ArrayList<>();
     ContainerUtil.addAll(result, arrayOfItems.getItem());
     return result;
   }
@@ -354,8 +354,8 @@ public class VersionControlServer {
         @Override
         public ResultWithFailures<GetOperation> execute(Collection<T> items, Credentials credentials, ProgressIndicator pi)
           throws RemoteException, HostNotApplicableException {
-          ResultWithFailures<GetOperation> result = new ResultWithFailures<GetOperation>();
-          List<ChangeRequest> changeRequests = new ArrayList<ChangeRequest>(items.size());
+          ResultWithFailures<GetOperation> result = new ResultWithFailures<>();
+          List<ChangeRequest> changeRequests = new ArrayList<>(items.size());
           for (T path : items) {
             changeRequests.add(changeRequestProvider.createChangeRequest(path));
           }
@@ -371,7 +371,7 @@ public class VersionControlServer {
           if (updateLocalVersion && response.getPendChangesResult().getGetOperation() != null) {
             final ArrayOfLocalVersionUpdate arrayOfLocalVersionUpdate = new ArrayOfLocalVersionUpdate();
             List<LocalVersionUpdate> localVersionUpdates =
-              new ArrayList<LocalVersionUpdate>(response.getPendChangesResult().getGetOperation().length);
+              new ArrayList<>(response.getPendChangesResult().getGetOperation().length);
             for (GetOperation getOperation : response.getPendChangesResult().getGetOperation()) {
               localVersionUpdates.add(getLocalVersionUpdate(getOperation));
             }
@@ -490,7 +490,7 @@ public class VersionControlServer {
     TFSVcs.assertTrue(arrayOfItemSet.getItemSet() != null && arrayOfItemSet.getItemSet().length == 1);
     final ItemSet itemSet = arrayOfItemSet.getItemSet()[0];
     if (itemSet.getItems() != null && itemSet.getItems().getItem() != null) {
-      List<Item> result = new ArrayList<Item>(itemSet.getItems().getItem().length);
+      List<Item> result = new ArrayList<>(itemSet.getItems().getItem().length);
       for (Item item : itemSet.getItems().getItem()) {
         if (!item.getItem().equals(parentServerItem)) {
           result.add(item);
@@ -539,7 +539,7 @@ public class VersionControlServer {
 
           TFSVcs.assertTrue(extendedItemsArray != null && extendedItemsArray.length == items.size());
 
-          List<ExtendedItem> extendedItems = new ArrayList<ExtendedItem>();
+          List<ExtendedItem> extendedItems = new ArrayList<>();
           //noinspection ConstantConditions
           for (ArrayOfExtendedItem extendedItem : extendedItemsArray) {
             if (extendedItem.getExtendedItem() != null) {
@@ -570,8 +570,8 @@ public class VersionControlServer {
         }
 
         public ExtendedItemsAndPendingChanges merge(Collection<ExtendedItemsAndPendingChanges> results) {
-          List<ExtendedItem> mergedItems = new ArrayList<ExtendedItem>();
-          List<PendingChange> mergedPendingChanges = new ArrayList<PendingChange>();
+          List<ExtendedItem> mergedItems = new ArrayList<>();
+          List<PendingChange> mergedPendingChanges = new ArrayList<>();
           for (ExtendedItemsAndPendingChanges r : results) {
             mergedItems.addAll(r.extendedItems);
             mergedPendingChanges.addAll(r.pendingChanges);
@@ -656,7 +656,7 @@ public class VersionControlServer {
       @Override
       public Map<FilePath, ExtendedItem> execute(List<FilePath> items, Credentials credentials, ProgressIndicator pi)
         throws RemoteException, HostNotApplicableException {
-        final List<ItemSpec> itemSpecs = new ArrayList<ItemSpec>();
+        final List<ItemSpec> itemSpecs = new ArrayList<>();
         for (FilePath path : items) {
           itemSpecs.add(createItemSpec(path, RecursionType.None));
         }
@@ -672,7 +672,7 @@ public class VersionControlServer {
           myBeans.getRepositoryStub(credentials, pi).queryItemsExtended(param).getQueryItemsExtendedResult().getArrayOfExtendedItem();
 
         TFSVcs.assertTrue(extendedItems != null && extendedItems.length == items.size());
-        Map<FilePath, ExtendedItem> result = new HashMap<FilePath, ExtendedItem>();
+        Map<FilePath, ExtendedItem> result = new HashMap<>();
 
         //noinspection ConstantConditions
         for (int i = 0; i < extendedItems.length; i++) {
@@ -687,7 +687,7 @@ public class VersionControlServer {
       }
 
       public Map<FilePath, ExtendedItem> merge(Collection<Map<FilePath, ExtendedItem>> results) {
-        Map<FilePath, ExtendedItem> merged = new HashMap<FilePath, ExtendedItem>();
+        Map<FilePath, ExtendedItem> merged = new HashMap<>();
         for (Map<FilePath, ExtendedItem> r : results) {
           merged.putAll(r);
         }
@@ -766,9 +766,9 @@ public class VersionControlServer {
     // TODO: slot mode
     // TODO: include allChangeSets
 
-    List<Changeset> allChangeSets = new ArrayList<Changeset>();
+    List<Changeset> allChangeSets = new ArrayList<>();
     int total = maxCount > 0 ? maxCount : Integer.MAX_VALUE;
-    final Ref<VersionSpec> versionToCurrent = new Ref<VersionSpec>(versionTo);
+    final Ref<VersionSpec> versionToCurrent = new Ref<>(versionTo);
 
     while (total > 0) {
       final int batchMax = Math.min(256, total);
@@ -889,7 +889,7 @@ public class VersionControlServer {
         @Override
         public ResultWithFailures<GetOperation> execute(Collection<String> items, Credentials credentials, ProgressIndicator pi)
           throws RemoteException, HostNotApplicableException {
-          List<ItemSpec> itemSpecs = new ArrayList<ItemSpec>(items.size());
+          List<ItemSpec> itemSpecs = new ArrayList<>(items.size());
           for (String serverPath : items) {
             itemSpecs.add(createItemSpec(serverPath, null));
           }
@@ -903,7 +903,7 @@ public class VersionControlServer {
           GetOperation[] getOperations =
             response.getUndoPendingChangesResult() != null ? response.getUndoPendingChangesResult().getGetOperation() : null;
           Failure[] failures = response.getFailures() != null ? response.getFailures().getFailure() : null;
-          return new ResultWithFailures<GetOperation>(getOperations, failures);
+          return new ResultWithFailures<>(getOperations, failures);
         }
 
         public ResultWithFailures<GetOperation> merge(Collection<ResultWithFailures<GetOperation>> results) {
@@ -924,7 +924,7 @@ public class VersionControlServer {
       @Override
       public List<GetOperation> execute(List<GetRequestParams> items, Credentials credentials, ProgressIndicator pi)
         throws RemoteException, HostNotApplicableException {
-        List<GetRequest> getRequests = new ArrayList<GetRequest>(items.size());
+        List<GetRequest> getRequests = new ArrayList<>(items.size());
         for (GetRequestParams getRequestParams : items) {
           final GetRequest getRequest = new GetRequest();
           getRequest.setItemSpec(createItemSpec(getRequestParams.serverPath, getRequestParams.recursionType));
@@ -942,7 +942,7 @@ public class VersionControlServer {
         ArrayOfArrayOfGetOperation response = myBeans.getRepositoryStub(credentials, pi).get(param).getGetResult();
         TFSVcs.assertTrue(response.getArrayOfGetOperation() != null && response.getArrayOfGetOperation().length >= items.size());
 
-        List<GetOperation> results = new ArrayList<GetOperation>();
+        List<GetOperation> results = new ArrayList<>();
         for (ArrayOfGetOperation arrayOfGetOperation : response.getArrayOfGetOperation()) {
           if (arrayOfGetOperation.getGetOperation() != null) {
             ContainerUtil.addAll(results, arrayOfGetOperation.getGetOperation());
@@ -952,7 +952,7 @@ public class VersionControlServer {
       }
 
       public List<GetOperation> merge(Collection<List<GetOperation>> results) {
-        List<GetOperation> merged = new ArrayList<GetOperation>();
+        List<GetOperation> merged = new ArrayList<>();
         for (List<GetOperation> r : results) {
           merged.addAll(r);
         }
@@ -1001,7 +1001,7 @@ public class VersionControlServer {
       @Override
       public Collection<Conflict> execute(Collection<ItemPath> items, Credentials credentials, ProgressIndicator pi)
         throws RemoteException, HostNotApplicableException {
-        List<ItemSpec> itemSpecList = new ArrayList<ItemSpec>();
+        List<ItemSpec> itemSpecList = new ArrayList<>();
         for (ItemPath path : items) {
           itemSpecList.add(createItemSpec(path.getServerPath(), recursionType));
         }
@@ -1026,7 +1026,7 @@ public class VersionControlServer {
 
 
   private static <T> Collection<T> mergeStatic(Collection<Collection<T>> results) {
-    Collection<T> merged = new ArrayList<T>();
+    Collection<T> merged = new ArrayList<>();
     for (Collection<T> r : results) {
       merged.addAll(r);
     }
@@ -1082,7 +1082,7 @@ public class VersionControlServer {
         File file = VersionControlPath.getFile(change.getLocal());
         long fileLength = file.length();
 
-        ArrayList<Part> parts = new ArrayList<Part>();
+        ArrayList<Part> parts = new ArrayList<>();
         parts.add(new StringPart(SERVER_ITEM_FIELD, change.getItem(), "UTF-8"));
         parts.add(new StringPart(WORKSPACE_NAME_FIELD, workspaceInfo.getName()));
         parts.add(new StringPart(WORKSPACE_OWNER_FIELD, workspaceInfo.getOwnerName()));
@@ -1107,7 +1107,7 @@ public class VersionControlServer {
                                                                 final Collection<ItemPath> paths,
                                                                 final RecursionType recursionType,
                                                                 Object projectOrComponent, String progressTitle) throws TfsException {
-    final Collection<ItemSpec> itemSpecs = new ArrayList<ItemSpec>(paths.size());
+    final Collection<ItemSpec> itemSpecs = new ArrayList<>(paths.size());
     for (ItemPath path : paths) {
       itemSpecs.add(createItemSpec(VersionControlPath.toTfsRepresentation(path.getLocalPath()), recursionType));
     }
@@ -1119,7 +1119,7 @@ public class VersionControlServer {
                                                                  final Collection<String> serverItems,
                                                                  final RecursionType recursionType,
                                                                  Object projectOrComponent, String progressTitle) throws TfsException {
-    final List<ItemSpec> itemSpecs = new ArrayList<ItemSpec>(serverItems.size());
+    final List<ItemSpec> itemSpecs = new ArrayList<>(serverItems.size());
     for (String serverItem : serverItems) {
       itemSpecs.add(createItemSpec(serverItem, recursionType));
     }
@@ -1227,7 +1227,7 @@ public class VersionControlServer {
           param.setCheckinOptions(checkinOptions);
           CheckInResponse response = myBeans.getRepositoryStub(credentials, pi).checkIn(param);
 
-          ResultWithFailures<CheckinResult> result = new ResultWithFailures<CheckinResult>();
+          ResultWithFailures<CheckinResult> result = new ResultWithFailures<>();
           if (response.getCheckInResult() != null) {
             result.getResult().add(response.getCheckInResult());
           }
@@ -1252,7 +1252,7 @@ public class VersionControlServer {
       return null;
     }
     List<CheckinNotificationWorkItemInfo> checkinNotificationWorkItemInfoArray =
-      new ArrayList<CheckinNotificationWorkItemInfo>(workItemsActions.size());
+      new ArrayList<>(workItemsActions.size());
     for (Map.Entry<WorkItem, CheckinWorkItemAction> e : workItemsActions.entrySet()) {
       if (e.getValue() != CheckinWorkItemAction.None) {
         CheckinNotificationWorkItemInfo checkinNotificationWorkItemInfo = new CheckinNotificationWorkItemInfo();
@@ -1348,7 +1348,7 @@ public class VersionControlServer {
       return Collections.emptyList();
     }
 
-    Collection<Annotation> result = new ArrayList<Annotation>();
+    Collection<Annotation> result = new ArrayList<>();
     for (Annotation annotation : arrayOfAnnotation.getAnnotation()) {
       if (annotationName.equals(annotation.getName())) {
         result.add(annotation);
@@ -1454,7 +1454,7 @@ public class VersionControlServer {
 
     final ItemSet itemSet = arrayOfItemSet.getItemSet()[0];
     if (itemSet.getItems() != null && itemSet.getItems().getItem() != null) {
-      List<Item> result = new ArrayList<Item>(itemSet.getItems().getItem().length);
+      List<Item> result = new ArrayList<>(itemSet.getItems().getItem().length);
       ContainerUtil.addAll(result, itemSet.getItems().getItem());
       return result;
     }
@@ -1503,7 +1503,7 @@ public class VersionControlServer {
             return myBeans.getRepositoryStub(credentials, pi).queryLabels(param).getQueryLabelsResult().getVersionControlLabel();
           }
         });
-    ArrayList<VersionControlLabel> result = new ArrayList<VersionControlLabel>();
+    ArrayList<VersionControlLabel> result = new ArrayList<>();
     if (labels != null) {
       ContainerUtil.addAll(result, labels);
     }
@@ -1539,8 +1539,8 @@ public class VersionControlServer {
           ArrayOfLabelResult results = labelItemResponse.getLabelItemResult();
           ArrayOfFailure failures = labelItemResponse.getFailures();
 
-          return new ResultWithFailures<LabelResult>(results == null ? null : results.getLabelResult(),
-                                                     failures == null ? null : failures.getFailure());
+          return new ResultWithFailures<>(results == null ? null : results.getLabelResult(),
+                                          failures == null ? null : failures.getFailure());
         }
 
         public ResultWithFailures<LabelResult> merge(Collection<ResultWithFailures<LabelResult>> results) {
@@ -1664,7 +1664,7 @@ public class VersionControlServer {
   private static List<Integer> parseWorkItemsIds(final QueryWorkitemsResponse queryWorkitemsResponse) {
     Id_type0[] ids_type0 = queryWorkitemsResponse.getResultIds().getQueryIds().getId();
 
-    List<Integer> workItemsIdSet = new ArrayList<Integer>();
+    List<Integer> workItemsIdSet = new ArrayList<>();
     if (ids_type0 != null) {
       for (Id_type0 id_type0 : ids_type0) {
         int startIndex = id_type0.getS();
@@ -1705,7 +1705,7 @@ public class VersionControlServer {
     final com.microsoft.schemas.teamfoundation._2005._06.workitemtracking.clientservices._03.ArrayOfString workItemFields =
       new com.microsoft.schemas.teamfoundation._2005._06.workitemtracking.clientservices._03.ArrayOfString();
 
-    List<String> serializedFields = new ArrayList<String>();
+    List<String> serializedFields = new ArrayList<>();
     for (WorkItemField field : WorkItemSerialize.FIELDS) {
       serializedFields.add(field.getSerialized());
     }
@@ -1728,7 +1728,7 @@ public class VersionControlServer {
           }
         });
 
-    List<WorkItem> workItems = new ArrayList<WorkItem>();
+    List<WorkItem> workItems = new ArrayList<>();
     for (R_type0 row : pageWorkitemsByIdsResponse.getItems().getTable().getRows().getR()) {
       workItems.add(WorkItemSerialize.createFromFields(row.getF()));
     }

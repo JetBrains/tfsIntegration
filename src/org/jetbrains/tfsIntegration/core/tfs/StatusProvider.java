@@ -47,7 +47,7 @@ public class StatusProvider {
       return;
     }
 
-    List<ItemSpec> itemSpecs = new ArrayList<ItemSpec>(roots.size());
+    List<ItemSpec> itemSpecs = new ArrayList<>(roots.size());
     for (ItemPath root : roots) {
       final VirtualFile file = root.getLocalPath().getVirtualFile();
       RecursionType recursionType =
@@ -59,12 +59,12 @@ public class StatusProvider {
       .getExtendedItemsAndPendingChanges(workspace.getName(), workspace.getOwnerName(), itemSpecs, ItemType.Any, projectOrComponent,
                                          TFSBundle.message("loading.changes"));
 
-    Map<Integer, PendingChange> pendingChanges = new HashMap<Integer, PendingChange>(extendedItemsAndPendingChanges.pendingChanges.size());
+    Map<Integer, PendingChange> pendingChanges = new HashMap<>(extendedItemsAndPendingChanges.pendingChanges.size());
     for (PendingChange pendingChange : extendedItemsAndPendingChanges.pendingChanges) {
       pendingChanges.put(pendingChange.getItemid(), pendingChange);
     }
 
-    Map<Integer, ExtendedItem> extendedItems = new HashMap<Integer, ExtendedItem>();
+    Map<Integer, ExtendedItem> extendedItems = new HashMap<>();
     for (ExtendedItem extendedItem : extendedItemsAndPendingChanges.extendedItems) {
       extendedItems.put(extendedItem.getItemid(), extendedItem);
     }
@@ -72,7 +72,7 @@ public class StatusProvider {
     TFSProgressUtil.checkCanceled(progress);
 
     for (ItemPath root : roots) {
-      Collection<FilePath> localItems = new HashSet<FilePath>();
+      Collection<FilePath> localItems = new HashSet<>();
       localItems.add(root.getLocalPath());
       if (recursive) {
         addExistingFilesRecursively(localItems, root.getLocalPath().getVirtualFile());

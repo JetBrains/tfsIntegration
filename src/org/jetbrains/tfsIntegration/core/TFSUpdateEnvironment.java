@@ -56,10 +56,10 @@ public class TFSUpdateEnvironment implements UpdateEnvironment {
                                          final UpdatedFiles updatedFiles,
                                          final ProgressIndicator progressIndicator,
                                          @NotNull final Ref<SequentialUpdatesContext> context) throws ProcessCanceledException {
-    final List<VcsException> exceptions = new ArrayList<VcsException>();
+    final List<VcsException> exceptions = new ArrayList<>();
     TFSProgressUtil.setProgressText(progressIndicator, "Request update information");
     try {
-      final Map<WorkspaceInfo, Collection<Conflict>> workspace2Conflicts = new HashMap<WorkspaceInfo, Collection<Conflict>>();
+      final Map<WorkspaceInfo, Collection<Conflict>> workspace2Conflicts = new HashMap<>();
       List<FilePath> orphanPaths =
         WorkstationHelper.processByWorkspaces(Arrays.asList(contentRoots), true, myVcs.getProject(),
                                               new WorkstationHelper.VoidProcessDelegate() {
@@ -74,7 +74,7 @@ public class TFSUpdateEnvironment implements UpdateEnvironment {
             }
 
             // 1. query get operations for contentRoots - to let server know which version we need to report corresponding server conflicts
-            List<VersionControlServer.GetRequestParams> requests = new ArrayList<VersionControlServer.GetRequestParams>(paths.size());
+            List<VersionControlServer.GetRequestParams> requests = new ArrayList<>(paths.size());
             for (ItemPath path : paths) {
               requests.add(new VersionControlServer.GetRequestParams(path.getServerPath(), recursionType, version));
               TFSProgressUtil.checkCanceled(progressIndicator);
@@ -141,8 +141,8 @@ public class TFSUpdateEnvironment implements UpdateEnvironment {
   @Nullable
   public Configurable createConfigurable(final Collection<FilePath> files) {
     final Map<WorkspaceInfo, UpdateSettingsForm.WorkspaceSettings> workspacesSettings =
-      new HashMap<WorkspaceInfo, UpdateSettingsForm.WorkspaceSettings>();
-    final Ref<TfsException> error = new Ref<TfsException>();
+      new HashMap<>();
+    final Ref<TfsException> error = new Ref<>();
     Runnable r = new Runnable() {
       @Override
       public void run() {
@@ -152,7 +152,7 @@ public class TFSUpdateEnvironment implements UpdateEnvironment {
             public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) throws TfsException {
               final Map<FilePath, ExtendedItem> result =
                 workspace.getExtendedItems2(paths, myVcs.getProject(), TFSBundle.message("loading.items"));
-              Collection<ExtendedItem> items = new ArrayList<ExtendedItem>(result.values());
+              Collection<ExtendedItem> items = new ArrayList<>(result.values());
               for (Iterator<ExtendedItem> i = items.iterator(); i.hasNext();) {
                 final ExtendedItem extendedItem = i.next();
                 if (extendedItem == null || extendedItem.getSitem() == null) {

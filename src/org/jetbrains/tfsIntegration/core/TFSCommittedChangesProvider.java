@@ -79,7 +79,7 @@ public class TFSCommittedChangesProvider implements CachingCommittedChangesProvi
   }
 
   public RepositoryLocation getLocationFor(final FilePath root) {
-    final Map<WorkspaceInfo, List<FilePath>> pathsByWorkspaces = new HashMap<WorkspaceInfo, List<FilePath>>();
+    final Map<WorkspaceInfo, List<FilePath>> pathsByWorkspaces = new HashMap<>();
     try {
       WorkstationHelper.processByWorkspaces(Collections.singletonList(root), true, myProject, new WorkstationHelper.VoidProcessDelegate() {
         public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) throws TfsException {
@@ -202,7 +202,7 @@ public class TFSCommittedChangesProvider implements CachingCommittedChangesProvi
   public List<TFSChangeList> getCommittedChanges(final ChangeBrowserSettings settings,
                                                  final RepositoryLocation location,
                                                  final int maxCount) throws VcsException {
-    final List<TFSChangeList> result = new ArrayList<TFSChangeList>();
+    final List<TFSChangeList> result = new ArrayList<>();
     loadCommittedChanges(settings, location, maxCount, new AsynchConsumer<CommittedChangeList>() {
       public void finished() {
       }

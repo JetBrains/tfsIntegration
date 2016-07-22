@@ -134,7 +134,7 @@ public class CheckinParametersForm implements Disposable {
       }
     });
 
-    myWarningsTable.setModelAndUpdateColumns(new ListTableModel<PolicyFailure>(WARNING_COLUMN_INFO));
+    myWarningsTable.setModelAndUpdateColumns(new ListTableModel<>(WARNING_COLUMN_INFO));
 
     myWarningsTable.setTableHeader(null);
     new DoubleClickListener() {
@@ -191,7 +191,7 @@ public class CheckinParametersForm implements Disposable {
   }
 
   private void updatePoliciesWarnings() {
-    List<PolicyFailure> failures = new ArrayList<PolicyFailure>();
+    List<PolicyFailure> failures = new ArrayList<>();
     if (!myState.evaluationEnabled()) {
       failures.add(new PolicyFailure(CheckinPoliciesManager.DUMMY_POLICY, "Evaluation of checkin policies was disabled",
                                      "Use Project Settings | TFS configuration settings to enable checkin policies evaluation"));

@@ -51,9 +51,9 @@ public class LockAction extends AnAction implements DumbAware {
     final Project project = e.getData(CommonDataKeys.PROJECT);
     final VirtualFile[] files = VcsUtil.getVirtualFiles(e);
 
-    final List<LockItemModel> items = new ArrayList<LockItemModel>();
-    final List<VcsException> exceptions = new ArrayList<VcsException>();
-    final Ref<Boolean> mappingFound = new Ref<Boolean>(false);
+    final List<LockItemModel> items = new ArrayList<>();
+    final List<VcsException> exceptions = new ArrayList<>();
+    final Ref<Boolean> mappingFound = new Ref<>(false);
 
     ProgressManager.getInstance().runProcessWithProgressSynchronously(new Runnable() {
       public void run() {
@@ -145,17 +145,17 @@ public class LockAction extends AnAction implements DumbAware {
   }
 
   private static List<VcsException> lockOrUnlockItems(final List<LockItemModel> items, LockLevel lockLevel, Project project) {
-    Map<WorkspaceInfo, List<ExtendedItem>> itemsByWorkspace = new HashMap<WorkspaceInfo, List<ExtendedItem>>();
+    Map<WorkspaceInfo, List<ExtendedItem>> itemsByWorkspace = new HashMap<>();
     for (LockItemModel item : items) {
       List<ExtendedItem> itemsForWorkspace = itemsByWorkspace.get(item.getWorkspace());
       if (itemsForWorkspace == null) {
-        itemsForWorkspace = new ArrayList<ExtendedItem>();
+        itemsForWorkspace = new ArrayList<>();
         itemsByWorkspace.put(item.getWorkspace(), itemsForWorkspace);
       }
       itemsForWorkspace.add(item.getExtendedItem());
     }
 
-    List<VcsException> exceptions = new ArrayList<VcsException>();
+    List<VcsException> exceptions = new ArrayList<>();
     for (Map.Entry<WorkspaceInfo, List<ExtendedItem>> entry : itemsByWorkspace.entrySet()) {
       try {
         WorkspaceInfo workspace = entry.getKey();

@@ -42,15 +42,15 @@ public class WorkstationHelper {
                                                    boolean considerChildMappings,
                                                    Object projectOrComponent,
                                                    VoidProcessDelegate processor) throws TfsException {
-    List<FilePath> orphanPaths = new ArrayList<FilePath>();
-    Map<WorkspaceInfo, List<FilePath>> workspace2localPaths = new HashMap<WorkspaceInfo, List<FilePath>>();
+    List<FilePath> orphanPaths = new ArrayList<>();
+    Map<WorkspaceInfo, List<FilePath>> workspace2localPaths = new HashMap<>();
     for (FilePath localPath : localPaths) {
       Collection<WorkspaceInfo> workspaces = Workstation.getInstance().findWorkspaces(localPath, considerChildMappings, projectOrComponent);
       if (!workspaces.isEmpty()) {
         for (WorkspaceInfo workspace : workspaces) {
           List<FilePath> workspaceLocalPaths = workspace2localPaths.get(workspace);
           if (workspaceLocalPaths == null) {
-            workspaceLocalPaths = new ArrayList<FilePath>();
+            workspaceLocalPaths = new ArrayList<>();
             workspace2localPaths.put(workspace, workspaceLocalPaths);
           }
           workspaceLocalPaths.add(localPath);
@@ -63,7 +63,7 @@ public class WorkstationHelper {
 
     for (WorkspaceInfo workspace : workspace2localPaths.keySet()) {
       List<FilePath> currentLocalPaths = workspace2localPaths.get(workspace);
-      List<ItemPath> currentItemPaths = new ArrayList<ItemPath>(currentLocalPaths.size());
+      List<ItemPath> currentItemPaths = new ArrayList<>(currentLocalPaths.size());
       for (FilePath localPath : currentLocalPaths) {
         Collection<String> serverPaths = workspace.findServerPathsByLocalPath(localPath, considerChildMappings, projectOrComponent);
         if (!considerChildMappings) {

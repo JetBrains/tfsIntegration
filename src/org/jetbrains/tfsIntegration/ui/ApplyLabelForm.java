@@ -121,7 +121,7 @@ public class ApplyLabelForm {
   }
 
   private void removeItems() {
-    final List<LabelItemSpecWithItems> removalSpecs = new ArrayList<LabelItemSpecWithItems>(myTable.getSelectedRows().length);
+    final List<LabelItemSpecWithItems> removalSpecs = new ArrayList<>(myTable.getSelectedRows().length);
     for (int selectedRow : myTable.getSelectedRows()) {
       removalSpecs.add(LabelItemSpecWithItems.createForRemove(myTableModel.getItem(selectedRow)));
     }

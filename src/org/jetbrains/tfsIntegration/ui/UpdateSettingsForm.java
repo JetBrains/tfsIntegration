@@ -59,7 +59,7 @@ public class UpdateSettingsForm {
 
   public UpdateSettingsForm(final Project project, final String title, final Map<WorkspaceInfo, WorkspaceSettings> workspaceSettings) {
     myWorkspaceSettings = workspaceSettings;
-    List<WorkspaceInfo> workspaces = new ArrayList<WorkspaceInfo>(myWorkspaceSettings.keySet());
+    List<WorkspaceInfo> workspaces = new ArrayList<>(myWorkspaceSettings.keySet());
     Collections.sort(workspaces, new Comparator<WorkspaceInfo>() {
       @Override
       public int compare(final WorkspaceInfo o1, final WorkspaceInfo o2) {

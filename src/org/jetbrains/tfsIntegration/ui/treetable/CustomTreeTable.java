@@ -62,7 +62,7 @@ public class CustomTreeTable<T> extends TreeTable {
   }
 
   public CustomTreeTable(final CellRenderer<T> renderer, boolean showCellFocus, boolean showSelection) {
-    this(Arrays.asList(new FakeColumn<T>()), new FakeContentProvider<T>(), renderer, showCellFocus, showSelection);
+    this(Arrays.asList(new FakeColumn<>()), new FakeContentProvider<>(), renderer, showCellFocus, showSelection);
   }
 
   /**
@@ -98,7 +98,7 @@ public class CustomTreeTable<T> extends TreeTable {
 
   private static <T> TreeTableModel createModel(final Collection<? extends TreeTableColumn<T>> columns,
                                                 ContentProvider<T> contentProvider) {
-    Collection<ColumnInfo> columnsInfos = new ArrayList<ColumnInfo>(columns.size());
+    Collection<ColumnInfo> columnsInfos = new ArrayList<>(columns.size());
     boolean first = true;
     for (final TreeTableColumn<T> column : columns) {
       if (first) {
@@ -182,7 +182,7 @@ public class CustomTreeTable<T> extends TreeTable {
 
   public Collection<T> getSelectedItems() {
     final int[] selectedRows = getSelectedRows();
-    Collection<T> result = new ArrayList<T>(selectedRows.length);
+    Collection<T> result = new ArrayList<>(selectedRows.length);
     for (int row : selectedRows) {
       DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode)getTree().getPathForRow(row).getLastPathComponent();
       //noinspection unchecked

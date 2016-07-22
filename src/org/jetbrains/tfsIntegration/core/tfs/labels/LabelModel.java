@@ -25,7 +25,7 @@ import java.util.*;
 
 public class LabelModel {
 
-  private final List<LabelItemSpecWithItems> myLabelSpecs = new ArrayList<LabelItemSpecWithItems>();
+  private final List<LabelItemSpecWithItems> myLabelSpecs = new ArrayList<>();
 
   public void add(final @NotNull LabelItemSpecWithItems newSpec) {
     // when adding parent spec, remove all child ones (and equal)
@@ -51,7 +51,7 @@ public class LabelModel {
   // item sets for child specs override those for parent ones, so include items that do not appear under child specs
   public List<ItemAndVersion> calculateItemsToDisplay() {
     Collections.sort(myLabelSpecs, ITEM_SPEC_PARENT_FIRST);
-    final List<ItemAndVersion> result = new ArrayList<ItemAndVersion>();
+    final List<ItemAndVersion> result = new ArrayList<>();
 
     for (int i = 0; i < myLabelSpecs.size(); i++) {
       final LabelItemSpecWithItems labelSpec = myLabelSpecs.get(i);
@@ -79,7 +79,7 @@ public class LabelModel {
    */
   public List<LabelItemSpec> getLabelItemSpecs() {
     Collections.sort(myLabelSpecs, ITEM_SPEC_PARENT_FIRST);
-    List<LabelItemSpec> result = new ArrayList<LabelItemSpec>(myLabelSpecs.size());
+    List<LabelItemSpec> result = new ArrayList<>(myLabelSpecs.size());
     for (LabelItemSpecWithItems labelSpec : myLabelSpecs) {
       result.add(labelSpec.getLabelItemSpec());
     }

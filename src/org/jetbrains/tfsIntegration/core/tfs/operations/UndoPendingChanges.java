@@ -71,11 +71,11 @@ public class UndoPendingChanges {
         }
       }
 
-      Collection<VcsException> errors = new ArrayList<VcsException>();
+      Collection<VcsException> errors = new ArrayList<>();
       errors.addAll(TfsUtil.getVcsExceptions(failures));
 
       // TODO fill renamed paths map in ApplyGetOperations
-      Map<ItemPath, ItemPath> undonePaths = new HashMap<ItemPath, ItemPath>();
+      Map<ItemPath, ItemPath> undonePaths = new HashMap<>();
       for (GetOperation getOperation : result.getResult()) {
         if (getOperation.getSlocal() != null && getOperation.getTlocal() != null) {
           @SuppressWarnings({"ConstantConditions"})

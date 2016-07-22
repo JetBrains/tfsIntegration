@@ -70,7 +70,7 @@ public class MergeBranchAction extends SingleItemAction implements DumbAware {
       .merge(workspace.getName(), workspace.getOwnerName(), d.getSourcePath(), d.getTargetPath(), d.getFromVersion(), d.getToVersion(),
              project, TFSBundle.message("merging"));
 
-    final List<VcsException> errors = new ArrayList<VcsException>();
+    final List<VcsException> errors = new ArrayList<>();
     if (mergeResponse.getMergeResult().getGetOperation() != null) {
       ProgressManager.getInstance().runProcessWithProgressSynchronously(new Runnable() {
         public void run() {

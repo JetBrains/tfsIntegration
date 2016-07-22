@@ -30,7 +30,7 @@ public class StatelessPolicyParser {
     byte[] data = Base64.decode(input);
 
     ByteArrayInputStream is = new ByteArrayInputStream(data);
-    List<PolicyDescriptor> descriptors = new ArrayList<PolicyDescriptor>();
+    List<PolicyDescriptor> descriptors = new ArrayList<>();
     while (is.available() > 0) {
       try {
         String name = readString(is);

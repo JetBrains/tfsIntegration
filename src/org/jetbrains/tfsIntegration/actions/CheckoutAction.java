@@ -43,7 +43,7 @@ public class CheckoutAction extends AnAction implements DumbAware {
     final VirtualFile[] files = VcsUtil.getVirtualFiles(e);
 
     final RootsCollection.VirtualFileRootsCollection rootsCollection = new RootsCollection.VirtualFileRootsCollection(files);
-    final Ref<VcsException> error = new Ref<VcsException>();
+    final Ref<VcsException> error = new Ref<>();
     ProgressManager.getInstance().runProcessWithProgressSynchronously(new Runnable() {
       public void run() {
         try {

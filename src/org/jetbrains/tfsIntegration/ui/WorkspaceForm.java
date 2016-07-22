@@ -89,7 +89,7 @@ public class WorkspaceForm {
           }
 
           public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-            ComboBoxModel model = new EnumComboBoxModel<WorkingFolderInfo.Status>(WorkingFolderInfo.Status.class);
+            ComboBoxModel model = new EnumComboBoxModel<>(WorkingFolderInfo.Status.class);
             model.setSelectedItem(value);
             myCombo = new ComboBox(model, getWidth(table));
             return myCombo;
@@ -220,7 +220,7 @@ public class WorkspaceForm {
     myOwnerField.setText(myServer.getQualifiedUsername());
     myComputerField.setText(Workstation.getComputerName());
 
-    myTable.setModel(new ColumnInfo[]{STATUS_COLUMN, new LocalPathColumn(), SERVER_PATH_COLUMN}, new ArrayList<WorkingFolderInfo>());
+    myTable.setModel(new ColumnInfo[]{STATUS_COLUMN, new LocalPathColumn(), SERVER_PATH_COLUMN}, new ArrayList<>());
   }
 
   public WorkspaceForm(Project project, @NotNull WorkspaceInfo workspace) {
@@ -229,7 +229,7 @@ public class WorkspaceForm {
     myLocationField.setSelectedItem(workspace.getLocation());
     myCommentField.setText(workspace.getComment());
     myTable.setModel(new ColumnInfo[]{STATUS_COLUMN, new LocalPathColumn(), SERVER_PATH_COLUMN},
-                     new ArrayList<WorkingFolderInfo>(workspace.getWorkingFoldersCached()));
+                     new ArrayList<>(workspace.getWorkingFoldersCached()));
   }
 
   public JPanel getContentPane() {

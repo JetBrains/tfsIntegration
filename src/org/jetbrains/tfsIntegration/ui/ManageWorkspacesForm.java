@@ -63,7 +63,7 @@ public class ManageWorkspacesForm {
   }
 
   public static class ProjectEntry {
-    public List<StatefulPolicyDescriptor> descriptors = new ArrayList<StatefulPolicyDescriptor>();
+    public List<StatefulPolicyDescriptor> descriptors = new ArrayList<>();
     public @Nullable TfsCheckinPoliciesCompatibility policiesCompatibilityOverride;
   }
 
@@ -134,7 +134,7 @@ public class ManageWorkspacesForm {
   private final ContentProvider<Object> myContentProvider = new ContentProvider<Object>() {
 
     public Collection<?> getRoots() {
-      final List<ServerInfo> servers = new ArrayList<ServerInfo>(Workstation.getInstance().getServers());
+      final List<ServerInfo> servers = new ArrayList<>(Workstation.getInstance().getServers());
       Collections.sort(servers, new Comparator<ServerInfo>() {
         public int compare(final ServerInfo s1, final ServerInfo s2) {
           return s1.getPresentableUri().compareTo(s2.getPresentableUri());
@@ -145,7 +145,7 @@ public class ManageWorkspacesForm {
 
     public Collection<?> getChildren(final @NotNull Object parent) {
       if (parent instanceof ServerInfo && myShowWorkspaces) {
-        final List<WorkspaceInfo> workspaces = new ArrayList<WorkspaceInfo>(((ServerInfo)parent).getWorkspacesForCurrentOwnerAndComputer());
+        final List<WorkspaceInfo> workspaces = new ArrayList<>(((ServerInfo)parent).getWorkspacesForCurrentOwnerAndComputer());
 
         Collections.sort(workspaces, new Comparator<WorkspaceInfo>() {
           public int compare(final WorkspaceInfo o1, final WorkspaceInfo o2) {
@@ -239,7 +239,7 @@ public class ManageWorkspacesForm {
   }
 
   private void createUIComponents() {
-    myTable = new CustomTreeTable<Object>(new CellRendererImpl(), false, true);
+    myTable = new CustomTreeTable<>(new CellRendererImpl(), false, true);
     myTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
     new DoubleClickListener() {
@@ -551,7 +551,7 @@ public class ManageWorkspacesForm {
 
     final TfsExecutionUtil.Process<Map<String, ProjectEntry>> process = new TfsExecutionUtil.Process<Map<String, ProjectEntry>>() {
       public Map<String, ProjectEntry> run() throws TfsException, VcsException {
-        Map<String, ProjectEntry> entries = new HashMap<String, ProjectEntry>();
+        Map<String, ProjectEntry> entries = new HashMap<>();
 
         final List<Item> projectItems = server.getVCS().getChildItems(VersionControlPath.ROOT_FOLDER, true, myContentPane, null);
         if (projectItems.isEmpty()) {

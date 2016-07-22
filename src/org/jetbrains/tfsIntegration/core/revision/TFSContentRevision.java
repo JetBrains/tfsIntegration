@@ -219,7 +219,7 @@ public abstract class TFSContentRevision implements ByteBackedContentRevision {
       TFSVcs.assertTrue(downloadUrl != null, "Item without download URL: " + item.getItem());
 
       store = TFSContentStoreFactory.create(myServer.getUri().toASCIIString(), itemId, changeset);
-      final Ref<TfsException> exception = new Ref<TfsException>();
+      final Ref<TfsException> exception = new Ref<>();
       store.saveContent(new TfsFileUtil.ContentWriter() {
         public void write(final OutputStream outputStream) {
           try {

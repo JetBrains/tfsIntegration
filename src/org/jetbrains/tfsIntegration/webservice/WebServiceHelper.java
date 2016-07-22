@@ -222,7 +222,7 @@ public class WebServiceHelper {
     if (credentials.getType() == Credentials.Type.Alternate) {
       String basicAuth =
         BasicScheme.authenticate(new UsernamePasswordCredentials(credentials.getUserName(), credentials.getPassword()), "UTF-8");
-      Map<String, String> headers = new HashMap<String, String>();
+      Map<String, String> headers = new HashMap<>();
       headers.put(HTTPConstants.HEADER_AUTHORIZATION, basicAuth);
       options.setProperty(HTTPConstants.HTTP_HEADERS, headers);
     }
@@ -266,7 +266,7 @@ public class WebServiceHelper {
       Collection<Header> headers = (Collection<Header>)parameters.getParameter(HostParams.DEFAULT_HEADERS);
 
       if (headers == null) {
-        headers = new ArrayList<Header>();
+        headers = new ArrayList<>();
         parameters.setParameter(HostParams.DEFAULT_HEADERS, headers);
       }
 

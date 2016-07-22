@@ -30,7 +30,7 @@ import java.text.MessageFormat;
  */
 public abstract class PolicyBase {
 
-  public static final ExtensionPointName<PolicyBase> EP_NAME = new ExtensionPointName<PolicyBase>("TFS.checkinPolicy");
+  public static final ExtensionPointName<PolicyBase> EP_NAME = new ExtensionPointName<>("TFS.checkinPolicy");
 
   protected static final PolicyFailure[] NO_FAILURES = new PolicyFailure[0];
 

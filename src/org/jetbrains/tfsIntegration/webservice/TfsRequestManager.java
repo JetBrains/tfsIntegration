@@ -51,7 +51,7 @@ public class TfsRequestManager {
 
   private static final long POLL_TIMEOUT = 200; //ms
 
-  private static final Map<URI, TfsRequestManager> ourInstances = new HashMap<URI, TfsRequestManager>();
+  private static final Map<URI, TfsRequestManager> ourInstances = new HashMap<>();
   private static final Logger LOG = Logger.getInstance(TfsRequestManager.class.getName());
 
   @Nullable
@@ -90,8 +90,8 @@ public class TfsRequestManager {
     LOG.assertTrue(myServerUri != null);
 
     boolean showDialog = shouldShowDialog(force);
-    final Ref<String> message = new Ref<String>();
-    final Ref<Credentials> credentials = new Ref<Credentials>(TFSConfigurationManager.getInstance().getCredentials(myServerUri));
+    final Ref<String> message = new Ref<>();
+    final Ref<Credentials> credentials = new Ref<>(TFSConfigurationManager.getInstance().getCredentials(myServerUri));
 
     while (true) {
       if (showDialog || !message.isNull()) {
@@ -101,7 +101,7 @@ public class TfsRequestManager {
           showDialog = shouldShowDialog(force); // check again since another thread could already enter right credentials
           // TODO we probably have to compare original password and current one
           if (!message.isNull() || showDialog) {
-            final Ref<Boolean> ok = new Ref<Boolean>();
+            final Ref<Boolean> ok = new Ref<>();
             Runnable showDialogRunnable = new Runnable() {
               @Override
               public void run() {
@@ -285,20 +285,20 @@ public class TfsRequestManager {
     throws TfsException {
     LOG.assertTrue(ApplicationManager.getApplication().isDispatchThread());
 
-    final Ref<T> result = new Ref<T>();
-    final Ref<TfsException> fatalError = new Ref<TfsException>();
+    final Ref<T> result = new Ref<>();
+    final Ref<TfsException> fatalError = new Ref<>();
     if (errorMessage != null || overrideCredentials == null && shouldShowDialog(force)) {
       final Ref<Credentials> credentials =
-        new Ref<Credentials>(overrideCredentials != null
-                             ? overrideCredentials
-                             : myServerUri != null ? TFSConfigurationManager.getInstance().getCredentials(myServerUri) : null);
+        new Ref<>(overrideCredentials != null
+                  ? overrideCredentials
+                  : myServerUri != null ? TFSConfigurationManager.getInstance().getCredentials(myServerUri) : null);
 
       // show the dialog first, then run in modal progress over it
       Condition<TfsLoginDialog> condition = new Condition<TfsLoginDialog>() {
         @Override
         public boolean value(TfsLoginDialog dialog) {
-          ExecuteSession<T> session = new ExecuteSession<T>(dialog.getCredentials(), dialog.getContentPane(), request,
-                                                            dialog.getUri());
+          ExecuteSession<T> session = new ExecuteSession<>(dialog.getCredentials(), dialog.getContentPane(), request,
+                                                           dialog.getUri());
           if (!session.execute()) {
             return false;
           }
@@ -358,7 +358,7 @@ public class TfsRequestManager {
 
     Credentials credentials =
       overrideCredentials != null ? overrideCredentials : TFSConfigurationManager.getInstance().getCredentials(myServerUri);
-    ExecuteSession<T> session = new ExecuteSession<T>(credentials, projectOrComponent, request, myServerUri);
+    ExecuteSession<T> session = new ExecuteSession<>(credentials, projectOrComponent, request, myServerUri);
     if (!session.execute()) {
       throw new UserCancelledException();
     }

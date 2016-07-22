@@ -28,7 +28,7 @@ import java.util.List;
 
 public class GetOperationsUtil {
   static List<GetOperation> sortGetOperations(Collection<GetOperation> getOperations) {
-    List<GetOperation> result = new ArrayList<GetOperation>(getOperations.size());
+    List<GetOperation> result = new ArrayList<>(getOperations.size());
     for (GetOperation newOperation : getOperations) {
       TFSVcs.assertTrue(newOperation.getSlocal() != null || newOperation.getTlocal() != null);
       int positionToInsert = result.size();

@@ -161,8 +161,8 @@ public class TFSFileAnnotation extends FileAnnotation {
   }
 
   public List<VcsFileRevision> getRevisions() {
-    Set<VcsFileRevision> set = new HashSet<VcsFileRevision>(Arrays.asList(myLineRevisions));
-    List<VcsFileRevision> result = new ArrayList<VcsFileRevision>(set);
+    Set<VcsFileRevision> set = new HashSet<>(Arrays.asList(myLineRevisions));
+    List<VcsFileRevision> result = new ArrayList<>(set);
     Collections.sort(result, REVISION_COMPARATOR);
     return result;
   }

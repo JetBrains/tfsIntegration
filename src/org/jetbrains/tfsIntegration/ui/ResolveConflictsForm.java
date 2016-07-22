@@ -71,7 +71,7 @@ public class ResolveConflictsForm {
   }
 
   private void updateConflictsTable() {
-    final List<Conflict> conflicts = new ArrayList<Conflict>(myResolveConflictHelper.getConflicts());
+    final List<Conflict> conflicts = new ArrayList<>(myResolveConflictHelper.getConflicts());
     Collections.sort(conflicts, CONFLICTS_COMPARATOR);
     myItemsTableModel.setConflicts(conflicts);
   }

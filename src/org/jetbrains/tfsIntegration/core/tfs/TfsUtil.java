@@ -114,7 +114,7 @@ public class TfsUtil {
   }
 
   public static List<FilePath> getLocalPaths(final List<ItemPath> paths) {
-    List<FilePath> localPaths = new ArrayList<FilePath>(paths.size());
+    List<FilePath> localPaths = new ArrayList<>(paths.size());
     for (ItemPath path : paths) {
       localPaths.add(path.getLocalPath());
     }
@@ -133,7 +133,7 @@ public class TfsUtil {
   }
 
   public static List<VcsException> getVcsExceptions(Collection<Failure> failures) {
-    final List<VcsException> exceptions = new ArrayList<VcsException>();
+    final List<VcsException> exceptions = new ArrayList<>();
     for (Failure failure : failures) {
       if (failure.getSev() != SeverityType.Warning) {
         exceptions.add(new VcsException(failure.getMessage()));

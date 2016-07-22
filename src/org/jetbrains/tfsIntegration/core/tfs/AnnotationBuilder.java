@@ -59,7 +59,7 @@ public class AnnotationBuilder {
     String[] lines = splitLines(myAnnotatedContent);
 
     myLineRevisions = new VcsFileRevision[lines.length];
-    myLineNumbers = new ArrayList<Integer>(lines.length);
+    myLineNumbers = new ArrayList<>(lines.length);
     for (int i = 0; i < lines.length; i++) {
       myLineNumbers.add(i);
     }

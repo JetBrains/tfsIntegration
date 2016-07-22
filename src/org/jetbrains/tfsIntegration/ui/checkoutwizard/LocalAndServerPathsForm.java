@@ -66,10 +66,10 @@ public class LocalAndServerPathsForm implements Disposable {
 
     FileChooserDescriptor descriptor = FileChooserDescriptorFactory.createSingleFolderDescriptor();
     ComponentWithBrowseButton.BrowseFolderActionListener<JTextField> listener =
-      new ComponentWithBrowseButton.BrowseFolderActionListener<JTextField>(TFSBundle.message("choose.local.path.title"),
-                                                                           TFSBundle.message("choose.local.path.description"),
-                                                                           myLocalPathField, null, descriptor,
-                                                                           TextComponentAccessor.TEXT_FIELD_WHOLE_TEXT);
+      new ComponentWithBrowseButton.BrowseFolderActionListener<>(TFSBundle.message("choose.local.path.title"),
+                                                                 TFSBundle.message("choose.local.path.description"),
+                                                                 myLocalPathField, null, descriptor,
+                                                                 TextComponentAccessor.TEXT_FIELD_WHOLE_TEXT);
 
     myServerPathLabel.setLabelFor(myServerPathForm.getPreferredFocusedComponent());
     myLocalPathField.addActionListener(listener);

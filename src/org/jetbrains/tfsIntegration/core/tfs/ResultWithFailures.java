@@ -25,8 +25,8 @@ import java.util.Collection;
 
 public class ResultWithFailures<T> {
 
-  private final Collection<T> result = new ArrayList<T>();
-  private final Collection<Failure> failures = new ArrayList<Failure>();
+  private final Collection<T> result = new ArrayList<>();
+  private final Collection<Failure> failures = new ArrayList<>();
 
   public ResultWithFailures(@Nullable final T[] result, @Nullable final Failure[] failures) {
     if (result != null) {
@@ -49,7 +49,7 @@ public class ResultWithFailures<T> {
   }
 
   public static <T> ResultWithFailures<T> merge(Collection<ResultWithFailures<T>> results) {
-    ResultWithFailures<T> merged = new ResultWithFailures<T>();
+    ResultWithFailures<T> merged = new ResultWithFailures<>();
     for (ResultWithFailures<T> r : results) {
       merged.getResult().addAll(r.getResult());
       merged.getFailures().addAll(r.getFailures());

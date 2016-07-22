@@ -45,7 +45,7 @@ public class WorkspaceInfo {
   private String myModifiedName;
   @NotNull private Location myLocation = Location.SERVER;
 
-  private List<WorkingFolderInfo> myWorkingFoldersInfos = new ArrayList<WorkingFolderInfo>();
+  private List<WorkingFolderInfo> myWorkingFoldersInfos = new ArrayList<>();
 
   public WorkspaceInfo(final @NotNull ServerInfo serverInfo, final @NotNull String owner, final @NotNull String computer) {
     myServerInfo = serverInfo;
@@ -188,7 +188,7 @@ public class WorkspaceInfo {
     }
 
     if (considerChildMappings) {
-      Collection<String> childMappings = new ArrayList<String>();
+      Collection<String> childMappings = new ArrayList<>();
       for (WorkingFolderInfo workingFolder : getWorkingFolders(projectOrComponent)) {
         if (workingFolder.getLocalPath().isUnder(localPathOnLocalFileSystem, false)) {
           childMappings.add(workingFolder.getServerPath());
@@ -273,7 +273,7 @@ public class WorkspaceInfo {
   private static Workspace toBean(WorkspaceInfo info) {
     final ArrayOfWorkingFolder folders = new ArrayOfWorkingFolder();
     List<WorkingFolderInfo> workingFolders = info.getWorkingFoldersCached();
-    List<WorkingFolder> foldersList = new ArrayList<WorkingFolder>(workingFolders.size());
+    List<WorkingFolder> foldersList = new ArrayList<>(workingFolders.size());
     for (WorkingFolderInfo folderInfo : workingFolders) {
       foldersList.add(toBean(folderInfo));
     }
@@ -325,7 +325,7 @@ public class WorkspaceInfo {
     else {
       folders = new WorkingFolder[0];
     }
-    List<WorkingFolderInfo> workingFoldersInfos = new ArrayList<WorkingFolderInfo>(folders.length);
+    List<WorkingFolderInfo> workingFoldersInfos = new ArrayList<>(folders.length);
     for (WorkingFolder folderBean : folders) {
       WorkingFolderInfo folderInfo = fromBean(folderBean);
       if (folderInfo != null) {

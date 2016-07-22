@@ -66,7 +66,7 @@ public class OverridePolicyWarningsForm {
     }.installOn(myWarningsTable);
 
     myWarningsTable.setModelAndUpdateColumns(
-      new ListTableModel<PolicyFailure>(new ColumnInfo[]{CheckinParametersForm.WARNING_COLUMN_INFO}, failures, -1));
+      new ListTableModel<>(new ColumnInfo[]{CheckinParametersForm.WARNING_COLUMN_INFO}, failures, -1));
 
     myOverrideCheckBox.addChangeListener(new ChangeListener() {
       public void stateChanged(ChangeEvent e) {

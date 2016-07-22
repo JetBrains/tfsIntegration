@@ -62,7 +62,7 @@ public class StatefulPolicyParser {
     //  throw new PolicyParseException("Unsupported version");
     //}
 
-    List<StatefulPolicyDescriptor> result = new ArrayList<StatefulPolicyDescriptor>();
+    List<StatefulPolicyDescriptor> result = new ArrayList<>();
     for (Object o : document.getRootElement().getChildren(POLICY_DEFINITION)) {
       Element definitionElement = (Element)o;
       //if (!CURRENT_VERSION.equals(definitionElement.getAttributeValue(VERSION))) {
@@ -84,7 +84,7 @@ public class StatefulPolicyParser {
       PolicyType type = new PolicyType(id, name, shortDescription, installationInstructions);
       Element configurationElement = definitionElement.getChild(CONFIGURATION_DATA);
       checkNotNull(configurationElement, CONFIGURATION_DATA);
-      List<String> scope = new ArrayList<String>();
+      List<String> scope = new ArrayList<>();
       for (Object o2 : definitionElement.getChildren(SCOPE)) {
         Element scopeElement = (Element)o2;
         scope.add(scopeElement.getText());

@@ -29,7 +29,7 @@ public class TfsTreeNode extends SimpleNode {
   private final String myPath;
   private final boolean myIsDirectory;
   private final boolean myVirtual;
-  private final Collection<TfsTreeNode> myVirtualChildren = new ArrayList<TfsTreeNode>();
+  private final Collection<TfsTreeNode> myVirtualChildren = new ArrayList<>();
 
   // root node
   public TfsTreeNode(@NotNull Object projectOrComponent,
@@ -66,7 +66,7 @@ public class TfsTreeNode extends SimpleNode {
       return new SimpleNode[]{new TfsErrorTreeNode(this, e.getMessage())};
     }
 
-    final List<TfsTreeNode> result = new ArrayList<TfsTreeNode>(myVirtualChildren);
+    final List<TfsTreeNode> result = new ArrayList<>(myVirtualChildren);
     for (final Item childItem : children) {
       result.add(new TfsTreeNode(this, childItem.getItem(), childItem.getType() == ItemType.Folder, false));
     }

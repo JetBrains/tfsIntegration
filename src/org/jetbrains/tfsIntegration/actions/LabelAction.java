@@ -48,7 +48,7 @@ public class LabelAction extends SingleItemAction implements DumbAware {
       return;
     }
 
-    final List<VcsException> errors = new ArrayList<VcsException>();
+    final List<VcsException> errors = new ArrayList<>();
     try {
       ResultWithFailures<LabelResult> resultWithFailures =
         workspace.getServer().getVCS()

@@ -131,7 +131,7 @@ public class TFSHistoryProvider implements VcsHistoryProvider {
       workspace.getServer().getVCS().queryHistory(workspace, serverPath, isDirectory, null, new ChangesetVersionSpec(1), versionTo, project,
                                                   TFSBundle.message("loading.item"), maxCount);
 
-    List<TFSFileRevision> revisions = new ArrayList<TFSFileRevision>(changesets.size());
+    List<TFSFileRevision> revisions = new ArrayList<>(changesets.size());
     for (Changeset changeset : changesets) {
       final Item item = changeset.getChanges().getChange()[0].getItem();
       revisions.add(

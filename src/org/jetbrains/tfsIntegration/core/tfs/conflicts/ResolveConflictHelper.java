@@ -44,7 +44,7 @@ import java.util.*;
 public class ResolveConflictHelper {
   private final @NotNull Project myProject;
   private final @Nullable UpdatedFiles myUpdatedFiles;
-  private final Map<Conflict, WorkspaceInfo> myConflict2Workspace = new HashMap<Conflict, WorkspaceInfo>();
+  private final Map<Conflict, WorkspaceInfo> myConflict2Workspace = new HashMap<>();
 
   public ResolveConflictHelper(final Project project,
                                Map<WorkspaceInfo, Collection<Conflict>> workspace2Conflicts,
@@ -265,7 +265,7 @@ public class ResolveConflictHelper {
   }
 
   public static Collection<Conflict> getUnresolvedConflicts(Collection<Conflict> conflicts) {
-    Collection<Conflict> result = new ArrayList<Conflict>();
+    Collection<Conflict> result = new ArrayList<>();
     for (Conflict c : conflicts) {
       if (!c.getIsresolved()) {
         TFSVcs.assertTrue(c.getCid() != 0);

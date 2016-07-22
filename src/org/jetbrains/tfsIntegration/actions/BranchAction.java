@@ -101,7 +101,7 @@ public class BranchAction extends SingleItemAction implements DumbAware {
       }
 
       if (d.isCreateWorkingCopies()) {
-        final Ref<Collection<VcsException>> downloadErrors = new Ref<Collection<VcsException>>(Collections.<VcsException>emptyList());
+        final Ref<Collection<VcsException>> downloadErrors = new Ref<>(Collections.<VcsException>emptyList());
         ProgressManager.getInstance().runProcessWithProgressSynchronously(new Runnable() {
           public void run() {
             downloadErrors.set(ApplyGetOperations.execute(project, workspace, createBranchResult.getResult(),
@@ -112,7 +112,7 @@ public class BranchAction extends SingleItemAction implements DumbAware {
         }, "Creating target working copies", false, project);
 
         if (!downloadErrors.get().isEmpty()) {
-          AbstractVcsHelper.getInstance(project).showErrors(new ArrayList<VcsException>(downloadErrors.get()), "Create Branch");
+          AbstractVcsHelper.getInstance(project).showErrors(new ArrayList<>(downloadErrors.get()), "Create Branch");
         }
       }
 
@@ -120,7 +120,7 @@ public class BranchAction extends SingleItemAction implements DumbAware {
       final Collection<PendingChange> pendingChanges = workspace.getServer().getVCS()
         .queryPendingSetsByServerItems(workspace.getName(), workspace.getOwnerName(), Collections.singletonList(targetServerPath),
                                        RecursionType.Full, project, TFSBundle.message("loading.changes"));
-      Collection<String> checkin = new ArrayList<String>();
+      Collection<String> checkin = new ArrayList<>();
       for (PendingChange change : pendingChanges) {
         if (new ChangeTypeMask(change.getChg()).contains(ChangeType_type0.Branch)) {
           checkin.add(change.getItem());

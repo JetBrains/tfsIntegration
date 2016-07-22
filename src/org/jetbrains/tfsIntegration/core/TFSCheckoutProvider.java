@@ -66,8 +66,8 @@ public class TFSCheckoutProvider implements CheckoutProvider {
   }
 
   private static void doCheckout(final CheckoutWizardModel model, final Listener listener) {
-    final Collection<VcsException> errors = new ArrayList<VcsException>();
-    final Ref<FilePath> localRoot = new Ref<FilePath>();
+    final Collection<VcsException> errors = new ArrayList<>();
+    final Ref<FilePath> localRoot = new Ref<>();
 
     Runnable checkoutRunnable = new Runnable() {
       public void run() {

@@ -51,7 +51,7 @@ public class TfsFileUtil {
   }
 
   public static List<FilePath> getFilePaths(@NotNull final Collection<VirtualFile> files) {
-    List<FilePath> paths = new ArrayList<FilePath>(files.size());
+    List<FilePath> paths = new ArrayList<>(files.size());
     for (VirtualFile f : files) {
       paths.add(getFilePath(f));
     }
@@ -67,7 +67,7 @@ public class TfsFileUtil {
   }
 
   public static void setReadOnly(final Collection<VirtualFile> files, final boolean status) throws IOException {
-    final Ref<IOException> exception = new Ref<IOException>();
+    final Ref<IOException> exception = new Ref<>();
     try {
       GuiUtils.runOrInvokeAndWait(new Runnable() {
         public void run() {
@@ -98,7 +98,7 @@ public class TfsFileUtil {
   }
 
   private static void setReadOnly(final String path, final boolean status) throws IOException {
-    final Ref<IOException> exception = new Ref<IOException>();
+    final Ref<IOException> exception = new Ref<>();
     try {
       GuiUtils.runOrInvokeAndWait(new Runnable() {
         public void run() {

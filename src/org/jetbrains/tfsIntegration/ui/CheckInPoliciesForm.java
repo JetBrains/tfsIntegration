@@ -125,7 +125,7 @@ public class CheckInPoliciesForm {
 
   public CheckInPoliciesForm(Project project, Map<String, ManageWorkspacesForm.ProjectEntry> projectToDescriptors) {
     myProject = project;
-    myProjectToDescriptors = new HashMap<String, ModifyableProjectEntry>(projectToDescriptors.size());
+    myProjectToDescriptors = new HashMap<>(projectToDescriptors.size());
     for (Map.Entry<String, ManageWorkspacesForm.ProjectEntry> e : projectToDescriptors.entrySet()) {
       myProjectToDescriptors.put(e.getKey(), new ModifyableProjectEntry(new ModifyableProjectEntry(e.getValue())));
     }
@@ -143,7 +143,7 @@ public class CheckInPoliciesForm {
       }
     });
 
-    List<String> projects = new ArrayList<String>(myProjectToDescriptors.keySet());
+    List<String> projects = new ArrayList<>(myProjectToDescriptors.keySet());
     Collections.sort(projects, new Comparator<String>() {
       public int compare(String s1, String s2) {
         return s1.compareTo(s2);
@@ -161,7 +161,7 @@ public class CheckInPoliciesForm {
       }
     });
 
-    myPoliciesTable.setModelAndUpdateColumns(new ListTableModel<Pair<StatefulPolicyDescriptor, Boolean>>(COLUMNS));
+    myPoliciesTable.setModelAndUpdateColumns(new ListTableModel<>(COLUMNS));
 
     myEditButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
@@ -188,7 +188,7 @@ public class CheckInPoliciesForm {
       public void actionPerformed(ActionEvent e) {
         final ModifyableProjectEntry projectEntry = myProjectToDescriptors.get(getSelectedProject());
 
-        List<PolicyBase> policies = new ArrayList<PolicyBase>();
+        List<PolicyBase> policies = new ArrayList<>();
         try {
           // do not allow to add the same unconfigurable policy several times
           main_loop:
@@ -351,7 +351,7 @@ public class CheckInPoliciesForm {
   private void updateTable() {
     //noinspection unchecked
     List<Pair<StatefulPolicyDescriptor, Boolean>> list =
-      new ArrayList<Pair<StatefulPolicyDescriptor, Boolean>>(myProjectToDescriptors.get(getSelectedProject()).descriptors.size());
+      new ArrayList<>(myProjectToDescriptors.get(getSelectedProject()).descriptors.size());
     try {
       for (StatefulPolicyDescriptor descriptor : myProjectToDescriptors.get(getSelectedProject()).descriptors) {
         list.add(Pair.create(descriptor, CheckinPoliciesManager.find(descriptor.getType()) != null));
@@ -487,7 +487,7 @@ public class CheckInPoliciesForm {
   };
 
   public Map<String, ManageWorkspacesForm.ProjectEntry> getModifications() {
-    Map<String, ManageWorkspacesForm.ProjectEntry> result = new HashMap<String, ManageWorkspacesForm.ProjectEntry>();
+    Map<String, ManageWorkspacesForm.ProjectEntry> result = new HashMap<>();
     for (Map.Entry<String, ModifyableProjectEntry> entry : myProjectToDescriptors.entrySet()) {
       if (entry.getValue().isModified) {
         result.put(entry.getKey(), entry.getValue());

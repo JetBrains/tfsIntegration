@@ -67,8 +67,8 @@ public class TFSAnnotationProvider implements AnnotationProvider {
 
   @Nullable
   private FileAnnotation annotate(final VirtualFile file, final int changeset) throws VcsException {
-    final Ref<VcsException> exception = new Ref<VcsException>();
-    final Ref<FileAnnotation> result = new Ref<FileAnnotation>();
+    final Ref<VcsException> exception = new Ref<>();
+    final Ref<FileAnnotation> result = new Ref<>();
 
     Runnable runnable = new Runnable() {
       public void run() {

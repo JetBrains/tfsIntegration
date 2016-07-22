@@ -64,7 +64,7 @@ public class CheckinPoliciesManager {
     if (ourInstalledPolicies == null) {
       final PolicyBase[] installedPolicies = Extensions.getExtensions(PolicyBase.EP_NAME);
 
-      Set<PolicyType> types = new HashSet<PolicyType>(installedPolicies.length);
+      Set<PolicyType> types = new HashSet<>(installedPolicies.length);
       for (PolicyBase policy : installedPolicies) {
         if (!types.add(policy.getPolicyType())) {
           TFSVcs.LOG.warn("Duplicate checkin policy type: " + policy.getPolicyType().getId());

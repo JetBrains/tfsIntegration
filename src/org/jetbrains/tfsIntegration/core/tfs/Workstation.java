@@ -103,7 +103,7 @@ public class Workstation {
   }
 
   private List<WorkspaceInfo> getAllWorkspacesForCurrentOwnerAndComputer(boolean showLoginIfNoCredentials) {
-    List<WorkspaceInfo> result = new ArrayList<WorkspaceInfo>();
+    List<WorkspaceInfo> result = new ArrayList<>();
     for (final ServerInfo server : getServers()) {
       if (showLoginIfNoCredentials && server.getQualifiedUsername() == null) {
         try {
@@ -131,7 +131,7 @@ public class Workstation {
         LOG.info("Cannot read workspace cache", e);
       }
     }
-    return new ArrayList<ServerInfo>();
+    return new ArrayList<>();
   }
 
 
@@ -258,7 +258,7 @@ public class Workstation {
 
   public Collection<WorkspaceInfo> findWorkspacesCached(final @NotNull FilePath localPath, boolean considerChildMappings) {
     // try cached working folders first
-    Collection<WorkspaceInfo> result = new ArrayList<WorkspaceInfo>();
+    Collection<WorkspaceInfo> result = new ArrayList<>();
     for (WorkspaceInfo workspace : getAllWorkspacesForCurrentOwnerAndComputer(false)) {
       if (workspace.hasMappingCached(localPath, considerChildMappings)) {
         result.add(workspace);
@@ -288,8 +288,8 @@ public class Workstation {
     else {
       // TODO: exclude servers that are unavailable during current application run
       // not found in cached info, but workspaces may be out of date -> try to search all the workspaces reloaded
-      Collection<WorkspaceInfo> result = new ArrayList<WorkspaceInfo>();
-      Collection<ServerInfo> serversToSkip = new ArrayList<ServerInfo>();
+      Collection<WorkspaceInfo> result = new ArrayList<>();
+      Collection<ServerInfo> serversToSkip = new ArrayList<>();
       for (WorkspaceInfo workspace : getAllWorkspacesForCurrentOwnerAndComputer(true)) {
         if (serversToSkip.contains(workspace.getServer())) {
           // if server is somehow unavailable, don't try every workspace on it
@@ -331,9 +331,9 @@ public class Workstation {
   @Nullable
   private FilePath findDuplicateMappedPath() {
     // don't check duplicate mappings within the same server, server side should take care about this
-    Collection<FilePath> otherServersPaths = new ArrayList<FilePath>();
+    Collection<FilePath> otherServersPaths = new ArrayList<>();
     for (ServerInfo server : getServers()) {
-      Collection<FilePath> currentServerPaths = new ArrayList<FilePath>();
+      Collection<FilePath> currentServerPaths = new ArrayList<>();
       for (WorkspaceInfo workspace : server.getWorkspacesForCurrentOwnerAndComputer()) {
         for (WorkingFolderInfo workingFolder : workspace.getWorkingFoldersCached()) {
           final FilePath currentServerPath = workingFolder.getLocalPath();

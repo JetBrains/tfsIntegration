@@ -59,7 +59,7 @@ public class TfsExecutionUtil {
         throw errors.iterator().next();
       }
 
-      Collection<String> messages = new ArrayList<String>(errors.size());
+      Collection<String> messages = new ArrayList<>(errors.size());
       for (VcsException error : errors) {
         messages.add(error.getMessage());
       }
@@ -144,9 +144,9 @@ public class TfsExecutionUtil {
   }
 
   public static <T> ResultWithErrors<T> executeInBackground(String progressText, Project project, final ProcessWithErrors<T> process) {
-    final Ref<T> result = new Ref<T>();
-    final List<VcsException> errors = new ArrayList<VcsException>();
-    final Ref<Boolean> explicitlyCancelled = new Ref<Boolean>();
+    final Ref<T> result = new Ref<>();
+    final List<VcsException> errors = new ArrayList<>();
+    final Ref<Boolean> explicitlyCancelled = new Ref<>();
     Runnable runnable = new Runnable() {
       public void run() {
         TFSProgressUtil.setIndeterminate(ProgressManager.getInstance().getProgressIndicator(), true);
@@ -175,8 +175,8 @@ public class TfsExecutionUtil {
       completed = true;
     }
 
-    return new ResultWithErrors<T>(errors, result.get(), project,
-                                   !completed || (!explicitlyCancelled.isNull() && explicitlyCancelled.get()));
+    return new ResultWithErrors<>(errors, result.get(), project,
+                                  !completed || (!explicitlyCancelled.isNull() && explicitlyCancelled.get()));
   }
 
   public static ResultWithErrors<Void> executeInBackground(String progressText, Project project, final VoidProcessWithErrors process) {
@@ -196,7 +196,7 @@ public class TfsExecutionUtil {
     });
     assert result.errors.size() < 2;
     //noinspection ThrowableResultOfMethodCallIgnored
-    return new ResultWithError<T>(ContainerUtil.getFirstItem(result.errors, null), result.result, project, result.cancelled);
+    return new ResultWithError<>(ContainerUtil.getFirstItem(result.errors, null), result.result, project, result.cancelled);
   }
 
   public static ResultWithError<Void> executeInBackground(String progressText, Project project, final VoidProcess process) {

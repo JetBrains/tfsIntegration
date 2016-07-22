@@ -41,7 +41,7 @@ public class AddAction extends AnAction implements DumbAware {
     final Project project = e.getData(CommonDataKeys.PROJECT);
     final VirtualFile[] files = VcsUtil.getVirtualFiles(e);
 
-    final List<VcsException> errors = new ArrayList<VcsException>();
+    final List<VcsException> errors = new ArrayList<>();
     ProgressManager.getInstance().runProcessWithProgressSynchronously(new Runnable() {
       public void run() {
         ProgressManager.getInstance().getProgressIndicator().setIndeterminate(true);

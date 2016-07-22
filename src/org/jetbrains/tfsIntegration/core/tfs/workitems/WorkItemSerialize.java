@@ -72,7 +72,7 @@ public class WorkItemSerialize {
       return null;
     }
 
-    final List<Column_type0> columns = new ArrayList<Column_type0>();
+    final List<Column_type0> columns = new ArrayList<>();
     if (type == WorkItemType.BUG) {
       columns.add(createColumn(WorkItemField.STATE, null, WorkItemState.RESOLVED.getName()));
       columns.add(createColumn(WorkItemField.REASON, null, Reason.Fixed.name()));
@@ -128,7 +128,7 @@ public class WorkItemSerialize {
       throw new IllegalArgumentException("Unexpected action type " + action);
     }
 
-    List<ComputedColumn_type0> computedColumns = new ArrayList<ComputedColumn_type0>();
+    List<ComputedColumn_type0> computedColumns = new ArrayList<>();
 
     computedColumns.add(createComputedColumn(WorkItemField.REVISED_DATE));
     computedColumns.add(createComputedColumn(WorkItemField.CHANGED_DATE));

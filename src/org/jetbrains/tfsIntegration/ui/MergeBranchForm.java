@@ -190,7 +190,7 @@ public class MergeBranchForm {
   }
 
   private void updateChangesetsTable() {
-    List<Changeset> changesets = new ArrayList<Changeset>();
+    List<Changeset> changesets = new ArrayList<>();
     if (myTargetCombo.getSelectedIndex() != -1) {
       try {
         final Collection<MergeCandidate> mergeCandidates = myWorkspace.getServer().getVCS()
@@ -270,7 +270,7 @@ public class MergeBranchForm {
   }
 
   private void updateOnSourceChange() {
-    final Collection<Item> targetBranches = new ArrayList<Item>();
+    final Collection<Item> targetBranches = new ArrayList<>();
     try {
       final Collection<BranchRelative> allBranches =
         myWorkspace.getServer().getVCS()
