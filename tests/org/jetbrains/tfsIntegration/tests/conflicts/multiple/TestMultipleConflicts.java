@@ -75,8 +75,8 @@ abstract class TestMultipleConflicts extends TFSTestCase {
       preparePaths();
       prepareBaseRevision();
 
-      List<Pair<Integer/*item id*/, Resolution>> itemId2Resolution = new ArrayList<Pair<Integer, Resolution>>(resolutionPath.size());
-      final Map<Integer, ConflictingItem> id2item = new HashMap<Integer, ConflictingItem>();
+      List<Pair<Integer/*item id*/, Resolution>> itemId2Resolution = new ArrayList<>(resolutionPath.size());
+      final Map<Integer, ConflictingItem> id2item = new HashMap<>();
       for (Pair<ConflictingItem, Resolution> pair : resolutionPath) {
         final int itemId = getItemId(getPath(pair.first));
         itemId2Resolution.add(Pair.create(itemId, pair.second));
@@ -197,7 +197,7 @@ abstract class TestMultipleConflicts extends TFSTestCase {
   }
 
   protected static <K, V> Map<K, V> toMap(List<Pair<K, V>> list) {
-    Map<K, V> map = new HashMap<K, V>(list.size());
+    Map<K, V> map = new HashMap<>(list.size());
     for (Pair<K, V> pair : list) {
       map.put(pair.first, pair.second);
     }

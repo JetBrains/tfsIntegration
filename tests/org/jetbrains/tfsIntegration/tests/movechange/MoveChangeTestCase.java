@@ -49,7 +49,7 @@ public abstract class MoveChangeTestCase extends TFSTestCase {
   protected void testPendRollback(String[] changesSequence) throws VcsException {
     preparePaths();
     makeOriginalState();
-    Map<String, ChangeStatus> changesStatus = new HashMap<String, ChangeStatus>(changesSequence.length);
+    Map<String, ChangeStatus> changesStatus = new HashMap<>(changesSequence.length);
     for (String changeId : changesSequence) {
       changesStatus.put(changeId, ChangeStatus.NotDone);
     }
@@ -78,7 +78,7 @@ public abstract class MoveChangeTestCase extends TFSTestCase {
     preparePaths();
     makeOriginalState();
 
-    Map<String, ChangeStatus> changesStatus = new HashMap<String, ChangeStatus>(changesSequence.length);
+    Map<String, ChangeStatus> changesStatus = new HashMap<>(changesSequence.length);
     // commit one by one
     for (String changeId : changesSequence) {
       makeChange(changeId);

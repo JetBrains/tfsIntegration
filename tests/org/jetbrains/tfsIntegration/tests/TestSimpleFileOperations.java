@@ -123,7 +123,7 @@ public class TestSimpleFileOperations extends TFSTestCase {
     deleteFileExternally(file);
 
     getVcs().getRollbackEnvironment().rollbackMissingFileDeletion(Collections.singletonList(TfsFileUtil.getFilePath(file)),
-                                                                  new ArrayList<VcsException>(), RollbackProgressListener.EMPTY);
+                                                                  new ArrayList<>(), RollbackProgressListener.EMPTY);
 
     getChanges().assertTotalItems(0);
   }
@@ -632,7 +632,7 @@ public class TestSimpleFileOperations extends TFSTestCase {
     changes.assertTotalItems(1);
     changes.assertLocallyDeleted(path);
 
-    getVcs().getRollbackEnvironment().rollbackMissingFileDeletion(Arrays.asList(path), new ArrayList<VcsException>(), RollbackProgressListener.EMPTY);
+    getVcs().getRollbackEnvironment().rollbackMissingFileDeletion(Arrays.asList(path), new ArrayList<>(), RollbackProgressListener.EMPTY);
     refreshAll();    
     getChanges().assertTotalItems(0);
     Assert.assertEquals(content, getContent(VcsUtil.getVirtualFile(path.getPath())));

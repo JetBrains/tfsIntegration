@@ -132,7 +132,7 @@ public abstract class ParentChildChangeTestCase extends TFSTestCase {
 
     makeParentChange();
     makeChildChange(ParentChangeState.Pending);
-    Collection<Change> parentAndChildChanges = new ArrayList<Change>();
+    Collection<Change> parentAndChildChanges = new ArrayList<>();
     final Change pendingParentChange = getPendingParentChange();
     if (pendingParentChange != null) {
       parentAndChildChanges.add(pendingParentChange);

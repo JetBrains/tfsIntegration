@@ -289,7 +289,7 @@ public abstract class TFSTestCase extends AbstractJunitVcsTestCase  {
 
       @Override
       public Collection<File> getFiles() {
-        Collection<File> result = new ArrayList<File>();
+        Collection<File> result = new ArrayList<>();
         for (Change change : changes) {
           if (change.getAfterRevision() != null) {
             result.add(change.getAfterRevision().getFile().getIOFile());
@@ -355,7 +355,7 @@ public abstract class TFSTestCase extends AbstractJunitVcsTestCase  {
       @Override
       public void setCheckSpelling(boolean checkSpelling) {
       }
-    }, new PseudoMap<Object, Object>());
+    }, new PseudoMap<>());
     ((CheckinChangeListSpecificComponent)panel).onChangeListSelected(new LocalChangeList() {
       @Override
       public Collection<Change> getChanges() {
@@ -406,13 +406,13 @@ public abstract class TFSTestCase extends AbstractJunitVcsTestCase  {
         return null;
       }
     });
-    final List<VcsException> errors = env.commit(new ArrayList<Change>(changes), comment);
+    final List<VcsException> errors = env.commit(new ArrayList<>(changes), comment);
     Assert.assertTrue(getMessage(errors), errors.isEmpty());
     refreshAll();
   }
 
   protected void commitThrowException(final Collection<Change> changes, final String comment) throws VcsException {
-    final List<VcsException> errors = getVcs().getCheckinEnvironment().commit(new ArrayList<Change>(changes), comment);
+    final List<VcsException> errors = getVcs().getCheckinEnvironment().commit(new ArrayList<>(changes), comment);
     refreshAll();
     if (!errors.isEmpty()) {
       throw new VcsException(getMessage(errors));
@@ -428,14 +428,14 @@ public abstract class TFSTestCase extends AbstractJunitVcsTestCase  {
   }
 
   protected void rollback(final Collection<Change> changes) {
-    final List<VcsException> errors = new ArrayList<VcsException>();
-    getVcs().getRollbackEnvironment().rollbackChanges(new ArrayList<Change>(changes), errors, RollbackProgressListener.EMPTY);
+    final List<VcsException> errors = new ArrayList<>();
+    getVcs().getRollbackEnvironment().rollbackChanges(new ArrayList<>(changes), errors, RollbackProgressListener.EMPTY);
     Assert.assertTrue(getMessage(errors), errors.isEmpty());
     refreshAll();
   }
 
   protected void rollbackAll(TestChangeListBuilder builder) {
-    final List<VcsException> errors = new ArrayList<VcsException>();
+    final List<VcsException> errors = new ArrayList<>();
     getVcs().getRollbackEnvironment().rollbackMissingFileDeletion(builder.getLocallyDeleted(), errors, RollbackProgressListener.EMPTY);
     getVcs().getRollbackEnvironment().rollbackChanges(builder.getChanges(), errors, RollbackProgressListener.EMPTY);
     // ??? errors.addAll(getVcs().getRollbackEnvironment().rollbackIfUnchanged());
@@ -451,7 +451,7 @@ public abstract class TFSTestCase extends AbstractJunitVcsTestCase  {
   }
 
   protected void scheduleForAddition(FilePath... files) {
-    List<VirtualFile> vfiles = new ArrayList<VirtualFile>(files.length);
+    List<VirtualFile> vfiles = new ArrayList<>(files.length);
     for (FilePath f : files) {
       vfiles.add(VcsUtil.getVirtualFile(f.getIOFile()));
     }
@@ -473,7 +473,7 @@ public abstract class TFSTestCase extends AbstractJunitVcsTestCase  {
   }
 
   protected void rollbackHijacked(List<VirtualFile> files) {
-    final List<VcsException> errors = new ArrayList<VcsException>();
+    final List<VcsException> errors = new ArrayList<>();
     getVcs().getRollbackEnvironment().rollbackModifiedWithoutCheckout(files, errors, RollbackProgressListener.EMPTY);
     Assert.assertTrue(getMessage(errors), errors.isEmpty());
     refreshAll();
@@ -714,7 +714,7 @@ public abstract class TFSTestCase extends AbstractJunitVcsTestCase  {
     configuration.getState().UPDATE_RECURSIVELY = true;
     final UpdatedFiles updatedFiles = UpdatedFiles.create();
     final UpdateSession session = getVcs().getUpdateEnvironment()
-      .updateDirectories(new FilePath[]{TfsFileUtil.getFilePath(root)}, updatedFiles, null, new Ref<SequentialUpdatesContext>());
+      .updateDirectories(new FilePath[]{TfsFileUtil.getFilePath(root)}, updatedFiles, null, new Ref<>());
     Assert.assertTrue(getMessage(session.getExceptions()), session.getExceptions().isEmpty());
     refreshAll();
   }
