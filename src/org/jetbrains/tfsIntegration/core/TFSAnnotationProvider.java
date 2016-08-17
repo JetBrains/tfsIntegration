@@ -152,8 +152,4 @@ public class TFSAnnotationProvider implements AnnotationProvider {
     return new TFSFileAnnotation(myVcs, workspace, annotationBuilder.getAnnotatedContent(), annotationBuilder.getLineRevisions(),
                                  localPath.getVirtualFile());
   }
-
-  public boolean isAnnotationValid(final VcsFileRevision revision) {
-    return true;
-  }
 }
