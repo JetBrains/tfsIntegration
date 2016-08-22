@@ -153,26 +153,11 @@ public class TFSFileAnnotation extends FileAnnotation {
     }
   }
 
-  /**
-   * Get revision number for the line.
-   */
-  public VcsRevisionNumber originalRevision(int lineNumber) {
-    return getLineRevisionNumber(lineNumber);
-  }
-
   public List<VcsFileRevision> getRevisions() {
     Set<VcsFileRevision> set = new HashSet<>(Arrays.asList(myLineRevisions));
     List<VcsFileRevision> result = new ArrayList<>(set);
     Collections.sort(result, REVISION_COMPARATOR);
     return result;
-  }
-
-  public boolean revisionsNotEmpty() {
-    return myLineRevisions.length > 0;
-  }
-
-  public AnnotationSourceSwitcher getAnnotationSourceSwitcher() {
-    return null;
   }
 
   @Override
