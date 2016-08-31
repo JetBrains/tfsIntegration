@@ -26,8 +26,6 @@ import com.intellij.openapi.util.Ref;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vcs.FilePath;
 import com.intellij.util.ArrayUtil;
-import com.intellij.util.Base64;
-import com.intellij.util.ThrowableConsumer;
 import com.intellij.util.containers.ContainerUtil;
 import com.microsoft.schemas.teamfoundation._2005._06.services.authorization._03.Identity;
 import com.microsoft.schemas.teamfoundation._2005._06.services.authorization._03.QueryMembership;
@@ -123,20 +121,18 @@ public class VersionControlServer {
                            final String progressTitle)
     throws TfsException {
     if (items.isEmpty()) {
-      return operation.merge(Collections.<U>emptyList());
+      return operation.merge(Collections.emptyList());
     }
 
     final Collection<U> results = new ArrayList<>();
-    TfsUtil.consumeInParts(items, ITEMS_IN_GROUP, new ThrowableConsumer<List<T>, TfsException>() {
-      public void consume(final List<T> ts) throws TfsException {
-        U result = TfsRequestManager.executeRequest(myServerUri, projectOrComponent, new TfsRequestManager.Request<U>(progressTitle) {
-          @Override
-          public U execute(Credentials credentials, URI serverUri, @Nullable ProgressIndicator pi) throws Exception {
-            return operation.execute(ts, credentials, pi);
-          }
-        });
-        results.add(result);
-      }
+    TfsUtil.consumeInParts(items, ITEMS_IN_GROUP, ts -> {
+      U result = TfsRequestManager.executeRequest(myServerUri, projectOrComponent, new TfsRequestManager.Request<U>(progressTitle) {
+        @Override
+        public U execute(Credentials credentials, URI serverUri, @Nullable ProgressIndicator pi) throws Exception {
+          return operation.execute(ts, credentials, pi);
+        }
+      });
+      results.add(result);
     });
     return operation.merge(results);
   }
@@ -1013,7 +1009,7 @@ public class VersionControlServer {
         param.setOwnerName(ownerName);
         param.setItems(arrayOfItemSpec);
         Conflict[] conflicts = myBeans.getRepositoryStub(credentials, pi).queryConflicts(param).getQueryConflictsResult().getConflict();
-        return conflicts != null ? Arrays.asList(conflicts) : Collections.<Conflict>emptyList();
+        return conflicts != null ? Arrays.asList(conflicts) : Collections.emptyList();
       }
 
       public Collection<Conflict> merge(Collection<Collection<Conflict>> results) {
@@ -1088,7 +1084,7 @@ public class VersionControlServer {
         parts.add(new StringPart(WORKSPACE_OWNER_FIELD, workspaceInfo.getOwnerName()));
         parts.add(new StringPart(LENGTH_FIELD, Long.toString(fileLength)));
         final byte[] hash = TfsFileUtil.calculateMD5(file);
-        parts.add(new StringPart(HASH_FIELD, Base64.encode(hash)));
+        parts.add(new StringPart(HASH_FIELD, Base64.getEncoder().encodeToString(hash)));
         // TODO: handle files too large to fit in a single POST
         parts.add(new StringPart(RANGE_FIELD, String.format("bytes=0-%d/%d", fileLength - 1, fileLength)));
         FilePart filePart = new FilePart(CONTENT_FIELD, SERVER_ITEM_FIELD, file);
@@ -1150,7 +1146,7 @@ public class VersionControlServer {
 
           return pendingSets != null
                  ? Arrays.asList(pendingSets[0].getPendingChanges().getPendingChange())
-                 : Collections.<PendingChange>emptyList();
+                 : Collections.emptyList();
         }
 
         public Collection<PendingChange> merge(Collection<Collection<PendingChange>> results) {
@@ -1576,7 +1572,7 @@ public class VersionControlServer {
 
     TFSVcs.assertTrue(result.getArrayOfBranchRelative().length == 1);
     final BranchRelative[] branches = result.getArrayOfBranchRelative()[0].getBranchRelative();
-    return branches != null ? Arrays.asList(branches) : Collections.<BranchRelative>emptyList();
+    return branches != null ? Arrays.asList(branches) : Collections.emptyList();
   }
 
   public Collection<MergeCandidate> queryMergeCandidates(final String workspaceName,
@@ -1600,7 +1596,7 @@ public class VersionControlServer {
             return myBeans.getRepositoryStub(credentials, pi).queryMergeCandidates(param).getQueryMergeCandidatesResult();
           }
         });
-    return result.getMergeCandidate() != null ? Arrays.asList(result.getMergeCandidate()) : Collections.<MergeCandidate>emptyList();
+    return result.getMergeCandidate() != null ? Arrays.asList(result.getMergeCandidate()) : Collections.emptyList();
   }
 
   // GroupSecurityService
