@@ -1,7 +1,6 @@
 package org.jetbrains.tfsIntegration.webservice;
 
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.application.ModalityState;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
@@ -138,7 +137,7 @@ public class TfsRequestManager {
             if (pi != null) {
               WaitForProgressToShow.execute(pi);
             }
-            ApplicationManager.getApplication().invokeAndWait(showDialogRunnable, ModalityState.defaultModalityState());
+            ApplicationManager.getApplication().invokeAndWait(showDialogRunnable);
             if (!ok.get()) {
               if (!force) {
                 TFSConfigurationManager.getInstance().setAuthCanceled(myServerUri, projectOrComponent);
