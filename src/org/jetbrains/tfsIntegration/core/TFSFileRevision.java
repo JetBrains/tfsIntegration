@@ -21,6 +21,7 @@ import com.intellij.openapi.vcs.RepositoryLocation;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.history.VcsFileRevision;
 import com.intellij.openapi.vcs.history.VcsRevisionNumber;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.tfsIntegration.core.revision.TFSContentRevision;
 import org.jetbrains.tfsIntegration.core.tfs.TfsRevisionNumber;
@@ -56,6 +57,7 @@ public class TFSFileRevision implements VcsFileRevision {
     myItemId = itemId;
   }
 
+  @NotNull
   public VcsRevisionNumber.Int getRevisionNumber() {
     return new TfsRevisionNumber(myChangeset, myItemId);
   }
