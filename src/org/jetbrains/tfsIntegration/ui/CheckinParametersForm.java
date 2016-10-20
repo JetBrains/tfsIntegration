@@ -56,7 +56,7 @@ public class CheckinParametersForm implements Disposable {
   private static final Color NOT_INSTALLED_POLICY_COLOR = UIUtil.getInactiveTextColor();
   private static final Icon WARNING_ICON = UIUtil.getBalloonWarningIcon();
   private static final Icon ERROR_ICON = UIUtil.getBalloonErrorIcon();
-  private static final Icon EMPTY_ICON = new EmptyIcon(0, WARNING_ICON.getIconHeight());
+  private static final Icon EMPTY_ICON = EmptyIcon.create(0, WARNING_ICON.getIconHeight());
 
   private JPanel myContentPane;
   private JComboBox myServersCombo;
