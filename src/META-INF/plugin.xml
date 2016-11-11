@@ -1,4 +1,4 @@
-<idea-plugin version="2">
+<idea-plugin>
   <id>TFS</id>
   <name>TFS Integration</name>
   <version>999.999</version>
