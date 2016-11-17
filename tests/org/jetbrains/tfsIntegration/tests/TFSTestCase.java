@@ -346,15 +346,6 @@ public abstract class TFSTestCase extends AbstractJunitVcsTestCase  {
       @Override
       public void restoreState() {
       }
-
-      @Override
-      public boolean isCheckSpelling() {
-        return false;
-      }
-
-      @Override
-      public void setCheckSpelling(boolean checkSpelling) {
-      }
     }, new PseudoMap<>());
     ((CheckinChangeListSpecificComponent)panel).onChangeListSelected(new LocalChangeList() {
       @Override
