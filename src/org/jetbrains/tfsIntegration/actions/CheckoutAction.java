@@ -19,68 +19,62 @@ package org.jetbrains.tfsIntegration.actions;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.progress.ProgressManager;
-import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.DumbAware;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Ref;
 import com.intellij.openapi.vcs.AbstractVcsHelper;
 import com.intellij.openapi.vcs.FileStatus;
 import com.intellij.openapi.vcs.FileStatusManager;
 import com.intellij.openapi.vcs.VcsException;
-import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.vcsUtil.VcsUtil;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.tfsIntegration.core.TFSVcs;
 import org.jetbrains.tfsIntegration.core.tfs.RootsCollection;
 
-import java.util.Collections;
+import java.util.stream.Stream;
+
+import static com.intellij.openapi.vfs.VfsUtilCore.toVirtualFileArray;
+import static com.intellij.vcsUtil.VcsUtil.getVirtualFiles;
+import static java.util.Collections.singletonList;
 
 public class CheckoutAction extends AnAction implements DumbAware {
 
-  public void actionPerformed(AnActionEvent e) {
-    final Project project = e.getData(CommonDataKeys.PROJECT);
-    final VirtualFile[] files = VcsUtil.getVirtualFiles(e);
+  @Override
+  public void actionPerformed(@NotNull AnActionEvent e) {
+    Project project = e.getData(CommonDataKeys.PROJECT);
+    RootsCollection.VirtualFileRootsCollection roots = new RootsCollection.VirtualFileRootsCollection(getVirtualFiles(e));
+    Ref<VcsException> error = Ref.create();
 
-    final RootsCollection.VirtualFileRootsCollection rootsCollection = new RootsCollection.VirtualFileRootsCollection(files);
-    final Ref<VcsException> error = new Ref<>();
-    ProgressManager.getInstance().runProcessWithProgressSynchronously(new Runnable() {
-      public void run() {
-        try {
-          ProgressManager.getInstance().getProgressIndicator().setIndeterminate(true);
-          TFSVcs.getInstance(project).getEditFileProvider().editFiles(VfsUtil.toVirtualFileArray(rootsCollection));
-        }
-        catch (VcsException ex) {
-          error.set(ex);
-        }
+    ProgressManager.getInstance().runProcessWithProgressSynchronously(() -> {
+      try {
+        ProgressManager.getInstance().getProgressIndicator().setIndeterminate(true);
+        TFSVcs.getInstance(project).getEditFileProvider().editFiles(toVirtualFileArray(roots));
+      }
+      catch (VcsException ex) {
+        error.set(ex);
       }
     }, "Checking out files for edit...", false, project);
 
     if (!error.isNull()) {
-      AbstractVcsHelper.getInstance(project).showErrors(Collections.singletonList(error.get()), TFSVcs.TFS_NAME);
+      AbstractVcsHelper.getInstance(project).showErrors(singletonList(error.get()), TFSVcs.TFS_NAME);
     }
   }
 
-  public void update(final AnActionEvent e) {
-    final Project project = e.getData(CommonDataKeys.PROJECT);
-    final VirtualFile[] files = VcsUtil.getVirtualFiles(e);
-    e.getPresentation().setEnabled(isEnabled(project, files));
+  @Override
+  public void update(@NotNull AnActionEvent e) {
+    Project project = e.getProject();
+    VirtualFile[] files = getVirtualFiles(e);
+
+    e.getPresentation().setEnabled(files.length != 0 && areNotChangedOrHijacked(project, files));
   }
 
-  private static boolean isEnabled(Project project, VirtualFile[] files) {
-    if (files.length == 0) {
-      return false;
-    }
-
+  private static boolean areNotChangedOrHijacked(@Nullable Project project, @NotNull VirtualFile[] files) {
     FileStatusManager fileStatusManager = FileStatusManager.getInstance(project);
-    for (VirtualFile file : files) {
-      final FileStatus fileStatus = fileStatusManager.getStatus(file);
-      if (fileStatus != FileStatus.NOT_CHANGED && fileStatus != FileStatus.HIJACKED) {
-        return false;
-      }
-    }
 
-    return true;
+    return Stream.of(files)
+      .map(fileStatusManager::getStatus)
+      .allMatch(status -> status == FileStatus.NOT_CHANGED || status == FileStatus.HIJACKED);
   }
-
 }

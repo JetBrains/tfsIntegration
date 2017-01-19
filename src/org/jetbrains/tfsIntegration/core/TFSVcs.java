@@ -152,6 +152,8 @@ public class TFSVcs extends AbstractVcs {
     return (!Workstation.getInstance().findWorkspacesCached(TfsFileUtil.getFilePath(dir), false).isEmpty());
   }
 
+  @NotNull
+  @Override
   public EditFileProvider getEditFileProvider() {
     return new TFSEditFileProvider(myProject);
   }
