@@ -29,7 +29,6 @@ import com.intellij.openapi.vcs.FileStatusManager;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.jetbrains.tfsIntegration.core.TFSVcs;
 import org.jetbrains.tfsIntegration.core.tfs.RootsCollection;
 
@@ -43,7 +42,7 @@ public class CheckoutAction extends AnAction implements DumbAware {
 
   @Override
   public void actionPerformed(@NotNull AnActionEvent e) {
-    Project project = e.getData(CommonDataKeys.PROJECT);
+    Project project = e.getRequiredData(CommonDataKeys.PROJECT);
     RootsCollection.VirtualFileRootsCollection roots = new RootsCollection.VirtualFileRootsCollection(getVirtualFiles(e));
     Ref<VcsException> error = Ref.create();
 
@@ -67,10 +66,10 @@ public class CheckoutAction extends AnAction implements DumbAware {
     Project project = e.getProject();
     VirtualFile[] files = getVirtualFiles(e);
 
-    e.getPresentation().setEnabled(files.length != 0 && areNotChangedOrHijacked(project, files));
+    e.getPresentation().setEnabled(project != null && files.length != 0 && areNotChangedOrHijacked(project, files));
   }
 
-  private static boolean areNotChangedOrHijacked(@Nullable Project project, @NotNull VirtualFile[] files) {
+  private static boolean areNotChangedOrHijacked(@NotNull Project project, @NotNull VirtualFile[] files) {
     FileStatusManager fileStatusManager = FileStatusManager.getInstance(project);
 
     return Stream.of(files)
