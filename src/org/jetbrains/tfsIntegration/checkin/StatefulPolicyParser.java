@@ -17,6 +17,7 @@
 package org.jetbrains.tfsIntegration.checkin;
 
 import com.intellij.openapi.util.JDOMUtil;
+import com.intellij.util.JdomKt;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -44,9 +45,9 @@ public class StatefulPolicyParser {
   private static final String SCOPE = "scope";
 
   public static List<StatefulPolicyDescriptor> parseDescriptors(String input) throws PolicyParseException {
-    final Document document;
+    final Element document;
     try {
-      document = JDOMUtil.loadDocument(input);
+      document = JdomKt.loadElement(input);
     }
     catch (IOException e) {
       throw new PolicyParseException(e);
@@ -54,7 +55,7 @@ public class StatefulPolicyParser {
     catch (JDOMException e) {
       throw new PolicyParseException(e);
     }
-    if (!POLICY_ANNOTATION.equals(document.getRootElement().getName())) {
+    if (!POLICY_ANNOTATION.equals(document.getName())) {
       throw new PolicyParseException("Element expected: " + POLICY_ANNOTATION);
     }
 
@@ -63,7 +64,7 @@ public class StatefulPolicyParser {
     //}
 
     List<StatefulPolicyDescriptor> result = new ArrayList<>();
-    for (Object o : document.getRootElement().getChildren(POLICY_DEFINITION)) {
+    for (Object o : document.getChildren(POLICY_DEFINITION)) {
       Element definitionElement = (Element)o;
       //if (!CURRENT_VERSION.equals(definitionElement.getAttributeValue(VERSION))) {
       //  throw new PolicyParseException("Unsupported version");
@@ -123,7 +124,7 @@ public class StatefulPolicyParser {
       typeElement.setAttribute(SHORT_DESCRIPTION, descriptor.getType().getDescription());
       descriptorElement.addContent(typeElement);
 
-      descriptorElement.addContent((Element)descriptor.getConfiguration().clone());
+      descriptorElement.addContent(descriptor.getConfiguration().clone());
     }
     Document document = new Document(root);
     return JDOMUtil.writeDocument(document, "");

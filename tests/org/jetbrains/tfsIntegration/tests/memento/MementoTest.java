@@ -154,6 +154,7 @@ public class MementoTest extends TestCase {
     checkEqual();
   }
 
+  @Override
   @Before
   public void setUp() throws Exception {
     super.setUp();
@@ -161,6 +162,7 @@ public class MementoTest extends TestCase {
     teampriseMemento = createTeampriseMemento();
   }
 
+  @Override
   @After
   public void tearDown() throws Exception {
     ideaMemento = null;
@@ -202,11 +204,12 @@ public class MementoTest extends TestCase {
   }
 
   protected static Memento deserializeIdeaMemento(String s) throws JDOMException, IOException {
-    return new XMLMemento(JDOMUtil.loadDocument(s).getRootElement());
+    return new XMLMemento(JdomKt.loadElement(s));
   }
 
   protected static com.teamprise.core.memento.Memento deserializeTeampriseMemento(final String s) throws Exception {
     return runWithPatchedClassloader(new ThrowableComputable<com.teamprise.core.memento.Memento, Exception>() {
+      @Override
       public com.teamprise.core.memento.Memento compute() throws Exception {
         // the same way as Teamprise does
         return com.teamprise.core.memento.XMLMemento.createReadRoot(new ByteArrayInputStream(s.getBytes("UTF-8")));
@@ -218,6 +221,7 @@ public class MementoTest extends TestCase {
     // the same way as Teamprise does
     final ByteArrayOutputStream os = new ByteArrayOutputStream();
     runWithPatchedClassloader(new ThrowableComputable<Void, Exception>() {
+      @Override
       public Void compute() throws Exception {
         ((com.teamprise.core.memento.XMLMemento)teampriseMemento).save(os);
         //noinspection ConstantConditions

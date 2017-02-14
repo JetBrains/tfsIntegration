@@ -1,6 +1,7 @@
 package org.jetbrains.tfsIntegration.core.configuration;
 
 import com.intellij.openapi.util.JDOMUtil;
+import com.intellij.util.JdomKt;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -10,11 +11,9 @@ import org.jetbrains.tfsIntegration.core.TFSConstants;
 import java.io.IOException;
 
 public class TfsCheckinPoliciesCompatibility {
-
   @NonNls private static final String ENFORCE_TEAM_EXPLORER_EVALUATION_ATTR = "enforceTfs";
   @NonNls private static final String ENFORCE_TEAMPRISE_EVALUATION_ATTR = "enforceTeamprise";
   @NonNls private static final String ENFORCE_NOT_INSTALLED_ATTR = "enforceNotInstalled";
-
 
   public boolean teamprise;
   public boolean teamExplorer;
@@ -27,10 +26,10 @@ public class TfsCheckinPoliciesCompatibility {
   }
 
   public static TfsCheckinPoliciesCompatibility fromOverridesAnnotationValue(String s) throws JDOMException, IOException {
-    Document doc = JDOMUtil.loadDocument(s);
-    boolean enforceTeamprise = Boolean.parseBoolean(doc.getRootElement().getAttributeValue(ENFORCE_TEAMPRISE_EVALUATION_ATTR));
-    boolean enforceTeamExplorer = Boolean.parseBoolean(doc.getRootElement().getAttributeValue(ENFORCE_TEAM_EXPLORER_EVALUATION_ATTR));
-    boolean enforceNonInstalledWarning = Boolean.parseBoolean(doc.getRootElement().getAttributeValue(ENFORCE_NOT_INSTALLED_ATTR));
+    Element doc = JdomKt.loadElement(s);
+    boolean enforceTeamprise = Boolean.parseBoolean(doc.getAttributeValue(ENFORCE_TEAMPRISE_EVALUATION_ATTR));
+    boolean enforceTeamExplorer = Boolean.parseBoolean(doc.getAttributeValue(ENFORCE_TEAM_EXPLORER_EVALUATION_ATTR));
+    boolean enforceNonInstalledWarning = Boolean.parseBoolean(doc.getAttributeValue(ENFORCE_NOT_INSTALLED_ATTR));
     return new TfsCheckinPoliciesCompatibility(enforceTeamprise, enforceTeamExplorer, enforceNonInstalledWarning);
   }
 
