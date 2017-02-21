@@ -16,6 +16,7 @@
 
 package org.jetbrains.tfsIntegration.ui;
 
+import com.intellij.openapi.wm.IdeFocusManager;
 import com.intellij.ui.DocumentAdapter;
 import com.intellij.util.EventDispatcher;
 import org.jetbrains.annotations.Nullable;
@@ -83,7 +84,9 @@ public class ProxySettingsForm {
     myProxyUrlLabel.setEnabled(myProxyServerRadioButton.isSelected());
 
     if (myProxyServerRadioButton.isSelected()) {
-      myProxyServerTextField.requestFocus();
+      IdeFocusManager.getGlobalInstance().doWhenFocusSettlesDown(() -> {
+        IdeFocusManager.getGlobalInstance().requestFocus(myProxyServerTextField, true);
+      });
     }
   }
 

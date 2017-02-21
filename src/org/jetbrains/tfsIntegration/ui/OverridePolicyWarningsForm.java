@@ -18,6 +18,7 @@ package org.jetbrains.tfsIntegration.ui;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.wm.IdeFocusManager;
 import com.intellij.ui.DocumentAdapter;
 import com.intellij.ui.DoubleClickListener;
 import com.intellij.ui.table.TableView;
@@ -72,7 +73,9 @@ public class OverridePolicyWarningsForm {
       public void stateChanged(ChangeEvent e) {
         myReasonTextArea.setEnabled(myOverrideCheckBox.isSelected());
         if (myReasonTextArea.isEnabled()) {
-          myReasonTextArea.requestFocus();
+          IdeFocusManager.getGlobalInstance().doWhenFocusSettlesDown(() -> {
+            IdeFocusManager.getGlobalInstance().requestFocus(myReasonTextArea, true);
+          });
         }
         myEventDispatcher.getMulticaster().stateChanged();
       }
