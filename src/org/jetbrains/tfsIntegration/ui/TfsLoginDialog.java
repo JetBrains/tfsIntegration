@@ -20,9 +20,11 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.ui.ValidationInfo;
 import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.net.HttpConfigurable;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.tfsIntegration.core.TFSBundle;
 import org.jetbrains.tfsIntegration.core.configuration.Credentials;
@@ -30,17 +32,16 @@ import org.jetbrains.tfsIntegration.core.configuration.TFSConfigurationManager;
 import org.jetbrains.tfsIntegration.core.tfs.TfsUtil;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URL;
+import java.util.Collections;
+import java.util.List;
 
 public class TfsLoginDialog extends DialogWrapper {
 
   private static final Logger LOG = Logger.getInstance(TfsLoginDialog.class.getName());
 
   private TfsLoginForm myLoginForm;
+  private String       lastMessage;
   @Nullable private Condition<TfsLoginDialog> myOkActionCallback;
 
   public TfsLoginDialog(Project project,
@@ -69,15 +70,12 @@ public class TfsLoginDialog extends DialogWrapper {
     setTitle(TFSBundle.message(allowAddressChange ? "logindialog.title.connect" : "logindialog.title.login"));
 
     myLoginForm = new TfsLoginForm(initialUri, initialCredentials, allowAddressChange);
-    myLoginForm.addListener(new ChangeListener() {
-      @Override
-      public void stateChanged(ChangeEvent e) {
-        revalidate();
-      }
+    myLoginForm.addListener(e -> {
+      lastMessage = null;
+      setOKActionEnabled(true);
     });
 
     init();
-    revalidate();
   }
 
   protected JComponent createCenterPanel() {
@@ -86,25 +84,6 @@ public class TfsLoginDialog extends DialogWrapper {
 
   public JComponent getPreferredFocusedComponent() {
     return myLoginForm.getPreferredFocusedComponent();
-  }
-
-  private void revalidate() {
-    setMessage(getErrorMessage(), true);
-  }
-
-  @Nullable
-  private String getErrorMessage() {
-    if (StringUtil.isEmptyOrSpaces(myLoginForm.getUrl())) {
-      return TFSBundle.message("login.dialog.address.empty");
-    }
-    if (TfsUtil.getUrl(myLoginForm.getUrl(), false, false) == null) {
-      return TFSBundle.message("login.dialog.address.invalid");
-    }
-
-    if (!myLoginForm.isUseNative() && StringUtil.isEmptyOrSpaces(myLoginForm.getUsername())) {
-      return TFSBundle.message("login.dialog.username.empty");
-    }
-    return null;
   }
 
   public URI getUri() {
@@ -121,8 +100,15 @@ public class TfsLoginDialog extends DialogWrapper {
     if (message != null && !message.endsWith(".")) {
       message += ".";
     }
-    setErrorText(message);
-    setOKActionEnabled(!disableOkAction || message == null);
+
+    lastMessage = message;
+    setErrorText(lastMessage);
+    setOKActionEnabled(!disableOkAction || lastMessage == null);
+  }
+
+  @Override @NotNull
+  public List<ValidationInfo> doValidateAll() {
+    return lastMessage != null ? Collections.singletonList(new ValidationInfo(lastMessage, null)) : myLoginForm.validate();
   }
 
   @Override

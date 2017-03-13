@@ -17,6 +17,7 @@
 package org.jetbrains.tfsIntegration.ui;
 
 import com.intellij.openapi.ui.ComboBox;
+import com.intellij.openapi.ui.ValidationInfo;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.wm.IdeFocusManager;
 import com.intellij.ui.DocumentAdapter;
@@ -35,6 +36,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TfsLoginForm {
 
@@ -205,5 +208,20 @@ public class TfsLoginForm {
 
   public boolean isUseNative() {
     return getCredentialsType() == Credentials.Type.NtlmNative;
+  }
+
+  List<ValidationInfo> validate() {
+    List<ValidationInfo> result = new ArrayList<>();
+    if (StringUtil.isEmptyOrSpaces(getUrl())) {
+      result.add(new ValidationInfo(TFSBundle.message("login.dialog.address.empty"), myAddressField));
+    } else if (TfsUtil.getUrl(getUrl(), false, false) == null) {
+      result.add(new ValidationInfo(TFSBundle.message("login.dialog.address.invalid"), myAddressField));
+    }
+
+    if (!isUseNative() && StringUtil.isEmptyOrSpaces(getUsername())) {
+      result.add(new ValidationInfo(TFSBundle.message("login.dialog.username.empty"), myUsernameField));
+    }
+
+    return result;
   }
 }
