@@ -5,7 +5,7 @@
     <content url="file://$MODULE_DIR$/tests">
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
     </content>
-    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="TFS" />
     <orderEntry type="library" scope="TEST" name="JUnit4" level="project" />
