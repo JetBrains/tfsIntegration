@@ -96,14 +96,14 @@ public class TfsLoginDialog extends DialogWrapper {
     return myLoginForm.getCredentials();
   }
 
-  public void setMessage(@Nullable String message, boolean disableOkAction) {
+  public void setMessage(@Nullable String message) {
     if (message != null && !message.endsWith(".")) {
       message += ".";
     }
 
     lastMessage = message;
     setErrorText(lastMessage);
-    setOKActionEnabled(!disableOkAction || lastMessage == null);
+    setOKActionEnabled(lastMessage == null);
   }
 
   @Override @NotNull

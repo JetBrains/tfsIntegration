@@ -64,7 +64,7 @@ public class TfsRequestManager {
   // (finally and getting 'duplicate server' error), but I believe it won't hurt
   private final ReentrantLock myRequestLock = new ReentrantLock();
 
-  private TfsRequestManager(URI serverUri) {
+  private TfsRequestManager(@Nullable URI serverUri) {
     myServerUri = serverUri;
   }
 
@@ -100,44 +100,42 @@ public class TfsRequestManager {
           showDialog = shouldShowDialog(force); // check again since another thread could already enter right credentials
           // TODO we probably have to compare original password and current one
           if (!message.isNull() || showDialog) {
-            final Ref<Boolean> ok = new Ref<>();
-            Runnable showDialogRunnable = new Runnable() {
-              @Override
-              public void run() {
-                if (message.isNull()) {
-                  try {
-                    if (!shouldShowDialog(force)) {
-                      ok.set(true);
-                      return; // check one more time since UI thread call could already enter right credentials
-                    }
-                  }
-                  catch (UserCancelledException e) {
-                    ok.set(false);
-                    return;
-                  }
-                }
-                TfsLoginDialog d;
-                if (projectOrComponent instanceof JComponent) {
-                  d = new TfsLoginDialog((JComponent)projectOrComponent, myServerUri, credentials.get(), false, null);
-                }
-                else {
-                  d = new TfsLoginDialog((Project)projectOrComponent, myServerUri, credentials.get(), false, null);
-                }
-                d.setMessage(message.get(), false);
-                if (d.showAndGet()) {
-                  credentials.set(d.getCredentials());
-                  ok.set(true);
-                }
-                else {
-                  ok.set(false);
-                }
-              }
-            };
-            final ProgressIndicator pi = ProgressManager.getInstance().getProgressIndicator();
+            ProgressIndicator pi = ProgressManager.getInstance().getProgressIndicator();
             if (pi != null) {
               WaitForProgressToShow.execute(pi);
             }
-            ApplicationManager.getApplication().invokeAndWait(showDialogRunnable);
+
+            Ref<Boolean> ok = new Ref<>();
+            ApplicationManager.getApplication().invokeAndWait(() -> {
+              if (message.isNull()) {
+                try {
+                  if (!shouldShowDialog(force)) {
+                    ok.set(true);
+                    return; // check one more time since UI thread call could already enter right credentials
+                  }
+                }
+                catch (UserCancelledException e) {
+                  ok.set(false);
+                  return;
+                }
+              }
+              TfsLoginDialog d;
+              if (projectOrComponent instanceof JComponent) {
+                d = new TfsLoginDialog((JComponent)projectOrComponent, myServerUri, credentials.get(), false, null);
+              }
+              else {
+                d = new TfsLoginDialog((Project)projectOrComponent, myServerUri, credentials.get(), false, null);
+              }
+              d.setMessage(message.get());
+              if (d.showAndGet()) {
+                credentials.set(d.getCredentials());
+                ok.set(true);
+              }
+              else {
+                ok.set(false);
+              }
+            });
+
             if (!ok.get()) {
               if (!force) {
                 TFSConfigurationManager.getInstance().setAuthCanceled(myServerUri, projectOrComponent);
@@ -209,30 +207,26 @@ public class TfsRequestManager {
 
     @Override
     public void run() {
-      final ProgressIndicator pi = ProgressManager.getInstance().getProgressIndicator();
-
-      final Semaphore done = new Semaphore();
-      final Runnable innerRunnable = new Runnable() {
-        @Override
-        public void run() {
-          try {
-            myRequestLock.lock();
-            myResult = executeRequestImpl(myCurrentServerUri, myCredentials, myRequest, pi);
-          }
-          catch (Exception e) {
-            LOG.warn(e);
-            myError = TfsExceptionManager.processException(e);
-          }
-          finally {
-            myRequestLock.unlock();
-            done.up();
-          }
-        }
-      };
+      ProgressIndicator pi = ProgressManager.getInstance().getProgressIndicator();
+      Semaphore done = new Semaphore();
 
       pi.setIndeterminate(true);
       done.down();
-      ApplicationManager.getApplication().executeOnPooledThread(innerRunnable);
+
+      ApplicationManager.getApplication().executeOnPooledThread(() -> {
+        try {
+          myRequestLock.lock();
+          myResult = executeRequestImpl(myCurrentServerUri, myCredentials, myRequest, pi);
+        }
+        catch (Exception e) {
+          LOG.warn(e);
+          myError = TfsExceptionManager.processException(e);
+        }
+        finally {
+          myRequestLock.unlock();
+          done.up();
+        }
+      });
       while (!done.waitFor(POLL_TIMEOUT)) {
         if (pi.isCanceled()) {
           break;
@@ -284,45 +278,42 @@ public class TfsRequestManager {
     throws TfsException {
     LOG.assertTrue(ApplicationManager.getApplication().isDispatchThread());
 
-    final Ref<T> result = new Ref<>();
-    final Ref<TfsException> fatalError = new Ref<>();
+    Ref<T> result = new Ref<>();
+    Ref<TfsException> fatalError = new Ref<>();
     if (errorMessage != null || overrideCredentials == null && shouldShowDialog(force)) {
-      final Ref<Credentials> credentials =
+      Ref<Credentials> credentials =
         new Ref<>(overrideCredentials != null
                   ? overrideCredentials
                   : myServerUri != null ? TFSConfigurationManager.getInstance().getCredentials(myServerUri) : null);
 
       // show the dialog first, then run in modal progress over it
-      Condition<TfsLoginDialog> condition = new Condition<TfsLoginDialog>() {
-        @Override
-        public boolean value(TfsLoginDialog dialog) {
-          ExecuteSession<T> session = new ExecuteSession<>(dialog.getCredentials(), dialog.getContentPane(), request,
-                                                           dialog.getUri());
-          if (!session.execute()) {
+      Condition<TfsLoginDialog> condition = dialog -> {
+        ExecuteSession<T> session = new ExecuteSession<>(dialog.getCredentials(), dialog.getContentPane(), request,
+                                                         dialog.getUri());
+        if (!session.execute()) {
+          return false;
+        }
+
+        TfsException error = session.getError();
+        if (error != null) {
+          if (error instanceof UnauthorizedException || myServerUri == null || reportErrorsInDialog) {
+            // continue with the dialog
+            dialog.setMessage(getMessage(error, dialog.getCredentials().getType()));
             return false;
           }
-
-          TfsException error = session.getError();
-          if (error != null) {
-            if (error instanceof UnauthorizedException || myServerUri == null || reportErrorsInDialog) {
-              // continue with the dialog
-              dialog.setMessage(getMessage(error, dialog.getCredentials().getType()), false);
-              return false;
-            }
-            else {
-              fatalError.set(error);
-              if (!(error instanceof ConnectionFailedException)) {
-                // we've connected succsesfully, so it's time to store right credentials
-                TFSConfigurationManager.getInstance().storeCredentials(dialog.getUri(), session.getCredentials());
-              }
-            }
-          }
           else {
-            TFSConfigurationManager.getInstance().storeCredentials(dialog.getUri(), session.getCredentials());
-            result.set(session.myResult);
+            fatalError.set(error);
+            if (!(error instanceof ConnectionFailedException)) {
+              // we've connected successfully, so it's time to store right credentials
+              TFSConfigurationManager.getInstance().storeCredentials(dialog.getUri(), session.getCredentials());
+            }
           }
-          return true;
         }
+        else {
+          TFSConfigurationManager.getInstance().storeCredentials(dialog.getUri(), session.getCredentials());
+          result.set(session.myResult);
+        }
+        return true;
       };
 
       TfsLoginDialog d;
@@ -334,7 +325,7 @@ public class TfsRequestManager {
       }
 
       if (errorMessage != null) {
-        d.setMessage(errorMessage, false);
+        d.setMessage(errorMessage);
       }
       if (d.showAndGet()) {
         if (fatalError.isNull()) {
@@ -363,7 +354,7 @@ public class TfsRequestManager {
     }
 
     TfsException error = session.getError();
-    if (error instanceof UnauthorizedException) {
+    if (error instanceof UnauthorizedException && credentials != null) {
       return executeRequestInForeground(projectOrComponent, request, getMessage(error, credentials.getType()), reportErrorsInDialog,
                                         overrideCredentials, force);
     }
