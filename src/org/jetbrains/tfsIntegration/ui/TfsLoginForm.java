@@ -53,7 +53,7 @@ public class TfsLoginForm {
   private JLabel myUsernameLabel;
   private JLabel myDomainLabel;
   private JLabel myPasswordLabel;
-  private ComboBox myTypeCombo;
+  private ComboBox<Credentials.Type> myTypeCombo;
 
   private final EventDispatcher<ChangeListener> myEventDispatcher = EventDispatcher.create(ChangeListener.class);
 
@@ -107,7 +107,7 @@ public class TfsLoginForm {
       }
     });
     if (NativeNTLM2Scheme.isAvailable()) {
-      myTypeCombo.setModel(new DefaultComboBoxModel(
+      myTypeCombo.setModel(new DefaultComboBoxModel<>(
         new Credentials.Type[]{Credentials.Type.NtlmNative, Credentials.Type.NtlmExplicit, Credentials.Type.Alternate}));
       myTypeCombo.setSelectedItem(initialCredentials == null ? Credentials.Type.NtlmNative : initialCredentials.getType());
       myTypeCombo.addActionListener(new ActionListener() {
@@ -121,8 +121,9 @@ public class TfsLoginForm {
       });
     }
     else {
-      myTypeCombo.setModel(new DefaultComboBoxModel(new Credentials.Type[]{Credentials.Type.NtlmExplicit, Credentials.Type.Alternate}));
+      myTypeCombo.setModel(new DefaultComboBoxModel<>(new Credentials.Type[]{Credentials.Type.NtlmExplicit, Credentials.Type.Alternate}));
     }
+    myTypeCombo.addActionListener((e) -> myEventDispatcher.getMulticaster().stateChanged(new ChangeEvent(this)));
 
     updateOnTypeChange();
   }
