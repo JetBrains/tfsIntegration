@@ -89,10 +89,12 @@ public class TfsServerConnectionHelper {
 
 
   public static class TeamProjectCollectionDescriptor {
+    @NotNull
     public final String name;
+    @NotNull
     public final String instanceId;
 
-    public TeamProjectCollectionDescriptor(String name, String instanceId) {
+    public TeamProjectCollectionDescriptor(@NotNull String name, @NotNull String instanceId) {
       this.name = name;
       this.instanceId = instanceId;
     }
@@ -274,8 +276,10 @@ public class TfsServerConnectionHelper {
       path += "/";
     }
     try {
-      return new URI(serverUri.getScheme(), serverUri.getUserInfo(), serverUri.getHost(), serverUri.getPort(), path + collection.name, null,
-                     null);
+      if (!(collection.name + ".visualstudio.com").equals(serverUri.getHost())) {
+        path += collection.name;
+      }
+      return new URI(serverUri.getScheme(), serverUri.getUserInfo(), serverUri.getHost(), serverUri.getPort(), path, null, null);
     }
     catch (URISyntaxException e) {
       LOG.error(e);
