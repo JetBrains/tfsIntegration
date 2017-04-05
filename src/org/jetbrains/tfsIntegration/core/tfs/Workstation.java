@@ -126,7 +126,7 @@ public class Workstation {
       return null;
     }
 
-    File cacheFile = TfsSdkManager.getCacheFile();
+    File cacheFile = TfsSdkManager.getInstance().getCacheFile();
     return (cacheFile.exists() || !existingOnly) ? cacheFile : null;
   }
 

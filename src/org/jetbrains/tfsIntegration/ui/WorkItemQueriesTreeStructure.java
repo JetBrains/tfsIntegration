@@ -22,7 +22,7 @@ public class WorkItemQueriesTreeStructure extends SimpleTreeStructure implements
     myState = panel.getState();
     myServer = panel.getServer();
     myRootNode = new WorkItemQueriesTreeRootNode(this);
-    myProjectCollection = new TFSTeamProjectCollection(myServer.getUri(), TfsSdkManager.getCredentials(myServer));
+    myProjectCollection = new TFSTeamProjectCollection(myServer.getUri(), TfsSdkManager.getInstance().getCredentials(myServer));
   }
 
   @NotNull

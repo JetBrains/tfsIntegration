@@ -3,6 +3,7 @@ package org.jetbrains.tfsIntegration.core;
 import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.ide.plugins.PluginManager;
 import com.intellij.openapi.application.PluginPathManager;
+import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.extensions.PluginId;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.util.ObjectUtils;
@@ -19,33 +20,17 @@ import java.io.File;
 
 public class TfsSdkManager {
 
-  public static void activate() {
+  private TfsSdkManager() {
     setupNativeLibrariesPath();
   }
 
   @NotNull
-  public static File getCacheFile() {
+  public File getCacheFile() {
     return new File(DefaultPersistenceStoreProvider.INSTANCE.getCachePersistenceStore().getStoreFile(), "VersionControl.config");
   }
 
-  private static void setupNativeLibrariesPath() {
-    File nativeLibrariesPath = new File(getPluginDirectory(), FileUtil.toSystemDependentName("lib/native"));
-
-    System.setProperty(NativeLoader.NATIVE_LIBRARY_BASE_DIRECTORY_PROPERTY, nativeLibrariesPath.getPath());
-  }
-
   @NotNull
-  private static File getPluginDirectory() {
-    PluginId pluginId = PluginId.getId("TFS");
-    IdeaPluginDescriptor pluginDescriptor = ObjectUtils.assertNotNull(PluginManager.getPlugin(pluginId));
-
-    return pluginDescriptor.isBundled()
-           ? PluginPathManager.getPluginHome("tfsIntegration")
-           : ObjectUtils.assertNotNull(pluginDescriptor.getPath());
-  }
-
-  @NotNull
-  public static com.microsoft.tfs.core.httpclient.Credentials getCredentials(@NotNull ServerInfo server) {
+  public com.microsoft.tfs.core.httpclient.Credentials getCredentials(@NotNull ServerInfo server) {
     Credentials credentials = ObjectUtils.assertNotNull(TFSConfigurationManager.getInstance().getCredentials(server.getUri()));
     com.microsoft.tfs.core.httpclient.Credentials result;
 
@@ -62,5 +47,30 @@ public class TfsSdkManager {
     }
 
     return result;
+  }
+
+  @NotNull
+  public static TfsSdkManager getInstance() {
+    return ServiceManager.getService(TfsSdkManager.class);
+  }
+
+  public static void activate() {
+    getInstance();
+  }
+
+  private static void setupNativeLibrariesPath() {
+    File nativeLibrariesPath = new File(getPluginDirectory(), FileUtil.toSystemDependentName("lib/native"));
+
+    System.setProperty(NativeLoader.NATIVE_LIBRARY_BASE_DIRECTORY_PROPERTY, nativeLibrariesPath.getPath());
+  }
+
+  @NotNull
+  private static File getPluginDirectory() {
+    PluginId pluginId = PluginId.getId("TFS");
+    IdeaPluginDescriptor pluginDescriptor = ObjectUtils.assertNotNull(PluginManager.getPlugin(pluginId));
+
+    return pluginDescriptor.isBundled()
+           ? PluginPathManager.getPluginHome("tfsIntegration")
+           : ObjectUtils.assertNotNull(pluginDescriptor.getPath());
   }
 }
