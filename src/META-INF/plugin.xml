@@ -53,7 +53,7 @@
 
     <group id="TfsGroup" text="TFS">
       <separator/>
-      <action id="Tfs.Add" class="org.jetbrains.tfsIntegration.actions.AddAction" text="_Add"/>
+      <reference ref="ChangesView.AddUnversioned"/>
       <reference id="CheckinFiles"/>
       <reference id="UpdateFiles"/>
       <reference id="IntegrateFiles"/>
