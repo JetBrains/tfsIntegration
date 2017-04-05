@@ -22,6 +22,7 @@ import com.intellij.openapi.util.Ref;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vcs.FilePath;
 import com.intellij.util.Function;
+import com.intellij.util.Functions;
 import com.intellij.util.containers.ContainerUtil;
 import org.apache.axis2.databinding.utils.ConverterUtil;
 import org.jdom.Document;
@@ -152,13 +153,19 @@ public class Workstation {
               .setAttribute(COMPUTER_ATTR, workspaceInfo.getComputer())
               .setAttribute(OWNER_NAME_ATTR, workspaceInfo.getOwnerName())
               .setAttribute(TIMESTAMP_ATTR, ConverterUtil.convertToString(workspaceInfo.getTimestamp()))
-              .setAttribute(NAME_ATTR, workspaceInfo.getName());
-            if (workspaceInfo.getComment() != null) {
-              workspaceInfoElement.setAttribute(COMMENT_ATTR, workspaceInfo.getComment());
-            }
+              .setAttribute(NAME_ATTR, workspaceInfo.getName())
+              .setAttribute(IS_LOCAL_WORKSPACE_ATTR, String.valueOf(workspaceInfo.isLocal()))
+              .setAttribute(OPTIONS_ATTR, String.valueOf(workspaceInfo.getOptions()))
+              // "comment" and "ownerDisplayName" attributes are required (otherwise Eclipse TFS plug-in fails to read cache)
+              .setAttribute(COMMENT_ATTR, StringUtil.notNullize(workspaceInfo.getComment()))
+              .setAttribute(OWNER_DISPLAY_NAME_ATTR, StringUtil.notNullize(workspaceInfo.getOwnerDisplayName()));
+            setIfNotNull(workspaceInfoElement, SECURITY_TOKEN_ATTR, workspaceInfo.getSecurityToken());
 
             addItems(workspaceInfoElement, MAPPED_PATHS, MAPPED_PATH, PATH_ATTR, workspaceInfo.getWorkingFoldersCached(),
-                     folderInfo -> folderInfo.getLocalPath().getPath());
+                     folderInfo -> folderInfo.getLocalPath().getPresentableUrl());
+
+            addItems(workspaceInfoElement, OWNER_ALIASES, OWNER_ALIAS, OWNER_ALIAS_ATTR,
+                     workspaceInfo.getOwnerAliases(), Functions.TO_STRING());
 
             serverInfoElement.addContent(workspaceInfoElement);
           }
@@ -201,6 +208,12 @@ public class Workstation {
 
     for (T item : items) {
       element.addContent(new Element(itemElementName).setAttribute(itemAttributeName, StringUtil.notNullize(valueProvider.fun(item))));
+    }
+  }
+
+  private static void setIfNotNull(@NotNull Element element, @NotNull String attributeName, @Nullable String value) {
+    if (value != null) {
+      element.setAttribute(attributeName, value);
     }
   }
 

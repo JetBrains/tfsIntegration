@@ -65,11 +65,21 @@ class WorkstationCacheReader extends DefaultHandler {
       String computer = attributes.getValue(COMPUTER_ATTR);
       String comment = attributes.getValue(COMMENT_ATTR);
       Calendar timestamp = ConverterUtil.convertToDateTime(attributes.getValue(TIMESTAMP_ATTR));
-      myCurrentWorkspaceInfo = new WorkspaceInfo(myCurrentServerInfo, name, owner, computer, comment, timestamp);
+      String localWorkspace = attributes.getValue(IS_LOCAL_WORKSPACE_ATTR);
+      String ownerDisplayName = attributes.getValue(OWNER_DISPLAY_NAME_ATTR);
+      String securityToken = attributes.getValue(SECURITY_TOKEN_ATTR);
+      int options = ConverterUtil.convertToInt(attributes.getValue(OPTIONS_ATTR));
+
+      myCurrentWorkspaceInfo =
+        new WorkspaceInfo(myCurrentServerInfo, name, owner, computer, comment, timestamp, Boolean.parseBoolean(localWorkspace),
+                          ownerDisplayName, securityToken, options);
     }
     else if (MAPPED_PATH.equals(qName)) {
       myCurrentWorkspaceInfo
         .addWorkingFolderInfo(new WorkingFolderInfo(VcsUtil.getFilePath(attributes.getValue(PATH_ATTR), true)));
+    }
+    else if (OWNER_ALIAS.equals(qName)) {
+      myCurrentWorkspaceInfo.addOwnerAlias(attributes.getValue(OWNER_ALIAS_ATTR));
     }
   }
 

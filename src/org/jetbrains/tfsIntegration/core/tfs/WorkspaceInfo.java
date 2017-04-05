@@ -17,6 +17,7 @@
 package org.jetbrains.tfsIntegration.core.tfs;
 
 import com.intellij.openapi.vcs.FilePath;
+import com.intellij.util.containers.ContainerUtil;
 import com.intellij.vcsUtil.VcsUtil;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.*;
 import org.jetbrains.annotations.NotNull;
@@ -44,6 +45,10 @@ public class WorkspaceInfo {
   private boolean myLoaded;
   private String myModifiedName;
   @NotNull private Location myLocation = Location.SERVER;
+  @Nullable private String myOwnerDisplayName;
+  @NotNull private final List<String> myOwnerAliases = ContainerUtil.newArrayList();
+  @Nullable private String mySecurityToken;
+  private int myOptions;
 
   private List<WorkingFolderInfo> myWorkingFoldersInfos = new ArrayList<>();
 
@@ -59,12 +64,20 @@ public class WorkspaceInfo {
                        final String owner,
                        final String computer,
                        final String comment,
-                       final Calendar timestamp) {
+                       final Calendar timestamp,
+                       boolean isLocal,
+                       @Nullable String ownerDisplayName,
+                       @Nullable String securityToken,
+                       int options) {
     this(serverInfo, owner, computer);
 
     myOriginalName = name;
     myComment = comment;
     myTimestamp = timestamp;
+    myLocation = Location.from(isLocal);
+    myOwnerDisplayName = ownerDisplayName;
+    mySecurityToken = securityToken;
+    myOptions = options;
   }
 
   // TODO: make private
@@ -120,6 +133,25 @@ public class WorkspaceInfo {
   public void setTimestamp(final Calendar timestamp) {
     checkCurrentOwnerAndComputer();
     myTimestamp = timestamp;
+  }
+
+  @Nullable
+  public String getOwnerDisplayName() {
+    return myOwnerDisplayName;
+  }
+
+  @Nullable
+  public String getSecurityToken() {
+    return mySecurityToken;
+  }
+
+  public int getOptions() {
+    return myOptions;
+  }
+
+  @NotNull
+  public List<String> getOwnerAliases() {
+    return myOwnerAliases;
   }
 
   public List<WorkingFolderInfo> getWorkingFolders(Object projectOrComponent) throws TfsException {
@@ -244,6 +276,10 @@ public class WorkspaceInfo {
     myWorkingFoldersInfos.add(workingFolderInfo);
   }
 
+  public void addOwnerAlias(@NotNull String alias) {
+    myOwnerAliases.add(alias);
+  }
+
   public void removeWorkingFolderInfo(final WorkingFolderInfo folderInfo) {
     checkCurrentOwnerAndComputer();
     myWorkingFoldersInfos.remove(folderInfo);
@@ -287,6 +323,10 @@ public class WorkspaceInfo {
     bean.setName(info.getName());
     bean.setOwner(info.getOwnerName());
     bean.setIslocal(info.isLocal());
+    bean.setOwnerdisp(info.myOwnerDisplayName);
+    bean.setOwnerAliases(TfsUtil.toArrayOfString(ContainerUtil.nullize(info.myOwnerAliases)));
+    bean.setSecuritytoken(info.mySecurityToken);
+    bean.setOptions(info.myOptions);
     return bean;
   }
 
@@ -318,6 +358,13 @@ public class WorkspaceInfo {
     workspace.setLocation(Location.from(bean.getIslocal()));
     workspace.setComment(bean.getComment());
     workspace.setTimestamp(bean.getLastAccessDate());
+    workspace.myOwnerDisplayName = bean.getOwnerdisp();
+    workspace.myOwnerAliases.clear();
+    if (bean.getOwnerAliases() != null) {
+      ContainerUtil.addAll(workspace.myOwnerAliases, bean.getOwnerAliases().getString());
+    }
+    workspace.mySecurityToken = bean.getSecuritytoken();
+    workspace.myOptions = bean.getOptions();
     final WorkingFolder[] folders;
     if (bean.getFolders().getWorkingFolder() != null) {
       folders = bean.getFolders().getWorkingFolder();
@@ -343,6 +390,10 @@ public class WorkspaceInfo {
     copy.myOriginalName = myOriginalName;
     copy.myModifiedName = myModifiedName;
     copy.myTimestamp = myTimestamp;
+    copy.myOwnerDisplayName = myOwnerDisplayName;
+    copy.myOwnerAliases.addAll(myOwnerAliases);
+    copy.mySecurityToken = mySecurityToken;
+    copy.myOptions = myOptions;
 
     for (WorkingFolderInfo workingFolder : myWorkingFoldersInfos) {
       copy.myWorkingFoldersInfos.add(workingFolder.getCopy());
