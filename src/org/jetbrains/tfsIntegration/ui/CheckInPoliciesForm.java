@@ -218,7 +218,7 @@ public class CheckInPoliciesForm {
         PolicyBase policy = d.getSelectedPolicy();
         StatefulPolicyDescriptor newDescriptor =
           new StatefulPolicyDescriptor(policy.getPolicyType(), true, StatefulPolicyParser.createEmptyConfiguration(),
-                                       Collections.<String>emptyList(), StatefulPolicyDescriptor.DEFAULT_PRIORITY, null);
+                                       Collections.emptyList(), StatefulPolicyDescriptor.DEFAULT_PRIORITY, null);
 
         if (!editPolicy(newDescriptor)) {
           return;

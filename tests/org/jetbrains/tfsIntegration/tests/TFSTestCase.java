@@ -18,7 +18,6 @@ package org.jetbrains.tfsIntegration.tests;
 
 import com.intellij.openapi.progress.EmptyProgressIndicator;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.util.Ref;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.io.StreamUtil;
@@ -29,7 +28,6 @@ import com.intellij.openapi.vcs.checkin.CheckinChangeListSpecificComponent;
 import com.intellij.openapi.vcs.checkin.CheckinEnvironment;
 import com.intellij.openapi.vcs.rollback.RollbackProgressListener;
 import com.intellij.openapi.vcs.ui.RefreshableOnComponent;
-import com.intellij.openapi.vcs.update.SequentialUpdatesContext;
 import com.intellij.openapi.vcs.update.UpdateSession;
 import com.intellij.openapi.vcs.update.UpdatedFiles;
 import com.intellij.openapi.vcs.versionBrowser.ChangeBrowserSettings;
@@ -54,7 +52,6 @@ import org.jetbrains.tfsIntegration.core.tfs.*;
 import org.jetbrains.tfsIntegration.core.tfs.conflicts.ConflictsEnvironment;
 import org.jetbrains.tfsIntegration.core.tfs.operations.ApplyGetOperations;
 import org.jetbrains.tfsIntegration.core.tfs.version.ChangesetVersionSpec;
-import org.jetbrains.tfsIntegration.core.tfs.workitems.WorkItem;
 import org.jetbrains.tfsIntegration.exceptions.TfsException;
 import org.junit.After;
 import org.junit.Assert;
@@ -248,7 +245,7 @@ public abstract class TFSTestCase extends AbstractJunitVcsTestCase  {
 
       final ResultWithFailures<CheckinResult> checkinResult = myTestWorkspace.getServer().getVCS()
         .checkIn(myTestWorkspace.getName(), myTestWorkspace.getOwnerName(), Collections.singletonList(itemPath.getServerPath()), comment,
-                 Collections.<WorkItem, CheckinWorkItemAction>emptyMap(), Collections.<Pair<String, String>>emptyList(), null, myProject,
+                 Collections.emptyMap(), Collections.emptyList(), null, myProject,
                  null);
       if (!checkinResult.getFailures().isEmpty()) {
         throw TfsUtil.collectExceptions(TfsUtil.getVcsExceptions(checkinResult.getFailures()));

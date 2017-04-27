@@ -23,7 +23,6 @@ import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.util.Ref;
 import com.intellij.openapi.vcs.AbstractVcsHelper;
 import com.intellij.openapi.vcs.FilePath;
@@ -36,7 +35,6 @@ import org.jetbrains.tfsIntegration.core.tfs.*;
 import org.jetbrains.tfsIntegration.core.tfs.operations.ApplyGetOperations;
 import org.jetbrains.tfsIntegration.core.tfs.operations.ApplyProgress;
 import org.jetbrains.tfsIntegration.core.tfs.version.VersionSpecBase;
-import org.jetbrains.tfsIntegration.core.tfs.workitems.WorkItem;
 import org.jetbrains.tfsIntegration.exceptions.TfsException;
 import org.jetbrains.tfsIntegration.ui.CreateBranchDialog;
 
@@ -128,8 +126,8 @@ public class BranchAction extends SingleItemAction implements DumbAware {
       }
       final String comment = MessageFormat.format("Branched from {0}", sourceServerPath);
       final ResultWithFailures<CheckinResult> checkinResult = workspace.getServer().getVCS()
-        .checkIn(workspace.getName(), workspace.getOwnerName(), checkin, comment, Collections.<WorkItem, CheckinWorkItemAction>emptyMap(),
-                 Collections.<Pair<String, String>>emptyList(), null, project, TFSBundle.message("checking.in"));
+        .checkIn(workspace.getName(), workspace.getOwnerName(), checkin, comment, Collections.emptyMap(),
+                 Collections.emptyList(), null, project, TFSBundle.message("checking.in"));
 
       if (!checkinResult.getFailures().isEmpty()) {
         final List<VcsException> checkinErrors = TfsUtil.getVcsExceptions(checkinResult.getFailures());

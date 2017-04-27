@@ -53,7 +53,7 @@ public class UndoPendingChanges {
                                                  @NotNull ApplyProgress progress,
                                                  boolean tolerateNoChangesFailure) {
     if (serverPaths.isEmpty()) {
-      return new UndoPendingChangesResult(Collections.<ItemPath, ItemPath>emptyMap(), Collections.<VcsException>emptyList());
+      return new UndoPendingChangesResult(Collections.emptyMap(), Collections.emptyList());
     }
 
     // undo changes
@@ -98,7 +98,7 @@ public class UndoPendingChanges {
       return new UndoPendingChangesResult(undonePaths, errors);
     }
     catch (TfsException e) {
-      return new UndoPendingChangesResult(Collections.<ItemPath, ItemPath>emptyMap(), Collections.singletonList(new VcsException(e)));
+      return new UndoPendingChangesResult(Collections.emptyMap(), Collections.singletonList(new VcsException(e)));
     }
   }
 

@@ -95,7 +95,7 @@ public class SelectLabelForm {
           myLabelsTableModel.setLabels(labels);
         }
         catch (TfsException ex) {
-          myLabelsTableModel.setLabels(Collections.<VersionControlLabel>emptyList());
+          myLabelsTableModel.setLabels(Collections.emptyList());
           Messages.showErrorDialog(myContentPane, ex.getMessage(), "Find Label");
         }
         finally {

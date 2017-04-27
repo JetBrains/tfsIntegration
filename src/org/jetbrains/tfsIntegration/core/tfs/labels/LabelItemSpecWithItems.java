@@ -52,7 +52,7 @@ public class LabelItemSpecWithItems {
     labelItemSpec.setEx(true);
     labelItemSpec.setItemSpec(itemSpec);
     labelItemSpec.setVersion(item.getVersionSpec());
-    return new LabelItemSpecWithItems(labelItemSpec, Collections.<Item>emptyList());
+    return new LabelItemSpecWithItems(labelItemSpec, Collections.emptyList());
   }
 
   public LabelItemSpec getLabelItemSpec() {

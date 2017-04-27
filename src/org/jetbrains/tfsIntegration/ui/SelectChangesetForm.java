@@ -156,15 +156,15 @@ public class SelectChangesetForm {
       myChangesetsTableModel.setChangesets(changesets);
     }
     catch (TfsException ex) {
-      myChangesetsTableModel.setChangesets(Collections.<Changeset>emptyList());
+      myChangesetsTableModel.setChangesets(Collections.emptyList());
       Messages.showErrorDialog(panel, ex.getMessage(), "Find Changeset");
     }
     catch (NumberFormatException ex) {
-      myChangesetsTableModel.setChangesets(Collections.<Changeset>emptyList());
+      myChangesetsTableModel.setChangesets(Collections.emptyList());
       Messages.showErrorDialog(panel, "Invalid changeset number specified", "Find Changeset");
     }
     catch (ParseException e1) {
-      myChangesetsTableModel.setChangesets(Collections.<Changeset>emptyList());
+      myChangesetsTableModel.setChangesets(Collections.emptyList());
       Messages.showErrorDialog(panel, "Invalid date specified", "Find Changeset");
     }
   }

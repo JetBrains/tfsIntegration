@@ -214,7 +214,7 @@ public class TFSCheckinEnvironment implements CheckinEnvironment {
 
             final WorkItemsCheckinParameters state = myVcs.getCheckinData().parameters.getWorkItems(workspace.getServer());
             final Map<WorkItem, CheckinWorkItemAction> workItemActions =
-              state != null ? state.getWorkItemsActions() : Collections.<WorkItem, CheckinWorkItemAction>emptyMap();
+              state != null ? state.getWorkItemsActions() : Collections.emptyMap();
 
             List<Pair<String, String>> checkinNotes =
               new ArrayList<>(myVcs.getCheckinData().parameters.getCheckinNotes(workspace.getServer()).size());
@@ -303,7 +303,7 @@ public class TFSCheckinEnvironment implements CheckinEnvironment {
   }
 
   public List<VcsException> commit(List<Change> changes, String preparedComment) {
-    return commit(changes, preparedComment, FunctionUtil.<Object, Object>nullConstant(), null);
+    return commit(changes, preparedComment, FunctionUtil.nullConstant(), null);
   }
 
   @Nullable

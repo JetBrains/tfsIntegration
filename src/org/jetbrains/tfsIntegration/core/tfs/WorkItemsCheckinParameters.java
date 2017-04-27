@@ -43,7 +43,7 @@ public class WorkItemsCheckinParameters {
   }
 
   public WorkItemsCheckinParameters() {
-    this(Collections.<WorkItem>emptyList(), ContainerUtil.<WorkItem, CheckinWorkItemAction>newHashMap(), null);
+    this(Collections.emptyList(), ContainerUtil.newHashMap(), null);
   }
 
   @Nullable

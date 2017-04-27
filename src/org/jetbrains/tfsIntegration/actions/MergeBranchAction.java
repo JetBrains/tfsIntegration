@@ -86,7 +86,7 @@ public class MergeBranchAction extends SingleItemAction implements DumbAware {
     Collection<Conflict> unresolvedConflicts = ResolveConflictHelper.getUnresolvedConflicts(
       mergeResponse.getConflicts().getConflict() != null
       ? Arrays.asList(mergeResponse.getConflicts().getConflict())
-      : Collections.<Conflict>emptyList());
+      : Collections.emptyList());
 
     if (!unresolvedConflicts.isEmpty()) {
       ResolveConflictHelper resolveConflictHelper =
