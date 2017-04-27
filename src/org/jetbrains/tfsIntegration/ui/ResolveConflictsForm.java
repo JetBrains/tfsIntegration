@@ -50,12 +50,10 @@ public class ResolveConflictsForm {
 
   private final EventDispatcher<Listener> myEventDispatcher = EventDispatcher.create(Listener.class);
 
-  private static final Comparator<? super Conflict> CONFLICTS_COMPARATOR = new Comparator<Conflict>() {
-    public int compare(final Conflict o1, final Conflict o2) {
-      String path1 = ConflictsTableModel.Column.Name.getValue(o1);
-      String path2 = ConflictsTableModel.Column.Name.getValue(o2);
-      return path1.compareTo(path2);
-    }
+  private static final Comparator<? super Conflict> CONFLICTS_COMPARATOR = (Comparator<Conflict>)(o1, o2) -> {
+    String path1 = ConflictsTableModel.Column.Name.getValue(o1);
+    String path2 = ConflictsTableModel.Column.Name.getValue(o2);
+    return path1.compareTo(path2);
   };
 
   public ResolveConflictsForm(ResolveConflictHelper resolveConflictHelper) {

@@ -69,22 +69,16 @@ public class TfsFileUtil {
   public static void setReadOnly(final Collection<VirtualFile> files, final boolean status) throws IOException {
     final Ref<IOException> exception = new Ref<>();
     try {
-      GuiUtils.runOrInvokeAndWait(new Runnable() {
-        public void run() {
-          ApplicationManager.getApplication().runWriteAction(new Runnable() {
-            public void run() {
-              try {
-                for (VirtualFile file : files) {
-                  ReadOnlyAttributeUtil.setReadOnlyAttribute(file, status);
-                }
-              }
-              catch (IOException e) {
-                exception.set(e);
-              }
-            }
-          });
+      GuiUtils.runOrInvokeAndWait(() -> ApplicationManager.getApplication().runWriteAction(() -> {
+        try {
+          for (VirtualFile file : files) {
+            ReadOnlyAttributeUtil.setReadOnlyAttribute(file, status);
+          }
         }
-      });
+        catch (IOException e) {
+          exception.set(e);
+        }
+      }));
     }
     catch (InvocationTargetException e) {
       // ignore
@@ -100,14 +94,12 @@ public class TfsFileUtil {
   private static void setReadOnly(final String path, final boolean status) throws IOException {
     final Ref<IOException> exception = new Ref<>();
     try {
-      GuiUtils.runOrInvokeAndWait(new Runnable() {
-        public void run() {
-          try {
-            ReadOnlyAttributeUtil.setReadOnlyAttribute(path, status);
-          }
-          catch (IOException e) {
-            exception.set(e);
-          }
+      GuiUtils.runOrInvokeAndWait(() -> {
+        try {
+          ReadOnlyAttributeUtil.setReadOnlyAttribute(path, status);
+        }
+        catch (IOException e) {
+          exception.set(e);
         }
       });
     }
@@ -123,11 +115,7 @@ public class TfsFileUtil {
   }
 
   public static void markFileDirty(final Project project, final @NotNull FilePath file) {
-    ApplicationManager.getApplication().runReadAction(new Runnable() {
-      public void run() {
-        VcsDirtyScopeManager.getInstance(project).fileDirty(file);
-      }
-    });
+    ApplicationManager.getApplication().runReadAction(() -> VcsDirtyScopeManager.getInstance(project).fileDirty(file));
   }
 
   public static void markDirtyRecursively(final Project project, final Collection<FilePath> roots) {
@@ -135,11 +123,9 @@ public class TfsFileUtil {
       return;
     }
 
-    ApplicationManager.getApplication().runReadAction(new Runnable() {
-      public void run() {
-        for (FilePath root : roots) {
-          VcsDirtyScopeManager.getInstance(project).dirDirtyRecursively(root);
-        }
+    ApplicationManager.getApplication().runReadAction(() -> {
+      for (FilePath root : roots) {
+        VcsDirtyScopeManager.getInstance(project).dirDirtyRecursively(root);
       }
     });
   }
@@ -149,32 +135,22 @@ public class TfsFileUtil {
       return;
     }
 
-    ApplicationManager.getApplication().runReadAction(new Runnable() {
-      public void run() {
-        for (FilePath root : roots) {
-          VcsDirtyScopeManager.getInstance(project).dirDirtyRecursively(root);
-        }
-        for (FilePath file : files) {
-          VcsDirtyScopeManager.getInstance(project).fileDirty(file);
-        }
+    ApplicationManager.getApplication().runReadAction(() -> {
+      for (FilePath root : roots) {
+        VcsDirtyScopeManager.getInstance(project).dirDirtyRecursively(root);
+      }
+      for (FilePath file : files) {
+        VcsDirtyScopeManager.getInstance(project).fileDirty(file);
       }
     });
   }
 
   public static void markDirtyRecursively(final Project project, final FilePath rootDir) {
-    ApplicationManager.getApplication().runReadAction(new Runnable() {
-      public void run() {
-        VcsDirtyScopeManager.getInstance(project).dirDirtyRecursively(rootDir);
-      }
-    });
+    ApplicationManager.getApplication().runReadAction(() -> VcsDirtyScopeManager.getInstance(project).dirDirtyRecursively(rootDir));
   }
 
   public static void markFileDirty(final Project project, final @NotNull VirtualFile file) {
-    ApplicationManager.getApplication().runReadAction(new Runnable() {
-      public void run() {
-        VcsDirtyScopeManager.getInstance(project).fileDirty(file);
-      }
-    });
+    ApplicationManager.getApplication().runReadAction(() -> VcsDirtyScopeManager.getInstance(project).fileDirty(file));
   }
 
   public static void refreshAndMarkDirty(final Project project, final Collection<VirtualFile> roots, boolean async) {
@@ -190,16 +166,14 @@ public class TfsFileUtil {
   }
 
   public static void refreshAndMarkDirty(final Project project, final VirtualFile[] roots, boolean async) {
-    RefreshQueue.getInstance().refresh(async, true, new Runnable() {
-      public void run() {
-        for (VirtualFile root : roots) {
-          try {
-            TFSVcs.assertTrue(root != null);
-            VcsDirtyScopeManager.getInstance(project).dirDirtyRecursively(root);
-          }
-          catch (RuntimeException e) {
-            TFSVcs.error("Error in refresh delegate: " + e);
-          }
+    RefreshQueue.getInstance().refresh(async, true, () -> {
+      for (VirtualFile root : roots) {
+        try {
+          TFSVcs.assertTrue(root != null);
+          VcsDirtyScopeManager.getInstance(project).dirDirtyRecursively(root);
+        }
+        catch (RuntimeException e) {
+          TFSVcs.error("Error in refresh delegate: " + e);
         }
       }
     }, roots);
@@ -207,15 +181,9 @@ public class TfsFileUtil {
 
   public static void refreshAndFindFile(final FilePath path) {
     try {
-      GuiUtils.runOrInvokeAndWait(new Runnable() {
-        public void run() {
-          ApplicationManager.getApplication().runWriteAction(new Runnable() {
-            public void run() {
-              VirtualFileManager.getInstance().refreshAndFindFileByUrl(path.getPath());
-            }
-          });
-        }
-      });
+      GuiUtils.runOrInvokeAndWait(() -> ApplicationManager.getApplication().runWriteAction(() -> {
+        VirtualFileManager.getInstance().refreshAndFindFileByUrl(path.getPath());
+      }));
     }
     catch (InvocationTargetException e) {
       // ignore

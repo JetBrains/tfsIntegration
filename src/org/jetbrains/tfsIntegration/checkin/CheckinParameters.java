@@ -146,11 +146,7 @@ public class CheckinParameters {
           pi.checkCanceled();
 
           List<ServerInfo> sortedServers = new ArrayList<>(serverToProjects.keySet());
-          Collections.sort(sortedServers, new Comparator<ServerInfo>() {
-            public int compare(ServerInfo o1, ServerInfo o2) {
-              return o1.getPresentableUri().compareTo(o2.getPresentableUri());
-            }
-          });
+          Collections.sort(sortedServers, (o1, o2) -> o1.getPresentableUri().compareTo(o2.getPresentableUri()));
 
           Map<ServerInfo, ServerData> data = new LinkedHashMap<>();
           StringBuilder policiesLoadError = new StringBuilder();
@@ -167,11 +163,7 @@ public class CheckinParameters {
               }
             }
             List<CheckinNoteFieldDefinition> sortedDefinitions = new ArrayList<>(nameToDefinition.values());
-            Collections.sort(sortedDefinitions, new Comparator<CheckinNoteFieldDefinition>() {
-              public int compare(final CheckinNoteFieldDefinition o1, final CheckinNoteFieldDefinition o2) {
-                return o1.get_do() - o2.get_do();
-              }
-            });
+            Collections.sort(sortedDefinitions, (o1, o2) -> o1.get_do() - o2.get_do());
 
             List<CheckinNote> checkinNotes = new ArrayList<>(sortedDefinitions.size());
             for (CheckinNoteFieldDefinition checkinNote : sortedDefinitions) {

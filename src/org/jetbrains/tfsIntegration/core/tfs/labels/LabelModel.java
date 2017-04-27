@@ -86,22 +86,13 @@ public class LabelModel {
     return result;
   }
 
-  private static final Comparator<LabelItemSpecWithItems> ITEM_SPEC_PARENT_FIRST = new Comparator<LabelItemSpecWithItems>() {
-    public int compare(final LabelItemSpecWithItems o1, final LabelItemSpecWithItems o2) {
-      return VersionControlPath.compareParentToChild(o1.getServerPath(), o2.getServerPath());
-    }
-  };
+  private static final Comparator<LabelItemSpecWithItems> ITEM_SPEC_PARENT_FIRST =
+    (o1, o2) -> VersionControlPath.compareParentToChild(o1.getServerPath(), o2.getServerPath());
 
-  private static final Comparator<LabelItemSpecWithItems> ITEM_SPEC_CHILDREN_FIRST = new Comparator<LabelItemSpecWithItems>() {
-    public int compare(final LabelItemSpecWithItems o1, final LabelItemSpecWithItems o2) {
-      return -VersionControlPath.compareParentToChild(o1.getServerPath(), o2.getServerPath());
-    }
-  };
+  private static final Comparator<LabelItemSpecWithItems> ITEM_SPEC_CHILDREN_FIRST =
+    (o1, o2) -> -VersionControlPath.compareParentToChild(o1.getServerPath(), o2.getServerPath());
 
-  private static final Comparator<ItemAndVersion> ITEM_AND_VERSION_PARENT_FIRST = new Comparator<ItemAndVersion>() {
-    public int compare(final ItemAndVersion o1, final ItemAndVersion o2) {
-      return VersionControlPath.compareParentToChild(o1.getServerPath(), o1.isDirectory(), o2.getServerPath(), o2.isDirectory());
-    }
-  };
+  private static final Comparator<ItemAndVersion> ITEM_AND_VERSION_PARENT_FIRST =
+    (o1, o2) -> VersionControlPath.compareParentToChild(o1.getServerPath(), o1.isDirectory(), o2.getServerPath(), o2.isDirectory());
 
 }

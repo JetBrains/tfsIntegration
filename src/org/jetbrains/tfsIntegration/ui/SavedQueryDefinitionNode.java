@@ -4,7 +4,6 @@ import com.intellij.ide.projectView.PresentationData;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.ui.treeStructure.SimpleNode;
 import com.intellij.ui.treeStructure.SimpleTree;
-import com.intellij.util.Function;
 import com.intellij.util.containers.ContainerUtil;
 import com.microsoft.tfs.core.clients.workitem.WorkItemQueryUtils;
 import com.microsoft.tfs.core.clients.workitem.exceptions.WorkItemException;
@@ -15,7 +14,6 @@ import com.microsoft.tfs.core.ws.runtime.exceptions.ProxyException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.tfsIntegration.core.tfs.TfsExecutionUtil;
 import org.jetbrains.tfsIntegration.core.tfs.workitems.WorkItem;
-import org.jetbrains.tfsIntegration.core.tfs.workitems.WorkItemField;
 import org.jetbrains.tfsIntegration.core.tfs.workitems.WorkItemSerialize;
 import org.jetbrains.tfsIntegration.exceptions.TfsException;
 
@@ -26,12 +24,7 @@ import java.util.Set;
 public class SavedQueryDefinitionNode extends BaseQueryNode {
 
   private static String[] WORK_ITEM_FIELDS =
-    ContainerUtil.map2Array(WorkItemSerialize.FIELDS, String.class, new Function<WorkItemField, String>() {
-      @Override
-      public String fun(@NotNull WorkItemField field) {
-        return field.getSerialized();
-      }
-    });
+    ContainerUtil.map2Array(WorkItemSerialize.FIELDS, String.class, field -> field.getSerialized());
   private static String WORK_ITEMS_QUERY = "SELECT " + WorkItemQueryUtils.formatFieldList(WORK_ITEM_FIELDS) + " FROM WorkItems";
 
   @NotNull private final QueryDefinition myQueryDefinition;

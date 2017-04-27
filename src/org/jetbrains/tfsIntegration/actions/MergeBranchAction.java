@@ -72,14 +72,12 @@ public class MergeBranchAction extends SingleItemAction implements DumbAware {
 
     final List<VcsException> errors = new ArrayList<>();
     if (mergeResponse.getMergeResult().getGetOperation() != null) {
-      ProgressManager.getInstance().runProcessWithProgressSynchronously(new Runnable() {
-        public void run() {
-          final Collection<VcsException> applyErrors = ApplyGetOperations
-            .execute(project, workspace, Arrays.asList(mergeResponse.getMergeResult().getGetOperation()),
-                     new ApplyProgress.ProgressIndicatorWrapper(ProgressManager.getInstance().getProgressIndicator()), null,
-                     ApplyGetOperations.DownloadMode.ALLOW);
-          errors.addAll(applyErrors);
-        }
+      ProgressManager.getInstance().runProcessWithProgressSynchronously(() -> {
+        final Collection<VcsException> applyErrors = ApplyGetOperations
+          .execute(project, workspace, Arrays.asList(mergeResponse.getMergeResult().getGetOperation()),
+                   new ApplyProgress.ProgressIndicatorWrapper(ProgressManager.getInstance().getProgressIndicator()), null,
+                   ApplyGetOperations.DownloadMode.ALLOW);
+        errors.addAll(applyErrors);
       }, title, false, project);
     }
 

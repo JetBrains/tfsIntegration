@@ -147,12 +147,7 @@ public class TfsTreeForm implements Disposable, DataProvider {
     }
     TfsTreeNode treeNode = (TfsTreeNode)o;
     final TfsTreeNode child = treeNode.createVirtualSubfolder(folderName);
-    myTreeBuider.queueUpdateFrom(treeNode, true).doWhenDone(new Runnable() {
-      @Override
-      public void run() {
-        myTreeBuider.select(child);
-      }
-    });
+    myTreeBuider.queueUpdateFrom(treeNode, true).doWhenDone(() -> myTreeBuider.select(child));
   }
 
   public boolean canCreateVirtualFolders() {

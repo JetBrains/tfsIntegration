@@ -16,26 +16,24 @@ public class TfsTreeBuilder extends AbstractTreeBuilder {
 
   private static final Logger LOG = Logger.getInstance(TfsTreeBuilder.class.getName());
 
-  private static final Comparator<NodeDescriptor> COMPARATOR = new Comparator<NodeDescriptor>() {
-    public int compare(NodeDescriptor o1, NodeDescriptor o2) {
-      if (o1 instanceof TfsErrorTreeNode) {
-        return o2 instanceof TfsErrorTreeNode ? ((TfsErrorTreeNode)o1).getMessage().compareTo(((TfsErrorTreeNode)o2).getMessage()) : -1;
-      }
-      else if (o2 instanceof TfsErrorTreeNode) {
-        return 1;
-      }
-
-      final TfsTreeNode n1 = (TfsTreeNode)o1;
-      final TfsTreeNode n2 = (TfsTreeNode)o2;
-      if (n1.isDirectory() && !n2.isDirectory()) {
-        return -1;
-      }
-      else if (!n1.isDirectory() && n2.isDirectory()) {
-        return 1;
-      }
-
-      return n1.getFileName().compareToIgnoreCase(n2.getFileName());
+  private static final Comparator<NodeDescriptor> COMPARATOR = (o1, o2) -> {
+    if (o1 instanceof TfsErrorTreeNode) {
+      return o2 instanceof TfsErrorTreeNode ? ((TfsErrorTreeNode)o1).getMessage().compareTo(((TfsErrorTreeNode)o2).getMessage()) : -1;
     }
+    else if (o2 instanceof TfsErrorTreeNode) {
+      return 1;
+    }
+
+    final TfsTreeNode n1 = (TfsTreeNode)o1;
+    final TfsTreeNode n2 = (TfsTreeNode)o2;
+    if (n1.isDirectory() && !n2.isDirectory()) {
+      return -1;
+    }
+    else if (!n1.isDirectory() && n2.isDirectory()) {
+      return 1;
+    }
+
+    return n1.getFileName().compareToIgnoreCase(n2.getFileName());
   };
 
   public static TfsTreeBuilder createInstance(@NotNull TfsTreeNode root, @NotNull JTree tree) {

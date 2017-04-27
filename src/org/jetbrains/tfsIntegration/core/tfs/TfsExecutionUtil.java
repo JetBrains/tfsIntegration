@@ -147,22 +147,20 @@ public class TfsExecutionUtil {
     final Ref<T> result = new Ref<>();
     final List<VcsException> errors = new ArrayList<>();
     final Ref<Boolean> explicitlyCancelled = new Ref<>();
-    Runnable runnable = new Runnable() {
-      public void run() {
-        TFSProgressUtil.setIndeterminate(ProgressManager.getInstance().getProgressIndicator(), true);
-        try {
-          result.set(process.run(errors));
-        }
-        catch (UserCancelledException e) {
-          explicitlyCancelled.set(true);
-        }
-        catch (TfsException e) {
-          //noinspection ThrowableInstanceNeverThrown
-          errors.add(new VcsException(e.getMessage(), e));
-        }
-        catch (VcsException e) {
-          errors.add(e);
-        }
+    Runnable runnable = () -> {
+      TFSProgressUtil.setIndeterminate(ProgressManager.getInstance().getProgressIndicator(), true);
+      try {
+        result.set(process.run(errors));
+      }
+      catch (UserCancelledException e) {
+        explicitlyCancelled.set(true);
+      }
+      catch (TfsException e) {
+        //noinspection ThrowableInstanceNeverThrown
+        errors.add(new VcsException(e.getMessage(), e));
+      }
+      catch (VcsException e) {
+        errors.add(e);
       }
     };
 

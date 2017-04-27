@@ -135,11 +135,7 @@ public class ManageWorkspacesForm {
 
     public Collection<?> getRoots() {
       final List<ServerInfo> servers = new ArrayList<>(Workstation.getInstance().getServers());
-      Collections.sort(servers, new Comparator<ServerInfo>() {
-        public int compare(final ServerInfo s1, final ServerInfo s2) {
-          return s1.getPresentableUri().compareTo(s2.getPresentableUri());
-        }
-      });
+      Collections.sort(servers, (s1, s2) -> s1.getPresentableUri().compareTo(s2.getPresentableUri()));
       return servers;
     }
 
@@ -147,11 +143,7 @@ public class ManageWorkspacesForm {
       if (parent instanceof ServerInfo && myShowWorkspaces) {
         final List<WorkspaceInfo> workspaces = new ArrayList<>(((ServerInfo)parent).getWorkspacesForCurrentOwnerAndComputer());
 
-        Collections.sort(workspaces, new Comparator<WorkspaceInfo>() {
-          public int compare(final WorkspaceInfo o1, final WorkspaceInfo o2) {
-            return o1.getName().compareTo(o2.getName());
-          }
-        });
+        Collections.sort(workspaces, (o1, o2) -> o1.getName().compareTo(o2.getName()));
         return workspaces;
       }
       return Collections.emptyList();

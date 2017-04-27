@@ -97,12 +97,7 @@ public class WorkItemsPanel implements Disposable {
     myTreeBuilder.setTreeStructure(newTreeStructure);
     Disposer.register(myTreeBuilder, newTreeStructure);
 
-    myTreeBuilder.queueUpdate().doWhenDone(new Runnable() {
-      @Override
-      public void run() {
-        myTreeBuilder.expand(newTreeStructure.getPredefinedQueriesGroupNode(), null);
-      }
-    });
+    myTreeBuilder.queueUpdate().doWhenDone(() -> myTreeBuilder.expand(newTreeStructure.getPredefinedQueriesGroupNode(), null));
   }
 
   @NotNull

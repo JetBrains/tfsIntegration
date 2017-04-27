@@ -70,47 +70,45 @@ public class TFSAnnotationProvider implements AnnotationProvider {
     final Ref<VcsException> exception = new Ref<>();
     final Ref<FileAnnotation> result = new Ref<>();
 
-    Runnable runnable = new Runnable() {
-      public void run() {
-        try {
-          final ProgressIndicator progressIndicator = ProgressManager.getInstance().getProgressIndicator();
-          TFSProgressUtil.setIndeterminate(progressIndicator, true);
-          final FilePath localPath = TfsFileUtil.getFilePath(file);
+    Runnable runnable = () -> {
+      try {
+        final ProgressIndicator progressIndicator = ProgressManager.getInstance().getProgressIndicator();
+        TFSProgressUtil.setIndeterminate(progressIndicator, true);
+        final FilePath localPath = TfsFileUtil.getFilePath(file);
 
-          final Collection<WorkspaceInfo> workspaces = Workstation.getInstance().findWorkspaces(localPath, false, myVcs.getProject());
-          TFSProgressUtil.checkCanceled(progressIndicator);
-          if (workspaces.isEmpty()) {
-            exception.set(new VcsException(MessageFormat.format("Mappings not found for file ''{0}''", localPath.getPresentableUrl())));
-            return;
-          }
-
-          final WorkspaceInfo workspace = workspaces.iterator().next();
-          final Map<FilePath, ExtendedItem> path2item =
-            workspace.getExtendedItems(Collections.singletonList(localPath), myVcs.getProject(), TFSBundle.message("loading.item"));
-          if (path2item.isEmpty()) {
-            exception.set(new VcsException(MessageFormat.format("''{0}'' is unversioned", localPath.getPresentableUrl())));
-            return;
-          }
-          TFSProgressUtil.checkCanceled(progressIndicator);
-
-          final VersionSpecBase versionSpec = changeset == CURRENT_CHANGESET
-                                              ? new WorkspaceVersionSpec(workspace.getName(), workspace.getOwnerName())
-                                              : new ChangesetVersionSpec(changeset);
-          final List<TFSFileRevision> revisionList =
-            TFSHistoryProvider.getRevisions(myVcs.getProject(), path2item.get(localPath).getSitem(), false, workspace, versionSpec);
-          TFSProgressUtil.checkCanceled(progressIndicator);
-          if (revisionList.isEmpty()) {
-            return;
-          }
-
-          result.set(annotate(workspace, localPath, revisionList));
+        final Collection<WorkspaceInfo> workspaces = Workstation.getInstance().findWorkspaces(localPath, false, myVcs.getProject());
+        TFSProgressUtil.checkCanceled(progressIndicator);
+        if (workspaces.isEmpty()) {
+          exception.set(new VcsException(MessageFormat.format("Mappings not found for file ''{0}''", localPath.getPresentableUrl())));
+          return;
         }
-        catch (TfsException e) {
-          exception.set(new VcsException(e));
+
+        final WorkspaceInfo workspace = workspaces.iterator().next();
+        final Map<FilePath, ExtendedItem> path2item =
+          workspace.getExtendedItems(Collections.singletonList(localPath), myVcs.getProject(), TFSBundle.message("loading.item"));
+        if (path2item.isEmpty()) {
+          exception.set(new VcsException(MessageFormat.format("''{0}'' is unversioned", localPath.getPresentableUrl())));
+          return;
         }
-        catch (VcsException e) {
-          exception.set(e);
+        TFSProgressUtil.checkCanceled(progressIndicator);
+
+        final VersionSpecBase versionSpec = changeset == CURRENT_CHANGESET
+                                            ? new WorkspaceVersionSpec(workspace.getName(), workspace.getOwnerName())
+                                            : new ChangesetVersionSpec(changeset);
+        final List<TFSFileRevision> revisionList =
+          TFSHistoryProvider.getRevisions(myVcs.getProject(), path2item.get(localPath).getSitem(), false, workspace, versionSpec);
+        TFSProgressUtil.checkCanceled(progressIndicator);
+        if (revisionList.isEmpty()) {
+          return;
         }
+
+        result.set(annotate(workspace, localPath, revisionList));
+      }
+      catch (TfsException e) {
+        exception.set(new VcsException(e));
+      }
+      catch (VcsException e) {
+        exception.set(e);
       }
     };
 

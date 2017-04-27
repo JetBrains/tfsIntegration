@@ -144,11 +144,7 @@ public class CheckInPoliciesForm {
     });
 
     List<String> projects = new ArrayList<>(myProjectToDescriptors.keySet());
-    Collections.sort(projects, new Comparator<String>() {
-      public int compare(String s1, String s2) {
-        return s1.compareTo(s2);
-      }
-    });
+    Collections.sort(projects, (s1, s2) -> s1.compareTo(s2));
 
     myProjectCombo.setModel(new DefaultComboBoxModel(ArrayUtil.toStringArray(projects)));
     myProjectCombo.setRenderer(new DefaultListCellRenderer() {

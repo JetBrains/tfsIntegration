@@ -69,34 +69,32 @@ public class TFSCheckoutProvider implements CheckoutProvider {
     final Collection<VcsException> errors = new ArrayList<>();
     final Ref<FilePath> localRoot = new Ref<>();
 
-    Runnable checkoutRunnable = new Runnable() {
-      public void run() {
-        ProgressIndicator progressIndicator = ProgressManager.getInstance().getProgressIndicator();
-        try {
-          final WorkspaceInfo workspace;
-          if (model.getMode() == CheckoutWizardModel.Mode.Auto) {
-            workspace = createWorkspace(model);
-          }
-          else {
-            workspace = model.getWorkspace();
-          }
-          localRoot.set(workspace.findLocalPathByServerPath(model.getServerPath(), true, null));
-
-          // TODO when checking out after working folder mappings were changed, GetOps may contain inappropriate 'move' operations
-
-          final List<GetOperation> operations = workspace.getServer().getVCS()
-            .get(workspace.getName(), workspace.getOwnerName(), model.getServerPath(), LatestVersionSpec.INSTANCE, RecursionType.Full, null,
-                 null);
-
-          final Collection<VcsException> applyErrors = ApplyGetOperations
-            .execute(ProjectManager.getInstance().getDefaultProject(), workspace, operations,
-                     new ApplyProgress.ProgressIndicatorWrapper(progressIndicator), null, ApplyGetOperations.DownloadMode.ALLOW);
-          // TODO: DownloadMode.FORCE?
-          errors.addAll(applyErrors);
+    Runnable checkoutRunnable = () -> {
+      ProgressIndicator progressIndicator = ProgressManager.getInstance().getProgressIndicator();
+      try {
+        final WorkspaceInfo workspace;
+        if (model.getMode() == CheckoutWizardModel.Mode.Auto) {
+          workspace = createWorkspace(model);
         }
-        catch (TfsException e) {
-          errors.add(new VcsException(e.getMessage(), e));
+        else {
+          workspace = model.getWorkspace();
         }
+        localRoot.set(workspace.findLocalPathByServerPath(model.getServerPath(), true, null));
+
+        // TODO when checking out after working folder mappings were changed, GetOps may contain inappropriate 'move' operations
+
+        final List<GetOperation> operations = workspace.getServer().getVCS()
+          .get(workspace.getName(), workspace.getOwnerName(), model.getServerPath(), LatestVersionSpec.INSTANCE, RecursionType.Full, null,
+               null);
+
+        final Collection<VcsException> applyErrors = ApplyGetOperations
+          .execute(ProjectManager.getInstance().getDefaultProject(), workspace, operations,
+                   new ApplyProgress.ProgressIndicatorWrapper(progressIndicator), null, ApplyGetOperations.DownloadMode.ALLOW);
+        // TODO: DownloadMode.FORCE?
+        errors.addAll(applyErrors);
+      }
+      catch (TfsException e) {
+        errors.add(new VcsException(e.getMessage(), e));
       }
     };
 
@@ -104,25 +102,20 @@ public class TFSCheckoutProvider implements CheckoutProvider {
       .runProcessWithProgressSynchronously(checkoutRunnable, "Checkout from TFS", true, ProjectManager.getInstance().getDefaultProject());
 
     if (errors.isEmpty()) {
-      final Runnable listenerNotificationRunnable = new Runnable() {
-        public void run() {
-          if (listener != null) {
-            if (errors.isEmpty()) {
-              listener.directoryCheckedOut(new File(localRoot.get().getPath()), TFSVcs.getKey());
-            }
-            listener.checkoutCompleted();
+      final Runnable listenerNotificationRunnable = () -> {
+        if (listener != null) {
+          if (errors.isEmpty()) {
+            listener.directoryCheckedOut(new File(localRoot.get().getPath()), TFSVcs.getKey());
           }
+          listener.checkoutCompleted();
         }
       };
 
       VirtualFile vf = VcsUtil.getVirtualFile(localRoot.get().getPath());
       if (vf != null) {
-        vf.refresh(true, true, new Runnable() {
-          @Override
-          public void run() {
-            final ModalityState current = ModalityState.current();
-            ApplicationManager.getApplication().invokeLater(listenerNotificationRunnable, current);
-          }
+        vf.refresh(true, true, () -> {
+          final ModalityState current = ModalityState.current();
+          ApplicationManager.getApplication().invokeLater(listenerNotificationRunnable, current);
         });
       }
       else {

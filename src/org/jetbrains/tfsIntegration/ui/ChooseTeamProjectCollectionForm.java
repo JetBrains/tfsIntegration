@@ -19,7 +19,10 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class ChooseTeamProjectCollectionForm {
   private JPanel myContentPane;
@@ -48,13 +51,7 @@ public class ChooseTeamProjectCollectionForm {
 
     List<TfsServerConnectionHelper.TeamProjectCollectionDescriptor> sorted =
       new ArrayList<>(items);
-    Collections.sort(sorted, new Comparator<TfsServerConnectionHelper.TeamProjectCollectionDescriptor>() {
-      @Override
-      public int compare(TfsServerConnectionHelper.TeamProjectCollectionDescriptor o1,
-                         TfsServerConnectionHelper.TeamProjectCollectionDescriptor o2) {
-        return o1.name.compareToIgnoreCase(o2.name);
-      }
-    });
+    Collections.sort(sorted, (o1, o2) -> o1.name.compareToIgnoreCase(o2.name));
 
     myTable.setTableHeader(null);
     myTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

@@ -20,7 +20,6 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.ClassLoaderUtil;
 import com.intellij.openapi.util.Computable;
-import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.util.io.StreamUtil;
 import com.intellij.openapi.util.registry.Registry;
@@ -167,17 +166,15 @@ public class WebServiceHelper {
   }
 
   public static ConfigurationContext getStubConfigurationContext() {
-    return ClassLoaderUtil.runWithClassLoader(TFSVcs.class.getClassLoader(), new Computable<ConfigurationContext>() {
-      public ConfigurationContext compute() {
-        try {
-          ConfigurationContext configContext = ConfigurationContextFactory.createDefaultConfigurationContext();
-          configContext.getAxisConfiguration().addMessageBuilder(SOAP_BUILDER_KEY, new CustomSOAPBuilder());
-          return configContext;
-        }
-        catch (Exception e) {
-          LOG.error("Axis2 configuration error", e);
-          return null;
-        }
+    return ClassLoaderUtil.runWithClassLoader(TFSVcs.class.getClassLoader(), (Computable<ConfigurationContext>)() -> {
+      try {
+        ConfigurationContext configContext = ConfigurationContextFactory.createDefaultConfigurationContext();
+        configContext.getAxisConfiguration().addMessageBuilder(SOAP_BUILDER_KEY, new CustomSOAPBuilder());
+        return configContext;
+      }
+      catch (Exception e) {
+        LOG.error("Axis2 configuration error", e);
+        return null;
       }
     });
   }
@@ -270,12 +267,7 @@ public class WebServiceHelper {
         parameters.setParameter(HostParams.DEFAULT_HEADERS, headers);
       }
 
-      Header authHeader = ContainerUtil.find(headers, new Condition<Header>() {
-        @Override
-        public boolean value(Header header) {
-          return header.getName().equals(HTTPConstants.HEADER_AUTHORIZATION);
-        }
-      });
+      Header authHeader = ContainerUtil.find(headers, header -> header.getName().equals(HTTPConstants.HEADER_AUTHORIZATION));
 
       if (authHeader == null) {
         authHeader = new Header(HTTPConstants.HEADER_AUTHORIZATION, "");

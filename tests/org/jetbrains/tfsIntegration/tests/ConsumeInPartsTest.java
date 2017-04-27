@@ -38,11 +38,7 @@ public class ConsumeInPartsTest extends TestCase {
 
     public void assertEquals(String[][] expected) {
       String[][] actual = myResults.toArray(new String[myResults.size()][]);
-      boolean equals = ArrayUtil.equals(actual, expected, new Equality<String[]>() {
-        public boolean equals(String[] o1, String[] o2) {
-          return Arrays.equals(o1, o2);
-        }
-      });
+      boolean equals = ArrayUtil.equals(actual, expected, (Equality<String[]>)(o1, o2) -> Arrays.equals(o1, o2));
 
       StringBuilder message = new StringBuilder("Expected: ");
       toString(expected, message);

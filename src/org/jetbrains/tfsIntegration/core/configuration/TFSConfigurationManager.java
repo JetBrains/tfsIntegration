@@ -144,12 +144,7 @@ public class TFSConfigurationManager implements PersistentStateComponent<TFSConf
     serverConfiguration.setCredentials(credentials);
     final Notification notification = serverConfiguration.getAuthCanceledNotification();
     if (notification != null) {
-      ApplicationManager.getApplication().invokeLater(new Runnable() {
-        @Override
-        public void run() {
-          notification.expire();
-        }
-      });
+      ApplicationManager.getApplication().invokeLater(() -> notification.expire());
     }
     serverConfiguration.setAuthCanceledNotification(null);
   }
@@ -217,12 +212,7 @@ public class TFSConfigurationManager implements PersistentStateComponent<TFSConf
   public void remove(final @NotNull URI serverUri) {
     final ServerConfiguration config = myServersConfig.get(getConfigKey(serverUri));
     if (config != null && config.getAuthCanceledNotification() != null) {
-      ApplicationManager.getApplication().invokeLater(new Runnable() {
-        @Override
-        public void run() {
-          config.getAuthCanceledNotification().expire();
-        }
-      });
+      ApplicationManager.getApplication().invokeLater(() -> config.getAuthCanceledNotification().expire());
     }
     myServersConfig.remove(getConfigKey(serverUri));
   }

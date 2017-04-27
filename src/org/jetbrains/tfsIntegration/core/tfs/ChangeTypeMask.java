@@ -2,7 +2,6 @@ package org.jetbrains.tfsIntegration.core.tfs;
 
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.ArrayUtil;
-import com.intellij.util.Function;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.ChangeType;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.ChangeType_type0;
 import org.jetbrains.annotations.Nullable;
@@ -75,12 +74,7 @@ public class ChangeTypeMask {
     }
     else {
       //noinspection ConstantConditions
-      return StringUtil.join(myValues, new Function<ChangeType_type0, String>() {
-        @Override
-        public String fun(ChangeType_type0 changeType_type0) {
-          return changeType_type0.getValue();
-        }
-      }, ",");
+      return StringUtil.join(myValues, changeType_type0 -> changeType_type0.getValue(), ",");
     }
   }
 }

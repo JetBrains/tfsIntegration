@@ -17,7 +17,6 @@
 package org.jetbrains.tfsIntegration.xmlutil;
 
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.util.ThrowableRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.xml.sax.InputSource;
@@ -43,12 +42,7 @@ public class XmlUtil {
     final InputStream stream = new BufferedInputStream(new FileInputStream(file));
 
     try {
-      forcePluginClassLoader(new ThrowableRunnable<Exception>() {
-        @Override
-        public void run() throws Exception {
-          SAXParserFactory.newInstance().newSAXParser().parse(new InputSource(stream), handler);
-        }
-      });
+      forcePluginClassLoader(() -> SAXParserFactory.newInstance().newSAXParser().parse(new InputSource(stream), handler));
       parsed = true;
     }
     finally {

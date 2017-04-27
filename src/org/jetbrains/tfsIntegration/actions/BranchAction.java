@@ -100,14 +100,11 @@ public class BranchAction extends SingleItemAction implements DumbAware {
 
       if (d.isCreateWorkingCopies()) {
         final Ref<Collection<VcsException>> downloadErrors = new Ref<>(Collections.<VcsException>emptyList());
-        ProgressManager.getInstance().runProcessWithProgressSynchronously(new Runnable() {
-          public void run() {
-            downloadErrors.set(ApplyGetOperations.execute(project, workspace, createBranchResult.getResult(),
-                                                          new ApplyProgress.ProgressIndicatorWrapper(
-                                                            ProgressManager.getInstance().getProgressIndicator()), null,
-                                                          ApplyGetOperations.DownloadMode.ALLOW));
-          }
-        }, "Creating target working copies", false, project);
+        ProgressManager.getInstance().runProcessWithProgressSynchronously(
+          () -> downloadErrors.set(ApplyGetOperations.execute(project, workspace, createBranchResult.getResult(),
+                                                            new ApplyProgress.ProgressIndicatorWrapper(
+                                                          ProgressManager.getInstance().getProgressIndicator()), null,
+                                                            ApplyGetOperations.DownloadMode.ALLOW)), "Creating target working copies", false, project);
 
         if (!downloadErrors.get().isEmpty()) {
           AbstractVcsHelper.getInstance(project).showErrors(new ArrayList<>(downloadErrors.get()), "Create Branch");

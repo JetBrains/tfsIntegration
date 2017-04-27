@@ -17,7 +17,6 @@
 package org.jetbrains.tfsIntegration.ui.checkoutwizard;
 
 import com.intellij.ide.wizard.CommitStepException;
-import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vcs.FilePath;
@@ -72,12 +71,7 @@ public class ChooseServerPathStep extends CheckoutWizardStep {
   }
 
   public void _init() {
-    myForm.initialize(myModel.getServer(), myModel.getServerPath(), true, false, new Condition<String>() {
-      @Override
-      public boolean value(String path) {
-        return isAcceptable(path);
-      }
-    });
+    myForm.initialize(myModel.getServer(), myModel.getServerPath(), true, false, path -> isAcceptable(path));
     validate();
   }
 

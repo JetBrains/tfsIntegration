@@ -302,23 +302,20 @@ public class TfsServerConnectionHelper {
     Pair<URI, FrameworkRegistrationEntry[]> registrationEntries = null;
     try {
       // first, try to connect to TFS 2010 Locaion service
-      connectResponse = tryDifferentUris(uri, !justAuthenticate, new ThrowableConvertor<URI, ConnectResponse, RemoteException>() {
-        @Override
-        public ConnectResponse convert(URI uri) throws RemoteException {
-          LocationWebServiceStub locationService =
-            new LocationWebServiceStub(context, TfsUtil.appendPath(uri, TFSConstants.LOCATION_SERVICE_ASMX));
-          WebServiceHelper.setupStub(locationService, credentials, uri);
-          Connect connectParam = new Connect();
-          connectParam.setConnectOptions(TFSConstants.INCLUDE_SERVICES_CONNECTION_OPTION);
-          ArrayOfServiceTypeFilter serviceTypeFilters = new ArrayOfServiceTypeFilter();
-          ServiceTypeFilter filter = new ServiceTypeFilter();
-          filter.setServiceType("*");
-          filter.setIdentifier(TFSConstants.FRAMEWORK_SERVER_DATA_PROVIDER_FILTER_GUID);
-          serviceTypeFilters.addServiceTypeFilter(filter);
-          connectParam.setServiceTypeFilters(serviceTypeFilters);
-          connectParam.setLastChangeId(-1);
-          return locationService.connect(connectParam);
-        }
+      connectResponse = tryDifferentUris(uri, !justAuthenticate, uri12 -> {
+        LocationWebServiceStub locationService =
+          new LocationWebServiceStub(context, TfsUtil.appendPath(uri12, TFSConstants.LOCATION_SERVICE_ASMX));
+        WebServiceHelper.setupStub(locationService, credentials, uri12);
+        Connect connectParam = new Connect();
+        connectParam.setConnectOptions(TFSConstants.INCLUDE_SERVICES_CONNECTION_OPTION);
+        ArrayOfServiceTypeFilter serviceTypeFilters = new ArrayOfServiceTypeFilter();
+        ServiceTypeFilter filter = new ServiceTypeFilter();
+        filter.setServiceType("*");
+        filter.setIdentifier(TFSConstants.FRAMEWORK_SERVER_DATA_PROVIDER_FILTER_GUID);
+        serviceTypeFilters.addServiceTypeFilter(filter);
+        connectParam.setServiceTypeFilters(serviceTypeFilters);
+        connectParam.setLastChangeId(-1);
+        return locationService.connect(connectParam);
       });
     }
     catch (RemoteException e) {
@@ -327,16 +324,13 @@ public class TfsServerConnectionHelper {
       connectResponse = null;
       // if failed, try to connect to legacy Registration service
       ThrowableConvertor<URI, FrameworkRegistrationEntry[], RemoteException> c =
-        new ThrowableConvertor<URI, FrameworkRegistrationEntry[], RemoteException>() {
-          @Override
-          public FrameworkRegistrationEntry[] convert(URI uri) throws RemoteException {
-            RegistrationStub registrationStub = new RegistrationStub(context, TfsUtil.appendPath(uri, TFSConstants.REGISTRATION_ASMX));
-            WebServiceHelper.setupStub(registrationStub, credentials, uri);
-            GetRegistrationEntries getRegistrationEntriesParam = new GetRegistrationEntries();
-            getRegistrationEntriesParam.setToolId(TFSConstants.TOOL_ID_TFS);
-            GetRegistrationEntriesResponse registrationEntries1 = registrationStub.getRegistrationEntries(getRegistrationEntriesParam);
-            return registrationEntries1.getGetRegistrationEntriesResult().getRegistrationEntry();
-          }
+        uri1 -> {
+          RegistrationStub registrationStub = new RegistrationStub(context, TfsUtil.appendPath(uri1, TFSConstants.REGISTRATION_ASMX));
+          WebServiceHelper.setupStub(registrationStub, credentials, uri1);
+          GetRegistrationEntries getRegistrationEntriesParam = new GetRegistrationEntries();
+          getRegistrationEntriesParam.setToolId(TFSConstants.TOOL_ID_TFS);
+          GetRegistrationEntriesResponse registrationEntries1 = registrationStub.getRegistrationEntries(getRegistrationEntriesParam);
+          return registrationEntries1.getGetRegistrationEntriesResult().getRegistrationEntry();
         };
       registrationEntries = tryDifferentUris(uri, !justAuthenticate, c);
     }

@@ -61,12 +61,10 @@ public class DialogContentMerger implements ContentMerger {
     else {
       request.restoreOriginalContent();
       // TODO maybe MergeVersion.MergeDocumentVersion.restoreOriginalContent() should save document itself?
-      ApplicationManager.getApplication().runWriteAction(new Runnable() {
-        public void run() {
-          final Document document = FileDocumentManager.getInstance().getDocument(localFile);
-          if (document != null) {
-              FileDocumentManager.getInstance().saveDocument(document);
-          }
+      ApplicationManager.getApplication().runWriteAction(() -> {
+        final Document document = FileDocumentManager.getInstance().getDocument(localFile);
+        if (document != null) {
+            FileDocumentManager.getInstance().saveDocument(document);
         }
       });
       return false;

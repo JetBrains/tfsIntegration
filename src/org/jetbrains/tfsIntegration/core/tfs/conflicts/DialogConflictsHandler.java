@@ -24,11 +24,9 @@ public class DialogConflictsHandler implements ConflictsHandler {
       return;
     }
 
-    WaitForProgressToShow.runOrInvokeAndWaitAboveProgress(new Runnable() {
-      public void run() {
-        ResolveConflictsDialog d = new ResolveConflictsDialog(resolveConflictHelper);
-        d.show();
-      }
+    WaitForProgressToShow.runOrInvokeAndWaitAboveProgress(() -> {
+      ResolveConflictsDialog d = new ResolveConflictsDialog(resolveConflictHelper);
+      d.show();
     });
   }
 }

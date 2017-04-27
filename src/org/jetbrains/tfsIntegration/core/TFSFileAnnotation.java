@@ -19,7 +19,6 @@ package org.jetbrains.tfsIntegration.core;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.vcs.AbstractVcsHelper;
 import com.intellij.openapi.vcs.VcsKey;
-import com.intellij.openapi.vcs.annotate.AnnotationSourceSwitcher;
 import com.intellij.openapi.vcs.annotate.FileAnnotation;
 import com.intellij.openapi.vcs.annotate.LineAnnotationAspect;
 import com.intellij.openapi.vcs.annotate.LineAnnotationAspectAdapter;
@@ -81,11 +80,7 @@ public class TFSFileAnnotation extends FileAnnotation {
   private final TFSVcs.RevisionChangedListener myListener = new TFSVcs.RevisionChangedListener() {
     public void revisionChanged() {
       try {
-        GuiUtils.runOrInvokeAndWait(new Runnable() {
-          public void run() {
-            TFSFileAnnotation.this.close();
-          }
-        });
+        GuiUtils.runOrInvokeAndWait(() -> TFSFileAnnotation.this.close());
       }
       catch (InvocationTargetException e) {
         // ignore
@@ -165,11 +160,8 @@ public class TFSFileAnnotation extends FileAnnotation {
     return myLineRevisions.length;
   }
 
-  private static final Comparator<VcsFileRevision> REVISION_COMPARATOR = new Comparator<VcsFileRevision>() {
-    public int compare(final VcsFileRevision revision1, final VcsFileRevision revision2) {
-      return -1 * revision1.getRevisionNumber().compareTo(revision2.getRevisionNumber());
-    }
-  };
+  private static final Comparator<VcsFileRevision> REVISION_COMPARATOR =
+    (revision1, revision2) -> -1 * revision1.getRevisionNumber().compareTo(revision2.getRevisionNumber());
 
   private abstract class TFSAnnotationAspect extends LineAnnotationAspectAdapter {
     public TFSAnnotationAspect(String id, boolean showByDefault) {
@@ -185,11 +177,7 @@ public class TFSFileAnnotation extends FileAnnotation {
           new TFSChangeList(myWorkspace, changeset, revision.getAuthor(), revision.getRevisionDate(), revision.getCommitMessage(), myVcs);
         String changesetString = ((TfsRevisionNumber)revision.getRevisionNumber()).getChangesetString();
         final String progress = MessageFormat.format("Loading changeset {0}...", changesetString);
-        ProgressManager.getInstance().runProcessWithProgressSynchronously(new Runnable() {
-          public void run() {
-            changeList.getChanges();
-          }
-        }, progress, false, myVcs.getProject());
+        ProgressManager.getInstance().runProcessWithProgressSynchronously((Runnable)() -> changeList.getChanges(), progress, false, myVcs.getProject());
         final String title = MessageFormat.format("Changeset {0}", changesetString);
         AbstractVcsHelper.getInstance(myVcs.getProject()).showChangesListBrowser(changeList, title);
       }

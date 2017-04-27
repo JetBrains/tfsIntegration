@@ -143,48 +143,45 @@ public class TFSUpdateEnvironment implements UpdateEnvironment {
     final Map<WorkspaceInfo, UpdateSettingsForm.WorkspaceSettings> workspacesSettings =
       new HashMap<>();
     final Ref<TfsException> error = new Ref<>();
-    Runnable r = new Runnable() {
-      @Override
-      public void run() {
-        try {
-          WorkstationHelper.processByWorkspaces(files, true, myVcs.getProject(), new WorkstationHelper.VoidProcessDelegate() {
-            @Override
-            public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) throws TfsException {
-              final Map<FilePath, ExtendedItem> result =
-                workspace.getExtendedItems2(paths, myVcs.getProject(), TFSBundle.message("loading.items"));
-              Collection<ExtendedItem> items = new ArrayList<>(result.values());
-              for (Iterator<ExtendedItem> i = items.iterator(); i.hasNext();) {
-                final ExtendedItem extendedItem = i.next();
-                if (extendedItem == null || extendedItem.getSitem() == null) {
-                  i.remove();
-                }
+    Runnable r = () -> {
+      try {
+        WorkstationHelper.processByWorkspaces(files, true, myVcs.getProject(), new WorkstationHelper.VoidProcessDelegate() {
+          @Override
+          public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) throws TfsException {
+            final Map<FilePath, ExtendedItem> result =
+              workspace.getExtendedItems2(paths, myVcs.getProject(), TFSBundle.message("loading.items"));
+            Collection<ExtendedItem> items = new ArrayList<>(result.values());
+            for (Iterator<ExtendedItem> i = items.iterator(); i.hasNext();) {
+              final ExtendedItem extendedItem = i.next();
+              if (extendedItem == null || extendedItem.getSitem() == null) {
+                i.remove();
               }
-
-              if (items.isEmpty()) {
-                return;
-              }
-
-              // determine common ancestor of all the paths
-              ExtendedItem someExtendedItem = items.iterator().next();
-              UpdateSettingsForm.WorkspaceSettings workspaceSettings =
-                new UpdateSettingsForm.WorkspaceSettings(someExtendedItem.getSitem(), someExtendedItem.getType() == ItemType.Folder);
-              for (ExtendedItem extendedItem : items) {
-                final String path1 = workspaceSettings.serverPath;
-                final String path2 = extendedItem.getSitem();
-                if (VersionControlPath.isUnder(path2, path1)) {
-                  workspaceSettings = new UpdateSettingsForm.WorkspaceSettings(path2, extendedItem.getType() == ItemType.Folder);
-                }
-                else if (!VersionControlPath.isUnder(path1, path2)) {
-                  workspaceSettings = new UpdateSettingsForm.WorkspaceSettings(VersionControlPath.getCommonAncestor(path1, path2), true);
-                }
-              }
-              workspacesSettings.put(workspace, workspaceSettings);
             }
-          });
-        }
-        catch (TfsException e) {
-          error.set(e);
-        }
+
+            if (items.isEmpty()) {
+              return;
+            }
+
+            // determine common ancestor of all the paths
+            ExtendedItem someExtendedItem = items.iterator().next();
+            UpdateSettingsForm.WorkspaceSettings workspaceSettings =
+              new UpdateSettingsForm.WorkspaceSettings(someExtendedItem.getSitem(), someExtendedItem.getType() == ItemType.Folder);
+            for (ExtendedItem extendedItem : items) {
+              final String path1 = workspaceSettings.serverPath;
+              final String path2 = extendedItem.getSitem();
+              if (VersionControlPath.isUnder(path2, path1)) {
+                workspaceSettings = new UpdateSettingsForm.WorkspaceSettings(path2, extendedItem.getType() == ItemType.Folder);
+              }
+              else if (!VersionControlPath.isUnder(path1, path2)) {
+                workspaceSettings = new UpdateSettingsForm.WorkspaceSettings(VersionControlPath.getCommonAncestor(path1, path2), true);
+              }
+            }
+            workspacesSettings.put(workspace, workspaceSettings);
+          }
+        });
+      }
+      catch (TfsException e) {
+        error.set(e);
       }
     };
 

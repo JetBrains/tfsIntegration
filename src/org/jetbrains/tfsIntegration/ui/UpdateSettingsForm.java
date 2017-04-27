@@ -32,8 +32,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class UpdateSettingsForm {
 
@@ -61,12 +63,7 @@ public class UpdateSettingsForm {
   public UpdateSettingsForm(final Project project, final String title, final Map<WorkspaceInfo, WorkspaceSettings> workspaceSettings) {
     myWorkspaceSettings = workspaceSettings;
     List<WorkspaceInfo> workspaces = new ArrayList<>(myWorkspaceSettings.keySet());
-    Collections.sort(workspaces, new Comparator<WorkspaceInfo>() {
-      @Override
-      public int compare(final WorkspaceInfo o1, final WorkspaceInfo o2) {
-        return o1.getName().compareTo(o2.getName());
-      }
-    });
+    Collections.sort(workspaces, (o1, o2) -> o1.getName().compareTo(o2.getName()));
 
     myWorkspacesList.setModel(new CollectionListModel(workspaces));
     myWorkspacesList.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

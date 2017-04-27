@@ -35,11 +35,7 @@ public class TestUpdate extends TFSTestCase {
     final VirtualFile root = createDirInCommand(mySandboxRoot, "root");
     commit(getChanges().getChanges(), "first one");
 
-    Runnable testRevMinus2 = new Runnable() {
-      public void run() {
-        assertFolder(root, 0);
-      }
-    };
+    Runnable testRevMinus2 = () -> assertFolder(root, 0);
 
     final VirtualFile folder1 = createDirInCommand(root, "folder1");
     final String fileModifiedContent1 = "fileModifiedRev1";
@@ -64,20 +60,18 @@ public class TestUpdate extends TFSTestCase {
     final String comment2 = "test rev2 committed";
     commit(getChanges().getChanges(), comment2);
 
-    Runnable testRevMinus1 = new Runnable() {
-      public void run() {
-        assertFolder(root, 1);
-        assertFolder(folder1, 7);
+    Runnable testRevMinus1 = () -> {
+      assertFolder(root, 1);
+      assertFolder(folder1, 7);
 
-        assertFolder(filepathSubfolderMovedOriginal, 0);
-        assertFolder(filepathSubfolderRenamedOriginal, 0);
-        assertFolder(filepathSubfolderDeleted, 0);
+      assertFolder(filepathSubfolderMovedOriginal, 0);
+      assertFolder(filepathSubfolderRenamedOriginal, 0);
+      assertFolder(filepathSubfolderDeleted, 0);
 
-        assertFile(filepathDeleted, fileDeletedContent, false);
-        assertFile(fileModified_original, fileModifiedContent1, false);
-        assertFile(filepathRenamed_original, fileRenamedContent, false);
-        assertFile(filepathRenamedModified_original, fileRenamedModifiedContent1, false);
-      }
+      assertFile(filepathDeleted, fileDeletedContent, false);
+      assertFile(fileModified_original, fileModifiedContent1, false);
+      assertFile(filepathRenamed_original, fileRenamedContent, false);
+      assertFile(filepathRenamedModified_original, fileRenamedModifiedContent1, false);
     };
 
     editFiles(fileModified, fileRenamedModified);
@@ -102,23 +96,21 @@ public class TestUpdate extends TFSTestCase {
     final String comment3 = "test rev3 committed";
     commit(getChanges().getChanges(), comment3);
 
-    Runnable testLastRev = new Runnable() {
-      public void run() {
-        assertFolder(root, 3);
+    Runnable testLastRev = () -> {
+      assertFolder(root, 3);
 
-        assertFolder(folder1, 4);
+      assertFolder(folder1, 4);
 
-        assertFolder(subfolderRenamed, 0);
-        assertFile(fileModified, fileModifiedContent2, false);
-        assertFile(fileRenamed, fileRenamedContent, false);
-        assertFile(fileRenamedModified, fileRenamedModifiedContent2, false);
+      assertFolder(subfolderRenamed, 0);
+      assertFile(fileModified, fileModifiedContent2, false);
+      assertFile(fileRenamed, fileRenamedContent, false);
+      assertFile(fileRenamedModified, fileRenamedModifiedContent2, false);
 
-        assertFolder(subfolderA, 1);
-        assertFolder(subfolderB, 1);
-        assertFolder(subfolderMoved, 0);
+      assertFolder(subfolderA, 1);
+      assertFolder(subfolderB, 1);
+      assertFolder(subfolderMoved, 0);
 
-        assertFile(fileCreated, fileCreatedContent, false);
-      }
+      assertFile(fileCreated, fileCreatedContent, false);
     };
 
     int latestRevisionNumber = getLatestRevisionNumber(root);

@@ -70,12 +70,9 @@ public class LockItemModel {
     return myExtendedItem.getLowner() != null ? TfsUtil.getNameWithoutDomain(myExtendedItem.getLowner()) : null;
   }
 
-  public static final Comparator<LockItemModel> LOCK_ITEM_PARENT_FIRST = new Comparator<LockItemModel>() {
-    public int compare(final LockItemModel o1, final LockItemModel o2) {
-      return VersionControlPath.compareParentToChild(o1.getExtendedItem().getSitem(), o1.getExtendedItem().getType() == ItemType.Folder,
-                                                     o2.getExtendedItem().getSitem(), o2.getExtendedItem().getType() == ItemType.Folder);
-    }
-  };
+  public static final Comparator<LockItemModel> LOCK_ITEM_PARENT_FIRST =
+    (o1, o2) -> VersionControlPath.compareParentToChild(o1.getExtendedItem().getSitem(), o1.getExtendedItem().getType() == ItemType.Folder,
+                                                      o2.getExtendedItem().getSitem(), o2.getExtendedItem().getType() == ItemType.Folder);
 
   public boolean canBeLocked() {
     return myExtendedItem.getLock() == null || myExtendedItem.getLock() == LockLevel.None;

@@ -129,12 +129,7 @@ public class MergeBranchForm {
         mySourceIsDirectory = true;
 
         // TODO don't do it on focus out, rather provide a 'Refresh' button
-        ApplicationManager.getApplication().invokeLater(new Runnable() {
-          @Override
-          public void run() {
-            updateOnSourceChange();
-          }
-        }, ModalityState.current());
+        ApplicationManager.getApplication().invokeLater(() -> updateOnSourceChange(), ModalityState.current());
       }
     };
     mySourceField.getTextField().addFocusListener(mySourceFieldFocusListener);

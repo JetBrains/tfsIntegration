@@ -94,12 +94,10 @@ public class TFSCheckinHandlerFactory extends VcsCheckinHandlerFactory {
 
         // need to evaluate policies again since comment and checkboxes state may change since last validation
         // remove when commit dialog state change listener is provided
-        boolean completed = ProgressManager.getInstance().runProcessWithProgressSynchronously(new Runnable() {
-          public void run() {
-            final ProgressIndicator pi = ProgressManager.getInstance().getProgressIndicator();
-            pi.setIndeterminate(true);
-            parameters.evaluatePolicies(pi);
-          }
+        boolean completed = ProgressManager.getInstance().runProcessWithProgressSynchronously(() -> {
+          final ProgressIndicator pi = ProgressManager.getInstance().getProgressIndicator();
+          pi.setIndeterminate(true);
+          parameters.evaluatePolicies(pi);
         }, "Evaluating Checkin Policies", true, panel.getProject());
         if (!completed) {
           TFSCheckinEnvironment.updateMessage(vcs.getCheckinData());

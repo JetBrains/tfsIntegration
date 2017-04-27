@@ -19,7 +19,6 @@ package org.jetbrains.tfsIntegration.actions;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
@@ -55,27 +54,25 @@ public class LockAction extends AnAction implements DumbAware {
     final List<VcsException> exceptions = new ArrayList<>();
     final Ref<Boolean> mappingFound = new Ref<>(false);
 
-    ProgressManager.getInstance().runProcessWithProgressSynchronously(new Runnable() {
-      public void run() {
-        try {
-          ProgressManager.getInstance().getProgressIndicator().setIndeterminate(true);
-          WorkstationHelper
-            .processByWorkspaces(TfsFileUtil.getFilePaths(files), false, project, new WorkstationHelper.VoidProcessDelegate() {
-              public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) throws TfsException {
-                mappingFound.set(true);
-                final Map<FilePath, ExtendedItem> itemsMap =
-                  workspace.getExtendedItems2(paths, project, TFSBundle.message("loading.items"));
-                for (ExtendedItem item : itemsMap.values()) {
-                  if (item != null) {
-                    items.add(new LockItemModel(item, workspace));
-                  }
+    ProgressManager.getInstance().runProcessWithProgressSynchronously(() -> {
+      try {
+        ProgressManager.getInstance().getProgressIndicator().setIndeterminate(true);
+        WorkstationHelper
+          .processByWorkspaces(TfsFileUtil.getFilePaths(files), false, project, new WorkstationHelper.VoidProcessDelegate() {
+            public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) throws TfsException {
+              mappingFound.set(true);
+              final Map<FilePath, ExtendedItem> itemsMap =
+                workspace.getExtendedItems2(paths, project, TFSBundle.message("loading.items"));
+              for (ExtendedItem item : itemsMap.values()) {
+                if (item != null) {
+                  items.add(new LockItemModel(item, workspace));
                 }
               }
-            });
-        }
-        catch (TfsException e) {
-          exceptions.add(new VcsException(e));
-        }
+            }
+          });
+      }
+      catch (TfsException e1) {
+        exceptions.add(new VcsException(e1));
       }
     }, "Reading existing locks...", false, project);
 
@@ -104,11 +101,9 @@ public class LockAction extends AnAction implements DumbAware {
 
     final List<LockItemModel> selectedItems = d.getSelectedItems();
     String title = d.getLockLevel() == LockLevel.None ? "Unlocking..." : "Locking...";
-    ProgressManager.getInstance().runProcessWithProgressSynchronously(new Runnable() {
-      public void run() {
-        ProgressManager.getInstance().getProgressIndicator().setIndeterminate(true);
-        exceptions.addAll(lockOrUnlockItems(selectedItems, d.getLockLevel(), project));
-      }
+    ProgressManager.getInstance().runProcessWithProgressSynchronously(() -> {
+      ProgressManager.getInstance().getProgressIndicator().setIndeterminate(true);
+      exceptions.addAll(lockOrUnlockItems(selectedItems, d.getLockLevel(), project));
     }, title, false, project);
 
     if (exceptions.isEmpty()) {

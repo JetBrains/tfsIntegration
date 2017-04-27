@@ -558,11 +558,8 @@ public class ApplyGetOperations {
       // TODO: more detailed message needed
       final String title = "Modify Files";
       final Ref<Integer> result = new Ref<>();
-      WaitForProgressToShow.runOrInvokeAndWaitAboveProgress(new Runnable() {
-        public void run() {
-          result.set(Messages.showYesNoDialog(message, title, Messages.getQuestionIcon()));
-        }
-      });
+      WaitForProgressToShow.runOrInvokeAndWaitAboveProgress(
+        () -> result.set(Messages.showYesNoDialog(message, title, Messages.getQuestionIcon())));
 
       if (result.get() == Messages.YES) {
         return true;

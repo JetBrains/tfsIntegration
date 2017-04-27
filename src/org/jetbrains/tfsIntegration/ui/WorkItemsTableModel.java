@@ -23,7 +23,6 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.ui.treeStructure.treetable.ListTreeTableModelOnColumns;
 import com.intellij.ui.treeStructure.treetable.TreeTable;
 import com.intellij.ui.treeStructure.treetable.TreeTableModel;
-import com.intellij.util.Function;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.ui.ColumnInfo;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.CheckinWorkItemAction;
@@ -88,12 +87,7 @@ class WorkItemsTableModel extends ListTreeTableModelOnColumns {
     validateLinksStructure(links);
 
     Map<Integer, DefaultMutableTreeNode> workItemsMap =
-      ContainerUtil.map2Map(myContent.getWorkItems(), new Function<WorkItem, Pair<Integer, DefaultMutableTreeNode>>() {
-        @Override
-        public Pair<Integer, DefaultMutableTreeNode> fun(@NotNull WorkItem workItem) {
-          return Pair.create(workItem.getId(), new DefaultMutableTreeNode(workItem));
-        }
-      });
+      ContainerUtil.map2Map(myContent.getWorkItems(), workItem -> Pair.create(workItem.getId(), new DefaultMutableTreeNode(workItem)));
     workItemsMap.put(0, myRoot);
 
     for (WorkItemLinkInfo link : links) {
@@ -111,18 +105,8 @@ class WorkItemsTableModel extends ListTreeTableModelOnColumns {
 
   private void validateLinksStructure(@NotNull List<WorkItemLinkInfo> links) {
     if (links.size() != myContent.getWorkItems().size()) {
-      String linksValue = StringUtil.join(links, new Function<WorkItemLinkInfo, String>() {
-        @Override
-        public String fun(@NotNull WorkItemLinkInfo info) {
-          return info.getSourceID() + " - " + info.getTargetID();
-        }
-      }, ", ");
-      String workItemIdsValue = StringUtil.join(myContent.getWorkItems(), new Function<WorkItem, String>() {
-        @Override
-        public String fun(@NotNull WorkItem workItem) {
-          return String.valueOf(workItem.getId());
-        }
-      }, ", ");
+      String linksValue = StringUtil.join(links, info -> info.getSourceID() + " - " + info.getTargetID(), ", ");
+      String workItemIdsValue = StringUtil.join(myContent.getWorkItems(), workItem -> String.valueOf(workItem.getId()), ", ");
 
       LOG.error("Unknown work item links structure\nLinks: " + linksValue + "\nWork Items: " + workItemIdsValue);
     }
