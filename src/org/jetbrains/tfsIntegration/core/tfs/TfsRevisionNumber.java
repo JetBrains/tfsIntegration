@@ -2,9 +2,6 @@ package org.jetbrains.tfsIntegration.core.tfs;
 
 import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 
-/**
- * User: ksafonov
- */
 public class TfsRevisionNumber extends VcsRevisionNumber.Int {
 
   private static final String SEPARATOR = ":";
