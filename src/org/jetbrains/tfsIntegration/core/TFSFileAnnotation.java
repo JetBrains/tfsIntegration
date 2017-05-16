@@ -130,7 +130,7 @@ public class TFSFileAnnotation extends FileAnnotation {
 
   @Nullable
   public VcsRevisionNumber getLineRevisionNumber(final int lineNumber) {
-    if (lineNumber < myLineRevisions.length) {
+    if (lineNumber >= 0 && lineNumber < myLineRevisions.length) {
       return myLineRevisions[lineNumber].getRevisionNumber();
     }
     else {
