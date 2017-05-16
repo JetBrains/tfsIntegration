@@ -46,34 +46,28 @@ public class TFSFileAnnotation extends FileAnnotation {
 
   private final LineAnnotationAspect REVISION_ASPECT = new TFSAnnotationAspect(TFSAnnotationAspect.REVISION, false) {
     public String getValue(int lineNumber) {
-      if (lineNumber < myLineRevisions.length) {
-        return ((TfsRevisionNumber)myLineRevisions[lineNumber].getRevisionNumber()).getChangesetString();
-      }
-      else {
-        return "";
-      }
+      VcsFileRevision fileRevision = getLineRevision(lineNumber);
+      if (fileRevision == null) return "";
+
+      return ((TfsRevisionNumber)fileRevision.getRevisionNumber()).getChangesetString();
     }
   };
 
   private final LineAnnotationAspect DATE_ASPECT = new TFSAnnotationAspect(TFSAnnotationAspect.DATE, true) {
     public String getValue(int lineNumber) {
-      if (lineNumber < myLineRevisions.length) {
-        return DateFormatUtil.formatPrettyDate(myLineRevisions[lineNumber].getRevisionDate());
-      }
-      else {
-        return "";
-      }
+      VcsFileRevision fileRevision = getLineRevision(lineNumber);
+      if (fileRevision == null) return "";
+
+      return DateFormatUtil.formatPrettyDate(fileRevision.getRevisionDate());
     }
   };
 
   private final LineAnnotationAspect AUTHOR_ASPECT = new TFSAnnotationAspect(TFSAnnotationAspect.AUTHOR, true) {
     public String getValue(int lineNumber) {
-      if (lineNumber < myLineRevisions.length) {
-        return TfsUtil.getNameWithoutDomain(myLineRevisions[lineNumber].getAuthor());
-      }
-      else {
-        return "";
-      }
+      VcsFileRevision fileRevision = getLineRevision(lineNumber);
+      if (fileRevision == null) return "";
+
+      return TfsUtil.getNameWithoutDomain(fileRevision.getAuthor());
     }
   };
 
@@ -116,36 +110,35 @@ public class TFSFileAnnotation extends FileAnnotation {
     return new LineAnnotationAspect[]{REVISION_ASPECT, DATE_ASPECT, AUTHOR_ASPECT};
   }
 
+  @Nullable
+  private VcsFileRevision getLineRevision(int lineNumber) {
+    if (lineNumber < 0 || lineNumber >= myLineRevisions.length) return null;
+    return myLineRevisions[lineNumber];
+  }
+
   public String getToolTip(final int lineNumber) {
-    if (lineNumber < myLineRevisions.length) {
-      String commitMessage =
-        myLineRevisions[lineNumber].getCommitMessage() == null ? "(no comment)" : myLineRevisions[lineNumber].getCommitMessage();
-      return MessageFormat.format("Changeset {0}: {1}",
-                                  ((TfsRevisionNumber)myLineRevisions[lineNumber].getRevisionNumber()).getChangesetString(), commitMessage);
-    }
-    else {
-      return "";
-    }
+    VcsFileRevision fileRevision = getLineRevision(lineNumber);
+    if (fileRevision == null) return "";
+
+    String commitMessage = fileRevision.getCommitMessage() == null ? "(no comment)" : fileRevision.getCommitMessage();
+    return MessageFormat.format("Changeset {0}: {1}",
+                                ((TfsRevisionNumber)fileRevision.getRevisionNumber()).getChangesetString(), commitMessage);
   }
 
   @Nullable
   public VcsRevisionNumber getLineRevisionNumber(final int lineNumber) {
-    if (lineNumber >= 0 && lineNumber < myLineRevisions.length) {
-      return myLineRevisions[lineNumber].getRevisionNumber();
-    }
-    else {
-      return null;
-    }
+    VcsFileRevision fileRevision = getLineRevision(lineNumber);
+    if (fileRevision == null) return null;
+
+    return fileRevision.getRevisionNumber();
   }
 
   @Override
   public Date getLineDate(int lineNumber) {
-    if (lineNumber < myLineRevisions.length) {
-      return myLineRevisions[lineNumber].getRevisionDate();
-    }
-    else {
-      return null;
-    }
+    VcsFileRevision fileRevision = getLineRevision(lineNumber);
+    if (fileRevision == null) return null;
+
+    return fileRevision.getRevisionDate();
   }
 
   public List<VcsFileRevision> getRevisions() {
@@ -170,17 +163,17 @@ public class TFSFileAnnotation extends FileAnnotation {
 
     @Override
     protected void showAffectedPaths(int lineNum) {
-      if (lineNum < myLineRevisions.length) {
-        final VcsFileRevision revision = myLineRevisions[lineNum];
-        final int changeset = ((VcsRevisionNumber.Int)revision.getRevisionNumber()).getValue();
-        final CommittedChangeList changeList =
-          new TFSChangeList(myWorkspace, changeset, revision.getAuthor(), revision.getRevisionDate(), revision.getCommitMessage(), myVcs);
-        String changesetString = ((TfsRevisionNumber)revision.getRevisionNumber()).getChangesetString();
-        final String progress = MessageFormat.format("Loading changeset {0}...", changesetString);
-        ProgressManager.getInstance().runProcessWithProgressSynchronously((Runnable)() -> changeList.getChanges(), progress, false, myVcs.getProject());
-        final String title = MessageFormat.format("Changeset {0}", changesetString);
-        AbstractVcsHelper.getInstance(myVcs.getProject()).showChangesListBrowser(changeList, title);
-      }
+      final VcsFileRevision revision = getLineRevision(lineNum);
+      if (revision == null) return;
+
+      final int changeset = ((VcsRevisionNumber.Int)revision.getRevisionNumber()).getValue();
+      final CommittedChangeList changeList =
+        new TFSChangeList(myWorkspace, changeset, revision.getAuthor(), revision.getRevisionDate(), revision.getCommitMessage(), myVcs);
+      String changesetString = ((TfsRevisionNumber)revision.getRevisionNumber()).getChangesetString();
+      final String progress = MessageFormat.format("Loading changeset {0}...", changesetString);
+      ProgressManager.getInstance().runProcessWithProgressSynchronously((Runnable)() -> changeList.getChanges(), progress, false, myVcs.getProject());
+      final String title = MessageFormat.format("Changeset {0}", changesetString);
+      AbstractVcsHelper.getInstance(myVcs.getProject()).showChangesListBrowser(changeList, title);
     }
   }
 
