@@ -300,7 +300,7 @@ public abstract class TFSTestCase extends AbstractJunitVcsTestCase  {
 
       @Override
       public Project getProject() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
       }
 
       @Override
