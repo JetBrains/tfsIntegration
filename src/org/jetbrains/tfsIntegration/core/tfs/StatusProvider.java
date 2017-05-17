@@ -109,7 +109,7 @@ public class StatusProvider {
         final boolean localItemExists = TfsFileUtil.localItemExists(localItem);
         if (!localItemExists && extendedItem != null) {
           // if path is the original one from dirtyScope, it may have invalid 'isDirectory' status
-          localItem = VcsUtil.getFilePathForDeletedFile(localItem.getPath(), extendedItem.getType() == ItemType.Folder);
+          localItem = VcsUtil.getFilePath(localItem.getPath(), extendedItem.getType() == ItemType.Folder);
         }
         determineServerStatus(pendingChange, extendedItem).visitBy(localItem, localItemExists, statusVisitor);
       }
