@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.jetbrains.tfsIntegration.core.tfs;
 
 import com.intellij.util.containers.ContainerUtil;
@@ -40,14 +39,17 @@ class WorkstationCacheReader extends DefaultHandler {
   private ServerInfo myCurrentServerInfo;
   private WorkspaceInfo myCurrentWorkspaceInfo;
 
+  @Override
   public void error(SAXParseException e) throws SAXException {
     throw e;
   }
 
+  @Override
   public void fatalError(SAXParseException e) throws SAXException {
     throw e;
   }
 
+  @Override
   public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
     if (SERVER_INFO.equals(qName)) {
       try {
@@ -83,6 +85,7 @@ class WorkstationCacheReader extends DefaultHandler {
     }
   }
 
+  @Override
   public void endElement(String uri, String localName, String qName) throws SAXException {
     if (SERVER_INFO.equals(qName)) {
       myServerInfos.add(myCurrentServerInfo);
