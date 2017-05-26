@@ -17,17 +17,15 @@
 package org.jetbrains.tfsIntegration.core.tfs;
 
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.util.JDOMUtil;
 import com.intellij.openapi.util.Ref;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vcs.FilePath;
 import com.intellij.util.Function;
 import com.intellij.util.Functions;
+import com.intellij.util.JdomKt;
 import com.intellij.util.containers.ContainerUtil;
 import org.apache.axis2.databinding.utils.ConverterUtil;
-import org.jdom.Document;
 import org.jdom.Element;
-import org.jdom.output.XMLOutputter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.tfsIntegration.config.TfsServerConnectionHelper;
@@ -36,17 +34,22 @@ import org.jetbrains.tfsIntegration.core.configuration.TFSConfigurationManager;
 import org.jetbrains.tfsIntegration.exceptions.DuplicateMappingException;
 import org.jetbrains.tfsIntegration.exceptions.TfsException;
 import org.jetbrains.tfsIntegration.exceptions.WorkspaceHasNoMappingException;
-import org.jetbrains.tfsIntegration.xmlutil.XmlUtil;
+import org.xml.sax.InputSource;
 
-import java.io.*;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import static com.intellij.util.containers.ContainerUtil.newArrayList;
+import static org.jetbrains.tfsIntegration.core.tfs.TfsUtil.forcePluginClassLoader;
 import static org.jetbrains.tfsIntegration.core.tfs.XmlConstants.*;
 
 public class Workstation {
@@ -105,11 +108,13 @@ public class Workstation {
   @NotNull
   private static List<ServerInfo> loadCache() {
     // TODO: validate against schema
-    File cacheFile = getCacheFile(true);
+    Path cacheFile = getCacheFile(true);
     if (cacheFile != null) {
       try {
         WorkstationCacheReader reader = new WorkstationCacheReader();
-        XmlUtil.parseFile(cacheFile, reader);
+        try (BufferedReader stream = Files.newBufferedReader(cacheFile)) {
+          forcePluginClassLoader(() -> SAXParserFactory.newInstance().newSAXParser().parse(new InputSource(stream), reader));
+        }
         return reader.getServers();
       }
       catch (Exception e) {
@@ -121,23 +126,20 @@ public class Workstation {
 
 
   @Nullable
-  private static File getCacheFile(boolean existingOnly) {
+  private static Path getCacheFile(boolean existingOnly) {
     if (PRESERVE_CONFIG_FILE) {
       return null;
     }
 
-    File cacheFile = TfsSdkManager.getInstance().getCacheFile();
-    return (cacheFile.exists() || !existingOnly) ? cacheFile : null;
+    Path cacheFile = TfsSdkManager.getInstance().getCacheFile();
+    return (Files.exists(cacheFile) || !existingOnly) ? cacheFile : null;
   }
 
   void update() {
     invalidateDuplicateMappedPath();
 
-    File cacheFile = getCacheFile(false);
+    Path cacheFile = getCacheFile(false);
     if (cacheFile != null) {
-      if (!cacheFile.getParentFile().exists()) {
-        cacheFile.getParentFile().mkdirs();
-      }
       try {
         Element serversElement = new Element(SERVERS);
 
@@ -171,29 +173,11 @@ public class Workstation {
           }
         }
 
-        Document document = new Document().setRootElement(
-          new Element(ROOT).addContent(serversElement));
-
-        saveDocument(cacheFile, document);
+        JdomKt.write(new Element(ROOT).addContent(serversElement), cacheFile);
       }
       catch (IOException e) {
         LOG.info("Cannot update workspace cache", e);
       }
-    }
-  }
-
-  private static void saveDocument(@NotNull File cacheFile, @NotNull Document document) throws IOException {
-    OutputStream stream = new BufferedOutputStream(new FileOutputStream(cacheFile));
-    try {
-      XMLOutputter o = JDOMUtil.createOutputter("\n");
-      o.setFormat(o.getFormat().setOmitDeclaration(true));
-      o.output(document, stream);
-    }
-    catch (NullPointerException e) {
-      LOG.warn(e);
-    }
-    finally {
-      stream.close();
     }
   }
 

@@ -17,6 +17,7 @@ import org.jetbrains.tfsIntegration.core.configuration.TFSConfigurationManager;
 import org.jetbrains.tfsIntegration.core.tfs.ServerInfo;
 
 import java.io.File;
+import java.nio.file.Path;
 
 public class TfsSdkManager {
 
@@ -25,8 +26,8 @@ public class TfsSdkManager {
   }
 
   @NotNull
-  public File getCacheFile() {
-    return new File(DefaultPersistenceStoreProvider.INSTANCE.getCachePersistenceStore().getStoreFile(), "VersionControl.config");
+  public Path getCacheFile() {
+    return DefaultPersistenceStoreProvider.INSTANCE.getCachePersistenceStore().getStoreFile().toPath().resolve("VersionControl.config");
   }
 
   @NotNull
