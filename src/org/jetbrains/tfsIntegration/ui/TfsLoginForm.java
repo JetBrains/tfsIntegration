@@ -33,8 +33,6 @@ import org.jetbrains.tfsIntegration.webservice.auth.NativeNTLM2Scheme;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -110,19 +108,16 @@ public class TfsLoginForm {
       myTypeCombo.setModel(new DefaultComboBoxModel<>(
         new Credentials.Type[]{Credentials.Type.NtlmNative, Credentials.Type.NtlmExplicit, Credentials.Type.Alternate}));
       myTypeCombo.setSelectedItem(initialCredentials == null ? Credentials.Type.NtlmNative : initialCredentials.getType());
-      myTypeCombo.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-          updateOnTypeChange();
-          if (getCredentialsType() != Credentials.Type.NtlmNative) {
-            IdeFocusManager.findInstanceByComponent(myContentPane).requestFocus(myUsernameField, true);
-          }
-        }
-      });
     }
     else {
       myTypeCombo.setModel(new DefaultComboBoxModel<>(new Credentials.Type[]{Credentials.Type.NtlmExplicit, Credentials.Type.Alternate}));
     }
+    myTypeCombo.addActionListener(e -> {
+      updateOnTypeChange();
+      if (getCredentialsType() != Credentials.Type.NtlmNative) {
+        IdeFocusManager.findInstanceByComponent(myContentPane).requestFocus(myUsernameField, true);
+      }
+    });
     myTypeCombo.addActionListener((e) -> myEventDispatcher.getMulticaster().stateChanged(new ChangeEvent(this)));
 
     updateOnTypeChange();
