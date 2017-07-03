@@ -200,7 +200,7 @@ public abstract class TFSTestCase extends AbstractJunitVcsTestCase  {
   private void createNewWorkspaceFor(File root) throws URISyntaxException, TfsException {
     final String workspaceName = WORKSPACE_NAME_PREFIX + Workstation.getComputerName();
     final ServerInfo server = Workstation.getInstance().getServer(new URI(SERVER));
-    server.refreshWorkspacesForCurrentOwner(myProject, true);
+    server.refreshWorkspacesForCurrentOwnerAndComputer(myProject, true);
     for (WorkspaceInfo workspace : server.getWorkspacesForCurrentOwnerAndComputer()) {
       if (workspace.getName().equals(workspaceName)) {
         removeWorkspace(workspace);
@@ -217,7 +217,7 @@ public abstract class TFSTestCase extends AbstractJunitVcsTestCase  {
   private void removeWorkspace(WorkspaceInfo workspace) throws URISyntaxException, TfsException {
     final ServerInfo server = Workstation.getInstance().getServer(new URI(SERVER));
     if (server != null) {
-      server.refreshWorkspacesForCurrentOwner(myProject, true);
+      server.refreshWorkspacesForCurrentOwnerAndComputer(myProject, true);
       server.deleteWorkspace(workspace, myProject, true);
     }
   }
