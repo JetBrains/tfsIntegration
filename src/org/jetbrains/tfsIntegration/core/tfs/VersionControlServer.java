@@ -1591,8 +1591,8 @@ public class VersionControlServer {
   // GroupSecurityService
 
   /**
-   * <code>ReadIdentity</code> request to <code>&lt;tfs_server&gt;/Services/v1.0/GroupSecurityService.asmx</code>.
-   * <code>SearchFactor</code> is set to "<code>AccountName</code>", <code>QueryMembership</code> is set to "<code>None</code>".
+   * {@code ReadIdentity} request to {@code <tfs_server>/Services/v1.0/GroupSecurityService.asmx}.
+   * {@code SearchFactor} is set to "{@code AccountName}", {@code QueryMembership} is set to "{@code None}".
    *
    * @param qualifiedUsername user name including domain (e.g. "MY_DOMAIN\\MY_USER_NAME")
    * @return

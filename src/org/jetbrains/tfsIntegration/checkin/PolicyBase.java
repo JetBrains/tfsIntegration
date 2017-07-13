@@ -57,18 +57,18 @@ public abstract class PolicyBase {
   /**
    * Check if current policy supports configuring with UI. If yes, Edit button for the policy will be enabled in Edit Chec In Policies dialog
    *
-   * @return <code>true</code> if current policy configuration can be changed
+   * @return {@code true} if current policy configuration can be changed
    */
   public abstract boolean canEdit();
 
   /**
    * Open edit dialog for the policy
    *
-   * <p>Called in UI thread if {@link #canEdit()} returned <code>true</code>. {@link #loadState(org.jdom.Element)} is called in before the call.
-   * If method returns <code>true</code>, {@link #saveState(org.jdom.Element)} is called afterwards
+   * <p>Called in UI thread if {@link #canEdit()} returned {@code true}. {@link #loadState(org.jdom.Element)} is called in before the call.
+   * If method returns {@code true}, {@link #saveState(org.jdom.Element)} is called afterwards
    *
    * @param project current project
-   * @return <code>true</code> if edit was done successfully and policy state changed
+   * @return {@code true} if edit was done successfully and policy state changed
    */
   public abstract boolean edit(Project project);
 

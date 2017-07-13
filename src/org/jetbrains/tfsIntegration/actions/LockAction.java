@@ -118,7 +118,7 @@ public class LockAction extends AnAction implements DumbAware {
 
   /**
    * Performs smart initial items selection for dialog.
-   * If <code>items</code> parameter contains items locked by current user then all such items are marked as selected
+   * If {@code items} parameter contains items locked by current user then all such items are marked as selected
    * ('Unlock' action will be enabled in dialog).
    * Otherwise all unlocked items are selected ('Lock' action will be enabled in dialog).
    */
