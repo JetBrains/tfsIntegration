@@ -46,11 +46,11 @@ public class TestFileYoursDeletedTheirsDeleted extends TestFileConflict {
     createFileInCommand(myBaseFile, BASE_CONTENT);
   }
 
-  protected void prepareTargetRevision() throws VcsException, IOException {
+  protected void prepareTargetRevision() {
     deleteFileInCommand(myBaseFile);
   }
 
-  protected void makeLocalChanges() throws IOException, VcsException {
+  protected void makeLocalChanges() {
     deleteFileInCommand(myBaseFile);
     // need to try commit to have conflict reported on next Get
     try {
@@ -71,7 +71,7 @@ public class TestFileYoursDeletedTheirsDeleted extends TestFileConflict {
     checkResolvedYoursState();
   }
 
-  protected void checkResolvedMergeState() throws VcsException {
+  protected void checkResolvedMergeState() {
     Assert.fail("not supported");
   }
 

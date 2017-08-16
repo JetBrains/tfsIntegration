@@ -45,7 +45,7 @@ public class TestFileYoursModifiedTheirsMissing extends TestFileConflict {
     createFileInCommand(myBaseFile, BASE_CONTENT);
   }
 
-  protected void prepareTargetRevision() throws VcsException, IOException {
+  protected void prepareTargetRevision() {
     deleteFileInCommand(myBaseFile);
   }
 
@@ -68,7 +68,7 @@ public class TestFileYoursModifiedTheirsMissing extends TestFileConflict {
     assertFolder(mySandboxRoot, 0);
   }
 
-  protected void checkResolvedMergeState() throws VcsException {
+  protected void checkResolvedMergeState() {
     Assert.fail("can't merge");
   }
 

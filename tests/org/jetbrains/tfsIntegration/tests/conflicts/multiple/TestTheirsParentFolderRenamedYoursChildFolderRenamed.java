@@ -20,12 +20,10 @@ import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.VcsException;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.tfsIntegration.exceptions.TfsException;
 import org.jetbrains.tfsIntegration.tests.conflicts.Resolution;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -79,16 +77,16 @@ public class TestTheirsParentFolderRenamedYoursChildFolderRenamed extends TestMu
     myMergedChildFolderInMergedParent = getChildPath(myMergedParentFolder, MERGED_CHILD_NAME);
   }
 
-  protected void prepareBaseRevision() throws VcsException {
+  protected void prepareBaseRevision() {
     createDirInCommand(myBaseParentFolder);
     createDirInCommand(myBaseChildFolderInBaseParent);
   }
 
-  protected void prepareTargetRevision() throws VcsException, IOException {
+  protected void prepareTargetRevision() {
     renameFileInCommand(myBaseParentFolder, THEIRS_PARENT_NAME);
   }
 
-  protected void makeLocalChanges() throws IOException, VcsException {
+  protected void makeLocalChanges() {
     renameFileInCommand(myBaseChildFolderInBaseParent, YOURS_CHILD_NAME);
   }
 
@@ -120,7 +118,7 @@ public class TestTheirsParentFolderRenamedYoursChildFolderRenamed extends TestMu
   }
 
   @Nullable
-  protected String mergeName(final ConflictingItem conflictingItem) throws TfsException {
+  protected String mergeName(final ConflictingItem conflictingItem) {
     return MERGED_CHILD_NAME;
   }
 
@@ -150,12 +148,12 @@ public class TestTheirsParentFolderRenamedYoursChildFolderRenamed extends TestMu
   }
 
   @Test
-  public void testAcceptTheirs() throws IOException, VcsException {
+  public void testAcceptTheirs() throws VcsException {
     doTest(Arrays.asList(Pair.create(CHILD, Resolution.AcceptTheirs)));
   }
 
   @Test
-  public void testAcceptYours() throws IOException, VcsException {
+  public void testAcceptYours() throws VcsException {
     doTest(Arrays.asList(Pair.create(CHILD, Resolution.AcceptYours)));
   }
 }

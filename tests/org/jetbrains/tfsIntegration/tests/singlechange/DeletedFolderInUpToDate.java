@@ -20,7 +20,6 @@ import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.changes.Change;
 import org.junit.Test;
-import org.jetbrains.tfsIntegration.tests.singlechange.SingleChangeTestCase;
 
 import java.io.IOException;
 
@@ -59,7 +58,7 @@ public class DeletedFolderInUpToDate extends SingleChangeTestCase {
     assertFolder(mySandboxRoot, 0);
   }
 
-  protected void makeOriginalState() throws VcsException {
+  protected void makeOriginalState() {
     createDirInCommand(myDeletedFolder);
   }
 

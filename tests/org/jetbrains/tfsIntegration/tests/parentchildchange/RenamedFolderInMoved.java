@@ -166,18 +166,18 @@ public class RenamedFolderInMoved extends ParentChildChangeTestCase {
     assertFolder(myChildRenamedInParentOriginal, 0);
   }
 
-  protected void makeOriginalState() throws VcsException {
+  protected void makeOriginalState() {
     createDirInCommand(myParentOriginal);
     createDirInCommand(myChildOriginalInParentOriginal);
     createDirInCommand(mySubfolder1);
     createDirInCommand(mySubfolder2);
   }
 
-  protected void makeParentChange() throws VcsException {
+  protected void makeParentChange() {
     moveFileInCommand(myParentOriginal, mySubfolder2);
   }
 
-  protected void makeChildChange(ParentChangeState parentChangeState) throws VcsException, IOException {
+  protected void makeChildChange(ParentChangeState parentChangeState) {
     rename(parentChangeState == ParentChangeState.NotDone ? myChildOriginalInParentOriginal : myChildOriginalInParentMoved,
            FOLDERNAME_RENAMED);
   }

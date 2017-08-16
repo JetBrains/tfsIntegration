@@ -35,7 +35,7 @@ public abstract class ParentChangeTestCase extends TFSTestCase {
 
   protected abstract void makeOriginalState() throws VcsException;
 
-  protected abstract void makeParentChanges() throws VcsException;
+  protected abstract void makeParentChanges();
 
   protected abstract Collection<Change> getPendingParentChanges() throws VcsException;
 

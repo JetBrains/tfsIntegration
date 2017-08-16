@@ -51,11 +51,11 @@ public class TestFileYoursRenamedTheirsRenamed extends TestFileConflict {
     createFileInCommand(myBaseFile, BASE_CONTENT);
   }
 
-  protected void prepareTargetRevision() throws VcsException, IOException {
+  protected void prepareTargetRevision() {
     rename(myBaseFile, THEIRS_FILENAME);
   }
 
-  protected void makeLocalChanges() throws IOException, VcsException {
+  protected void makeLocalChanges() {
     rename(myBaseFile, YOURS_FILENAME);
   }
 

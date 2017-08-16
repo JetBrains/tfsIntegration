@@ -54,7 +54,7 @@ public class TestFileYoursModifiedTheirsRenamed extends TestFileConflict {
     createFileInCommand(myBaseFile, BASE_CONTENT);
   }
 
-  protected void prepareTargetRevision() throws VcsException, IOException {
+  protected void prepareTargetRevision() {
     rename(myBaseFile, myTheirsFile.getName());
   }
 

@@ -503,7 +503,7 @@ public abstract class TFSTestCase extends AbstractJunitVcsTestCase  {
     refreshAll();
   }
 
-  protected void clearReadonlyAndRenameExternally(final VirtualFile file, final String newName) throws IOException {
+  protected void clearReadonlyAndRenameExternally(final VirtualFile file, final String newName) {
     FileUtil.setReadOnlyAttribute(file.getPath(), false);
     final File from = new File(file.getPath());
     final File to = new File(from.getParent(), newName);
@@ -516,25 +516,25 @@ public abstract class TFSTestCase extends AbstractJunitVcsTestCase  {
     return VcsUtil.getVirtualFile(new File(new File(parent.getPath()), newName));
   }
 
-  protected void clearReadonlyStatusExternally(VirtualFile... files) throws IOException {
+  protected void clearReadonlyStatusExternally(VirtualFile... files) {
     for (VirtualFile file : files) {
       FileUtil.setReadOnlyAttribute(file.getPath(), false);
     }
     refreshAll();
   }
 
-  protected void clearReadonlyStatusExternally(FilePath... files) throws IOException {
+  protected void clearReadonlyStatusExternally(FilePath... files) {
     for (FilePath file : files) {
       FileUtil.setReadOnlyAttribute(file.getPath(), false);
       refreshAll();
     }
   }
 
-  protected void rename(final FilePath file, final String newName) throws VcsException {
+  protected void rename(final FilePath file, final String newName) {
     rename(VcsUtil.getVirtualFile(file.getIOFile()), newName);
   }
 
-  protected void rename(final VirtualFile file, final String newName) throws VcsException {
+  protected void rename(final VirtualFile file, final String newName) {
     renameFileInCommand(file, newName);
     refreshAll();
   }

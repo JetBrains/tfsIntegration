@@ -52,15 +52,15 @@ public class TestFolderYoursAddedTheirsAdded extends TestFolderConflict {
     deleteFileInCommand(myBaseFolder);
   }
 
-  protected void prepareTargetRevision() throws VcsException, IOException {
+  protected void prepareTargetRevision() {
     Assert.fail("Not supported");
   }
 
-  protected void makeLocalChanges() throws IOException, VcsException {
+  protected void makeLocalChanges() {
     createDirInCommand(myBaseFolder);
   }
 
-  protected void checkResolvedYoursState() throws VcsException {
+  protected void checkResolvedYoursState() {
     Assert.fail("Not supported");
   }
 
@@ -71,7 +71,7 @@ public class TestFolderYoursAddedTheirsAdded extends TestFolderConflict {
     assertFolder(myBaseFolder, 0);
   }
 
-  protected void checkResolvedMergeState() throws VcsException {
+  protected void checkResolvedMergeState() {
     Assert.fail("can't merge");
   }
 

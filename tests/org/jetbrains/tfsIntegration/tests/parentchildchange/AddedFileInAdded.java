@@ -135,7 +135,7 @@ public class AddedFileInAdded extends ParentChildChangeTestCase {
     assertFile(myAddedChildFile, FILE_CONTENT, false);
   }
 
-  protected void makeOriginalState() throws VcsException {
+  protected void makeOriginalState() {
   }
 
   protected void makeParentChange() throws VcsException {
@@ -150,7 +150,7 @@ public class AddedFileInAdded extends ParentChildChangeTestCase {
     }
   }
 
-  protected void makeChildChange(ParentChangeState parentChangeState) throws VcsException {
+  protected void makeChildChange(ParentChangeState parentChangeState) {
     if (parentChangeState == ParentChangeState.NotDone) {
       myAddedParentFolder.getIOFile().mkdirs();
       refreshAll();

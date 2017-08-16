@@ -129,7 +129,7 @@ public class AddedFolderInAdded extends ParentChildChangeTestCase {
     assertFolder(myAddedChildFolder, 0);
   }
 
-  protected void makeOriginalState() throws VcsException {
+  protected void makeOriginalState() {
   }
 
   protected void makeParentChange() throws VcsException {
@@ -143,7 +143,7 @@ public class AddedFolderInAdded extends ParentChildChangeTestCase {
     }
   }
 
-  protected void makeChildChange(ParentChangeState parentChangeState) throws VcsException {
+  protected void makeChildChange(ParentChangeState parentChangeState) {
     if (parentChangeState == ParentChangeState.NotDone) {
       myAddedParentFolder.getIOFile().mkdirs();
       refreshAll();

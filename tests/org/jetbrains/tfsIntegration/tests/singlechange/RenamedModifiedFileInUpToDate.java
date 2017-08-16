@@ -20,7 +20,6 @@ import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.changes.Change;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.tfsIntegration.tests.singlechange.SingleChangeTestCase;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -62,7 +61,7 @@ public class RenamedModifiedFileInUpToDate extends SingleChangeTestCase {
     assertFile(myRenamedModifiedFile, MODIFIED_CONTENT, false);
   }
 
-  protected void makeOriginalState() throws VcsException {
+  protected void makeOriginalState() {
     createFileInCommand(myOriginalFile, ORIGINAL_CONTENT);
   }
 

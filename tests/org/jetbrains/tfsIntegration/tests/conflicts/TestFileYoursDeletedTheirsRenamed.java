@@ -48,11 +48,11 @@ public class TestFileYoursDeletedTheirsRenamed extends TestFileConflict {
     createFileInCommand(myBaseFile, BASE_CONTENT);
   }
 
-  protected void prepareTargetRevision() throws VcsException, IOException {
+  protected void prepareTargetRevision() {
     rename(myBaseFile, THEIRS_FILENAME);
   }
 
-  protected void makeLocalChanges() throws IOException, VcsException {
+  protected void makeLocalChanges() {
     deleteFileInCommand(myBaseFile);
     // need to try commit to have conflict reported on next Get
     try {
@@ -78,7 +78,7 @@ public class TestFileYoursDeletedTheirsRenamed extends TestFileConflict {
     assertFile(myTheirsFile, BASE_CONTENT, false);
   }
 
-  protected void checkResolvedMergeState() throws VcsException {
+  protected void checkResolvedMergeState() {
     Assert.fail("not supported");
   }
 

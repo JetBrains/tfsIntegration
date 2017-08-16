@@ -39,7 +39,7 @@ public class DeletedFolderInDeleted extends ParentChildChangeTestCase {
     myChildFolder = getChildPath(myParentFolder, "ChildFolder");
   }
 
-  protected void checkParentChangePendingChildRolledBack() throws VcsException {
+  protected void checkParentChangePendingChildRolledBack() {
     Assert.fail("Can't happen"); // see remark 1
   }
 
@@ -63,7 +63,7 @@ public class DeletedFolderInDeleted extends ParentChildChangeTestCase {
     assertFolder(myChildFolder, 0);
   }
 
-  protected void checkParentChangeCommittedChildPending() throws VcsException {
+  protected void checkParentChangeCommittedChildPending() {
     Assert.fail("Can't happen"); // see remark 1
   }
 
@@ -103,16 +103,16 @@ public class DeletedFolderInDeleted extends ParentChildChangeTestCase {
     assertFolder(mySandboxRoot, 0);
   }
 
-  protected void makeOriginalState() throws VcsException {
+  protected void makeOriginalState() {
     createDirInCommand(myParentFolder);
     createDirInCommand(myChildFolder);
   }
 
-  protected void makeParentChange() throws VcsException {
+  protected void makeParentChange() {
     deleteFileInCommand(myParentFolder);
   }
 
-  protected void makeChildChange(ParentChangeState parentChangeState) throws VcsException {
+  protected void makeChildChange(ParentChangeState parentChangeState) {
     if (parentChangeState == ParentChangeState.NotDone) {
       deleteFileInCommand(myChildFolder);
     }

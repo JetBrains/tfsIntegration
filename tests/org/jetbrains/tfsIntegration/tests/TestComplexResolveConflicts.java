@@ -84,7 +84,7 @@ public class TestComplexResolveConflicts extends TFSTestCase {
   /**
    * Folder 2 -> Folder 3
    */
-  private void renameFolder() throws VcsException, IOException {
+  private void renameFolder() {
     FilePath folder = getChildPath(mySandboxRoot, FOLDER_NAME_2);
     rename(folder, FOLDER_NAME_3);
     folder = getChildPath(mySandboxRoot, FOLDER_NAME_3);
@@ -94,7 +94,7 @@ public class TestComplexResolveConflicts extends TFSTestCase {
   /**
    * File2.txt -> File3.txt
    */
-  private void renameFile() throws VcsException, IOException {
+  private void renameFile() {
     FilePath folder = getChildPath(mySandboxRoot, FOLDER_NAME_1);
     FilePath file = getChildPath(folder, FILE_NAME_3);
     rename(file, FILE_NAME_3);

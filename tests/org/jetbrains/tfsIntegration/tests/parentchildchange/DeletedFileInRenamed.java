@@ -137,16 +137,16 @@ public class DeletedFileInRenamed extends ParentChildChangeTestCase {
     assertFolder(myRenamedParentFolder, 0);
   }
 
-  protected void makeOriginalState() throws VcsException {
+  protected void makeOriginalState() {
     createDirInCommand(myOriginalParentFolder);
     createFileInCommand(myDeletedFileInOriginalFolder, FILE_CONTENT);
   }
 
-  protected void makeParentChange() throws VcsException {
+  protected void makeParentChange() {
     renameFileInCommand(myOriginalParentFolder, myRenamedParentFolder.getName());
   }
 
-  protected void makeChildChange(ParentChangeState parentChangeState) throws VcsException {
+  protected void makeChildChange(ParentChangeState parentChangeState) {
     deleteFileInCommand(parentChangeState == ParentChangeState.NotDone ? myDeletedFileInOriginalFolder : myDeletedFileInRenamedFolder);
   }
 

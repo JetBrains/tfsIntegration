@@ -44,11 +44,11 @@ abstract class TestMultipleConflicts extends TFSTestCase {
 
   protected abstract void preparePaths();
 
-  protected abstract void prepareBaseRevision() throws VcsException;
+  protected abstract void prepareBaseRevision();
 
-  protected abstract void prepareTargetRevision() throws VcsException, IOException;
+  protected abstract void prepareTargetRevision();
 
-  protected abstract void makeLocalChanges() throws IOException, VcsException;
+  protected abstract void makeLocalChanges();
 
   protected abstract void checkResolvedState(Map<ConflictingItem, Resolution> resolution) throws VcsException;
 
@@ -56,7 +56,7 @@ abstract class TestMultipleConflicts extends TFSTestCase {
   protected abstract String mergeContent(ConflictingItem conflictingItem);
 
   @Nullable
-  protected abstract String mergeName(ConflictingItem conflictingItem) throws TfsException;
+  protected abstract String mergeName(ConflictingItem conflictingItem);
 
   protected abstract FilePath getPath(ConflictingItem conflictingItem);
 
@@ -70,7 +70,7 @@ abstract class TestMultipleConflicts extends TFSTestCase {
   protected abstract String getExpectedYoursContent(final ConflictingItem conflictingItem);
 
 
-  protected void doTest(List<Pair<ConflictingItem, Resolution>> resolutionPath) throws VcsException, IOException {
+  protected void doTest(List<Pair<ConflictingItem, Resolution>> resolutionPath) throws VcsException {
     try {
       preparePaths();
       prepareBaseRevision();
@@ -161,13 +161,7 @@ abstract class TestMultipleConflicts extends TFSTestCase {
 
     @Nullable
     public String mergeName(final WorkspaceInfo workspace, final Conflict conflict, Project project) {
-      try {
-        return TestMultipleConflicts.this.mergeName(myId2item.get(conflict.getBitemid()));
-      }
-      catch (TfsException e) {
-        Assert.fail(e.getMessage());
-        return null;
-      }
+      return TestMultipleConflicts.this.mergeName(myId2item.get(conflict.getBitemid()));
     }
   }
 
@@ -184,7 +178,7 @@ abstract class TestMultipleConflicts extends TFSTestCase {
                                 final Project project,
                                 final VirtualFile targetFile,
                                 final String localPathToDisplay,
-                                final VcsRevisionNumber serverVersion) throws IOException, VcsException {
+                                final VcsRevisionNumber serverVersion) throws IOException {
       Assert.assertEquals(getExpectedBaseContent(myId2item.get(conflict.getBitemid())), contentTriplet.baseContent);
       Assert.assertEquals(getExpectedYoursContent(myId2item.get(conflict.getBitemid())), contentTriplet.localContent);
       Assert.assertEquals(getExpectedTheirsContent(myId2item.get(conflict.getBitemid())), contentTriplet.serverContent);

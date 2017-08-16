@@ -54,7 +54,7 @@ public class TestFileYoursRenamedTheirsModified extends TestFileConflict {
     setFileContent(myBaseFile, THEIRS_CONTENT);
   }
 
-  protected void makeLocalChanges() throws IOException, VcsException {
+  protected void makeLocalChanges() {
     rename(myBaseFile, YOURS_FILENAME);
   }
 

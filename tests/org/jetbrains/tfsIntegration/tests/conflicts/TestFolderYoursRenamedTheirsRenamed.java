@@ -51,11 +51,11 @@ public class TestFolderYoursRenamedTheirsRenamed extends TestFolderConflict {
     createDirInCommand(myBaseFolder);
   }
 
-  protected void prepareTargetRevision() throws VcsException, IOException {
+  protected void prepareTargetRevision() {
     rename(myBaseFolder, THEIRS_FOLDERNAME);
   }
 
-  protected void makeLocalChanges() throws IOException, VcsException {
+  protected void makeLocalChanges() {
     rename(myBaseFolder, YOURS_FOLDERNAME);
   }
 

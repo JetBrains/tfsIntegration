@@ -147,15 +147,15 @@ public class AddedFolderInRenamed extends ParentChildChangeTestCase {
     assertFolder(myAddedFolderInRenamedFolder, 0);
   }
 
-  protected void makeOriginalState() throws VcsException {
+  protected void makeOriginalState() {
     createDirInCommand(myOriginalParentFolder);
   }
 
-  protected void makeParentChange() throws VcsException {
+  protected void makeParentChange() {
     renameFileInCommand(myOriginalParentFolder, myRenamedParentFolder.getName());
   }
 
-  protected void makeChildChange(ParentChangeState parentChangeState) throws VcsException {
+  protected void makeChildChange(ParentChangeState parentChangeState) {
     FilePath folder = parentChangeState == ParentChangeState.NotDone ? myAddedFolderInOriginalFolder : myAddedFolderInRenamedFolder;
     if (folder.getIOFile().exists()) {
       scheduleForAddition(folder);

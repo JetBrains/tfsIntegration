@@ -47,7 +47,7 @@ public class TestFileYoursRenamedModifiedTheirsMissing extends TestFileConflict 
     createFileInCommand(myBaseFile, BASE_CONTENT);
   }
 
-  protected void prepareTargetRevision() throws VcsException, IOException {
+  protected void prepareTargetRevision() {
     deleteFileInCommand(myBaseFile);
   }
 
@@ -71,7 +71,7 @@ public class TestFileYoursRenamedModifiedTheirsMissing extends TestFileConflict 
     assertFolder(mySandboxRoot, 0);
   }
 
-  protected void checkResolvedMergeState() throws VcsException {
+  protected void checkResolvedMergeState() {
     Assert.fail("can't merge");
   }
 
@@ -87,7 +87,7 @@ public class TestFileYoursRenamedModifiedTheirsMissing extends TestFileConflict 
   }
 
   @Nullable
-  protected String mergeName() throws TfsException {
+  protected String mergeName() {
     Assert.fail("not supported");
     return null;
   }

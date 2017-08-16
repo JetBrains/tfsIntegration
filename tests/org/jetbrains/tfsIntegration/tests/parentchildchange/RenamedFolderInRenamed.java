@@ -135,16 +135,16 @@ public class RenamedFolderInRenamed extends ParentChildChangeTestCase {
     assertFolder(myChildRenamedInParentOriginal, 0);
   }
 
-  protected void makeOriginalState() throws VcsException {
+  protected void makeOriginalState() {
     createDirInCommand(myParentOriginal);
     createDirInCommand(myChildOriginalInParentOriginal);
   }
 
-  protected void makeParentChange() throws VcsException {
+  protected void makeParentChange() {
     rename(myParentOriginal, myParentRenamed.getName());
   }
 
-  protected void makeChildChange(ParentChangeState parentChangeState) throws VcsException, IOException {
+  protected void makeChildChange(ParentChangeState parentChangeState) {
     rename(parentChangeState == ParentChangeState.NotDone ? myChildOriginalInParentOriginal : myChildOriginalInParentRenamed,
            CHILDFOLDERNAME_RENAMED);
   }

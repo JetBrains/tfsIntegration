@@ -172,17 +172,17 @@ public class AddedFolderInMoved extends ParentChildChangeTestCase {
     assertFolder(myAddedFolderInMovedFolder, 0);
   }
 
-  protected void makeOriginalState() throws VcsException {
+  protected void makeOriginalState() {
     createDirInCommand(myOriginalParentFolder);
     createDirInCommand(mySubfolder1);
     createDirInCommand(mySubfolder2);
   }
 
-  protected void makeParentChange() throws VcsException {
+  protected void makeParentChange() {
     moveFileInCommand(myOriginalParentFolder, mySubfolder2);
   }
 
-  protected void makeChildChange(ParentChangeState parentChangeState) throws VcsException {
+  protected void makeChildChange(ParentChangeState parentChangeState) {
     FilePath folder = parentChangeState == ParentChangeState.NotDone ? myAddedFolderInOriginalFolder : myAddedFolderInMovedFolder;
     if (folder.getIOFile().exists()) {
       scheduleForAddition(folder);
