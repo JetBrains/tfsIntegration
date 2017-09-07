@@ -176,7 +176,7 @@ public class CheckinParametersForm implements Disposable {
     return myProject;
   }
 
-  private void evaluatePolicies() {
+  protected void evaluatePolicies() {
     boolean completed = ProgressManager.getInstance().runProcessWithProgressSynchronously(new Runnable() {
       public void run() {
         ProgressIndicator pi = ProgressManager.getInstance().getProgressIndicator();

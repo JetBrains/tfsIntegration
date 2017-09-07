@@ -34,6 +34,7 @@ public class CheckinParametersDialog extends DialogWrapper {
     myParameters = parameters;
     setTitle("Configure Checkin Parameters");
     init();
+    getButton(getOKAction()).addActionListener(e -> myForm.evaluatePolicies());
 
     setSize(700, 500);
   }
@@ -41,10 +42,6 @@ public class CheckinParametersDialog extends DialogWrapper {
   protected JComponent createCenterPanel() {
     myForm = new CheckinParametersForm(myParameters, myProject);
     Disposer.register(getDisposable(), myForm);
-    //myForm.addListener(new CheckinParametersForm.Listener() {
-    //  public void stateChanged() {
-    //  }
-    //});
     return myForm.getContentPane();
   }
 
