@@ -71,8 +71,7 @@ public class UndoPendingChanges {
         }
       }
 
-      Collection<VcsException> errors = new ArrayList<>();
-      errors.addAll(TfsUtil.getVcsExceptions(failures));
+      Collection<VcsException> errors = new ArrayList<>(TfsUtil.getVcsExceptions(failures));
 
       // TODO fill renamed paths map in ApplyGetOperations
       Map<ItemPath, ItemPath> undonePaths = new HashMap<>();
