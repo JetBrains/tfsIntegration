@@ -20,7 +20,6 @@
   </description>
   <category>VCS Integration</category>
   <depends>com.intellij.modules.vcs</depends>
-  <depends>com.intellij.modules.ultimate</depends>
 
   <vendor>JetBrains</vendor>
 
