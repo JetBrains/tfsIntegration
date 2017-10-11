@@ -64,7 +64,7 @@ public interface Memento {
    * Returns the double floating point value of the given key.
    *
    * @param key the key
-   * @return the value, or <code>null</code> if the key was not found or was found but was not a floating point number
+   * @return the value, or {@code null} if the key was not found or was found but was not a floating point number
    */
   Double getDouble(String key);
 
@@ -72,7 +72,7 @@ public interface Memento {
    * Returns the floating point value of the given key.
    *
    * @param key the key
-   * @return the value, or <code>null</code> if the key was not found or was found but was not a floating point number
+   * @return the value, or {@code null} if the key was not found or was found but was not a floating point number
    */
   Float getFloat(String key);
 
@@ -80,7 +80,7 @@ public interface Memento {
    * Returns the integer value of the given key.
    *
    * @param key the key
-   * @return the value, or <code>null</code> if the key was not found or was found but was not an integer
+   * @return the value, or {@code null} if the key was not found or was found but was not an integer
    */
   Integer getInteger(String key);
 
@@ -88,7 +88,7 @@ public interface Memento {
    * Returns the long integer value of the given key.
    *
    * @param key the key
-   * @return the value, or <code>null</code> if the key was not found or was found but was not an integer
+   * @return the value, or {@code null} if the key was not found or was found but was not an integer
    */
   Long getLong(String key);
 
@@ -96,7 +96,7 @@ public interface Memento {
    * Returns the string value of the given key.
    *
    * @param key the key
-   * @return the value, or <code>null</code> if the key was not found
+   * @return the value, or {@code null} if the key was not found
    */
   String getString(String key);
 
@@ -104,14 +104,14 @@ public interface Memento {
    * Returns the Boolean value of the given key
    *
    * @param key the key
-   * @return the value, or <code>null</code> if the key was not found
+   * @return the value, or {@code null} if the key was not found
    */
   Boolean getBoolean(String key);
 
   /**
    * Returns the data of the Text node of the memento. Each memento is allowed only one Text node.
    *
-   * @return the data of the Text node of the memento, or <code>null</code> if the memento has no Text node.
+   * @return the data of the Text node of the memento, or {@code null} if the memento has no Text node.
    */
   String getTextData();
 
@@ -148,7 +148,7 @@ public interface Memento {
   void putLong(String key, long value);
 
   /**
-   * Copy the attributes and children from <code>memento</code> to the receiver.
+   * Copy the attributes and children from {@code memento} to the receiver.
    *
    * @param memento the Memento to be copied.
    */

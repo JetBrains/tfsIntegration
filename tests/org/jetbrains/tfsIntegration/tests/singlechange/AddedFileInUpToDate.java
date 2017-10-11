@@ -20,7 +20,6 @@ import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.changes.Change;
 import org.junit.Test;
-import org.jetbrains.tfsIntegration.tests.singlechange.SingleChangeTestCase;
 
 import java.io.IOException;
 
@@ -61,7 +60,7 @@ public class AddedFileInUpToDate extends SingleChangeTestCase {
     assertFile(myAddedFile, FILE_CONTENT, false);
   }
 
-  protected void makeOriginalState() throws VcsException {
+  protected void makeOriginalState() {
     // nothing here
   }
 

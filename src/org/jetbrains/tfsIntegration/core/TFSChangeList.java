@@ -143,10 +143,6 @@ public class TFSChangeList implements CommittedChangeList {
     return myCachedChanges;
   }
 
-  public Collection<Change> getChangesWithMovedTrees() {
-    return getChanges();
-  }
-
   @Override
   public boolean isModifiable() {
     return true;

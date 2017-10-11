@@ -159,7 +159,7 @@ public class NTLM2Scheme extends NTLMScheme {
     /**
      * Returns textual designation of the NTLM authentication scheme.
      *
-     * @return <code>ntlm</code>
+     * @return {@code ntlm}
      */
     public String getSchemeName() {
         return "ntlm";
@@ -167,9 +167,9 @@ public class NTLM2Scheme extends NTLMScheme {
 
     /**
      * The concept of an authentication realm is not supported by the NTLM
-     * authentication scheme. Always returns <code>null</code>.
+     * authentication scheme. Always returns {@code null}.
      *
-     * @return <code>null</code>
+     * @return {@code null}
      */
     public String getRealm() {
         return null;

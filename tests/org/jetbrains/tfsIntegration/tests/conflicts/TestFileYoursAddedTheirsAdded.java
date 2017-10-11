@@ -52,15 +52,15 @@ public class TestFileYoursAddedTheirsAdded extends TestFileConflict {
     deleteFileInCommand(myBaseFile);
   }
 
-  protected void prepareTargetRevision() throws VcsException, IOException {
+  protected void prepareTargetRevision() {
     Assert.fail("Not supported");
   }
 
-  protected void makeLocalChanges() throws IOException, VcsException {
+  protected void makeLocalChanges() {
     createFileInCommand(myBaseFile, BASE_CONTENT);
   }
 
-  protected void checkResolvedYoursState() throws VcsException {
+  protected void checkResolvedYoursState() {
     Assert.fail("Not supported");
   }
 
@@ -71,7 +71,7 @@ public class TestFileYoursAddedTheirsAdded extends TestFileConflict {
     assertFile(myBaseFile, THEIRS_CONTENT, false);
   }
 
-  protected void checkResolvedMergeState() throws VcsException {
+  protected void checkResolvedMergeState() {
     Assert.fail("can't merge");
   }
 

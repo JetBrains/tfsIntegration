@@ -48,11 +48,11 @@ public class TestFolderYoursDeletedTheirsRenamed extends TestFolderConflict {
     createDirInCommand(myBaseFolder);
   }
 
-  protected void prepareTargetRevision() throws VcsException, IOException {
+  protected void prepareTargetRevision() {
     rename(myBaseFolder, THEIRS_FOLDERNAME);
   }
 
-  protected void makeLocalChanges() throws IOException, VcsException {
+  protected void makeLocalChanges() {
     deleteFileInCommand(myBaseFolder);
     // need to try commit to have conflict reported on next Get
     try {
@@ -78,7 +78,7 @@ public class TestFolderYoursDeletedTheirsRenamed extends TestFolderConflict {
     assertFolder(myTheirsFolder, 0);
   }
 
-  protected void checkResolvedMergeState() throws VcsException {
+  protected void checkResolvedMergeState() {
     Assert.fail("not supported");
   }
 

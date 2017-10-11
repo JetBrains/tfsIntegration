@@ -19,7 +19,6 @@ package org.jetbrains.tfsIntegration.tests;
 import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.FileStatus;
 import com.intellij.openapi.vcs.VcsConfiguration;
-import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.tfsIntegration.core.tfs.TfsFileUtil;
 import org.junit.Test;
@@ -540,11 +539,11 @@ public class TestComplexOperations extends TFSTestCase {
       assertChanges(getChanges());
     }
 
-    public void assertChanges(TestChangeListBuilder changes) throws VcsException {
+    public void assertChanges(TestChangeListBuilder changes) {
       assertChanges(changes, rootfolder, false);
     }
 
-    public void assertChanges(TestChangeListBuilder changes, FilePath newRootFolder, boolean pending) throws VcsException {
+    public void assertChanges(TestChangeListBuilder changes, FilePath newRootFolder, boolean pending) {
       if (!newRootFolder.equals(rootfolder) && pending) {
         changes.assertTotalItems(14);
         changes.assertRenamedOrMoved(rootfolder, newRootFolder);

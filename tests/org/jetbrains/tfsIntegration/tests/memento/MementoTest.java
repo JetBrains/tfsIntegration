@@ -198,7 +198,7 @@ public class MementoTest extends TestCase {
     return com.teamprise.core.memento.XMLMemento.createWriteRoot("root");
   }
 
-  protected static String serialize(Memento ideaMemento) throws IOException {
+  protected static String serialize(Memento ideaMemento) {
     Document doc = new Document((Element)((XMLMemento)ideaMemento).getElement().clone());
     return JDOMUtil.writeDocument(doc, "");
   }

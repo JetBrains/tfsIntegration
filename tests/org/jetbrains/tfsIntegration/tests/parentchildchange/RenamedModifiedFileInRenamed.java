@@ -137,12 +137,12 @@ public class RenamedModifiedFileInRenamed extends ParentChildChangeTestCase {
     assertFile(myChildRenamedInParentOriginal, MODIFIED_CONTENT, true);
   }
 
-  protected void makeOriginalState() throws VcsException {
+  protected void makeOriginalState() {
     createDirInCommand(myParentOriginal);
     createFileInCommand(myChildOriginalInParentOriginal, ORIGINAL_CONTENT);
   }
 
-  protected void makeParentChange() throws VcsException {
+  protected void makeParentChange() {
     rename(myParentOriginal, myParentRenamed.getName());
   }
 

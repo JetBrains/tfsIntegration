@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="vcs-tests">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/test-lib/vcs-tests.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

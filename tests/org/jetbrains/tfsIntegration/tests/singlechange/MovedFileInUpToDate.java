@@ -20,7 +20,6 @@ import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.changes.Change;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.tfsIntegration.tests.singlechange.SingleChangeTestCase;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -75,13 +74,13 @@ public class MovedFileInUpToDate extends SingleChangeTestCase {
     assertFile(myMovedFile, ORIGINAL_CONTENT, false);
   }
 
-  protected void makeOriginalState() throws VcsException {
+  protected void makeOriginalState() {
     createDirInCommand(mySourceFolder);
     createDirInCommand(myTargetFolder);
     createFileInCommand(myOriginalFile, ORIGINAL_CONTENT);
   }
 
-  protected void makeChildChange() throws IOException, VcsException {
+  protected void makeChildChange() {
     moveFileInCommand(myOriginalFile, myTargetFolder);
   }
 

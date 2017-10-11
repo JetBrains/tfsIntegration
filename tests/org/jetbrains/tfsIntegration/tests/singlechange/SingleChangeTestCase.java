@@ -52,7 +52,7 @@ public abstract class SingleChangeTestCase extends TFSTestCase {
   protected abstract void checkChildChangeCommitted() throws VcsException;
 
 
-  protected abstract void makeOriginalState() throws VcsException;
+  protected abstract void makeOriginalState();
 
   protected abstract void makeChildChange() throws IOException, VcsException;
 

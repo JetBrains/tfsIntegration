@@ -46,7 +46,7 @@ public class AnnotationBuilder {
    *                        First element of the list (with zero index) must contain revision which is being annotated,
    *                        other list elements (if any) must give all file revisions which are older than the annotated one.
    * @param contentProvider delegate providing file content. {@link ContentProvider#getContent(TFSFileRevision)} method of provided object
-   *                        is called only for specified <code>revisions</code>
+   *                        is called only for specified {@code revisions}
    */
   public AnnotationBuilder(List<TFSFileRevision> revisions, ContentProvider contentProvider) throws VcsException {
     if (revisions == null || revisions.size() < 1) {

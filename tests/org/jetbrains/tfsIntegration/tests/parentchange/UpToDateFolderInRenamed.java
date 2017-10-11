@@ -21,7 +21,6 @@ import com.intellij.openapi.vcs.VcsConfiguration;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.changes.Change;
 import org.junit.Test;
-import org.jetbrains.tfsIntegration.tests.parentchange.ParentChangeTestCase;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -60,7 +59,7 @@ public class UpToDateFolderInRenamed extends ParentChangeTestCase {
     assertFolder(myChildFolderOriginal, 0);
   }
 
-  protected void makeParentChanges() throws VcsException {
+  protected void makeParentChanges() {
     rename(myParentFolderOriginal, FOLDERNAME_RENAMED);
   }
 

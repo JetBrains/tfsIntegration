@@ -54,7 +54,7 @@ public class TestFileYoursDeletedTheirsRenamedModified extends TestFileConflict 
     setFileContent(myTheirsFile, THEIRS_CONTENT);
   }
 
-  protected void makeLocalChanges() throws IOException, VcsException {
+  protected void makeLocalChanges() {
     deleteFileInCommand(myBaseFile);
     // need to try commit to have conflict reported on next Get
     try {
@@ -80,7 +80,7 @@ public class TestFileYoursDeletedTheirsRenamedModified extends TestFileConflict 
     assertFile(myTheirsFile, THEIRS_CONTENT, false);
   }
 
-  protected void checkResolvedMergeState() throws VcsException {
+  protected void checkResolvedMergeState() {
     Assert.fail("not supported");
   }
 

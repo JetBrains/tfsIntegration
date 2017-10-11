@@ -20,7 +20,6 @@ import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.changes.Change;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.tfsIntegration.tests.singlechange.SingleChangeTestCase;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -61,11 +60,11 @@ public class RenamedFolderInUpToDate extends SingleChangeTestCase {
     assertFolder(myRenamedFolder, 0);
   }
 
-  protected void makeOriginalState() throws VcsException {
+  protected void makeOriginalState() {
     createDirInCommand(myOriginalFolder);
   }
 
-  protected void makeChildChange() throws IOException, VcsException {
+  protected void makeChildChange() {
     rename(myOriginalFolder, myRenamedFolder.getName());
   }
 

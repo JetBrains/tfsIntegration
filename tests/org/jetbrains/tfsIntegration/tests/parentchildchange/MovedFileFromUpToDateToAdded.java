@@ -150,7 +150,7 @@ public class MovedFileFromUpToDateToAdded extends ParentChildChangeTestCase {
     assertFile(myMovedFile, ORIGINAL_CONTENT, false);
   }
 
-  protected void makeOriginalState() throws VcsException {
+  protected void makeOriginalState() {
     createDirInCommand(mySourceFolder);
     createFileInCommand(myOriginalFile, ORIGINAL_CONTENT);
   }
@@ -166,7 +166,7 @@ public class MovedFileFromUpToDateToAdded extends ParentChildChangeTestCase {
     }
   }
 
-  protected void makeChildChange(ParentChangeState parentChangeState) throws VcsException, IOException {
+  protected void makeChildChange(ParentChangeState parentChangeState) {
     moveFileInCommand(myOriginalFile, myAddedFolder);
   }
 

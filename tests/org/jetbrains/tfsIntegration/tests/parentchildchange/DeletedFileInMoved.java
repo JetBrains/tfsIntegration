@@ -168,7 +168,7 @@ public class DeletedFileInMoved extends ParentChildChangeTestCase {
     assertFolder(myMovedParentFolder, 0);
   }
 
-  protected void makeOriginalState() throws VcsException {
+  protected void makeOriginalState() {
     createDirInCommand(myOriginalParentFolder);
     createFileInCommand(myDeletedFileInOriginalFolder, FILE_CONTENT);
 
@@ -176,11 +176,11 @@ public class DeletedFileInMoved extends ParentChildChangeTestCase {
     createDirInCommand(mySubfolder2);
   }
 
-  protected void makeParentChange() throws VcsException {
+  protected void makeParentChange() {
     moveFileInCommand(myOriginalParentFolder, mySubfolder2);
   }
 
-  protected void makeChildChange(ParentChangeState parentChangeState) throws VcsException {
+  protected void makeChildChange(ParentChangeState parentChangeState) {
     deleteFileInCommand(parentChangeState == ParentChangeState.NotDone ? myDeletedFileInOriginalFolder : myDeletedFileInMovedFolder);
   }
 

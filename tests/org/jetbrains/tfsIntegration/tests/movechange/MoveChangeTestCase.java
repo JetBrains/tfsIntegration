@@ -18,9 +18,9 @@ package org.jetbrains.tfsIntegration.tests.movechange;
 
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.changes.Change;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.tfsIntegration.tests.TFSTestCase;
 import org.jetbrains.tfsIntegration.tests.TestChangeListBuilder;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,9 +37,9 @@ public abstract class MoveChangeTestCase extends TFSTestCase {
 
   protected abstract void preparePaths();
 
-  protected abstract void makeOriginalState() throws VcsException;
+  protected abstract void makeOriginalState();
 
-  protected abstract void makeChange(String changeId) throws VcsException;
+  protected abstract void makeChange(String changeId);
 
   @Nullable
   protected abstract Change getChange(TestChangeListBuilder changes, String changeId);

@@ -16,12 +16,12 @@
 
 package org.jetbrains.tfsIntegration.tests;
 
-import com.intellij.openapi.vcs.changes.ContentRevision;
-import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.FilePath;
+import com.intellij.openapi.vcs.VcsException;
+import com.intellij.openapi.vcs.changes.ContentRevision;
 import com.intellij.openapi.vcs.history.VcsRevisionNumber;
-import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class CachedContentRevision implements ContentRevision {
   private final FilePath myFile;
@@ -36,7 +36,7 @@ public class CachedContentRevision implements ContentRevision {
   }
 
   @Nullable
-  public String getContent() throws VcsException {
+  public String getContent() {
     return myContent;
   }
 

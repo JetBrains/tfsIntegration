@@ -73,11 +73,6 @@ public class TFSCommittedChangesProvider implements CachingCommittedChangesProvi
     return null;
   }
 
-  @Nullable
-  public RepositoryLocation getLocationFor(final FilePath root, final String repositoryPath) {
-    return getLocationFor(root);
-  }
-
   public RepositoryLocation getLocationFor(final FilePath root) {
     final Map<WorkspaceInfo, List<FilePath>> pathsByWorkspaces = new HashMap<>();
     try {

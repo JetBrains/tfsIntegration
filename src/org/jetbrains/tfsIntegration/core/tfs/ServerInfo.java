@@ -117,14 +117,14 @@ public class ServerInfo {
     return myServer;
   }
 
-  public void refreshWorkspacesForCurrentOwner(Object projectOrComponent, boolean force) throws TfsException {
+  public void refreshWorkspacesForCurrentOwnerAndComputer(Object projectOrComponent, boolean force) throws TfsException {
     Workspace[] newWorkspaces = getVCS().queryWorkspaces(Workstation.getComputerName(), projectOrComponent, force);
     String owner = getQualifiedUsername();
     LOG.assertTrue(owner != null);
 
     for (Iterator<WorkspaceInfo> i = myWorkspaceInfos.iterator(); i.hasNext();) {
       WorkspaceInfo workspaceInfo = i.next();
-      if (workspaceInfo.isWorkspaceOwner(owner)) {
+      if (workspaceInfo.hasCurrentOwnerAndComputer()) {
         i.remove();
       }
     }

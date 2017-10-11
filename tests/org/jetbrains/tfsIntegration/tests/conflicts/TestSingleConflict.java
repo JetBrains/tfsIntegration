@@ -193,7 +193,7 @@ abstract class TestSingleConflict extends TFSTestCase {
                                 final Project project,
                                 final VirtualFile targetFile,
                                 final String localPathToDisplay,
-                                final VcsRevisionNumber serverVersion) throws IOException, VcsException {
+                                final VcsRevisionNumber serverVersion) throws IOException {
       Assert.assertEquals(getExpectedBaseContent(), contentTriplet.baseContent);
       Assert.assertEquals(getExpectedYoursContent(), contentTriplet.localContent);
       Assert.assertEquals(getExpectedTheirsContent(), contentTriplet.serverContent);

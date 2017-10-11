@@ -219,7 +219,7 @@ public class ManageWorkspacesForm {
   private void reloadWorkspaces(ServerInfo server) {
     try {
       Object selection = getSelectedObject();
-      server.refreshWorkspacesForCurrentOwner(myContentPane, true);
+      server.refreshWorkspacesForCurrentOwnerAndComputer(myContentPane, true);
       updateControls(selection);
     }
     catch (UserCancelledException e) {
@@ -387,7 +387,7 @@ public class ManageWorkspacesForm {
     catch (WorkspaceNotFoundException e) {
       Messages.showErrorDialog(myProject, e.getMessage(), TFSBundle.message("edit.workspace.title"));
       try {
-        workspace.getServer().refreshWorkspacesForCurrentOwner(myContentPane, true);
+        workspace.getServer().refreshWorkspacesForCurrentOwnerAndComputer(myContentPane, true);
         updateControls(null);
       }
       catch (UserCancelledException e2) {

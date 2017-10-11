@@ -160,14 +160,14 @@ public class RenamedModifiedFileInMoved extends ParentChildChangeTestCase {
     assertFile(myChildRenamedInParentOriginal, MODIFIED_CONTENT, true);
   }
 
-  protected void makeOriginalState() throws VcsException {
+  protected void makeOriginalState() {
     createDirInCommand(myParentOriginal);
     createFileInCommand(myChildOriginalInParentOriginal, ORIGINAL_CONTENT);
     createDirInCommand(mySubfolder1);
     createDirInCommand(mySubfolder2);
   }
 
-  protected void makeParentChange() throws VcsException {
+  protected void makeParentChange() {
     moveFileInCommand(myParentOriginal, mySubfolder2);
   }
 
