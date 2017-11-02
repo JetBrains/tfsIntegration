@@ -43,6 +43,7 @@ public class TFSProjectConfigurable implements Configurable {
     return null;
   }
 
+  @Override
   @NonNls
   public String getHelpTopic() {
     return "project.propVCSSupport.VCSs.TFS";

@@ -38,6 +38,7 @@ public class UpdateConfigurable implements Configurable {
     myWorkspaceSettings = workspaceSettings;
   }
 
+  @Override
   public String getHelpTopic() {
     return null; // TODO: help id
   }
