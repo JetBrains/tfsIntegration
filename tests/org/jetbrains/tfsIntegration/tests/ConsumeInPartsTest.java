@@ -32,6 +32,7 @@ public class ConsumeInPartsTest extends TestCase {
   private static class TestConsumer implements ThrowableConsumer<List<String>, RuntimeException> {
     private final List<String[]> myResults = new ArrayList<>();
 
+    @Override
     public void consume(List<String> strings) {
       myResults.add(ArrayUtil.toStringArray(strings));
     }

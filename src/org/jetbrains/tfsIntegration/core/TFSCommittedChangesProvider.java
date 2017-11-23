@@ -199,9 +199,11 @@ public class TFSCommittedChangesProvider implements CachingCommittedChangesProvi
                                                  final int maxCount) throws VcsException {
     final List<TFSChangeList> result = new ArrayList<>();
     loadCommittedChanges(settings, location, maxCount, new AsynchConsumer<CommittedChangeList>() {
+      @Override
       public void finished() {
       }
 
+      @Override
       public void consume(CommittedChangeList committedChangeList) {
         result.add((TFSChangeList)committedChangeList);
       }
