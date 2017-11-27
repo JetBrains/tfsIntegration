@@ -31,7 +31,6 @@ import com.intellij.openapi.vcs.versionBrowser.CommittedChangeList;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.AsynchConsumer;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.*;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.tfsIntegration.core.tfs.*;
 import org.jetbrains.tfsIntegration.core.tfs.version.ChangesetVersionSpec;
@@ -59,11 +58,6 @@ public class TFSCommittedChangesProvider implements CachingCommittedChangesProvi
     myVcs = TFSVcs.getInstance(myProject);
   }
 
-  @NotNull
-  public ChangeBrowserSettings createDefaultSettings() {
-    return new ChangeBrowserSettings();
-  }
-
   public ChangesBrowserSettingsEditor<ChangeBrowserSettings> createFilterUI(final boolean showDateFilter) {
     return new TFSVersionFilterComponent(showDateFilter);
   }
@@ -77,7 +71,7 @@ public class TFSCommittedChangesProvider implements CachingCommittedChangesProvi
     final Map<WorkspaceInfo, List<FilePath>> pathsByWorkspaces = new HashMap<>();
     try {
       WorkstationHelper.processByWorkspaces(Collections.singletonList(root), true, myProject, new WorkstationHelper.VoidProcessDelegate() {
-        public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) throws TfsException {
+        public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) {
           pathsByWorkspaces.put(workspace, TfsUtil.getLocalPaths(paths));
         }
       });
@@ -239,7 +233,7 @@ public class TFSCommittedChangesProvider implements CachingCommittedChangesProvi
     list.writeToStream(stream);
   }
 
-  public TFSChangeList readChangeList(final RepositoryLocation location, final DataInput stream) throws IOException {
+  public TFSChangeList readChangeList(final RepositoryLocation location, final DataInput stream) {
     return new TFSChangeList(myVcs, stream);
   }
 
@@ -247,7 +241,7 @@ public class TFSCommittedChangesProvider implements CachingCommittedChangesProvi
     return true;
   }
 
-  public Collection<FilePath> getIncomingFiles(final RepositoryLocation location) throws VcsException {
+  public Collection<FilePath> getIncomingFiles(final RepositoryLocation location) {
     return null;
   }
 
