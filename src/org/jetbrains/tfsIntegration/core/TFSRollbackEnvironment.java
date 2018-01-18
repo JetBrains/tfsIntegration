@@ -17,20 +17,16 @@
 package org.jetbrains.tfsIntegration.core;
 
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.vcs.AbstractVcsHelper;
 import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.changes.Change;
 import com.intellij.openapi.vcs.changes.ContentRevision;
-import com.intellij.openapi.vcs.changes.CurrentContentRevision;
 import com.intellij.openapi.vcs.rollback.DefaultRollbackEnvironment;
 import com.intellij.openapi.vcs.rollback.RollbackProgressListener;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.GetOperation;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.RecursionType;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.tfsIntegration.core.revision.TFSContentRevision;
 import org.jetbrains.tfsIntegration.core.tfs.*;
 import org.jetbrains.tfsIntegration.core.tfs.operations.ApplyGetOperations;
 import org.jetbrains.tfsIntegration.core.tfs.operations.ApplyProgress;
@@ -41,7 +37,6 @@ import org.jetbrains.tfsIntegration.exceptions.TfsException;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public class TFSRollbackEnvironment extends DefaultRollbackEnvironment {
@@ -191,31 +186,6 @@ public class TFSRollbackEnvironment extends DefaultRollbackEnvironment {
       //noinspection ThrowableInstanceNeverThrown
       errors.add(new VcsException("Cannot undo pending changes", e));
     }
-  }
-
-  public void rollbackIfUnchanged(final VirtualFile file) {
-    /*final List<VcsException> errors = new ArrayList<VcsException>();
-    boolean unchanged = false;
-    try {
-      FilePath path = TfsFileUtil.getFilePath(file);
-      String localContent = CurrentContentRevision.create(path).getContent();
-      TFSContentRevision currentRevision = TfsUtil.getCurrentRevision(myProject, path, TFSBundle.message("loading.item"));
-      unchanged = currentRevision != null && Comparing.equal(localContent, currentRevision.getContent());
-    }
-    catch (VcsException e) {
-      errors.add(e);
-    }
-    catch (TfsException e) {
-      //noinspection ThrowableInstanceNeverThrown
-      errors.add(new VcsException(e));
-    }
-
-    if (unchanged) {
-      undoPendingChanges(Collections.singletonList(TfsFileUtil.getFilePath(file)), errors, RollbackProgressListener.EMPTY, true);
-    }
-    if (!errors.isEmpty()) {
-      AbstractVcsHelper.getInstance(myProject).showErrors(errors, TFSVcs.TFS_NAME);
-    }*/
   }
 
   private void undoPendingChanges(final List<FilePath> localPaths,
