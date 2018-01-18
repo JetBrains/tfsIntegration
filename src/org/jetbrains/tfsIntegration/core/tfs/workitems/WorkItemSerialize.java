@@ -93,7 +93,7 @@ public class WorkItemSerialize {
     }
 
     Columns_type0 columnsArray = new Columns_type0();
-    columnsArray.setColumn(columns.toArray(new Column_type0[columns.size()]));
+    columnsArray.setColumn(columns.toArray(new Column_type0[0]));
     return columnsArray;
   }
 
@@ -149,7 +149,7 @@ public class WorkItemSerialize {
     }
 
     ComputedColumns_type0 computedColumnsArray = new ComputedColumns_type0();
-    computedColumnsArray.setComputedColumn(computedColumns.toArray(new ComputedColumn_type0[computedColumns.size()]));
+    computedColumnsArray.setComputedColumn(computedColumns.toArray(new ComputedColumn_type0[0]));
     return computedColumnsArray;
   }
 

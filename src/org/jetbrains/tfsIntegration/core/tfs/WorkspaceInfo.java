@@ -312,7 +312,7 @@ public class WorkspaceInfo {
     for (WorkingFolderInfo folderInfo : workingFolders) {
       foldersList.add(toBean(folderInfo));
     }
-    folders.setWorkingFolder(foldersList.toArray(new WorkingFolder[foldersList.size()]));
+    folders.setWorkingFolder(foldersList.toArray(new WorkingFolder[0]));
 
     Workspace bean = new Workspace();
     bean.setComment(info.getComment());

@@ -356,7 +356,7 @@ public class VersionControlServer {
           }
 
           final ArrayOfChangeRequest arrayOfChangeRequest = new ArrayOfChangeRequest();
-          arrayOfChangeRequest.setChangeRequest(changeRequests.toArray(new ChangeRequest[changeRequests.size()]));
+          arrayOfChangeRequest.setChangeRequest(changeRequests.toArray(new ChangeRequest[0]));
 
           final PendChanges param = new PendChanges();
           param.setOwnerName(workspaceOwner);
@@ -371,7 +371,7 @@ public class VersionControlServer {
               localVersionUpdates.add(getLocalVersionUpdate(getOperation));
             }
             arrayOfLocalVersionUpdate
-              .setLocalVersionUpdate(localVersionUpdates.toArray(new LocalVersionUpdate[localVersionUpdates.size()]));
+              .setLocalVersionUpdate(localVersionUpdates.toArray(new LocalVersionUpdate[0]));
 
             final UpdateLocalVersion param2 = new UpdateLocalVersion();
             param2.setOwnerName(workspaceOwner);
@@ -522,7 +522,7 @@ public class VersionControlServer {
                                                       ProgressIndicator pi)
           throws RemoteException, HostNotApplicableException {
           final ArrayOfItemSpec arrayOfItemSpec = new ArrayOfItemSpec();
-          arrayOfItemSpec.setItemSpec(items.toArray(new ItemSpec[items.size()]));
+          arrayOfItemSpec.setItemSpec(items.toArray(new ItemSpec[0]));
           QueryItemsExtended param = new QueryItemsExtended();
           param.setWorkspaceName(workspaceName);
           param.setWorkspaceOwner(ownerName);
@@ -656,7 +656,7 @@ public class VersionControlServer {
           itemSpecs.add(createItemSpec(path, RecursionType.None));
         }
         final ArrayOfItemSpec arrayOfItemSpec = new ArrayOfItemSpec();
-        arrayOfItemSpec.setItemSpec(itemSpecs.toArray(new ItemSpec[itemSpecs.size()]));
+        arrayOfItemSpec.setItemSpec(itemSpecs.toArray(new ItemSpec[0]));
         QueryItemsExtended param = new QueryItemsExtended();
         param.setWorkspaceName(workspaceName);
         param.setWorkspaceOwner(ownerName);
@@ -856,7 +856,7 @@ public class VersionControlServer {
       public Void execute(Collection<LocalVersionUpdate> items, Credentials credentials, ProgressIndicator pi)
         throws RemoteException, HostNotApplicableException {
         final ArrayOfLocalVersionUpdate arrayOfLocalVersionUpdate = new ArrayOfLocalVersionUpdate();
-        arrayOfLocalVersionUpdate.setLocalVersionUpdate(items.toArray(new LocalVersionUpdate[items.size()]));
+        arrayOfLocalVersionUpdate.setLocalVersionUpdate(items.toArray(new LocalVersionUpdate[0]));
         final UpdateLocalVersion param = new UpdateLocalVersion();
         param.setOwnerName(workspaceOwnerName);
         param.setWorkspaceName(workspaceName);
@@ -889,7 +889,7 @@ public class VersionControlServer {
             itemSpecs.add(createItemSpec(serverPath, null));
           }
           final ArrayOfItemSpec arrayOfItemSpec = new ArrayOfItemSpec();
-          arrayOfItemSpec.setItemSpec(itemSpecs.toArray(new ItemSpec[itemSpecs.size()]));
+          arrayOfItemSpec.setItemSpec(itemSpecs.toArray(new ItemSpec[0]));
           final UndoPendingChanges param = new UndoPendingChanges();
           param.setOwnerName(workspaceOwner);
           param.setWorkspaceName(workspaceName);
@@ -927,7 +927,7 @@ public class VersionControlServer {
           getRequests.add(getRequest);
         }
         final ArrayOfGetRequest arrayOfGetRequests = new ArrayOfGetRequest();
-        arrayOfGetRequests.setGetRequest(getRequests.toArray(new GetRequest[getRequests.size()]));
+        arrayOfGetRequests.setGetRequest(getRequests.toArray(new GetRequest[0]));
         Get param = new Get();
         param.setWorkspaceName(workspaceName);
         param.setOwnerName(workspaceOwner);
@@ -1001,7 +1001,7 @@ public class VersionControlServer {
           itemSpecList.add(createItemSpec(path.getServerPath(), recursionType));
         }
         final ArrayOfItemSpec arrayOfItemSpec = new ArrayOfItemSpec();
-        arrayOfItemSpec.setItemSpec(itemSpecList.toArray(new ItemSpec[itemSpecList.size()]));
+        arrayOfItemSpec.setItemSpec(itemSpecList.toArray(new ItemSpec[0]));
 
         final QueryConflicts param = new QueryConflicts();
         param.setWorkspaceName(workspaceName);
@@ -1090,7 +1090,7 @@ public class VersionControlServer {
         parts.add(filePart);
         filePart.setCharSet(null);
         WebServiceHelper
-          .httpPost(uploadUrl, parts.toArray(new Part[parts.size()]), null, credentials, serverUri, myBeans.getUploadDownloadClient(false));
+          .httpPost(uploadUrl, parts.toArray(new Part[0]), null, credentials, serverUri, myBeans.getUploadDownloadClient(false));
         return null;
       }
     });
@@ -1131,7 +1131,7 @@ public class VersionControlServer {
         public Collection<PendingChange> execute(Collection<ItemSpec> items, Credentials credentials, ProgressIndicator pi)
           throws RemoteException, HostNotApplicableException {
           final ArrayOfItemSpec arrayOfItemSpec = new ArrayOfItemSpec();
-          arrayOfItemSpec.setItemSpec(items.toArray(new ItemSpec[items.size()]));
+          arrayOfItemSpec.setItemSpec(items.toArray(new ItemSpec[0]));
 
           QueryPendingSets param = new QueryPendingSets();
           param.setLocalWorkspaceName(workspaceName);
@@ -1254,7 +1254,7 @@ public class VersionControlServer {
 
     ArrayOfCheckinNotificationWorkItemInfo arrayOfCheckinNotificationWorkItemInfo = new ArrayOfCheckinNotificationWorkItemInfo();
     arrayOfCheckinNotificationWorkItemInfo.setCheckinNotificationWorkItemInfo(
-      checkinNotificationWorkItemInfoArray.toArray(new CheckinNotificationWorkItemInfo[checkinNotificationWorkItemInfoArray.size()]));
+      checkinNotificationWorkItemInfoArray.toArray(new CheckinNotificationWorkItemInfo[0]));
     return arrayOfCheckinNotificationWorkItemInfo;
   }
 
@@ -1513,7 +1513,7 @@ public class VersionControlServer {
         public ResultWithFailures<LabelResult> execute(Collection<LabelItemSpec> items, Credentials credentials, ProgressIndicator pi)
           throws RemoteException, HostNotApplicableException {
           final ArrayOfLabelItemSpec arrayOfLabelItemSpec = new ArrayOfLabelItemSpec();
-          arrayOfLabelItemSpec.setLabelItemSpec(items.toArray(new LabelItemSpec[items.size()]));
+          arrayOfLabelItemSpec.setLabelItemSpec(items.toArray(new LabelItemSpec[0]));
           LabelItem param = new LabelItem();
           param.setWorkspaceName(null);
           param.setWorkspaceOwner(null);

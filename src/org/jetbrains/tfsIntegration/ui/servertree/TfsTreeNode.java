@@ -70,7 +70,7 @@ public class TfsTreeNode extends SimpleNode {
     for (final Item childItem : children) {
       result.add(new TfsTreeNode(this, childItem.getItem(), childItem.getType() == ItemType.Folder, false));
     }
-    return result.toArray(new SimpleNode[result.size()]);
+    return result.toArray(new SimpleNode[0]);
   }
 
   @Override

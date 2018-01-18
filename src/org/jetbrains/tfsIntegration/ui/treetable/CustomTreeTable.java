@@ -16,8 +16,8 @@
 
 package org.jetbrains.tfsIntegration.ui.treetable;
 
-import com.intellij.util.ui.ColumnInfo;
 import com.intellij.ui.treeStructure.treetable.*;
+import com.intellij.util.ui.ColumnInfo;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -137,7 +137,7 @@ public class CustomTreeTable<T> extends TreeTable {
     else {
       root = null;
     }
-    return new ListTreeTableModelOnColumns(root, columnsInfos.toArray(new ColumnInfo[columnsInfos.size()]));
+    return new ListTreeTableModelOnColumns(root, columnsInfos.toArray(ColumnInfo.EMPTY_ARRAY));
   }
 
   private static <T> void addChildren(DefaultMutableTreeNode parentNode, ContentProvider<T> contentProvider) {
