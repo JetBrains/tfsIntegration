@@ -156,7 +156,7 @@ public class TFSConfigurationManager implements PersistentStateComponent<TFSConf
     }
   }
 
-  public void loadState(final State state) {
+  public void loadState(@NotNull final State state) {
     myServersConfig = state.config;
     myUseIdeaHttpProxy = state.useIdeaHttpProxy;
     mySupportTfsCheckinPolicies = state.supportTfsCheckinPolicies;

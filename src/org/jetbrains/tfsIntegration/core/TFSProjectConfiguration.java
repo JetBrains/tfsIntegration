@@ -52,7 +52,7 @@ public class TFSProjectConfiguration implements PersistentStateComponent<TFSProj
   }
 
   @Override
-  public void loadState(ConfigurationBean state) {
+  public void loadState(@NotNull ConfigurationBean state) {
     myConfigurationBean = state;
   }
 
