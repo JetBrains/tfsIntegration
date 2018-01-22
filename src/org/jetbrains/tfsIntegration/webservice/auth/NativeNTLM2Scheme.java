@@ -30,7 +30,7 @@ public class NativeNTLM2Scheme extends NTLM2Scheme {
   @Nullable
   private static Pair<Object, Method> createNativeAuthSequence() {
 
-    boolean java7 = SystemInfo.isJavaVersionAtLeast("1.7");
+    boolean java7 = SystemInfo.isJavaVersionAtLeast(7, 0, 0);
     try {
       Class clazz = java7
                     ? Class.forName("sun.net.www.protocol.http.ntlm.NTLMAuthSequence")
