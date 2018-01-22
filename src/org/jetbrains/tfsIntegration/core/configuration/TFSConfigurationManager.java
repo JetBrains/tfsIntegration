@@ -26,7 +26,8 @@ import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.project.Project;
-import com.intellij.util.xmlb.annotations.MapAnnotation;
+import com.intellij.util.xmlb.annotations.OptionTag;
+import com.intellij.util.xmlb.annotations.XMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.tfsIntegration.config.TfsServerConnectionHelper;
@@ -42,22 +43,19 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
-@State(
-  name = "org.jetbrains.tfsIntegration.core.configuration.TFSConfigurationManager",
-  storages = {@Storage("tfs.xml")})
+@State(name = "org.jetbrains.tfsIntegration.core.configuration.TFSConfigurationManager", storages = @Storage("tfs.xml"))
 public class TFSConfigurationManager implements PersistentStateComponent<TFSConfigurationManager.State> {
   private static final String TFS_NOTIFICATION_GROUP = "TFS";
 
   public static class State {
-
-    @MapAnnotation(entryTagName = "server", keyAttributeName = "uri", surroundValueWithTag = false)
+    @OptionTag
+    @XMap(entryTagName = "server", keyAttributeName = "uri")
     public Map<String, ServerConfiguration> config = new HashMap<>();
 
     public boolean useIdeaHttpProxy = true;
     public boolean supportTfsCheckinPolicies = true;
     public boolean supportStatefulCheckinPolicies = true;
     public boolean reportNotInstalledCheckinPolicies = true;
-
   }
 
   private Map<String, ServerConfiguration> myServersConfig = new HashMap<>();
