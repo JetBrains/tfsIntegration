@@ -8,8 +8,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="vcs-api" exported="" />
-    <orderEntry type="module" module-name="lang-api" exported="" />
+    <orderEntry type="module" module-name="intellij.platform.vcs" exported="" />
+    <orderEntry type="module" module-name="intellij.platform.lang" exported="" />
     <orderEntry type="module-library">
       <library name="axis2">
         <CLASSES>
@@ -81,9 +81,9 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="ultimate-verifier" />
-    <orderEntry type="module" module-name="platform-ultimate" />
-    <orderEntry type="module" module-name="platform-impl" />
+    <orderEntry type="module" module-name="intellij.platform.commercial.verifier" />
+    <orderEntry type="module" module-name="intellij.platform.commercial" />
+    <orderEntry type="module" module-name="intellij.platform.ide.impl" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
