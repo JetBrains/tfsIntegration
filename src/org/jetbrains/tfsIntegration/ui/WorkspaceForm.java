@@ -163,7 +163,7 @@ public class WorkspaceForm {
 
       @Override
       protected WorkingFolderInfo createItem() {
-        String path = myProject.isDefault() ? "" : myProject.getBaseDir().getPath();
+        String path = myProject.isDefault() ? "" : myProject.getBasePath();
         return new WorkingFolderInfo(VcsUtil.getFilePath(path));
       }
 
