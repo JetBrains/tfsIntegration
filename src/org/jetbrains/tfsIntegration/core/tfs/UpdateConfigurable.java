@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.jetbrains.tfsIntegration.core.tfs;
 
 import com.intellij.openapi.options.Configurable;
@@ -36,11 +35,6 @@ public class UpdateConfigurable implements Configurable {
   public UpdateConfigurable(Project project, Map<WorkspaceInfo, UpdateSettingsForm.WorkspaceSettings> workspaceSettings) {
     myProject = project;
     myWorkspaceSettings = workspaceSettings;
-  }
-
-  @Override
-  public String getHelpTopic() {
-    return null; // TODO: help id
   }
 
   public void apply() throws ConfigurationException {
