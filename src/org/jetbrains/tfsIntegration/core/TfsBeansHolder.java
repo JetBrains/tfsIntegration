@@ -35,7 +35,7 @@ public class TfsBeansHolder {
   private GroupSecurityServiceStub myGroupSecurityService;
   private String myDownloadUrl;
   private String myUploadUrl;
-  private HttpClient[] myUploadDownloadClients = new HttpClient[2]; // regular, proxy
+  private final HttpClient[] myUploadDownloadClients = new HttpClient[2]; // regular, proxy
 
   public TfsBeansHolder(URI serverUri) {
     myServerUri = serverUri;

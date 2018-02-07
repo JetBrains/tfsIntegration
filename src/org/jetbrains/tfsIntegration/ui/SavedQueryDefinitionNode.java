@@ -23,9 +23,9 @@ import java.util.Set;
 
 public class SavedQueryDefinitionNode extends BaseQueryNode {
 
-  private static String[] WORK_ITEM_FIELDS =
+  private static final String[] WORK_ITEM_FIELDS =
     ContainerUtil.map2Array(WorkItemSerialize.FIELDS, String.class, field -> field.getSerialized());
-  private static String WORK_ITEMS_QUERY = "SELECT " + WorkItemQueryUtils.formatFieldList(WORK_ITEM_FIELDS) + " FROM WorkItems";
+  private static final String WORK_ITEMS_QUERY = "SELECT " + WorkItemQueryUtils.formatFieldList(WORK_ITEM_FIELDS) + " FROM WorkItems";
 
   @NotNull private final QueryDefinition myQueryDefinition;
 

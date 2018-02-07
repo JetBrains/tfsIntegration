@@ -56,7 +56,7 @@ public class TfsTreeForm implements Disposable, DataProvider {
   private JLabel myMessageLabel;
   private JPanel myMessagePanel;
   private TfsTreeBuilder myTreeBuider;
-  private EventDispatcher<SelectionListener> myEventDispatcher = EventDispatcher.create(SelectionListener.class);
+  private final EventDispatcher<SelectionListener> myEventDispatcher = EventDispatcher.create(SelectionListener.class);
   private SelectedItem mySelectedItem; // have to cache selected item to be available after form is disposed
 
   public TfsTreeForm() {

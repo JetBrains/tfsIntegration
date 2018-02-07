@@ -58,7 +58,7 @@ public class WorkspaceForm {
 
   private final EventDispatcher<ChangeListener> myEventDispatcher = EventDispatcher.create(ChangeListener.class);
 
-  private static ColumnInfo<WorkingFolderInfo, Object> STATUS_COLUMN =
+  private static final ColumnInfo<WorkingFolderInfo, Object> STATUS_COLUMN =
     new ColumnInfo<WorkingFolderInfo, Object>(TFSBundle.message("working.folder.status.column")) {
       @Override
       public Object valueOf(WorkingFolderInfo item) {
@@ -131,7 +131,7 @@ public class WorkspaceForm {
 
   }
 
-  private ColumnInfo<WorkingFolderInfo, String> SERVER_PATH_COLUMN =
+  private final ColumnInfo<WorkingFolderInfo, String> SERVER_PATH_COLUMN =
     new ColumnInfo<WorkingFolderInfo, String>(TFSBundle.message("working.folder.server.path.column")) {
       @Override
       public String valueOf(WorkingFolderInfo item) {

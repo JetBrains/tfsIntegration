@@ -83,7 +83,7 @@ public class VersionControlServer {
   private final URI myServerUri;
   private final String myInstanceId;
 
-  @NotNull private TfsBeansHolder myBeans;
+  @NotNull private final TfsBeansHolder myBeans;
   private static final Logger LOG = Logger.getInstance(VersionControlServer.class.getName());
 
   private interface OperationOnCollection<T, U> {

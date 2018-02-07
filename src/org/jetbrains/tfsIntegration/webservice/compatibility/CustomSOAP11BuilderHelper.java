@@ -31,7 +31,7 @@ import javax.xml.stream.XMLStreamReader;
 // [IntelliJ] copy of class org.apache.axiom.soap.impl.builder.SOAP11BuilderHelper 
 
 public class CustomSOAP11BuilderHelper extends CustomSOAPBuilderHelper implements SOAP11Constants {
-    private SOAPFactory factory;
+    private final SOAPFactory factory;
     private boolean faultcodePresent = false;
     private boolean faultstringPresent = false;
 

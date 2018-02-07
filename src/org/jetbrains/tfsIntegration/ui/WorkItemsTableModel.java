@@ -172,7 +172,7 @@ class WorkItemsTableModel extends ListTreeTableModelOnColumns {
 
     @NotNull private final WorkItemsCheckinParameters myContent;
     // TODO: Do we need this renderer?
-    private TableCellRenderer myRenderer = new NoBackgroundBooleanTableCellRenderer();
+    private final TableCellRenderer myRenderer = new NoBackgroundBooleanTableCellRenderer();
 
     public CheckBoxColumn(@NotNull WorkItemsCheckinParameters content) {
       super(" ", 50);
@@ -258,8 +258,8 @@ class WorkItemsTableModel extends ListTreeTableModelOnColumns {
 
   static class CheckInActionColumn extends WorkItemFieldColumn<CheckinWorkItemAction> {
 
-    private ComboBox myComboBox = new ComboBox(new CheckinWorkItemAction[]{CheckinWorkItemAction.Resolve, CheckinWorkItemAction.Associate});
-    private TableCellEditor myCellEditor = new DefaultCellEditor(myComboBox) {
+    private final ComboBox myComboBox = new ComboBox(new CheckinWorkItemAction[]{CheckinWorkItemAction.Resolve, CheckinWorkItemAction.Associate});
+    private final TableCellEditor myCellEditor = new DefaultCellEditor(myComboBox) {
       @Nullable
       public Component getTableCellEditorComponent(final JTable table,
                                                    final Object value,

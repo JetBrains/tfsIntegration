@@ -32,7 +32,7 @@ import java.util.Vector;
 
 public class CustomSOAP12BuilderHelper extends CustomSOAPBuilderHelper {
 
-    private SOAPFactory factory;
+    private final SOAPFactory factory;
     private boolean codePresent = false;
     private boolean reasonPresent = false;
     private boolean nodePresent = false;
