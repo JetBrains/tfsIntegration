@@ -131,7 +131,7 @@ public class NTLM2Scheme extends NTLMScheme {
         }
         int i = challenge.indexOf(' ');
         if (i != -1) {
-            s = challenge.substring(i, challenge.length());
+            s = challenge.substring(i);
             this.ntlmchallenge = s.trim();
             this.state = TYPE2_MSG_RECEIVED;
         } else {
