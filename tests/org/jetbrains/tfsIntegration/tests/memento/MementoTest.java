@@ -16,9 +16,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.charset.StandardCharsets;
 
 // this test checks that IDEA's Memento implementation is identical to the Teamprise' one,
 // so that checkin policy definitions have the same storage format
@@ -212,7 +216,7 @@ public class MementoTest extends TestCase {
       @Override
       public com.teamprise.core.memento.Memento compute() throws Exception {
         // the same way as Teamprise does
-        return com.teamprise.core.memento.XMLMemento.createReadRoot(new ByteArrayInputStream(s.getBytes("UTF-8")));
+        return com.teamprise.core.memento.XMLMemento.createReadRoot(new ByteArrayInputStream(s.getBytes(StandardCharsets.UTF_8)));
       }
     });
   }
@@ -236,13 +240,7 @@ public class MementoTest extends TestCase {
       @Override
       public InputStream getResourceAsStream(String name) {
         if (XML_ENTITIES_URL.equals(name)) {
-          String resource = XML_ENTITIES_CONTENT;
-          try {
-            return new ByteArrayInputStream(resource.getBytes("UTF-8"));
-          }
-          catch (UnsupportedEncodingException e) {
-            // should not happen, fallback
-          }
+          return new ByteArrayInputStream(XML_ENTITIES_CONTENT.getBytes(StandardCharsets.UTF_8));
         }
         return super.getResourceAsStream(name);
       }
