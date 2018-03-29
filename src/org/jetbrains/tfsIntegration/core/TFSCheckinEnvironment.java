@@ -62,9 +62,9 @@ import java.util.*;
 import java.util.List;
 
 public class TFSCheckinEnvironment implements CheckinEnvironment {
-  private final @NotNull TFSVcs myVcs;
+  @NotNull private final TFSVcs myVcs;
 
-  public TFSCheckinEnvironment(final @NotNull TFSVcs vcs) {
+  public TFSCheckinEnvironment(@NotNull TFSVcs vcs) {
     myVcs = vcs;
   }
 
