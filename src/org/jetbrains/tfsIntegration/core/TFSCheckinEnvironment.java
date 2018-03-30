@@ -69,7 +69,7 @@ public class TFSCheckinEnvironment implements CheckinEnvironment {
   }
 
   @Nullable
-  public RefreshableOnComponent createAdditionalOptionsPanel(final CheckinProjectPanel checkinProjectPanel,
+  public RefreshableOnComponent createAdditionalOptionsPanel(@NotNull CheckinProjectPanel checkinProjectPanel,
                                                              PairConsumer<Object, Object> additionalDataConsumer) {
      boolean isAffected = false;
       for (File file : checkinProjectPanel.getFiles()) {
