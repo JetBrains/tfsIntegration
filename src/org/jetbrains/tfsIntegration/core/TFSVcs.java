@@ -109,10 +109,6 @@ public class TFSVcs extends AbstractVcs {
     Disposer.dispose(myFileListener);
   }
 
-  public VcsShowConfirmationOption getAddConfirmation() {
-    return myAddConfirmation;
-  }
-
   public VcsShowConfirmationOption getDeleteConfirmation() {
     return myDeleteConfirmation;
   }
