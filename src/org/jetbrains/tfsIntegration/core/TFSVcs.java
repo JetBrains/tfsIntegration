@@ -88,6 +88,7 @@ public class TFSVcs extends AbstractVcs {
     return (TFSVcs)ProjectLevelVcsManager.getInstance(project).findVcsByName(TFS_NAME);
   }
 
+  @NotNull
   @NonNls
   public String getDisplayName() {
     return "TFS";
