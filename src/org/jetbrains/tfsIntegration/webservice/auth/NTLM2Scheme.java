@@ -193,6 +193,7 @@ public class NTLM2Scheme extends NTLMScheme {
      *
      * @deprecated no longer used
      */
+    @Deprecated
     public String getID() {
         return ntlmchallenge;
     }
