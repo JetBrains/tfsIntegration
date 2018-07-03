@@ -23,8 +23,8 @@ public class NativeNTLM2Scheme extends NTLM2Scheme {
 
   public NativeNTLM2Scheme() {
     Pair<Object, Method> pair = createNativeAuthSequence();
-    myAuthSequenceObject = pair != null ? pair.first : null;
-    myGetAuthHeaderMethod = pair != null ? pair.second : null;
+    myAuthSequenceObject = Pair.getFirst(pair);
+    myGetAuthHeaderMethod = Pair.getSecond(pair);
   }
 
   @Nullable

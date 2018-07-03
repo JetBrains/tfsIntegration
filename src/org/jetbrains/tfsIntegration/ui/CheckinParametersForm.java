@@ -307,7 +307,7 @@ public class CheckinParametersForm implements Disposable {
     myTabbedPane.setIconAt(myTabbedPane.indexOfComponent(myCheckinNotesTab), icon);
 
     @Nullable Pair<String, CheckinParameters.Severity> message = myState.getValidationMessage(CheckinParameters.Severity.BOTH);
-    myErrorLabel.setText(message != null ? message.first : null);
+    myErrorLabel.setText(Pair.getFirst(message));
     myErrorLabel.setIcon(message == null ? null : message.second == CheckinParameters.Severity.ERROR ? ERROR_ICON : WARNING_ICON);
   }
 

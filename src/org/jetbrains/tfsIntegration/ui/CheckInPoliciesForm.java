@@ -368,7 +368,7 @@ public class CheckInPoliciesForm {
   @Nullable
   private StatefulPolicyDescriptor getSelectedDescriptor() {
     final Pair<StatefulPolicyDescriptor, Boolean> selected = myPoliciesTable.getSelectedObject();
-    return selected != null ? selected.first : null;
+    return Pair.getFirst(selected);
   }
 
   public JComponent getContentPane() {

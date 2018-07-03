@@ -183,7 +183,7 @@ public class WorkspaceForm {
 
       @Override
       protected void displayMessageAndFix(@Nullable Pair<String, Fix> messageAndFix) {
-        myWorkingFolderValidationMessage = messageAndFix != null ? messageAndFix.first : null;
+        myWorkingFolderValidationMessage = Pair.getFirst(messageAndFix);
         myEventDispatcher.getMulticaster().stateChanged(new ChangeEvent(this));
       }
     };
