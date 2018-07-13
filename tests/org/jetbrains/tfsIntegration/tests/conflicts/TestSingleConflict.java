@@ -31,6 +31,7 @@ import org.jetbrains.tfsIntegration.ui.ContentTriplet;
 import org.junit.Assert;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
 @SuppressWarnings({"HardCodedStringLiteral"})
@@ -194,9 +195,9 @@ abstract class TestSingleConflict extends TFSTestCase {
                                 final VirtualFile targetFile,
                                 final String localPathToDisplay,
                                 final VcsRevisionNumber serverVersion) throws IOException {
-      Assert.assertEquals(getExpectedBaseContent(), contentTriplet.baseContent);
-      Assert.assertEquals(getExpectedYoursContent(), contentTriplet.localContent);
-      Assert.assertEquals(getExpectedTheirsContent(), contentTriplet.serverContent);
+      Assert.assertEquals(getExpectedBaseContent(), new String(contentTriplet.baseContent, StandardCharsets.UTF_8));
+      Assert.assertEquals(getExpectedYoursContent(), new String(contentTriplet.localContent, StandardCharsets.UTF_8));
+      Assert.assertEquals(getExpectedTheirsContent(), new String(contentTriplet.serverContent, StandardCharsets.UTF_8));
 
       ReadOnlyAttributeUtil.setReadOnlyAttribute(targetFile, false);
       setFileContent(targetFile, TestSingleConflict.this.mergeContent());

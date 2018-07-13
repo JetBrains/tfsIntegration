@@ -19,7 +19,7 @@ package org.jetbrains.tfsIntegration.ui;
 import org.jetbrains.annotations.NotNull;
 
 public class ContentTriplet {
-  public @NotNull String baseContent;
-  public @NotNull String serverContent;
-  public @NotNull String localContent;
+  public @NotNull byte[] baseContent;
+  public @NotNull byte[] serverContent;
+  public @NotNull byte[] localContent;
 }

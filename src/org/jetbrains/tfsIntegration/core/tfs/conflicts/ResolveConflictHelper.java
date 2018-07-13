@@ -23,6 +23,7 @@ import com.intellij.openapi.vcs.changes.CurrentContentRevision;
 import com.intellij.openapi.vcs.update.FileGroup;
 import com.intellij.openapi.vcs.update.UpdatedFiles;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.util.ArrayUtil;
 import com.intellij.vcsUtil.VcsRunnable;
 import com.intellij.vcsUtil.VcsUtil;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.*;
@@ -75,20 +76,20 @@ public class ResolveConflictHelper {
         TfsFileUtil.refreshAndFindFile(localPath);
         try {
           if (conflict.getYtype() == ItemType.File) {
-            final String current;
-            final String last;
+            byte[] current;
+            byte[] last;
             if (conflict.getCtype() == ConflictType.Merge) {
-              current = TFSContentRevision.create(myProject, workspace, conflict.getTver(), conflict.getTitemid()).getContent();
-              last = TFSContentRevision.create(myProject, workspace, conflict.getYver(), conflict.getYitemid()).getContent();
+              current = TFSContentRevision.create(myProject, workspace, conflict.getTver(), conflict.getTitemid()).getContentAsBytes();
+              last = TFSContentRevision.create(myProject, workspace, conflict.getYver(), conflict.getYitemid()).getContentAsBytes();
             }
             else {
-              current = CurrentContentRevision.create(localPath).getContent();
-              last = TFSContentRevision.create(myProject, workspace, conflict.getTver(), conflict.getTitemid()).getContent();
+              current = ((CurrentContentRevision)CurrentContentRevision.create(localPath)).getContentAsBytes();
+              last = TFSContentRevision.create(myProject, workspace, conflict.getTver(), conflict.getTitemid()).getContentAsBytes();
             }
-            final String original = TFSContentRevision.create(myProject, workspace, conflict.getBver(), conflict.getBitemid()).getContent();
-            contentTriplet.baseContent = original != null ? original : "";
-            contentTriplet.localContent = current != null ? current : "";
-            contentTriplet.serverContent = last != null ? last : "";
+            byte[] original = TFSContentRevision.create(myProject, workspace, conflict.getBver(), conflict.getBitemid()).getContentAsBytes();
+            contentTriplet.baseContent = original != null ? original : ArrayUtil.EMPTY_BYTE_ARRAY;
+            contentTriplet.localContent = current != null ? current : ArrayUtil.EMPTY_BYTE_ARRAY;
+            contentTriplet.serverContent = last != null ? last : ArrayUtil.EMPTY_BYTE_ARRAY;
           }
         }
         catch (TfsException e) {

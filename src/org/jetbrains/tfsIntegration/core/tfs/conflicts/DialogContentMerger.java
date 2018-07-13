@@ -15,59 +15,49 @@
  */
 package org.jetbrains.tfsIntegration.core.tfs.conflicts;
 
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.diff.ActionButtonPresentation;
-import com.intellij.openapi.diff.DiffManager;
-import com.intellij.openapi.diff.DiffRequestFactory;
-import com.intellij.openapi.diff.MergeRequest;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.fileEditor.FileDocumentManager;
+import com.intellij.diff.DiffManager;
+import com.intellij.diff.DiffRequestFactory;
+import com.intellij.diff.InvalidDiffRequestException;
+import com.intellij.diff.merge.MergeRequest;
+import com.intellij.diff.merge.MergeResult;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.DialogWrapper;
-import com.intellij.openapi.util.io.StreamUtil;
+import com.intellij.openapi.util.Ref;
+import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vcs.merge.MergeDialogCustomizer;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.util.containers.ContainerUtil;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.Conflict;
 import org.jetbrains.tfsIntegration.core.TFSVcs;
 import org.jetbrains.tfsIntegration.ui.ContentTriplet;
 
-public class DialogContentMerger implements ContentMerger {
+import java.util.List;
 
+public class DialogContentMerger implements ContentMerger {
   public boolean mergeContent(Conflict conflict, ContentTriplet contentTriplet, Project project, final VirtualFile localFile, String localPath,
-                              VcsRevisionNumber serverVersion) {
+                              VcsRevisionNumber serverVersion) throws VcsException {
     TFSVcs.assertTrue(localFile.isWritable(), localFile.getPresentableUrl() + " must be writable");
 
+    List<byte[]> contents = ContainerUtil.list(contentTriplet.localContent,
+                                               contentTriplet.baseContent,
+                                               contentTriplet.serverContent);
+
     MergeDialogCustomizer c = new MergeDialogCustomizer();
-    MergeRequest request = DiffRequestFactory.getInstance().createMergeRequest(StreamUtil.convertSeparators(contentTriplet.localContent),
-                                                                               StreamUtil.convertSeparators(contentTriplet.serverContent),
-                                                                               StreamUtil.convertSeparators(contentTriplet.baseContent),
-                                                                               localFile, project,
-                                                                               ActionButtonPresentation.APPLY,
-                                                                               ActionButtonPresentation.CANCEL_WITH_PROMPT);
+    String title = c.getMergeWindowTitle(localFile);
+    List<String> contentTitles = ContainerUtil.list(c.getLeftPanelTitle(localFile),
+                                                    c.getCenterPanelTitle(localFile),
+                                                    c.getRightPanelTitle(localFile, serverVersion));
 
-    request.setWindowTitle(c.getMergeWindowTitle(localFile));
-    request.setVersionTitles(new String[] {
-      c.getLeftPanelTitle(localFile),
-      c.getCenterPanelTitle(localFile),
-      c.getRightPanelTitle(localFile, serverVersion)
-    });
 
-    // TODO call canShow() first
-    DiffManager.getInstance().getDiffTool().show(request);
-    if (request.getResult() == DialogWrapper.OK_EXIT_CODE) {
-      return true;
+    try {
+      Ref<MergeResult> resultRef = new Ref<>(MergeResult.CANCEL);
+      MergeRequest request = DiffRequestFactory.getInstance().createMergeRequest(project, localFile, contents, title, contentTitles,
+                                                                                 mergeResult -> resultRef.set(mergeResult));
+      DiffManager.getInstance().showMerge(project, request);
+      return resultRef.get() != MergeResult.CANCEL;
     }
-    else {
-      request.restoreOriginalContent();
-      // TODO maybe MergeVersion.MergeDocumentVersion.restoreOriginalContent() should save document itself?
-      ApplicationManager.getApplication().runWriteAction(() -> {
-        final Document document = FileDocumentManager.getInstance().getDocument(localFile);
-        if (document != null) {
-            FileDocumentManager.getInstance().saveDocument(document);
-        }
-      });
-      return false;
+    catch (InvalidDiffRequestException e) {
+      throw new VcsException(e);
     }
   }
 }

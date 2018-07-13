@@ -130,19 +130,19 @@ public class TestTheirsParentFolderRenamedYoursChildFolderRenamed extends TestMu
   }
 
   @Nullable
-  protected String getExpectedTheirsContent(final ConflictingItem conflictingItem) {
+  protected byte[] getExpectedTheirsContent(final ConflictingItem conflictingItem) {
     Assert.fail("not supported");
     return null;
   }
 
   @Nullable
-  protected String getExpectedBaseContent(final ConflictingItem conflictingItem) {
+  protected byte[] getExpectedBaseContent(final ConflictingItem conflictingItem) {
     Assert.fail("not supported");
     return null;
   }
 
   @Nullable
-  protected String getExpectedYoursContent(final ConflictingItem conflictingItem) {
+  protected byte[] getExpectedYoursContent(final ConflictingItem conflictingItem) {
     Assert.fail("not supported");
     return null;
   }

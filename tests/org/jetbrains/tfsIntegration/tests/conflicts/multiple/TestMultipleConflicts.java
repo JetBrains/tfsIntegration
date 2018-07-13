@@ -61,13 +61,13 @@ abstract class TestMultipleConflicts extends TFSTestCase {
   protected abstract FilePath getPath(ConflictingItem conflictingItem);
 
   @Nullable
-  protected abstract String getExpectedTheirsContent(final ConflictingItem conflictingItem);
+  protected abstract byte[] getExpectedTheirsContent(final ConflictingItem conflictingItem);
 
   @Nullable
-  protected abstract String getExpectedBaseContent(final ConflictingItem conflictingItem);
+  protected abstract byte[] getExpectedBaseContent(final ConflictingItem conflictingItem);
 
   @Nullable
-  protected abstract String getExpectedYoursContent(final ConflictingItem conflictingItem);
+  protected abstract byte[] getExpectedYoursContent(final ConflictingItem conflictingItem);
 
 
   protected void doTest(List<Pair<ConflictingItem, Resolution>> resolutionPath) throws VcsException {
