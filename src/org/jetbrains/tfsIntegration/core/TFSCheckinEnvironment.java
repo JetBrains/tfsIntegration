@@ -25,7 +25,6 @@ import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.ProjectLevelVcsManager;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.changes.Change;
-import com.intellij.openapi.vcs.changes.ChangeList;
 import com.intellij.openapi.vcs.changes.ContentRevision;
 import com.intellij.openapi.vcs.changes.LocalChangeList;
 import com.intellij.openapi.vcs.checkin.CheckinChangeListSpecificComponent;
@@ -353,10 +352,6 @@ public class TFSCheckinEnvironment implements CheckinEnvironment {
       exceptions.add(new VcsException(e));
     }
     return exceptions;
-  }
-
-  public boolean keepChangeListAfterCommit(final ChangeList changeList) {
-    return false;
   }
 
   @Override
