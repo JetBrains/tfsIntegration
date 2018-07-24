@@ -3,6 +3,7 @@ package org.jetbrains.tfsIntegration.core;
 import org.apache.commons.httpclient.ChunkedInputStream;
 import org.apache.xml.serialize.OutputFormat;
 import org.apache.xml.serialize.XMLSerializer;
+import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
@@ -216,6 +217,7 @@ public class LogDecoder {
       mySession = session;
     }
 
+    @NotNull
     public String getText() {
       StringBuilder s = new StringBuilder();
       for (MessageType t : MessageType.values()) {
@@ -239,6 +241,7 @@ public class LogDecoder {
       myText = text;
     }
 
+    @NotNull
     public String getText() {
       return myText + "\n";
     }
