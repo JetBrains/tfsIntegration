@@ -128,7 +128,7 @@ public class TfsTreeForm implements Disposable, DataProvider {
   }
 
   @Override
-  public Object getData(@NonNls String dataId) {
+  public Object getData(@NotNull @NonNls String dataId) {
     if (KEY.is(dataId)) {
       return this;
     }
