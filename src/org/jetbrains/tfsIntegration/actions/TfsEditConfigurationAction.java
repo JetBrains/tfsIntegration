@@ -4,6 +4,7 @@ import com.intellij.openapi.actionSystem.ActionPlaces;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.DumbAwareAction;
 import com.intellij.openapi.project.Project;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.tfsIntegration.ui.ManageWorkspacesDialog;
 
 public class TfsEditConfigurationAction extends DumbAwareAction {
@@ -12,7 +13,7 @@ public class TfsEditConfigurationAction extends DumbAwareAction {
   }
 
   @Override
-  public void update(AnActionEvent e) {
+  public void update(@NotNull AnActionEvent e) {
     Project project = e.getProject();
     if (ActionPlaces.isPopupPlace(e.getPlace())) {
       e.getPresentation().setVisible(project != null);
@@ -23,7 +24,7 @@ public class TfsEditConfigurationAction extends DumbAwareAction {
   }
 
   @Override
-  public void actionPerformed(AnActionEvent e) {
+  public void actionPerformed(@NotNull AnActionEvent e) {
     Project project = e.getProject();
     ManageWorkspacesDialog d = new ManageWorkspacesDialog(project);
     d.show();

@@ -31,6 +31,7 @@ import com.intellij.vcsUtil.VcsUtil;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.ExtendedItem;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.GetOperation;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.LockLevel;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.tfsIntegration.core.TFSBundle;
 import org.jetbrains.tfsIntegration.core.TFSVcs;
 import org.jetbrains.tfsIntegration.core.tfs.*;
@@ -46,7 +47,7 @@ import java.util.Map;
 
 public class LockAction extends AnAction implements DumbAware {
 
-  public void actionPerformed(AnActionEvent e) {
+  public void actionPerformed(@NotNull AnActionEvent e) {
     final Project project = e.getData(CommonDataKeys.PROJECT);
     final VirtualFile[] files = VcsUtil.getVirtualFiles(e);
 
@@ -167,7 +168,7 @@ public class LockAction extends AnAction implements DumbAware {
     return exceptions;
   }
 
-  public void update(final AnActionEvent e) {
+  public void update(@NotNull final AnActionEvent e) {
     final Project project = e.getData(CommonDataKeys.PROJECT);
     final VirtualFile[] files = VcsUtil.getVirtualFiles(e);
     e.getPresentation().setEnabled(isEnabled(project, files));

@@ -55,7 +55,7 @@ public abstract class SingleItemAction extends AnAction {
     return ALLOWED_STATUSES;
   }
 
-  public void actionPerformed(final AnActionEvent e) {
+  public void actionPerformed(@NotNull final AnActionEvent e) {
     final Project project = e.getData(CommonDataKeys.PROJECT);
     VirtualFile file = VcsUtil.getOneVirtualFile(e);
 
