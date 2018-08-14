@@ -52,6 +52,7 @@ public class CustomSOAP12BuilderHelper extends CustomSOAPBuilderHelper {
         factory = builder.getSoapFactory();
     }
 
+    @Override
     public OMElement handleEvent(XMLStreamReader parser,
                                  OMElement parent,
                                  int elementLevel) throws SOAPProcessingException {

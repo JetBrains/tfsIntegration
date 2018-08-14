@@ -49,21 +49,25 @@ public class ChooseLocalAndServerPathsStep extends CheckoutWizardStep {
     });
   }
 
+  @Override
   @NotNull
   public Object getStepId() {
     return ID;
   }
 
+  @Override
   @Nullable
   public Object getNextStepId() {
     return SummaryStep.ID;
   }
 
+  @Override
   @Nullable
   public Object getPreviousStepId() {
     return ChooseWorkspaceStep.ID;
   }
 
+  @Override
   public boolean isComplete() {
     if (validateLocalPath(myPathsForm.getLocalPath()) != null) {
       return false;
@@ -74,15 +78,18 @@ public class ChooseLocalAndServerPathsStep extends CheckoutWizardStep {
     return true;
   }
 
+  @Override
   public JComponent getComponent() {
     return myPathsForm.getContentPanel();
   }
 
+  @Override
   public void _init() {
     myPathsForm.initialize(myModel.getServer(), myModel.getServerPath());
     updateMessage();
   }
 
+  @Override
   public void commit(CommitType commitType) throws CommitStepException {
     if (validateLocalPath(myPathsForm.getLocalPath()) == null) {
       myModel.setDestinationFolder(myPathsForm.getLocalPath());
@@ -134,6 +141,7 @@ public class ChooseLocalAndServerPathsStep extends CheckoutWizardStep {
     return myPathsForm.getPreferredFocusedComponent();
   }
 
+  @Override
   public String getHelpId() {
     return "reference.checkoutTFS.choosepaths";
   }

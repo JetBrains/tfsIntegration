@@ -33,6 +33,7 @@ public class WorkspaceVersionSpec extends VersionSpecBase {
     this.workspaceOwnerName = workspaceOwnerName;
   }
 
+  @Override
   protected void writeAttributes(final QName parentQName, final OMFactory factory, final MTOMAwareXMLStreamWriter xmlWriter)
     throws XMLStreamException {
     writeVersionAttribute("", "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance", xmlWriter);
@@ -49,6 +50,7 @@ public class WorkspaceVersionSpec extends VersionSpecBase {
     return workspaceOwnerName;
   }
 
+  @Override
   public String getPresentableString() {
     return workspaceName + ';' + workspaceOwnerName;
   }

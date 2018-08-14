@@ -31,6 +31,7 @@ public class AddedFileInRenamed extends ParentChildChangeTestCase {
   private FilePath myAddedFileInOriginalFolder;
   private FilePath myAddedFileInRenamedFolder;
 
+  @Override
   protected void preparePaths() {
     myOriginalParentFolder = getChildPath(mySandboxRoot, "OriginalFolder");
     myRenamedParentFolder = getChildPath(mySandboxRoot, "RenamedFolder");
@@ -40,6 +41,7 @@ public class AddedFileInRenamed extends ParentChildChangeTestCase {
     myAddedFileInRenamedFolder = getChildPath(myRenamedParentFolder, filename);
   }
 
+  @Override
   protected void checkParentChangePendingChildRolledBack() throws VcsException {
     getChanges().assertTotalItems(2);
     getChanges().assertRenamedOrMoved(myOriginalParentFolder, myRenamedParentFolder);
@@ -50,6 +52,7 @@ public class AddedFileInRenamed extends ParentChildChangeTestCase {
     assertFile(myAddedFileInRenamedFolder, FILE_CONTENT, true);
   }
 
+  @Override
   protected void checkChildChangePendingParentRolledBack() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertScheduledForAddition(myAddedFileInOriginalFolder);
@@ -59,6 +62,7 @@ public class AddedFileInRenamed extends ParentChildChangeTestCase {
     assertFile(myAddedFileInOriginalFolder, FILE_CONTENT, true);
   }
 
+  @Override
   protected void checkParentAndChildChangesPending() throws VcsException {
     getChanges().assertTotalItems(2);
     getChanges().assertRenamedOrMoved(myOriginalParentFolder, myRenamedParentFolder);
@@ -69,6 +73,7 @@ public class AddedFileInRenamed extends ParentChildChangeTestCase {
     assertFile(myAddedFileInRenamedFolder, FILE_CONTENT, true);
   }
 
+  @Override
   protected void checkOriginalStateAfterRollbackParentChild() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertUnversioned(myAddedFileInOriginalFolder);
@@ -78,6 +83,7 @@ public class AddedFileInRenamed extends ParentChildChangeTestCase {
     assertFile(myAddedFileInOriginalFolder, FILE_CONTENT, true);
   }
 
+  @Override
   protected void checkOriginalStateAfterUpdate() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -85,6 +91,7 @@ public class AddedFileInRenamed extends ParentChildChangeTestCase {
     assertFolder(myOriginalParentFolder, 0);
   }
 
+  @Override
   protected void checkParentChangeCommittedChildPending() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertScheduledForAddition(myAddedFileInRenamedFolder);
@@ -94,6 +101,7 @@ public class AddedFileInRenamed extends ParentChildChangeTestCase {
     assertFile(myAddedFileInRenamedFolder, FILE_CONTENT, true);
   }
 
+  @Override
   protected void checkChildChangeCommittedParentPending() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertRenamedOrMoved(myOriginalParentFolder, myRenamedParentFolder);
@@ -103,6 +111,7 @@ public class AddedFileInRenamed extends ParentChildChangeTestCase {
     assertFile(myAddedFileInRenamedFolder, FILE_CONTENT, false);
   }
 
+  @Override
   protected void checkParentChangePending() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertRenamedOrMoved(myOriginalParentFolder, myRenamedParentFolder);
@@ -111,6 +120,7 @@ public class AddedFileInRenamed extends ParentChildChangeTestCase {
     assertFolder(myRenamedParentFolder, 0);
   }
 
+  @Override
   protected void checkChildChangePending() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertScheduledForAddition(myAddedFileInOriginalFolder);
@@ -120,6 +130,7 @@ public class AddedFileInRenamed extends ParentChildChangeTestCase {
     assertFile(myAddedFileInOriginalFolder, FILE_CONTENT, true);
   }
 
+  @Override
   protected void checkParentChangeCommitted() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -127,6 +138,7 @@ public class AddedFileInRenamed extends ParentChildChangeTestCase {
     assertFolder(myRenamedParentFolder, 0);
   }
 
+  @Override
   protected void checkChildChangeCommitted() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -135,6 +147,7 @@ public class AddedFileInRenamed extends ParentChildChangeTestCase {
     assertFile(myAddedFileInOriginalFolder, FILE_CONTENT, false);
   }
 
+  @Override
   protected void checkParentAndChildChangesCommitted() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -143,14 +156,17 @@ public class AddedFileInRenamed extends ParentChildChangeTestCase {
     assertFile(myAddedFileInRenamedFolder, FILE_CONTENT, false);
   }
 
+  @Override
   protected void makeOriginalState() {
     createDirInCommand(myOriginalParentFolder);
   }
 
+  @Override
   protected void makeParentChange() {
     renameFileInCommand(myOriginalParentFolder, myRenamedParentFolder.getName());
   }
 
+  @Override
   protected void makeChildChange(ParentChangeState parentChangeState) {
     FilePath file = parentChangeState == ParentChangeState.NotDone ? myAddedFileInOriginalFolder : myAddedFileInRenamedFolder;
     if (file.getIOFile().exists()) {
@@ -161,31 +177,37 @@ public class AddedFileInRenamed extends ParentChildChangeTestCase {
     }
   }
 
+  @Override
   @Nullable
     protected Change getPendingParentChange() throws VcsException {
       return getChanges().getMoveChange(myOriginalParentFolder, myRenamedParentFolder);
   }
 
+  @Override
   protected Change getPendingChildChange(ParentChangeState parentChangeState) throws VcsException {
     return getChanges()
       .getAddChange(parentChangeState == ParentChangeState.NotDone ? myAddedFileInOriginalFolder : myAddedFileInRenamedFolder);
   }
 
+  @Override
   @Test
   public void testPendingAndRollback() throws VcsException, IOException {
     super.testPendingAndRollback();
   }
 
+  @Override
   @Test
   public void testCommitParentThenChildChanges() throws VcsException, IOException {
     super.testCommitParentThenChildChanges();
   }
 
+  @Override
   @Test
   public void testCommitChildThenParentChanges() throws VcsException, IOException {
     super.testCommitChildThenParentChanges();
   }
 
+  @Override
   @Test
   public void testCommitParentChangesChildPending() throws VcsException, IOException {
     super.testCommitParentChangesChildPending();

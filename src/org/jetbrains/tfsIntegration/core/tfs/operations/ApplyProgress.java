@@ -34,13 +34,16 @@ public interface ApplyProgress {
 
   ApplyProgress EMPTY = new ApplyProgress() {
 
+    @Override
     public void setText(String text) {
     }
 
+    @Override
     public boolean isCancelled() {
       return false;
     }
 
+    @Override
     public void setFraction(double fraction) {
     }
   };
@@ -54,16 +57,19 @@ public interface ApplyProgress {
       myProgressIndicator = progressIndicator;
     }
 
+    @Override
     public void setText(String text) {
       if (myProgressIndicator != null) {
         myProgressIndicator.setText(text);
       }
     }
 
+    @Override
     public boolean isCancelled() {
       return myProgressIndicator != null && myProgressIndicator.isCanceled();
     }
 
+    @Override
     public void setFraction(double fraction) {
       if (myProgressIndicator != null) {
         myProgressIndicator.setFraction(fraction);
@@ -79,14 +85,17 @@ public interface ApplyProgress {
       myListener = listener;
     }
 
+    @Override
     public void setText(String text) {
       myListener.accept(new File(text));
     }
 
+    @Override
     public boolean isCancelled() {
       return false;
     }
 
+    @Override
     public void setFraction(double fraction) {
     }
   }

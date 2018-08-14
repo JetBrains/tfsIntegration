@@ -85,10 +85,12 @@ public class WorkspaceForm {
         return new AbstractTableCellEditor() {
           private ComboBox myCombo;
 
+          @Override
           public Object getCellEditorValue() {
             return myCombo.getSelectedItem();
           }
 
+          @Override
           public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
             ComboBoxModel model = new EnumComboBoxModel<>(WorkingFolderInfo.Status.class);
             model.setSelectedItem(value);
@@ -125,6 +127,7 @@ public class WorkspaceForm {
       return new LocalPathCellEditor(TFSBundle.message("select.local.path.title"), myProject);
     }
 
+    @Override
     public int getRowHeight() {
       return new JTextField().getPreferredSize().height + 1;
     }
@@ -167,6 +170,7 @@ public class WorkspaceForm {
         return new WorkingFolderInfo(VcsUtil.getFilePath(path));
       }
 
+      @Override
       @Nullable
       protected String validate(WorkingFolderInfo item) {
         if (StringUtil.isEmpty(item.getLocalPath().getPath())) {
@@ -205,6 +209,7 @@ public class WorkspaceForm {
 
     myWorkingFoldrersLabel.setLabelFor(myTable.getPreferredFocusedComponent());
     DocumentAdapter listener = new DocumentAdapter() {
+      @Override
       protected void textChanged(final DocumentEvent e) {
         myEventDispatcher.getMulticaster().stateChanged(new ChangeEvent(e));
       }

@@ -67,6 +67,7 @@ public class AddItemDialog extends DialogWrapper {
     setOKActionEnabled(myForm.getServerItem() != null && myForm.getVersion() != null);
   }
 
+  @Override
   @Nullable
   protected JComponent createCenterPanel() {
     return myForm.getContentPane();
@@ -82,6 +83,7 @@ public class AddItemDialog extends DialogWrapper {
     return myForm.getPreferredFocusedComponent();
   }
 
+  @Override
   protected void doOKAction() {
     try {
       final TfsTreeForm.SelectedItem serverItem = myForm.getServerItem();

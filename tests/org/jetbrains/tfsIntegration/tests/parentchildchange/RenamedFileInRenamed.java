@@ -35,6 +35,7 @@ public class RenamedFileInRenamed extends ParentChildChangeTestCase {
   private FilePath myChildRenamedInParentOriginal;
   private FilePath myChildRenamedInParentRenamed;
 
+  @Override
   protected void preparePaths() {
     myParentOriginal = getChildPath(mySandboxRoot, "Original");
     myParentRenamed = getChildPath(mySandboxRoot, "Renamed");
@@ -45,14 +46,17 @@ public class RenamedFileInRenamed extends ParentChildChangeTestCase {
     myChildRenamedInParentRenamed = getChildPath(myParentRenamed, FILENAME_RENAMED);
   }
 
+  @Override
   protected void checkParentChangePendingChildRolledBack() throws VcsException {
     checkParentChangePending();
   }
 
+  @Override
   protected void checkChildChangePendingParentRolledBack() throws VcsException {
     checkChildChangePending();
   }
 
+  @Override
   protected void checkParentAndChildChangesPending() throws VcsException {
     getChanges().assertTotalItems(2);
     getChanges().assertRenamedOrMoved(myParentOriginal, myParentRenamed);
@@ -63,10 +67,12 @@ public class RenamedFileInRenamed extends ParentChildChangeTestCase {
     assertFile(myChildRenamedInParentRenamed, FILE_CONTENT, false);
   }
 
+  @Override
   protected void checkOriginalStateAfterRollbackParentChild() throws VcsException {
     checkOriginalStateAfterUpdate();
   }
 
+  @Override
   protected void checkOriginalStateAfterUpdate() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -75,6 +81,7 @@ public class RenamedFileInRenamed extends ParentChildChangeTestCase {
     assertFile(myChildOriginalInParentOriginal, FILE_CONTENT, false);
   }
 
+  @Override
   protected void checkParentChangeCommitted() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -83,6 +90,7 @@ public class RenamedFileInRenamed extends ParentChildChangeTestCase {
     assertFile(myChildOriginalInParentRenamed, FILE_CONTENT, false);
   }
 
+  @Override
   protected void checkChildChangeCommitted() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -91,6 +99,7 @@ public class RenamedFileInRenamed extends ParentChildChangeTestCase {
     assertFile(myChildRenamedInParentOriginal, FILE_CONTENT, false);
   }
 
+  @Override
   protected void checkParentAndChildChangesCommitted() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -99,6 +108,7 @@ public class RenamedFileInRenamed extends ParentChildChangeTestCase {
     assertFile(myChildRenamedInParentRenamed, FILE_CONTENT, false);
   }
 
+  @Override
   protected void checkParentChangeCommittedChildPending() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertRenamedOrMoved(myChildOriginalInParentRenamed, myChildRenamedInParentRenamed);
@@ -108,6 +118,7 @@ public class RenamedFileInRenamed extends ParentChildChangeTestCase {
     assertFile(myChildRenamedInParentRenamed, FILE_CONTENT, false);
   }
 
+  @Override
   protected void checkChildChangeCommittedParentPending() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertRenamedOrMoved(myParentOriginal, myParentRenamed);
@@ -117,6 +128,7 @@ public class RenamedFileInRenamed extends ParentChildChangeTestCase {
     assertFile(myChildRenamedInParentRenamed, FILE_CONTENT, false);
   }
 
+  @Override
   protected void checkParentChangePending() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertRenamedOrMoved(myParentOriginal, myParentRenamed);
@@ -126,6 +138,7 @@ public class RenamedFileInRenamed extends ParentChildChangeTestCase {
     assertFile(myChildOriginalInParentRenamed, FILE_CONTENT, false);
   }
 
+  @Override
   protected void checkChildChangePending() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertRenamedOrMoved(myChildOriginalInParentOriginal, myChildRenamedInParentOriginal);
@@ -135,25 +148,30 @@ public class RenamedFileInRenamed extends ParentChildChangeTestCase {
     assertFile(myChildRenamedInParentOriginal, FILE_CONTENT, false);
   }
 
+  @Override
   protected void makeOriginalState() {
     createDirInCommand(myParentOriginal);
     createFileInCommand(myChildOriginalInParentOriginal, FILE_CONTENT);
   }
 
+  @Override
   protected void makeParentChange() {
     rename(myParentOriginal, myParentRenamed.getName());
   }
 
+  @Override
   protected void makeChildChange(ParentChangeState parentChangeState) {
     rename(parentChangeState == ParentChangeState.NotDone ? myChildOriginalInParentOriginal : myChildOriginalInParentRenamed,
            FILENAME_RENAMED);
   }
 
+  @Override
   @Nullable
   protected Change getPendingParentChange() throws VcsException {
     return getChanges().getMoveChange(myParentOriginal, myParentRenamed);
   }
 
+  @Override
   @Nullable
   protected Change getPendingChildChange(ParentChangeState parentChangeState) throws VcsException {
     if (parentChangeState == ParentChangeState.NotDone) {
@@ -167,26 +185,31 @@ public class RenamedFileInRenamed extends ParentChildChangeTestCase {
     }
   }
 
+  @Override
   @Test
   public void testPendingAndRollback() throws VcsException, IOException {
     super.testPendingAndRollback();
   }
 
+  @Override
   @Test
   public void testCommitParentThenChildChanges() throws VcsException, IOException {
     super.testCommitParentThenChildChanges();
   }
 
+  @Override
   @Test
   public void testCommitChildThenParentChanges() throws VcsException, IOException {
     super.testCommitChildThenParentChanges();
   }
 
+  @Override
   @Test
   public void testCommitParentChangesChildPending() throws VcsException, IOException {
     super.testCommitParentChangesChildPending();
   }
 
+  @Override
   @Test
   public void testCommitChildChangesParentPending() throws VcsException, IOException {
     super.testCommitChildChangesParentPending();

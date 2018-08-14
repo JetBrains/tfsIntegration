@@ -37,21 +37,25 @@ public class LockItemsTableModel extends AbstractTableModel {
 
   enum Column {
     Selection("", 5) {
+      @Override
       public Boolean getValue(final LockItemModel item) {
         return item.getSelectionStatus();
       }},
     Item("Item", 550) {
+      @Override
       public ExtendedItem getValue(final LockItemModel item) {
         return item.getExtendedItem();
       }
     },
     Lock("Current Lock", 110) {
+      @Override
       public String getValue(final LockItemModel item) {
         LockLevel lock = item.getExtendedItem().getLock();
         return lock == null ? "" : lock.getValue();
       }
     },
     LockOwner("Locked By", 130) {
+      @Override
       public String getValue(final LockItemModel item) {
         String lockOwner = item.getLockOwner();
         return lockOwner == null ? "" : lockOwner;
@@ -87,22 +91,27 @@ public class LockItemsTableModel extends AbstractTableModel {
     Collections.sort(myContent, LockItemModel.LOCK_ITEM_PARENT_FIRST);
   }
 
+  @Override
   public int getRowCount() {
     return myContent.size();
   }
 
+  @Override
   public int getColumnCount() {
     return Column.values().length;
   }
 
+  @Override
   public String getColumnName(final int column) {
     return Column.values()[column].getName();
   }
 
+  @Override
   public boolean isCellEditable(final int rowIndex, final int columnIndex) {
     return Column.values()[columnIndex] == Column.Selection && myContent.get(rowIndex).getSelectionStatus() != null;
   }
 
+  @Override
   @Nullable
   public Object getValueAt(final int rowIndex, final int columnIndex) {
     return Column.values()[columnIndex].getValue(myContent.get(rowIndex));

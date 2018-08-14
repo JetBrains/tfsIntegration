@@ -179,6 +179,7 @@ public class TfsExecutionUtil {
 
   public static ResultWithErrors<Void> executeInBackground(String progressText, Project project, final VoidProcessWithErrors process) {
     return executeInBackground(progressText, project, new ProcessWithErrors<Void>() {
+      @Override
       public Void run(Collection<VcsException> errorsHolder) throws TfsException, VcsException {
         process.run(errorsHolder);
         return null;
@@ -188,6 +189,7 @@ public class TfsExecutionUtil {
 
   public static <T> ResultWithError<T> executeInBackground(String progressText, Project project, final Process<T> process) {
     ResultWithErrors<T> result = executeInBackground(progressText, project, new ProcessWithErrors<T>() {
+      @Override
       public T run(Collection<VcsException> errorsHolder) throws TfsException, VcsException {
         return process.run();
       }
@@ -199,6 +201,7 @@ public class TfsExecutionUtil {
 
   public static ResultWithError<Void> executeInBackground(String progressText, Project project, final VoidProcess process) {
     return executeInBackground(progressText, project, new Process<Void>() {
+      @Override
       public Void run() throws TfsException, VcsException {
         process.run();
         return null;

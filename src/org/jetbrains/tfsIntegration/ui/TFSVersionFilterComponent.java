@@ -38,23 +38,27 @@ public class TFSVersionFilterComponent extends StandardVersionFilterComponent<Ch
     init(new ChangeBrowserSettings());
   }
 
+  @Override
   protected void updateAllEnabled(final ActionEvent e) {
     super.updateAllEnabled(e);
     updatePair(myUseAuthorFilter, myAuthorField, e);
   }
 
+  @Override
   protected void initValues(ChangeBrowserSettings settings) {
     super.initValues(settings);
     myUseAuthorFilter.setSelected(settings.USE_USER_FILTER);
     myAuthorField.setText(settings.USER);
   }
 
+  @Override
   public void saveValues(ChangeBrowserSettings settings) {
     super.saveValues(settings);
     settings.USER = myAuthorField.getText();
     settings.USE_USER_FILTER = myUseAuthorFilter.isSelected();
   }
 
+  @Override
   protected void installCheckBoxListener(final ActionListener filterListener) {
     super.installCheckBoxListener(filterListener);
     myUseAuthorFilter.addActionListener(filterListener);
@@ -80,6 +84,7 @@ public class TFSVersionFilterComponent extends StandardVersionFilterComponent<Ch
     return "Revision";
   }
 
+  @Override
   public JComponent getComponent() {
     return getPanel();
   }

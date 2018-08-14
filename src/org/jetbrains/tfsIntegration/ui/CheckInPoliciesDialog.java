@@ -40,6 +40,7 @@ public class CheckInPoliciesDialog extends DialogWrapper {
     setSize(800, 500);
   }
 
+  @Override
   protected JComponent createCenterPanel() {
     myForm = new CheckInPoliciesForm(myProject, myProjectToDescriptors);
     return myForm.getContentPane();

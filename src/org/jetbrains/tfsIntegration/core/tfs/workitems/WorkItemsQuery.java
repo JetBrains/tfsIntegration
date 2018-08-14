@@ -24,6 +24,7 @@ import java.util.List;
 
 public enum WorkItemsQuery {
   AllMyActive("All My Active Work Items") {
+    @Override
     public List<WorkItem> queryWorkItems(final ServerInfo server, Object projectOrComponent, String progressMessage) throws TfsException {
       Expression_type0 expression1 = new Expression_type0();
       expression1.setColumn(WorkItemField.ASSIGNED_TO.getSerialized());
@@ -47,6 +48,7 @@ public enum WorkItemsQuery {
     }},
 
   AllMy("All My Work Items") {
+    @Override
     public List<WorkItem> queryWorkItems(final ServerInfo server, Object projectOrComponent, String progressMessage) throws TfsException {
       Expression_type0 expression1 = new Expression_type0();
       expression1.setColumn(WorkItemField.ASSIGNED_TO.getSerialized());
@@ -61,6 +63,7 @@ public enum WorkItemsQuery {
     }},
 
   AllActive("All Active Work Items") {
+    @Override
     public List<WorkItem> queryWorkItems(final ServerInfo server, Object projectOrComponent, String progressMessage) throws TfsException {
       Expression_type0 expression1 = new Expression_type0();
       expression1.setColumn(WorkItemField.STATE.getSerialized());
@@ -74,6 +77,7 @@ public enum WorkItemsQuery {
     }},
 
   All("All Work Items") {
+    @Override
     public List<WorkItem> queryWorkItems(ServerInfo server, Object projectOrComponent, String progressMessage) throws TfsException {
       Expression_type0 expression1 = new Expression_type0();
       expression1.setColumn(WorkItemField.ID.getSerialized());

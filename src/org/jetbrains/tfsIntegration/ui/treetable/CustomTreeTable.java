@@ -27,8 +27,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
 import java.awt.*;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 public class CustomTreeTable<T> extends TreeTable {
   private List<? extends TreeTableColumn<T>> myColumns;
@@ -45,6 +45,7 @@ public class CustomTreeTable<T> extends TreeTable {
       super(null, 0);
     }
 
+    @Override
     public String getPresentableString(final T value) {
       return "";
     }
@@ -52,10 +53,12 @@ public class CustomTreeTable<T> extends TreeTable {
 
   private static final class FakeContentProvider<T> implements ContentProvider<T> {
 
+    @Override
     public Collection<? extends T> getRoots() {
       return Collections.emptyList();
     }
 
+    @Override
     public Collection<? extends T> getChildren(final @NotNull T parent) {
       return Collections.emptyList();
     }
@@ -83,8 +86,10 @@ public class CustomTreeTable<T> extends TreeTable {
     initialize();
   }
 
+  @Override
   public TreeTableCellRenderer createTableRenderer(final TreeTableModel treeTableModel) {
     return new TreeTableCellRenderer(this, getTree()) {
+      @Override
       public Component getTableCellRendererComponent(final JTable table,
                                                      final Object value,
                                                      final boolean isSelected,
@@ -106,10 +111,12 @@ public class CustomTreeTable<T> extends TreeTable {
       }
       else {
         columnsInfos.add(new ColumnInfo(column.getCaption()) {
+          @Override
           public Object valueOf(final Object o) {
             return o;
           }
 
+          @Override
           public Class getColumnClass() {
             return TableColumnMarker.class;
           }
@@ -228,6 +235,7 @@ public class CustomTreeTable<T> extends TreeTable {
 
   private class TreeColumnRenderer extends DefaultTreeCellRenderer {
 
+    @Override
     public Component getTreeCellRendererComponent(final JTree tree,
                                                   final Object value,
                                                   final boolean sel,
@@ -251,6 +259,7 @@ public class CustomTreeTable<T> extends TreeTable {
 
   private class TableColumnRenderer extends DefaultTableCellRenderer {
 
+    @Override
     public Component getTableCellRendererComponent(final JTable table,
                                                    final Object value,
                                                    final boolean isSelected,

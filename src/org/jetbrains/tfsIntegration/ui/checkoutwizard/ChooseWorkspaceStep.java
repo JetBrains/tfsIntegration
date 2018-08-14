@@ -42,17 +42,20 @@ public class ChooseWorkspaceStep extends CheckoutWizardStep {
     super("Source Workspace", model);
     myManageWorkspacesForm = new ManageWorkspacesForm(project, false);
     myManageWorkspacesForm.addSelectionListener(new ManageWorkspacesForm.Listener() {
+      @Override
       public void selectionChanged() {
         fireStateChanged();
       }
     });
   }
 
+  @Override
   @NotNull
   public Object getStepId() {
     return ID;
   }
 
+  @Override
   public Object getNextStepId() {
     if (myModel.getMode() == CheckoutWizardModel.Mode.Manual) {
       return ChooseServerPathStep.ID;
@@ -62,10 +65,12 @@ public class ChooseWorkspaceStep extends CheckoutWizardStep {
     }
   }
 
+  @Override
   public Object getPreviousStepId() {
     return ChooseModeStep.ID;
   }
 
+  @Override
   public boolean isComplete() {
     if (myModel.getMode() == CheckoutWizardModel.Mode.Manual) {
       return myManageWorkspacesForm.getSelectedWorkspace() != null;
@@ -75,6 +80,7 @@ public class ChooseWorkspaceStep extends CheckoutWizardStep {
     }
   }
 
+  @Override
   public void _init() {
     if (myModel.getMode() == CheckoutWizardModel.Mode.Manual) {
       setTitle("Source Workspace");
@@ -97,6 +103,7 @@ public class ChooseWorkspaceStep extends CheckoutWizardStep {
     }
   }
 
+  @Override
   public void commit(CommitType commitType) throws CommitStepException {
     if (myModel.getMode() == CheckoutWizardModel.Mode.Manual) {
       final WorkspaceInfo workspace = myManageWorkspacesForm.getSelectedWorkspace();
@@ -144,6 +151,7 @@ public class ChooseWorkspaceStep extends CheckoutWizardStep {
     }
   }
 
+  @Override
   public JComponent getComponent() {
     return myManageWorkspacesForm.getContentPane();
   }
@@ -153,6 +161,7 @@ public class ChooseWorkspaceStep extends CheckoutWizardStep {
     return myManageWorkspacesForm.getPreferredFocusedComponent();
   }
 
+  @Override
   public String getHelpId() {
     if (myModel.getMode() == CheckoutWizardModel.Mode.Manual) {
       return "reference.checkoutTFS.sourceworkspace";

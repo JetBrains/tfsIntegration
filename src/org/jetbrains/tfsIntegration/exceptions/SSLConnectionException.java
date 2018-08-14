@@ -24,6 +24,7 @@ public class SSLConnectionException extends TfsException {
     super(cause);
   }
 
+  @Override
   public String getMessage() {
     Throwable cause = this;
     while (cause.getCause() != null && cause.getCause() != cause) {

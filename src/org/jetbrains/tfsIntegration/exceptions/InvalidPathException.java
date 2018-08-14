@@ -32,6 +32,7 @@ public class InvalidPathException extends TfsException {
     myPath = cause.getMessage();
   }
 
+  @Override
   public String getMessage() {
     return "Invalid path: " + myPath;
   }

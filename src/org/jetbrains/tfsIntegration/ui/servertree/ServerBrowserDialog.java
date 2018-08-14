@@ -51,6 +51,7 @@ public class ServerBrowserDialog extends DialogWrapper {
     init();
   }
 
+  @Override
   @Nullable
   protected JComponent createCenterPanel() {
     return myForm.getContentPane();

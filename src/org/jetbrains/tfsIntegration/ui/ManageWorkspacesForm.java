@@ -68,6 +68,7 @@ public class ManageWorkspacesForm {
   }
 
   private static final TreeTableColumn<Object> COLUMN_SERVER_WORKSPACE = new TreeTableColumn<Object>("Server / workspace", 200) {
+    @Override
     public String getPresentableString(final Object value) {
       if (value instanceof ServerInfo) {
         final ServerInfo server = (ServerInfo)value;
@@ -86,6 +87,7 @@ public class ManageWorkspacesForm {
   };
 
   private static final TreeTableColumn<Object> COLUMN_SERVER = new TreeTableColumn<Object>("Server", 200) {
+    @Override
     public String getPresentableString(final Object value) {
       if (value instanceof ServerInfo) {
         final ServerInfo server = (ServerInfo)value;
@@ -101,6 +103,7 @@ public class ManageWorkspacesForm {
   };
 
   private static final TreeTableColumn<Object> COLUMN_COMMENT = new TreeTableColumn<Object>("Workspace comment", 100) {
+    @Override
     public String getPresentableString(final Object value) {
       if (value instanceof WorkspaceInfo) {
         return ((WorkspaceInfo)value).getComment();
@@ -125,6 +128,7 @@ public class ManageWorkspacesForm {
   private final EventDispatcher<Listener> myEventDispatcher = EventDispatcher.create(Listener.class);
 
   private final ListSelectionListener mySelectionListener = new ListSelectionListener() {
+    @Override
     public void valueChanged(final ListSelectionEvent e) {
       updateButtons();
       myEventDispatcher.getMulticaster().selectionChanged();
@@ -133,12 +137,14 @@ public class ManageWorkspacesForm {
 
   private final ContentProvider<Object> myContentProvider = new ContentProvider<Object>() {
 
+    @Override
     public Collection<?> getRoots() {
       final List<ServerInfo> servers = new ArrayList<>(Workstation.getInstance().getServers());
       Collections.sort(servers, (s1, s2) -> s1.getPresentableUri().compareTo(s2.getPresentableUri()));
       return servers;
     }
 
+    @Override
     public Collection<?> getChildren(final @NotNull Object parent) {
       if (parent instanceof ServerInfo && myShowWorkspaces) {
         final List<WorkspaceInfo> workspaces = new ArrayList<>(((ServerInfo)parent).getWorkspacesForCurrentOwnerAndComputer());
@@ -154,12 +160,14 @@ public class ManageWorkspacesForm {
     myProject = project;
 
     myAddServerButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         addServer();
       }
     });
 
     myRemoveServerButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         //noinspection ConstantConditions
         removeServer(getSelectedServer());
@@ -167,6 +175,7 @@ public class ManageWorkspacesForm {
     });
 
     myProxySettingsButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         //noinspection ConstantConditions
         changeProxySettings(getSelectedServer());
@@ -174,6 +183,7 @@ public class ManageWorkspacesForm {
     });
 
     myCreateWorkspaceButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         //noinspection ConstantConditions
         ServerInfo server = getSelectedServer();
@@ -186,6 +196,7 @@ public class ManageWorkspacesForm {
     });
 
     myEditWorkspaceButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         //noinspection ConstantConditions
         editWorkspace(getSelectedWorkspace());
@@ -193,6 +204,7 @@ public class ManageWorkspacesForm {
     });
 
     myDeleteWorkspaceButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         //noinspection ConstantConditions
         deleteWorkspace(getSelectedWorkspace());
@@ -202,6 +214,7 @@ public class ManageWorkspacesForm {
     myCheckInPoliciesButton.setVisible(editPoliciesButtonVisible);
 
     myCheckInPoliciesButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         configureCheckinPolicies();
       }
@@ -511,6 +524,7 @@ public class ManageWorkspacesForm {
   }
 
   private static class CellRendererImpl extends CellRenderer<Object> {
+    @Override
     protected void render(final CustomTreeTable<Object> treeTable,
                           final TreeTableColumn<Object> column,
                           final Object value,
@@ -542,6 +556,7 @@ public class ManageWorkspacesForm {
     @SuppressWarnings({"ConstantConditions"}) @NotNull final ServerInfo server = getSelectedServer();
 
     final TfsExecutionUtil.Process<Map<String, ProjectEntry>> process = new TfsExecutionUtil.Process<Map<String, ProjectEntry>>() {
+      @Override
       public Map<String, ProjectEntry> run() throws TfsException, VcsException {
         Map<String, ProjectEntry> entries = new HashMap<>();
 
@@ -603,6 +618,7 @@ public class ManageWorkspacesForm {
       if (!modifications.isEmpty()) {
         final TfsExecutionUtil.ResultWithError<Void> saveResult =
           TfsExecutionUtil.executeInBackground("Saving Checkin Policies", myProject, new TfsExecutionUtil.VoidProcess() {
+            @Override
             public void run() throws TfsException, VcsException {
               for (Map.Entry<String, ProjectEntry> i : modifications.entrySet()) {
                 // remove annotations

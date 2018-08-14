@@ -124,6 +124,7 @@ public class NTLM2Scheme extends NTLMScheme {
      *
      * @since 3.0
      */
+    @Override
     public void processChallenge(final String challenge) throws MalformedChallengeException {
         String s = AuthChallengeParser.extractScheme(challenge);
         if (!s.equalsIgnoreCase(getSchemeName())) {
@@ -152,6 +153,7 @@ public class NTLM2Scheme extends NTLMScheme {
      *
      * @since 3.0
      */
+    @Override
     public boolean isComplete() {
         return this.state == TYPE3_MSG_GENERATED || this.state == FAILED;
     }
@@ -161,6 +163,7 @@ public class NTLM2Scheme extends NTLMScheme {
      *
      * @return {@code ntlm}
      */
+    @Override
     public String getSchemeName() {
         return "ntlm";
     }
@@ -171,6 +174,7 @@ public class NTLM2Scheme extends NTLMScheme {
      *
      * @return {@code null}
      */
+    @Override
     public String getRealm() {
         return null;
     }
@@ -193,6 +197,7 @@ public class NTLM2Scheme extends NTLMScheme {
      *
      * @deprecated no longer used
      */
+    @Override
     @Deprecated
     public String getID() {
         return ntlmchallenge;
@@ -208,6 +213,7 @@ public class NTLM2Scheme extends NTLMScheme {
      *
      * @return the parameter with the given name
      */
+    @Override
     public String getParameter(String name) {
         if (name == null) {
             throw new IllegalArgumentException("Parameter name may not be null");
@@ -222,6 +228,7 @@ public class NTLM2Scheme extends NTLMScheme {
      *
      * @since 3.0
      */
+    @Override
     public boolean isConnectionBased() {
         return true;
     }
@@ -340,6 +347,7 @@ public class NTLM2Scheme extends NTLMScheme {
      *
      * @since 3.0
      */
+    @Override
     public String authenticate(Credentials credentials, HttpMethod method) throws AuthenticationException {
     if (state == UNINITIATED) {
       throw new IllegalStateException("NTLM authentication process was not initiated");

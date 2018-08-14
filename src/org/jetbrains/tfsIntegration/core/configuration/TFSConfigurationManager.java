@@ -156,6 +156,7 @@ public class TFSConfigurationManager implements PersistentStateComponent<TFSConf
     }
   }
 
+  @Override
   public void loadState(@NotNull final State state) {
     myServersConfig = state.config;
     myUseIdeaHttpProxy = state.useIdeaHttpProxy;
@@ -164,6 +165,7 @@ public class TFSConfigurationManager implements PersistentStateComponent<TFSConf
     myReportNotInstalledCheckinPolicies = state.reportNotInstalledCheckinPolicies;
   }
 
+  @Override
   public State getState() {
     final State state = new State();
     state.config = myServersConfig;

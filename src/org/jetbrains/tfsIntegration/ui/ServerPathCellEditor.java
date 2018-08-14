@@ -40,12 +40,15 @@ public class ServerPathCellEditor extends AbstractTableCellEditor {
     myServer = server;
   }
 
+  @Override
   public Object getCellEditorValue() {
     return myComponent.getChildComponent().getText();
   }
 
+  @Override
   public Component getTableCellEditorComponent(final JTable table, Object value, boolean isSelected, final int row, int column) {
     ActionListener listener = new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         ServerBrowserDialog d = new ServerBrowserDialog(myTitle, myProject, myServer, (String)getCellEditorValue(), true, false);
         if (d.showAndGet()) {

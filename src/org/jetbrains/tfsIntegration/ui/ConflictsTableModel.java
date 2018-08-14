@@ -28,6 +28,7 @@ public class ConflictsTableModel extends AbstractTableModel {
   public enum Column {
 
     Name("Name") {
+      @Override
       public String getValue(Conflict conflict) {
         if (conflict.getCtype() == ConflictType.Merge) {
           return VersionControlPath.localPathFromTfsRepresentation(conflict.getTgtlitem() != null ? conflict.getTgtlitem() : conflict.getSrclitem());
@@ -58,18 +59,22 @@ public class ConflictsTableModel extends AbstractTableModel {
     return myConflicts;
   }
 
+  @Override
   public String getColumnName(final int column) {
     return Column.values()[column].getCaption();
   }
 
+  @Override
   public int getRowCount() {
     return myConflicts != null ? myConflicts.size() : 0;
   }
 
+  @Override
   public int getColumnCount() {
     return Column.values().length;
   }
 
+  @Override
   public Object getValueAt(final int rowIndex, final int columnIndex) {
     Conflict conflict = myConflicts.get(rowIndex);
     return Column.values()[columnIndex].getValue(conflict);

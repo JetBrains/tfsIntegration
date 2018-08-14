@@ -48,6 +48,7 @@ public class CreateBranchDialog extends DialogWrapper {
     revalidate();
   }
 
+  @Override
   @Nullable
   protected JComponent createCenterPanel() {
     return myForm.getContentPane();

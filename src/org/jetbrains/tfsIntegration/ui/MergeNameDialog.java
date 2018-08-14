@@ -45,10 +45,12 @@ public class MergeNameDialog extends DialogWrapper {
     init();
   }
 
+  @Override
   @Nullable
   protected JComponent createCenterPanel() {
     myMergeNameForm = new MergeNameForm(myLocalName, myServerName);
     myMergeNameForm.addListener(new MergeNameForm.Listener() {
+      @Override
       public void selectedPathChanged() {
         String errorMessage = validate(myMergeNameForm.getSelectedPath());
         myMergeNameForm.setErrorText(errorMessage);

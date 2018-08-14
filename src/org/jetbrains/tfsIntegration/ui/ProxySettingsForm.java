@@ -57,6 +57,7 @@ public class ProxySettingsForm {
     }
 
     final ActionListener radioButtonListener = new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         updateContols();
         myEventDispatcher.getMulticaster().stateChanged();
@@ -66,6 +67,7 @@ public class ProxySettingsForm {
     myNoProxyRadioButton.addActionListener(radioButtonListener);
     myProxyServerRadioButton.addActionListener(radioButtonListener);
     myProxyServerTextField.getDocument().addDocumentListener(new DocumentAdapter() {
+      @Override
       protected void textChanged(final DocumentEvent e) {
         myEventDispatcher.getMulticaster().stateChanged();
       }

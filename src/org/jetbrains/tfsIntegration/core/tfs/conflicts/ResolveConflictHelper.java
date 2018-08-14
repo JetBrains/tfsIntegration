@@ -71,6 +71,7 @@ public class ResolveConflictHelper {
 
     final ContentTriplet contentTriplet = new ContentTriplet();
     VcsRunnable runnable = new VcsRunnable() {
+      @Override
       public void run() throws VcsException {
         // virtual file can be out of the current project so force its discovery
         TfsFileUtil.refreshAndFindFile(localPath);

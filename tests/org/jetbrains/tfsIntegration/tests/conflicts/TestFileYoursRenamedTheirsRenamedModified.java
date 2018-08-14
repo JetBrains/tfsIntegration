@@ -36,10 +36,12 @@ public class TestFileYoursRenamedTheirsRenamedModified extends TestFileConflict 
   private FilePath myTheirsFile;
   private FilePath myMergedFile;
 
+  @Override
   protected boolean canMerge() {
     return true;
   }
 
+  @Override
   protected void preparePaths() {
     myBaseFile = getChildPath(mySandboxRoot, BASE_FILENAME);
     myYoursFile = getChildPath(mySandboxRoot, YOURS_FILENAME);
@@ -47,20 +49,24 @@ public class TestFileYoursRenamedTheirsRenamedModified extends TestFileConflict 
     myMergedFile = getChildPath(mySandboxRoot, MERGED_FILENAME);
   }
 
+  @Override
   protected void prepareBaseRevision() {
     createFileInCommand(myBaseFile, BASE_CONTENT);
   }
 
+  @Override
   protected void prepareTargetRevision() throws VcsException, IOException {
     rename(myBaseFile, THEIRS_FILENAME);
     editFiles(myTheirsFile);
     setFileContent(myTheirsFile, THEIRS_CONTENT);
   }
 
+  @Override
   protected void makeLocalChanges() {
     rename(myBaseFile, YOURS_FILENAME);
   }
 
+  @Override
   protected void checkResolvedYoursState() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertRenamedOrMoved(myTheirsFile, myYoursFile, THEIRS_CONTENT, BASE_CONTENT);
@@ -69,6 +75,7 @@ public class TestFileYoursRenamedTheirsRenamedModified extends TestFileConflict 
     assertFile(myYoursFile, BASE_CONTENT, false);
   }
 
+  @Override
   protected void checkResolvedTheirsState() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -76,6 +83,7 @@ public class TestFileYoursRenamedTheirsRenamedModified extends TestFileConflict 
     assertFile(myTheirsFile, THEIRS_CONTENT, false);
   }
 
+  @Override
   protected void checkResolvedMergeState() throws VcsException {
     getChanges().assertTotalItems(1);
 
@@ -85,6 +93,7 @@ public class TestFileYoursRenamedTheirsRenamedModified extends TestFileConflict 
     assertFile(myMergedFile, MERGED_CONTENT, true);
   }
 
+  @Override
   protected void checkConflictProperties(final Conflict conflict) throws TfsException {
     Assert.assertTrue(new ChangeTypeMask(conflict.getYchg()).containsOnly(ChangeType_type0.Rename));
     Assert.assertTrue(new ChangeTypeMask(conflict.getBchg()).containsOnly(ChangeType_type0.Edit, ChangeType_type0.Rename));
@@ -96,42 +105,50 @@ public class TestFileYoursRenamedTheirsRenamedModified extends TestFileConflict 
     Assert.assertEquals(findServerPath(myTheirsFile), conflict.getTsitem());
   }
 
+  @Override
   @Nullable
   protected String mergeName() throws TfsException {
     return findServerPath(myMergedFile);
   }
 
 
+  @Override
   @Nullable
   protected String mergeContent() {
     return MERGED_CONTENT;
   }
 
+  @Override
   @Nullable
   protected String getExpectedBaseContent() {
     return BASE_CONTENT;
   }
 
+  @Override
   @Nullable
   protected String getExpectedYoursContent() {
     return BASE_CONTENT;
   }
 
+  @Override
   @Nullable
   protected String getExpectedTheirsContent() {
     return THEIRS_CONTENT;
   }
 
+  @Override
   @Test
   public void testAcceptYours() throws VcsException, IOException {
     super.testAcceptYours();
   }
 
+  @Override
   @Test
   public void testAcceptTheirs() throws VcsException, IOException {
     super.testAcceptTheirs();
   }
 
+  @Override
   @Test
   public void testAcceptMerge() throws VcsException, IOException {
     super.testAcceptMerge();

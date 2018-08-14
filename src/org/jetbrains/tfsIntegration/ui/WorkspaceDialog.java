@@ -95,6 +95,7 @@ public class WorkspaceDialog extends DialogWrapper {
     return "TFS.ManageWorkspace";
   }
 
+  @Override
   protected JComponent createCenterPanel() {
     return myForm.getContentPane();
   }

@@ -78,10 +78,12 @@ public class TfsLoginDialog extends DialogWrapper {
     init();
   }
 
+  @Override
   protected JComponent createCenterPanel() {
     return myLoginForm.getContentPane();
   }
 
+  @Override
   public JComponent getPreferredFocusedComponent() {
     return myLoginForm.getPreferredFocusedComponent();
   }

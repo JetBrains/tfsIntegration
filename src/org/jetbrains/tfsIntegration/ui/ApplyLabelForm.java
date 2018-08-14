@@ -69,18 +69,21 @@ public class ApplyLabelForm {
     myLabelModel = new LabelModel();
 
     myLabelNameTextField.getDocument().addDocumentListener(new DocumentAdapter() {
+      @Override
       protected void textChanged(final DocumentEvent e) {
         myEventDispatcher.getMulticaster().dataChanged(getLabelName(), myTableModel.getRowCount());
       }
     });
 
     myAddButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         addItems();
       }
     });
 
     myRemoveButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         removeItems();
       }
@@ -97,6 +100,7 @@ public class ApplyLabelForm {
       myTable.getColumnModel().getColumn(i).setPreferredWidth(LabelItemsTableModel.Column.values()[i].getWidth());
     }
     myTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+      @Override
       public void valueChanged(ListSelectionEvent e) {
         updateButtons();
       }

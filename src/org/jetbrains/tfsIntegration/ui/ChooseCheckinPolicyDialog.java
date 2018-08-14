@@ -38,13 +38,16 @@ public class ChooseCheckinPolicyDialog extends DialogWrapper {
     getOKAction().setEnabled(false);
   }
 
+  @Override
   protected JComponent createCenterPanel() {
     myForm = new ChooseCheckinPolicyForm(myPolicies);
     myForm.addListener(new ChooseCheckinPolicyForm.Listener() {
+      @Override
       public void stateChanged() {
         getOKAction().setEnabled(myForm.getSelectedPolicy() != null);
       }
 
+      @Override
       public void close() {
         doOKAction();
       }

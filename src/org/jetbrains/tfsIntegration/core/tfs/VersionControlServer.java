@@ -31,10 +31,10 @@ import com.microsoft.schemas.teamfoundation._2005._06.services.authorization._03
 import com.microsoft.schemas.teamfoundation._2005._06.services.authorization._03.QueryMembership;
 import com.microsoft.schemas.teamfoundation._2005._06.services.authorization._03.SearchFactor;
 import com.microsoft.schemas.teamfoundation._2005._06.services.groupsecurity._03.ReadIdentity;
-import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.*;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.ArrayOfInt;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.CheckinOptions;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.MergeOptions;
+import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.*;
 import com.microsoft.schemas.teamfoundation._2005._06.workitemtracking.clientservices._03.*;
 import org.apache.commons.httpclient.methods.multipart.FilePart;
 import org.apache.commons.httpclient.methods.multipart.Part;
@@ -108,6 +108,7 @@ public class VersionControlServer {
         return operation.execute(items, credentials, pi);
       }
 
+      @Override
       public U merge(Collection<U> results) {
         return operation.merge(results);
       }
@@ -237,6 +238,7 @@ public class VersionControlServer {
                                                           Object projectOrComponent, String progressTitle)
     throws TfsException {
     return pendChanges(workspaceName, workspaceOwner, paths, false, new ChangeRequestProvider<ItemPath>() {
+      @Override
       public ChangeRequest createChangeRequest(final ItemPath itemPath) {
         ChangeRequest changeRequest = createChangeRequestTemplate();
         changeRequest.getItem().setItem(itemPath.getServerPath());
@@ -257,6 +259,7 @@ public class VersionControlServer {
                                                        Object projectOrComponent, String progressTitle) throws TfsException {
     return pendChanges(workspaceName, workspaceOwner, Collections.singletonList(sourceServerPath), false,
                        new ChangeRequestProvider<String>() {
+                         @Override
                          public ChangeRequest createChangeRequest(final String serverPath) {
                            ChangeRequest changeRequest = createChangeRequestTemplate();
                            changeRequest.getItem().setItem(serverPath);
@@ -276,6 +279,7 @@ public class VersionControlServer {
                                                               String progressTitle)
     throws TfsException {
     return pendChanges(workspaceName, workspaceOwner, paths, false, new ChangeRequestProvider<ItemPath>() {
+      @Override
       public ChangeRequest createChangeRequest(final ItemPath itemPath) {
         ChangeRequest changeRequest = createChangeRequestTemplate();
         changeRequest.getItem().setItem(VersionControlPath.toTfsRepresentation(itemPath.getLocalPath()));
@@ -297,6 +301,7 @@ public class VersionControlServer {
                                                                                   Object projectOrComponent, String progressTitle)
     throws TfsException {
     return pendChanges(workspaceName, workspaceOwner, localPaths, true, new ChangeRequestProvider<FilePath>() {
+      @Override
       public ChangeRequest createChangeRequest(final FilePath localPath) {
         ChangeRequest changeRequest = createChangeRequestTemplate();
         changeRequest.getItem().setItem(VersionControlPath.toTfsRepresentation(localPath));
@@ -311,6 +316,7 @@ public class VersionControlServer {
                                                                       final Map<FilePath, FilePath> movedPaths,
                                                                       Object projectOrComponent, String progressTitle) throws TfsException {
     return pendChanges(workspaceName, workspaceOwner, movedPaths.keySet(), true, new ChangeRequestProvider<FilePath>() {
+      @Override
       public ChangeRequest createChangeRequest(final FilePath localPath) {
         ChangeRequest changeRequest = createChangeRequestTemplate();
         changeRequest.getItem().setItem(VersionControlPath.toTfsRepresentation(localPath));
@@ -327,6 +333,7 @@ public class VersionControlServer {
                                                             final Collection<ExtendedItem> items,
                                                             Object projectOrComponent, String progressTitle) throws TfsException {
     return pendChanges(workspaceName, workspaceOwner, items, false, new ChangeRequestProvider<ExtendedItem>() {
+      @Override
       public ChangeRequest createChangeRequest(final ExtendedItem item) {
         ChangeRequest changeRequest = createChangeRequestTemplate();
         changeRequest.getItem().setItem(item.getSitem());
@@ -390,6 +397,7 @@ public class VersionControlServer {
           return result;
         }
 
+        @Override
         public ResultWithFailures<GetOperation> merge(Collection<ResultWithFailures<GetOperation>> results) {
           return ResultWithFailures.merge(results);
         }
@@ -564,6 +572,7 @@ public class VersionControlServer {
           return new ExtendedItemsAndPendingChanges(pendingChanges, extendedItems);
         }
 
+        @Override
         public ExtendedItemsAndPendingChanges merge(Collection<ExtendedItemsAndPendingChanges> results) {
           List<ExtendedItem> mergedItems = new ArrayList<>();
           List<PendingChange> mergedPendingChanges = new ArrayList<>();
@@ -681,6 +690,7 @@ public class VersionControlServer {
         return result;
       }
 
+      @Override
       public Map<FilePath, ExtendedItem> merge(Collection<Map<FilePath, ExtendedItem>> results) {
         Map<FilePath, ExtendedItem> merged = new HashMap<>();
         for (Map<FilePath, ExtendedItem> r : results) {
@@ -866,6 +876,7 @@ public class VersionControlServer {
         return null;
       }
 
+      @Override
       public Void merge(Collection<Void> results) {
         //noinspection ConstantConditions
         return null;
@@ -901,6 +912,7 @@ public class VersionControlServer {
           return new ResultWithFailures<>(getOperations, failures);
         }
 
+        @Override
         public ResultWithFailures<GetOperation> merge(Collection<ResultWithFailures<GetOperation>> results) {
           return ResultWithFailures.merge(results);
         }
@@ -946,6 +958,7 @@ public class VersionControlServer {
         return results;
       }
 
+      @Override
       public List<GetOperation> merge(Collection<List<GetOperation>> results) {
         List<GetOperation> merged = new ArrayList<>();
         for (List<GetOperation> r : results) {
@@ -1011,6 +1024,7 @@ public class VersionControlServer {
         return conflicts != null ? Arrays.asList(conflicts) : Collections.emptyList();
       }
 
+      @Override
       public Collection<Conflict> merge(Collection<Collection<Conflict>> results) {
         return mergeStatic(results);
       }
@@ -1148,6 +1162,7 @@ public class VersionControlServer {
                  : Collections.emptyList();
         }
 
+        @Override
         public Collection<PendingChange> merge(Collection<Collection<PendingChange>> results) {
           return mergeStatic(results);
         }
@@ -1228,6 +1243,7 @@ public class VersionControlServer {
           return result;
         }
 
+        @Override
         public ResultWithFailures<CheckinResult> merge(Collection<ResultWithFailures<CheckinResult>> results) {
           return ResultWithFailures.merge(results);
         }
@@ -1528,6 +1544,7 @@ public class VersionControlServer {
                                           failures == null ? null : failures.getFailure());
         }
 
+        @Override
         public ResultWithFailures<LabelResult> merge(Collection<ResultWithFailures<LabelResult>> results) {
           return ResultWithFailures.merge(results);
         }

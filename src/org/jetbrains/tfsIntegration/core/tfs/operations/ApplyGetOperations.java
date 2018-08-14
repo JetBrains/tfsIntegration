@@ -291,7 +291,7 @@ public class ApplyGetOperations {
         operation.getLver() == operation.getSver() &&
         (change.containsOnly(ChangeType_type0.Rename) ||
          (myDownloadMode != DownloadMode.FORCE && myDownloadMode != DownloadMode.MERGE))) {
-      // rename + source=target means rename of parent folder 
+      // rename + source=target means rename of parent folder
       // not an explicit change, nothing to do
       updateLocalVersion(operation);
       return;
@@ -389,7 +389,7 @@ public class ApplyGetOperations {
       return;
     }
 
-    // redundand check source.equals(target) for consistency with processFileChange() 
+    // redundand check source.equals(target) for consistency with processFileChange()
     if (!source.equals(target) && source.isFile() && !source.canWrite() && !deleteFile(source)) {
       return;
     }
@@ -522,6 +522,7 @@ public class ApplyGetOperations {
     final File target = VersionControlPath.getFile(operation.getTlocal());
     try {
       TfsFileUtil.setFileContent(target, new TfsFileUtil.ContentWriter() {
+        @Override
         public void write(final OutputStream outputStream) throws TfsException {
           myWorkspace.getServer().getVCS()
             .downloadItem(myProject, operation.getDurl(), outputStream, TFSBundle.message("downloading.0", target.getName()));

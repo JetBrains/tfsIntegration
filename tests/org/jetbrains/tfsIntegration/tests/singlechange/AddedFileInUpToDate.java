@@ -28,10 +28,12 @@ public class AddedFileInUpToDate extends SingleChangeTestCase {
 
   private FilePath myAddedFile;
 
+  @Override
   protected void preparePaths() {
     myAddedFile = getChildPath(mySandboxRoot, "added_file.txt");
   }
 
+  @Override
   protected void checkChildChangePending() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertScheduledForAddition(myAddedFile);
@@ -40,11 +42,13 @@ public class AddedFileInUpToDate extends SingleChangeTestCase {
     assertFile(myAddedFile, FILE_CONTENT, true);
   }
 
+  @Override
   protected void checkOriginalStateAfterUpdate() throws VcsException {
     getChanges().assertTotalItems(0);
     assertFolder(mySandboxRoot, 0);
   }
 
+  @Override
   protected void checkOriginalStateAfterRollback() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertUnversioned(myAddedFile);
@@ -53,6 +57,7 @@ public class AddedFileInUpToDate extends SingleChangeTestCase {
     assertFile(myAddedFile, FILE_CONTENT, true);
   }
 
+  @Override
   protected void checkChildChangeCommitted() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -60,10 +65,12 @@ public class AddedFileInUpToDate extends SingleChangeTestCase {
     assertFile(myAddedFile, FILE_CONTENT, false);
   }
 
+  @Override
   protected void makeOriginalState() {
     // nothing here
   }
 
+  @Override
   protected void makeChildChange() {
     if (myAddedFile.getIOFile().exists()) {
       scheduleForAddition(myAddedFile);
@@ -73,10 +80,12 @@ public class AddedFileInUpToDate extends SingleChangeTestCase {
     }
   }
 
+  @Override
   protected Change getPendingChildChange() throws VcsException {
     return getChanges().getAddChange(myAddedFile);
   }
 
+  @Override
   @Test
   public void doTest() throws VcsException, IOException {
     super.doTest();

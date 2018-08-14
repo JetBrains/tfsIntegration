@@ -44,6 +44,7 @@ public class RenamedFolderInMoved extends ParentChildChangeTestCase {
   private FilePath mySubfolder1;
   private FilePath mySubfolder2;
 
+  @Override
   protected void preparePaths() {
     mySubfolder1 = getChildPath(mySandboxRoot, "Subfolder1");
     mySubfolder2 = getChildPath(mySubfolder1, "Subfolder2");
@@ -58,14 +59,17 @@ public class RenamedFolderInMoved extends ParentChildChangeTestCase {
     myChildRenamedInParentMoved = getChildPath(myParentMoved, FOLDERNAME_RENAMED);
   }
 
+  @Override
   protected void checkParentChangePendingChildRolledBack() throws VcsException {
     checkParentChangePending();
   }
 
+  @Override
   protected void checkChildChangePendingParentRolledBack() throws VcsException {
     checkChildChangePending();
   }
 
+  @Override
   protected void checkParentAndChildChangesPending() throws VcsException {
     getChanges().assertTotalItems(2);
     getChanges().assertRenamedOrMoved(myParentOriginal, myParentMoved);
@@ -78,10 +82,12 @@ public class RenamedFolderInMoved extends ParentChildChangeTestCase {
     assertFolder(myChildRenamedInParentMoved, 0);
   }
 
+  @Override
   protected void checkOriginalStateAfterRollbackParentChild() throws VcsException {
     checkOriginalStateAfterUpdate();
   }
 
+  @Override
   protected void checkOriginalStateAfterUpdate() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -92,6 +98,7 @@ public class RenamedFolderInMoved extends ParentChildChangeTestCase {
     assertFolder(myChildOriginalInParentOriginal, 0);
   }
 
+  @Override
   protected void checkParentChangeCommitted() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -102,6 +109,7 @@ public class RenamedFolderInMoved extends ParentChildChangeTestCase {
     assertFolder(myChildOriginalInParentMoved, 0);
   }
 
+  @Override
   protected void checkChildChangeCommitted() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -112,6 +120,7 @@ public class RenamedFolderInMoved extends ParentChildChangeTestCase {
     assertFolder(myChildRenamedInParentOriginal, 0);
   }
 
+  @Override
   protected void checkParentAndChildChangesCommitted() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -122,6 +131,7 @@ public class RenamedFolderInMoved extends ParentChildChangeTestCase {
     assertFolder(myChildRenamedInParentMoved, 0);
   }
 
+  @Override
   protected void checkParentChangeCommittedChildPending() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertRenamedOrMoved(myChildOriginalInParentMoved, myChildRenamedInParentMoved);
@@ -133,6 +143,7 @@ public class RenamedFolderInMoved extends ParentChildChangeTestCase {
     assertFolder(myChildRenamedInParentMoved, 0);
   }
 
+  @Override
   protected void checkChildChangeCommittedParentPending() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertRenamedOrMoved(myParentOriginal, myParentMoved);
@@ -144,6 +155,7 @@ public class RenamedFolderInMoved extends ParentChildChangeTestCase {
     assertFolder(myChildRenamedInParentMoved, 0);
   }
 
+  @Override
   protected void checkParentChangePending() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertRenamedOrMoved(myParentOriginal, myParentMoved);
@@ -155,6 +167,7 @@ public class RenamedFolderInMoved extends ParentChildChangeTestCase {
     assertFolder(myChildOriginalInParentMoved, 0);
   }
 
+  @Override
   protected void checkChildChangePending() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertRenamedOrMoved(myChildOriginalInParentOriginal, myChildRenamedInParentOriginal);
@@ -166,6 +179,7 @@ public class RenamedFolderInMoved extends ParentChildChangeTestCase {
     assertFolder(myChildRenamedInParentOriginal, 0);
   }
 
+  @Override
   protected void makeOriginalState() {
     createDirInCommand(myParentOriginal);
     createDirInCommand(myChildOriginalInParentOriginal);
@@ -173,20 +187,24 @@ public class RenamedFolderInMoved extends ParentChildChangeTestCase {
     createDirInCommand(mySubfolder2);
   }
 
+  @Override
   protected void makeParentChange() {
     moveFileInCommand(myParentOriginal, mySubfolder2);
   }
 
+  @Override
   protected void makeChildChange(ParentChangeState parentChangeState) {
     rename(parentChangeState == ParentChangeState.NotDone ? myChildOriginalInParentOriginal : myChildOriginalInParentMoved,
            FOLDERNAME_RENAMED);
   }
 
+  @Override
   @Nullable
   protected Change getPendingParentChange() throws VcsException {
     return getChanges().getMoveChange(myParentOriginal, myParentMoved);
   }
 
+  @Override
   @Nullable
   protected Change getPendingChildChange(ParentChangeState parentChangeState) throws VcsException {
     if (parentChangeState == ParentChangeState.NotDone) {
@@ -200,31 +218,37 @@ public class RenamedFolderInMoved extends ParentChildChangeTestCase {
     }
   }
 
+  @Override
   @Test
   public void testPendingAndRollback() throws VcsException, IOException {
     super.testPendingAndRollback();
   }
 
+  @Override
   @Test
   public void testCommitParentThenChildChanges() throws VcsException, IOException {
     super.testCommitParentThenChildChanges();
   }
 
+  @Override
   @Test
   public void testCommitChildThenParentChanges() throws VcsException, IOException {
     super.testCommitChildThenParentChanges();
   }
 
+  @Override
   @Test
   public void testCommitParentChangesChildPending() throws VcsException, IOException {
     super.testCommitParentChangesChildPending();
   }
 
+  @Override
   @Test
   public void testCommitChildChangesParentPending() throws VcsException, IOException {
     super.testCommitChildChangesParentPending();
   }
 
+  @Override
   protected boolean shouldTestRollbackChildPendingParent() {
     return false; // see remark 1
   }

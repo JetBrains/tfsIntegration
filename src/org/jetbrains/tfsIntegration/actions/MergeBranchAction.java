@@ -48,6 +48,7 @@ import java.util.*;
 
 public class MergeBranchAction extends SingleItemAction implements DumbAware {
 
+  @Override
   protected void execute(final @NotNull Project project,
                          final @NotNull WorkspaceInfo workspace,
                          final @NotNull FilePath localPath,

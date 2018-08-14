@@ -60,6 +60,7 @@ public class SelectLabelForm {
     myLabelsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
     myLabelsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+      @Override
       public void valueChanged(final ListSelectionEvent e) {
         myEventDispatcher.getMulticaster().selectionChanged();
       }
@@ -77,6 +78,7 @@ public class SelectLabelForm {
     }.installOn(myLabelsTable);
 
     myFindButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         try {
           String owner = myOwnerField.getText().trim();

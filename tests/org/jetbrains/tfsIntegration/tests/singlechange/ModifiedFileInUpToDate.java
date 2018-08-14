@@ -29,10 +29,12 @@ public class ModifiedFileInUpToDate extends SingleChangeTestCase {
 
   private FilePath myFile;
 
+  @Override
   protected void preparePaths() {
     myFile = getChildPath(mySandboxRoot, "modified_file.txt");
   }
 
+  @Override
   protected void checkChildChangePending() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertModified(myFile, ORIGINAL_CONTENT, MODIFIED_CONTENT);
@@ -41,16 +43,19 @@ public class ModifiedFileInUpToDate extends SingleChangeTestCase {
     assertFile(myFile, MODIFIED_CONTENT, true);
   }
 
+  @Override
   protected void checkOriginalStateAfterUpdate() throws VcsException {
     getChanges().assertTotalItems(0);
     assertFolder(mySandboxRoot, 1);
     assertFile(myFile, ORIGINAL_CONTENT, false);
   }
 
+  @Override
   protected void checkOriginalStateAfterRollback() throws VcsException {
     checkOriginalStateAfterUpdate();
   }
 
+  @Override
   protected void checkChildChangeCommitted() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -58,20 +63,24 @@ public class ModifiedFileInUpToDate extends SingleChangeTestCase {
     assertFile(myFile, MODIFIED_CONTENT, false);
   }
 
+  @Override
   protected void makeOriginalState() {
     createFileInCommand(myFile, ORIGINAL_CONTENT);
   }
 
+  @Override
   protected void makeChildChange() throws IOException, VcsException {
     editFiles(myFile);
     setFileContent(myFile, MODIFIED_CONTENT);
   }
 
+  @Override
   @Nullable
   protected Change getPendingChildChange() throws VcsException {
     return getChanges().getModificationChange(myFile);
   }
 
+  @Override
   @Test
   public void doTest() throws VcsException, IOException {
     super.doTest();

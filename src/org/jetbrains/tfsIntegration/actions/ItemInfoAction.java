@@ -39,10 +39,12 @@ public class ItemInfoAction extends SingleItemAction implements DumbAware {
   private static final Collection<FileStatus> ALLOWED_STATUSES =
     Arrays.asList(FileStatus.HIJACKED, FileStatus.MODIFIED, FileStatus.NOT_CHANGED, FileStatus.OBSOLETE, FileStatus.ADDED);
 
+  @Override
   protected Collection<FileStatus> getAllowedStatuses() {
     return ALLOWED_STATUSES;
   }
 
+  @Override
   protected void execute(final @NotNull Project project,
                          final @NotNull WorkspaceInfo workspace,
                          final @NotNull FilePath localPath,

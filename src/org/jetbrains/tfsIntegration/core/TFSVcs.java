@@ -88,12 +88,14 @@ public class TFSVcs extends AbstractVcs {
     return (TFSVcs)ProjectLevelVcsManager.getInstance(project).findVcsByName(TFS_NAME);
   }
 
+  @Override
   @NotNull
   @NonNls
   public String getDisplayName() {
     return "TFS";
   }
 
+  @Override
   public Configurable getConfigurable() {
     return new TFSProjectConfigurable(myProject);
   }
@@ -110,10 +112,12 @@ public class TFSVcs extends AbstractVcs {
     Disposer.dispose(myFileListener);
   }
 
+  @Override
   public ChangeProvider getChangeProvider() {
     return new TFSChangeProvider(myProject);
   }
 
+  @Override
   @NotNull
   public TFSCheckinEnvironment createCheckinEnvironment() {
     if (myCheckinEnvironment == null) {
@@ -122,14 +126,17 @@ public class TFSVcs extends AbstractVcs {
     return myCheckinEnvironment;
   }
 
+  @Override
   public RollbackEnvironment createRollbackEnvironment() {
     return new TFSRollbackEnvironment(myProject);
   }
 
+  @Override
   public boolean fileIsUnderVcs(final FilePath filePath) {
     return isVersionedDirectory(filePath.getVirtualFile());
   }
 
+  @Override
   public boolean isVersionedDirectory(final VirtualFile dir) {
     if (dir == null) {
       return false;
@@ -143,6 +150,7 @@ public class TFSVcs extends AbstractVcs {
     return new TFSEditFileProvider(myProject);
   }
 
+  @Override
   public UpdateEnvironment createUpdateEnvironment() {
     if (myUpdateEnvironment == null) {
       myUpdateEnvironment = new TFSUpdateEnvironment(this);
@@ -150,6 +158,7 @@ public class TFSVcs extends AbstractVcs {
     return myUpdateEnvironment;
   }
 
+  @Override
   public AnnotationProvider getAnnotationProvider() {
     if (myAnnotationProvider == null) {
       myAnnotationProvider = new TFSAnnotationProvider(this);
@@ -175,6 +184,7 @@ public class TFSVcs extends AbstractVcs {
     assertTrue(condition, "");
   }
 
+  @Override
   @NotNull
   public CommittedChangesProvider<TFSChangeList, ChangeBrowserSettings> getCommittedChangesProvider() {
     if (myCommittedChangesProvider == null) {
@@ -183,6 +193,7 @@ public class TFSVcs extends AbstractVcs {
     return myCommittedChangesProvider;
   }
 
+  @Override
   public VcsHistoryProvider getVcsHistoryProvider() {
     if (myHistoryProvider == null) {
       myHistoryProvider = new TFSHistoryProvider(myProject);
@@ -190,6 +201,7 @@ public class TFSVcs extends AbstractVcs {
     return myHistoryProvider;
   }
 
+  @Override
   public DiffProvider getDiffProvider() {
     if (myDiffProvider == null) {
       myDiffProvider = new TFSDiffProvider(myProject);
@@ -197,11 +209,13 @@ public class TFSVcs extends AbstractVcs {
     return myDiffProvider;
   }
 
+  @Override
   @Nullable
   public VcsRevisionNumber parseRevisionNumber(final String revisionNumberString) {
     return TfsRevisionNumber.tryParse(revisionNumberString);
   }
 
+  @Override
   @Nullable
   public String getRevisionPattern() {
     return ourIntegerPattern;

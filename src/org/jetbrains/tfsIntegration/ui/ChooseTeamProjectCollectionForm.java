@@ -63,6 +63,7 @@ public class ChooseTeamProjectCollectionForm {
     });
 
     myTable.addKeyListener(new KeyAdapter() {
+      @Override
       public void keyPressed(KeyEvent e) {
         if (KeyEvent.VK_ENTER == e.getKeyCode()) {
           selected();

@@ -26,21 +26,25 @@ import java.util.List;
 public class ChangesetsTableModel extends AbstractTableModel {
   enum Column {
     Changeset("Changeset", 60) {
+      @Override
       public String getValue(Changeset changeset) {
         return String.valueOf(changeset.getCset());
       }
     },
     Date("Date", 95) {
+      @Override
       public String getValue(Changeset changeset) {
         return DateFormatUtil.formatPrettyDateTime(changeset.getDate().getTimeInMillis());
       }
     },
     User("User", 90) {
+      @Override
       public String getValue(Changeset changeset) {
         return TfsUtil.getNameWithoutDomain(changeset.getOwner());
       }
     },
     Comment("Comment", 180) {
+      @Override
       public String getValue(Changeset changeset) {
         return changeset.getComment();
       }
@@ -76,18 +80,22 @@ public class ChangesetsTableModel extends AbstractTableModel {
     return myChangesets;
   }
 
+  @Override
   public String getColumnName(final int column) {
     return Column.values()[column].getCaption();
   }
 
+  @Override
   public int getRowCount() {
     return myChangesets != null ? myChangesets.size() : 0;
   }
 
+  @Override
   public int getColumnCount() {
     return Column.values().length;
   }
 
+  @Override
   public Object getValueAt(final int rowIndex, final int columnIndex) {
     return Column.values()[columnIndex].getValue(myChangesets.get(rowIndex));
   }

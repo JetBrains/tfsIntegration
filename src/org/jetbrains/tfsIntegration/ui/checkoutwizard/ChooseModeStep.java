@@ -64,36 +64,43 @@ public class ChooseModeStep extends CheckoutWizardStep {
     return null;
   }
 
+  @Override
   @NotNull
   public Object getStepId() {
     return ID;
   }
 
+  @Override
   @Nullable
   public Object getNextStepId() {
     return ChooseWorkspaceStep.ID;
   }
 
+  @Override
   @Nullable
   public Object getPreviousStepId() {
     return null;
   }
 
+  @Override
   public boolean isComplete() {
     return validate() == null;
   }
 
+  @Override
   public void _init() {
     myForm.setNewWorkspaceName(myModel.getNewWorkspaceName());
     myForm.setAutoModeSelected(myModel.getMode() == CheckoutWizardModel.Mode.Auto);
     revalidate();
   }
 
+  @Override
   public void commit(CommitType commitType) throws CommitStepException {
     myModel.setMode(myForm.isAutoModeSelected() ? CheckoutWizardModel.Mode.Auto : CheckoutWizardModel.Mode.Manual);
     myModel.setNewWorkspaceName(myForm.getNewWorkspaceName());
   }
 
+  @Override
   public JComponent getComponent() {
     return myForm.getContentPanel();
   }
@@ -103,6 +110,7 @@ public class ChooseModeStep extends CheckoutWizardStep {
     return myForm.getPreferredFocusedComponent();
   }
 
+  @Override
   public String getHelpId() {
     return "reference.checkoutTFS.checkoutmode";
   }

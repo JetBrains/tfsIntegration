@@ -28,7 +28,7 @@ import java.io.IOException;
 // 1. add file without parent folder -> only file sheduled for addition, not pending change for parent,
 // but TFC shows folder as added too
 // 2. when commiting son's addition parent folder is not mentioned, but it appeares as up to date after commit and in commit details
-// 3. when parent and child added, and pending change for parent reverted, in TFC after refresh it looks like case 1 
+// 3. when parent and child added, and pending change for parent reverted, in TFC after refresh it looks like case 1
 
 // TODO show parent report unversioned folder as added if some of its children is added (remark 1) ?
 
@@ -37,11 +37,13 @@ public class AddedFileInAdded extends ParentChildChangeTestCase {
   private FilePath myAddedParentFolder;
   private FilePath myAddedChildFile;
 
+  @Override
   protected void preparePaths() {
     myAddedParentFolder = getChildPath(mySandboxRoot, "AddedFolder");
     myAddedChildFile = getChildPath(myAddedParentFolder, "added_file.txt");
   }
 
+  @Override
   protected void checkParentChangePendingChildRolledBack() throws VcsException {
     getChanges().assertTotalItems(2);
     getChanges().assertScheduledForAddition(myAddedParentFolder);
@@ -52,6 +54,7 @@ public class AddedFileInAdded extends ParentChildChangeTestCase {
     assertFile(myAddedChildFile, FILE_CONTENT, true);
   }
 
+  @Override
   protected void checkChildChangePendingParentRolledBack() throws VcsException {
     getChanges().assertTotalItems(2);
     getChanges().assertUnversioned(myAddedParentFolder); // see remark 1
@@ -62,6 +65,7 @@ public class AddedFileInAdded extends ParentChildChangeTestCase {
     assertFile(myAddedChildFile, FILE_CONTENT, true);
   }
 
+  @Override
   protected void checkParentAndChildChangesPending() throws VcsException {
     getChanges().assertTotalItems(2);
     getChanges().assertScheduledForAddition(myAddedParentFolder);
@@ -72,6 +76,7 @@ public class AddedFileInAdded extends ParentChildChangeTestCase {
     assertFile(myAddedChildFile, FILE_CONTENT, true);
   }
 
+  @Override
   protected void checkOriginalStateAfterRollbackParentChild() throws VcsException {
     getChanges().assertTotalItems(2);
     getChanges().assertUnversioned(myAddedParentFolder);
@@ -82,11 +87,13 @@ public class AddedFileInAdded extends ParentChildChangeTestCase {
     assertFile(myAddedChildFile, FILE_CONTENT, true);
   }
 
+  @Override
   protected void checkOriginalStateAfterUpdate() throws VcsException {
     getChanges().assertTotalItems(0);
     assertFolder(mySandboxRoot, 0);
   }
 
+  @Override
   protected void checkParentChangeCommittedChildPending() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertScheduledForAddition(myAddedChildFile);
@@ -96,10 +103,12 @@ public class AddedFileInAdded extends ParentChildChangeTestCase {
     assertFile(myAddedChildFile, FILE_CONTENT, true);
   }
 
+  @Override
   protected void checkChildChangeCommittedParentPending() throws VcsException {
     checkParentAndChildChangesCommitted(); // see remark 2
   }
 
+  @Override
   protected void checkParentChangePending() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertScheduledForAddition(myAddedParentFolder);
@@ -107,6 +116,7 @@ public class AddedFileInAdded extends ParentChildChangeTestCase {
     assertFolder(myAddedParentFolder, 0);
   }
 
+  @Override
   protected void checkChildChangePending() throws VcsException {
     getChanges().assertTotalItems(2);
     getChanges().assertUnversioned(myAddedParentFolder); // see remark 1
@@ -116,6 +126,7 @@ public class AddedFileInAdded extends ParentChildChangeTestCase {
     assertFile(myAddedChildFile, FILE_CONTENT, true);
   }
 
+  @Override
   protected void checkParentChangeCommitted() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -123,10 +134,12 @@ public class AddedFileInAdded extends ParentChildChangeTestCase {
     assertFolder(myAddedParentFolder, 0);
   }
 
+  @Override
   protected void checkChildChangeCommitted() throws VcsException {
     checkParentAndChildChangesCommitted(); // see remark 2
   }
 
+  @Override
   protected void checkParentAndChildChangesCommitted() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -135,9 +148,11 @@ public class AddedFileInAdded extends ParentChildChangeTestCase {
     assertFile(myAddedChildFile, FILE_CONTENT, false);
   }
 
+  @Override
   protected void makeOriginalState() {
   }
 
+  @Override
   protected void makeParentChange() throws VcsException {
     if (myAddedParentFolder.getIOFile().exists()) {
       // parent folder can be already added, see remark 2
@@ -150,6 +165,7 @@ public class AddedFileInAdded extends ParentChildChangeTestCase {
     }
   }
 
+  @Override
   protected void makeChildChange(ParentChangeState parentChangeState) {
     if (parentChangeState == ParentChangeState.NotDone) {
       myAddedParentFolder.getIOFile().mkdirs();
@@ -164,35 +180,42 @@ public class AddedFileInAdded extends ParentChildChangeTestCase {
     }
   }
 
+  @Override
   @Nullable
     protected Change getPendingParentChange() throws VcsException {
       return getChanges().getAddChange(myAddedParentFolder);
   }
 
+  @Override
   protected Change getPendingChildChange(ParentChangeState parentChangeState) throws VcsException {
     return getChanges().getAddChange(myAddedChildFile);
   }
 
+  @Override
   @Test
   public void testPendingAndRollback() throws VcsException, IOException {
     super.testPendingAndRollback();
   }
 
+  @Override
   @Test
   public void testCommitParentThenChildChanges() throws VcsException, IOException {
     super.testCommitParentThenChildChanges();
   }
 
+  @Override
   @Test
   public void testCommitChildThenParentChanges() throws VcsException, IOException {
     super.testCommitChildThenParentChanges();
   }
 
+  @Override
   @Test
   public void testCommitParentChangesChildPending() throws VcsException, IOException {
     super.testCommitParentChangesChildPending();
   }
 
+  @Override
   @Test
   public void testCommitChildChangesParentPending() throws VcsException, IOException {
     super.testCommitChildChangesParentPending();

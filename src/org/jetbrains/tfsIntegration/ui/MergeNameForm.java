@@ -49,6 +49,7 @@ public class MergeNameForm {
 
     myYoursRadioButton.setText(myYoursRadioButton.getText() + ": " + myYoursPath);
     myYoursRadioButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent ae) {
         update();
       }
@@ -56,20 +57,23 @@ public class MergeNameForm {
 
     myTheirsRadioButton.setText(myTheirsRadioButton.getText() + ": " + myTheirsPath);
     myTheirsRadioButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent ae) {
         update();
       }
     });
     myCustomPathTextField.setText(myYoursPath);
     myUseCustomRadioButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent ae) {
         update();
       }
     });
 
     myCustomPathTextField.setText(myYoursPath);
-    
+
     myCustomPathTextField.getDocument().addDocumentListener(new DocumentAdapter() {
+      @Override
       protected void textChanged(final DocumentEvent e) {
         myEventDispatcher.getMulticaster().selectedPathChanged();
       }

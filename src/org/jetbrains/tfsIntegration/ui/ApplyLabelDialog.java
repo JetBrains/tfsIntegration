@@ -52,17 +52,20 @@ public class ApplyLabelDialog extends DialogWrapper {
     setOKActionEnabled(false);
   }
 
+  @Override
   @Nullable
   protected JComponent createCenterPanel() {
     myApplyLabelForm = new ApplyLabelForm(myProject, myWorkspace, mySourcePath);
 
     getWindow().addComponentListener(new ComponentAdapter() {
+      @Override
       public void componentShown(final ComponentEvent e) {
         myApplyLabelForm.addItems();
       }
     });
 
     myApplyLabelForm.addListener(new ApplyLabelForm.Listener() {
+      @Override
       public void dataChanged(final String labelName, final int visibleItemsCount) {
         setOKActionEnabled(visibleItemsCount > 0 && labelName.length() > 0);
       }
@@ -71,6 +74,7 @@ public class ApplyLabelDialog extends DialogWrapper {
     return myApplyLabelForm.getContentPane();
   }
 
+  @Override
   protected void doOKAction() {
     try {
       List<VersionControlLabel> labels = myWorkspace.getServer().getVCS()

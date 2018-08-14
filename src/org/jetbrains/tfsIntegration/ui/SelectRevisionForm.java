@@ -69,6 +69,7 @@ public class SelectRevisionForm {
 
   public SelectRevisionForm() {
     final DocumentListener documentListener = new DocumentAdapter() {
+      @Override
       protected void textChanged(final DocumentEvent e1) {
         myEventDispatcher.getMulticaster().revisionChanged();
       }
@@ -80,6 +81,7 @@ public class SelectRevisionForm {
     workspaceText.getDocument().addDocumentListener(documentListener);
 
     final ActionListener radioButtonListener = new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         updateContols();
         myEventDispatcher.getMulticaster().revisionChanged();
@@ -93,6 +95,7 @@ public class SelectRevisionForm {
     workspaceRadioButton.addActionListener(radioButtonListener);
 
     changesetVersionText.getButton().addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         SelectChangesetDialog d = new SelectChangesetDialog(myProject, myWorkspace, myServerPath, myIsDirectory);
         if (d.showAndGet()) {
@@ -102,6 +105,7 @@ public class SelectRevisionForm {
     });
 
     labelVersionText.getButton().addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         SelectLabelDialog d = new SelectLabelDialog(myProject, myWorkspace);
         if (d.showAndGet()) {

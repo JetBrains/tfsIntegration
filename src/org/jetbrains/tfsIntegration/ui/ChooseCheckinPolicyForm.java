@@ -56,6 +56,7 @@ public class ChooseCheckinPolicyForm {
 
 
     myPoliciesList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+      @Override
       public void valueChanged(ListSelectionEvent e) {
         PolicyBase policy = getSelectedPolicy();
         myDescriptionArea.setText(policy != null ? policy.getPolicyType().getDescription() : null);

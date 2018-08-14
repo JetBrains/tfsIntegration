@@ -30,11 +30,13 @@ public class RenamedFolderInUpToDate extends SingleChangeTestCase {
   private FilePath myOriginalFolder;
   private FilePath myRenamedFolder;
 
+  @Override
   protected void preparePaths() {
     myOriginalFolder = getChildPath(mySandboxRoot, "Original");
     myRenamedFolder = getChildPath(mySandboxRoot, "Renamed");
   }
 
+  @Override
   protected void checkChildChangePending() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertRenamedOrMoved(myOriginalFolder, myRenamedFolder);
@@ -43,16 +45,19 @@ public class RenamedFolderInUpToDate extends SingleChangeTestCase {
     assertFolder(myRenamedFolder, 0);
   }
 
+  @Override
   protected void checkOriginalStateAfterUpdate() throws VcsException {
     getChanges().assertTotalItems(0);
     assertFolder(mySandboxRoot, 1);
     assertFolder(myOriginalFolder, 0);
   }
 
+  @Override
   protected void checkOriginalStateAfterRollback() throws VcsException {
     checkOriginalStateAfterUpdate();
   }
 
+  @Override
   protected void checkChildChangeCommitted() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -60,19 +65,23 @@ public class RenamedFolderInUpToDate extends SingleChangeTestCase {
     assertFolder(myRenamedFolder, 0);
   }
 
+  @Override
   protected void makeOriginalState() {
     createDirInCommand(myOriginalFolder);
   }
 
+  @Override
   protected void makeChildChange() {
     rename(myOriginalFolder, myRenamedFolder.getName());
   }
 
+  @Override
   @Nullable
   protected Change getPendingChildChange() throws VcsException {
     return getChanges().getMoveChange(myOriginalFolder, myRenamedFolder);
   }
 
+  @Override
   @Test
   public void doTest() throws VcsException, IOException {
     super.doTest();

@@ -39,9 +39,11 @@ public class OverridePolicyWarningsDialog extends DialogWrapper {
     setSize(500, 500);
   }
 
+  @Override
   protected JComponent createCenterPanel() {
     myForm = new OverridePolicyWarningsForm(myProject, myFailures);
     myForm.addListener(new OverridePolicyWarningsForm.Listener() {
+      @Override
       public void stateChanged() {
         getOKAction().setEnabled(StringUtil.isNotEmpty(myForm.getReason()));
       }

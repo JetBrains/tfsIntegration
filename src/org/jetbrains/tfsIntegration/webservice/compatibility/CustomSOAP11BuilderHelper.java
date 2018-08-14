@@ -28,7 +28,7 @@ import org.w3c.dom.Element;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-// [IntelliJ] copy of class org.apache.axiom.soap.impl.builder.SOAP11BuilderHelper 
+// [IntelliJ] copy of class org.apache.axiom.soap.impl.builder.SOAP11BuilderHelper
 
 public class CustomSOAP11BuilderHelper extends CustomSOAPBuilderHelper implements SOAP11Constants {
     private final SOAPFactory factory;
@@ -40,6 +40,7 @@ public class CustomSOAP11BuilderHelper extends CustomSOAPBuilderHelper implement
         factory = builder.getSoapFactory();
     }
 
+    @Override
     public OMElement handleEvent(XMLStreamReader parser,
                                  OMElement parent,
                                  int elementLevel) throws SOAPProcessingException {

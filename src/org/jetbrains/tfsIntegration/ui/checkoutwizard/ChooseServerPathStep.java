@@ -47,34 +47,41 @@ public class ChooseServerPathStep extends CheckoutWizardStep {
     });
   }
 
+  @Override
   @NotNull
   public Object getStepId() {
     return ID;
   }
 
+  @Override
   @Nullable
   public Object getNextStepId() {
     return SummaryStep.ID;
   }
 
+  @Override
   @Nullable
   public Object getPreviousStepId() {
     return ChooseWorkspaceStep.ID;
   }
 
+  @Override
   public boolean isComplete() {
     return isAcceptable(myForm.getSelectedPath());
   }
 
+  @Override
   public JComponent getComponent() {
     return myForm.getContentPane();
   }
 
+  @Override
   public void _init() {
     myForm.initialize(myModel.getServer(), myModel.getServerPath(), true, false, path -> isAcceptable(path));
     validate();
   }
 
+  @Override
   public void commit(CommitType commitType) throws CommitStepException {
     if (isAcceptable(myForm.getSelectedPath())) {
       myModel.setServerPath(myForm.getSelectedPath());
@@ -122,6 +129,7 @@ public class ChooseServerPathStep extends CheckoutWizardStep {
     return myForm.getPreferredFocusedComponent();
   }
 
+  @Override
   public String getHelpId() {
     return "reference.checkoutTFS.sourcepath";
   }

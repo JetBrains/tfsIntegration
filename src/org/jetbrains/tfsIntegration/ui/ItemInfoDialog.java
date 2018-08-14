@@ -48,11 +48,13 @@ public class ItemInfoDialog extends DialogWrapper {
     setOKButtonText("Close");
   }
 
+  @Override
   @NotNull
   protected Action[] createActions() {
     return new Action[]{getOKAction()};
   }
 
+  @Override
   @Nullable
   protected JComponent createCenterPanel() {
     ItemInfoForm itemInfoForm = new ItemInfoForm(myWorkspace, myExtendedItem, myBranches);

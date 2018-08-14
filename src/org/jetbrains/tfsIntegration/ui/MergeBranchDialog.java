@@ -66,11 +66,13 @@ public class MergeBranchDialog extends DialogWrapper {
     return myMergeBranchForm.getToVersion();
   }
 
+  @Override
   @Nullable
   protected JComponent createCenterPanel() {
     myMergeBranchForm = new MergeBranchForm(myProject, myWorkspace, mySourcePath, mySourceIsDirectory, getTitle());
 
     myMergeBranchForm.addListener(new MergeBranchForm.Listener() {
+      @Override
       public void stateChanged(final boolean canFinish) {
         setOKActionEnabled(canFinish);
       }
@@ -79,11 +81,13 @@ public class MergeBranchDialog extends DialogWrapper {
     return myMergeBranchForm.getContentPanel();
   }
 
+  @Override
   protected void doOKAction() {
     myMergeBranchForm.close();
     super.doOKAction();
   }
 
+  @Override
   public void doCancelAction() {
     myMergeBranchForm.close();
     super.doCancelAction();

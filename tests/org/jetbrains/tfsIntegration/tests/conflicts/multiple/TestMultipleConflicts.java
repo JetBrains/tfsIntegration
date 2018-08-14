@@ -115,6 +115,7 @@ abstract class TestMultipleConflicts extends TFSTestCase {
       myResolution = resolution;
     }
 
+    @Override
     public void resolveConflicts(final ResolveConflictHelper resolveConflictHelper) throws TfsException {
       Assert.assertEquals("Expected conflicts count differs: ", myResolution.size(), resolveConflictHelper.getConflicts().size());
       for (Pair<Integer, Resolution> resolutionPair : myResolution) {
@@ -159,6 +160,7 @@ abstract class TestMultipleConflicts extends TFSTestCase {
       myId2item = id2item;
     }
 
+    @Override
     @Nullable
     public String mergeName(final WorkspaceInfo workspace, final Conflict conflict, Project project) {
       return TestMultipleConflicts.this.mergeName(myId2item.get(conflict.getBitemid()));
@@ -173,6 +175,7 @@ abstract class TestMultipleConflicts extends TFSTestCase {
     }
 
 
+    @Override
     public boolean mergeContent(final Conflict conflict,
                                 final ContentTriplet contentTriplet,
                                 final Project project,

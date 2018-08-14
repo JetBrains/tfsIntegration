@@ -33,6 +33,7 @@ public class ChangesetVersionSpec extends VersionSpecBase {
     this.changeSetId = changeSetId;
   }
 
+  @Override
   protected void writeAttributes(final QName parentQName, final OMFactory factory, final MTOMAwareXMLStreamWriter xmlWriter)
     throws XMLStreamException {
     writeVersionAttribute("", "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance", xmlWriter);
@@ -40,6 +41,7 @@ public class ChangesetVersionSpec extends VersionSpecBase {
     writeVersionAttribute("", "cs", Integer.toString(changeSetId), xmlWriter);
   }
 
+  @Override
   public String getPresentableString() {
     return String.valueOf(changeSetId);
   }

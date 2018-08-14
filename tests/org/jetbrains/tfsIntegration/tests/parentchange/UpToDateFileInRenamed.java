@@ -36,6 +36,7 @@ public class UpToDateFileInRenamed extends ParentChangeTestCase {
   private FilePath myParentFolderRenamed;
   private FilePath mychildFileInRenamedFolder;
 
+  @Override
   protected void preparePaths() {
     final String filename = "up_to_date.txt";
     final String foldernameOriginal = "Folder_Original";
@@ -46,6 +47,7 @@ public class UpToDateFileInRenamed extends ParentChangeTestCase {
     mychildFileInRenamedFolder = getChildPath(myParentFolderRenamed, filename);
   }
 
+  @Override
   protected void makeOriginalState() throws VcsException {
     doActionSilently(VcsConfiguration.StandardConfirmation.ADD);
     createDirInCommand(myParentFolderOriginal);
@@ -53,6 +55,7 @@ public class UpToDateFileInRenamed extends ParentChangeTestCase {
     commit(getChanges().getChanges(), "original state");
   }
 
+  @Override
   protected void checkOriginalState() throws VcsException {
     getChanges().assertTotalItems(0);
     assertFolder(mySandboxRoot, 1);
@@ -60,10 +63,12 @@ public class UpToDateFileInRenamed extends ParentChangeTestCase {
     assertFile(myChildFileOriginal, FILE_CONTENT, false);
   }
 
+  @Override
   protected void makeParentChanges() {
     rename(myParentFolderOriginal, FOLDERNAME_RENAMED);
   }
 
+  @Override
   protected void checkParentChangesPending() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertRenamedOrMoved(myParentFolderOriginal, myParentFolderRenamed);
@@ -73,6 +78,7 @@ public class UpToDateFileInRenamed extends ParentChangeTestCase {
     assertFile(mychildFileInRenamedFolder, FILE_CONTENT, false);
   }
 
+  @Override
   protected void checkParentChangesCommitted() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -81,10 +87,12 @@ public class UpToDateFileInRenamed extends ParentChangeTestCase {
     assertFile(mychildFileInRenamedFolder, FILE_CONTENT, false);
   }
 
+  @Override
   protected Collection<Change> getPendingParentChanges() throws VcsException {
     return Collections.singletonList(getChanges().getMoveChange(myParentFolderOriginal, myParentFolderRenamed));
   }
 
+  @Override
   @Test
   public void doTest() throws VcsException {
     super.doTest();

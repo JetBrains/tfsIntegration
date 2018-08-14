@@ -118,6 +118,7 @@ public class CheckinParameters {
 
     final TfsExecutionUtil.ResultWithError<Void> result =
       TfsExecutionUtil.executeInBackground("Validating Checkin", panel.getProject(), new TfsExecutionUtil.VoidProcess() {
+        @Override
         public void run() throws TfsException, VcsException {
           ProgressIndicator pi = ProgressManager.getInstance().getProgressIndicator();
           if (pi == null) {
@@ -127,6 +128,7 @@ public class CheckinParameters {
           final MultiMap<ServerInfo, String> serverToProjects = MultiMap.createSet();
           final Map<ServerInfo, Collection<FilePath>> serverToFiles = new HashMap<>();
           WorkstationHelper.processByWorkspaces(filePaths, false, panel.getProject(), new WorkstationHelper.VoidProcessDelegate() {
+            @Override
             public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) throws TfsException {
               Collection<FilePath> files = serverToFiles.get(workspace.getServer());
               if (files == null) {
@@ -349,18 +351,22 @@ public class CheckinParameters {
   public PolicyContext createPolicyContext(final ServerInfo server) {
     final ServerData serverData = myData.get(server);
     return new PolicyContext() {
+      @Override
       public Collection<FilePath> getFiles() {
         return Collections.unmodifiableCollection(serverData.myFiles);
       }
 
+      @Override
       public Project getProject() {
         return myPanel.getProject();
       }
 
+      @Override
       public String getCommitMessage() {
         return myPanel.getCommitMessage();
       }
 
+      @Override
       public Map<WorkItem, WorkItemAction> getWorkItems() {
         Map<WorkItem, WorkItemAction> result = new HashMap<>(serverData.myWorkItems.getWorkItemsActions().size());
         for (Map.Entry<WorkItem, CheckinWorkItemAction> entry : serverData.myWorkItems.getWorkItemsActions().entrySet()) {

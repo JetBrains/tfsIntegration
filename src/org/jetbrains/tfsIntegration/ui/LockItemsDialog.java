@@ -50,6 +50,7 @@ public class LockItemsDialog extends DialogWrapper {
     init();
 
     myLockItemsForm.addListener(new LockItemsTableModel.Listener() {
+      @Override
       public void selectionChanged() {
         updateControls();
       }
@@ -57,11 +58,13 @@ public class LockItemsDialog extends DialogWrapper {
     updateControls();
   }
 
+  @Override
   @Nullable
   protected JComponent createCenterPanel() {
     return myLockItemsForm.getContentPane();
   }
 
+  @Override
   @NotNull
   protected Action[] createActions() {
     return new Action[]{getLockAction(), getUnlockAction(), getCancelAction()};
@@ -122,6 +125,7 @@ public class LockItemsDialog extends DialogWrapper {
       putValue(DEFAULT_ACTION, Boolean.TRUE);
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
       if (myPerformAction) return;
       try {
@@ -141,6 +145,7 @@ public class LockItemsDialog extends DialogWrapper {
       super("Unlock");
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
       if (myPerformAction) return;
       try {

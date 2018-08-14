@@ -25,16 +25,19 @@ public class LabelsTableModel extends AbstractTableModel {
 
   private enum Column {
     Name("Name") {
+      @Override
       public String getValue(VersionControlLabel label) {
         return label.getName();
       }
     },
     Scope("Scope") {
+      @Override
       public String getValue(VersionControlLabel label) {
         return label.getScope();
       }
     },
     Owner("Owner") {
+      @Override
       public String getValue(VersionControlLabel label) {
         return label.getOwner();
       }
@@ -66,18 +69,22 @@ public class LabelsTableModel extends AbstractTableModel {
     return myLabels;
   }
 
+  @Override
   public String getColumnName(final int column) {
     return Column.values()[column].getCaption();
   }
 
+  @Override
   public int getRowCount() {
     return myLabels != null ? myLabels.size() : 0;
   }
 
+  @Override
   public int getColumnCount() {
     return Column.values().length;
   }
 
+  @Override
   public Object getValueAt(final int rowIndex, final int columnIndex) {
     return Column.values()[columnIndex].getValue(myLabels.get(rowIndex));
   }

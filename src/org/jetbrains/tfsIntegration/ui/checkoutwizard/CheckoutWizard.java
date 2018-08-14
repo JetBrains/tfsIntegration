@@ -30,6 +30,7 @@ public class CheckoutWizard extends AbstractWizardEx {
     myModel = model;
   }
 
+  @Override
   protected boolean canFinish() {
     return myModel != null && myModel.isComplete() && getCurrentStepObject().getNextStepId() == null;
   }

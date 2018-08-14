@@ -33,8 +33,8 @@ import org.jetbrains.tfsIntegration.ui.treetable.TreeTableColumn;
 import javax.swing.*;
 import java.awt.*;
 import java.text.MessageFormat;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 public class ItemInfoForm {
 
@@ -54,6 +54,7 @@ public class ItemInfoForm {
   private final Collection<BranchRelative> myBranches;
 
   private static final TreeTableColumn<BranchRelative> SERVER_PATH_COLUMN = new TreeTableColumn<BranchRelative>("Server path", 350) {
+    @Override
     public String getPresentableString(final BranchRelative value) {
       return value.getBranchToItem().getItem();
     }
@@ -61,6 +62,7 @@ public class ItemInfoForm {
 
   private static final TreeTableColumn<BranchRelative> TREE_TABLE_COLUMN =
     new TreeTableColumn<BranchRelative>("Branched from version", 150) {
+      @Override
       public String getPresentableString(final BranchRelative value) {
         if (value.getBranchFromItem() != null) {
           return MessageFormat.format("{0}", value.getBranchFromItem().getCs());
@@ -102,6 +104,7 @@ public class ItemInfoForm {
   }
 
   private class ContentProviderImpl implements ContentProvider<BranchRelative> {
+    @Override
     public Collection<BranchRelative> getRoots() {
       for (BranchRelative branch : myBranches) {
         if (branch.getRelfromid() == 0) {
@@ -111,6 +114,7 @@ public class ItemInfoForm {
       return Collections.emptyList();
     }
 
+    @Override
     public Collection<BranchRelative> getChildren(final @NotNull BranchRelative parent) {
       final Collection<BranchRelative> children = new ArrayList<>();
       for (BranchRelative branch : myBranches) {
@@ -123,6 +127,7 @@ public class ItemInfoForm {
   }
 
   private static class CellRendererImpl extends CellRenderer<BranchRelative> {
+    @Override
     public void render(final CustomTreeTable<BranchRelative> treeTable,
                        final TreeTableColumn<BranchRelative> column,
                        final BranchRelative value,

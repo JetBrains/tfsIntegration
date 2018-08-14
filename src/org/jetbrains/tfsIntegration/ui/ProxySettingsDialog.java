@@ -42,6 +42,7 @@ public class ProxySettingsDialog extends DialogWrapper {
     init();
   }
 
+  @Override
   @Nullable
   protected JComponent createCenterPanel() {
     Credentials credentials = TFSConfigurationManager.getInstance().getCredentials(myServerUri);
@@ -65,6 +66,7 @@ public class ProxySettingsDialog extends DialogWrapper {
     else {
       updateButtons();
       myForm.addListener(new ProxySettingsForm.Listener() {
+        @Override
         public void stateChanged() {
           updateButtons();
         }

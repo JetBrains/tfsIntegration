@@ -76,6 +76,7 @@ public class CheckinParametersForm implements Disposable {
 
   private static final MultiLineTableRenderer WARNING_TABLE_RENDERER = new MultiLineTableRenderer() {
 
+    @Override
     protected void customize(JTable table, JTextArea textArea, boolean isSelected, Object value) {
       PolicyFailure failure = (PolicyFailure)value;
       textArea.setText(failure.getMessage());
@@ -95,6 +96,7 @@ public class CheckinParametersForm implements Disposable {
 
   public static final ColumnInfo<PolicyFailure, PolicyFailure> WARNING_COLUMN_INFO =
     new ColumnInfo<PolicyFailure, PolicyFailure>("message") {
+      @Override
       public PolicyFailure valueOf(PolicyFailure policyFailure) {
         return policyFailure;
       }
@@ -111,6 +113,7 @@ public class CheckinParametersForm implements Disposable {
     myState = state;
 
     myServersCombo.setRenderer(new DefaultListCellRenderer() {
+      @Override
       public Component getListCellRendererComponent(final JList list,
                                                     final Object value,
                                                     final int index,
@@ -126,6 +129,7 @@ public class CheckinParametersForm implements Disposable {
     });
 
     myServersCombo.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         myWorkItemsPanel.update();
         udpateCheckinNotes();
@@ -152,6 +156,7 @@ public class CheckinParametersForm implements Disposable {
     myEvaluateButton.setEnabled(myState.evaluationEnabled() && myState.getPoliciesLoadError() == null);
 
     myEvaluateButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         evaluatePolicies();
       }
@@ -242,10 +247,12 @@ public class CheckinParametersForm implements Disposable {
     Disposer.register(this, myWorkItemsPanel);
     // TODO until MultiLineLabel is moved to openapi
     myErrorLabel = new JLabel() {
+      @Override
       public void updateUI() {
         setUI(new MultiLineLabelUI());
       }
 
+      @Override
       public Dimension getMinimumSize() {
         return getPreferredSize();
       }

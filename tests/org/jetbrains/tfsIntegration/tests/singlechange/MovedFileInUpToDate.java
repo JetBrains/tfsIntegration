@@ -35,6 +35,7 @@ public class MovedFileInUpToDate extends SingleChangeTestCase {
   private FilePath mySourceFolder;
   private FilePath myTargetFolder;
 
+  @Override
   protected void preparePaths() {
     mySourceFolder = getChildPath(mySandboxRoot, "SourceFolder");
     myTargetFolder = getChildPath(mySandboxRoot, "TargetFolder");
@@ -42,6 +43,7 @@ public class MovedFileInUpToDate extends SingleChangeTestCase {
     myMovedFile = getChildPath(myTargetFolder, FILE_ORIGINAL);
   }
 
+  @Override
   protected void checkChildChangePending() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertRenamedOrMoved(myOriginalFile, myMovedFile);
@@ -52,6 +54,7 @@ public class MovedFileInUpToDate extends SingleChangeTestCase {
     assertFile(myMovedFile, ORIGINAL_CONTENT, false);
   }
 
+  @Override
   protected void checkOriginalStateAfterUpdate() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -61,10 +64,12 @@ public class MovedFileInUpToDate extends SingleChangeTestCase {
     assertFile(myOriginalFile, ORIGINAL_CONTENT, false);
   }
 
+  @Override
   protected void checkOriginalStateAfterRollback() throws VcsException {
     checkOriginalStateAfterUpdate();
   }
 
+  @Override
   protected void checkChildChangeCommitted() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -74,21 +79,25 @@ public class MovedFileInUpToDate extends SingleChangeTestCase {
     assertFile(myMovedFile, ORIGINAL_CONTENT, false);
   }
 
+  @Override
   protected void makeOriginalState() {
     createDirInCommand(mySourceFolder);
     createDirInCommand(myTargetFolder);
     createFileInCommand(myOriginalFile, ORIGINAL_CONTENT);
   }
 
+  @Override
   protected void makeChildChange() {
     moveFileInCommand(myOriginalFile, myTargetFolder);
   }
 
+  @Override
   @Nullable
   protected Change getPendingChildChange() throws VcsException {
     return getChanges().getMoveChange(myOriginalFile, myMovedFile);
   }
 
+  @Override
   @Test
   public void doTest() throws VcsException, IOException {
     super.doTest();

@@ -36,6 +36,7 @@ public class ResolveConflictsDialog extends DialogWrapper {
     init();
   }
 
+  @Override
   protected void doOKAction() {
     for (Conflict conflict : myResolveConflictHelper.getConflicts()) {
       myResolveConflictHelper.skip(conflict);
@@ -43,10 +44,12 @@ public class ResolveConflictsDialog extends DialogWrapper {
     super.doOKAction();
   }
 
+  @Override
   @Nullable
   protected JComponent createCenterPanel() {
     ResolveConflictsForm resolveConflictsForm = new ResolveConflictsForm(myResolveConflictHelper);
     resolveConflictsForm.addListener(new ResolveConflictsForm.Listener() {
+      @Override
       public void close() {
         ResolveConflictsDialog.this.close(OK_EXIT_CODE);
       }
@@ -54,6 +57,7 @@ public class ResolveConflictsDialog extends DialogWrapper {
     return resolveConflictsForm.getPanel();
   }
 
+  @Override
   @NotNull
   protected Action[] createActions() {
     return new Action[]{getOKAction()};

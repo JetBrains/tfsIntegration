@@ -44,15 +44,18 @@ public class SelectChangesetDialog extends DialogWrapper {
     setOKActionEnabled(false);
   }
 
+  @Override
   @Nullable
   protected JComponent createCenterPanel() {
     myForm = new SelectChangesetForm(myWorkspace, myServerPath, myRecursive);
 
     myForm.addListener(new SelectChangesetForm.Listener() {
+      @Override
       public void selectionChanged(final Integer changeset) {
         setOKActionEnabled(changeset != null);
       }
 
+      @Override
       public void selected(final Integer changeset) {
         close(OK_EXIT_CODE);
       }

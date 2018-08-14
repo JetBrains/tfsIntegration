@@ -43,13 +43,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.text.MessageFormat;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 public class CheckInPoliciesForm {
   private final ColumnInfo[] COLUMNS = new ColumnInfo[]{
 
     new ColumnInfo<Pair<StatefulPolicyDescriptor, Boolean>, Boolean>("Enabled") {
+      @Override
       public Boolean valueOf(Pair<StatefulPolicyDescriptor, Boolean> item) {
         return item.first.isEnabled();
       }
@@ -131,6 +132,7 @@ public class CheckInPoliciesForm {
     }
 
     myProjectCombo.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         updateTable();
         updateCheckboxes();
@@ -138,6 +140,7 @@ public class CheckInPoliciesForm {
     });
 
     myPoliciesTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+      @Override
       public void valueChanged(ListSelectionEvent e) {
         updateButtons();
       }
@@ -160,6 +163,7 @@ public class CheckInPoliciesForm {
     myPoliciesTable.setModelAndUpdateColumns(new ListTableModel<>(COLUMNS));
 
     myEditButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         final StatefulPolicyDescriptor descriptor = getSelectedDescriptor();
         editPolicy(descriptor);
@@ -167,6 +171,7 @@ public class CheckInPoliciesForm {
     });
 
     myRemoveButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         final StatefulPolicyDescriptor descriptor = getSelectedDescriptor();
         final String message = MessageFormat.format("Are you sure to remove checkin policy ''{0}''?", descriptor.getType().getName());
@@ -181,6 +186,7 @@ public class CheckInPoliciesForm {
     });
 
     myAddButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         final ModifyableProjectEntry projectEntry = myProjectToDescriptors.get(getSelectedProject());
 
@@ -242,6 +248,7 @@ public class CheckInPoliciesForm {
 
 
     myTeampriseCheckBox.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         ModifyableProjectEntry entry = myProjectToDescriptors.get(getSelectedProject());
         entry.policiesCompatibilityOverride.teamprise = myTeampriseCheckBox.isSelected();
@@ -250,6 +257,7 @@ public class CheckInPoliciesForm {
     });
 
     myTeamExplorerCheckBox.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         ModifyableProjectEntry entry = myProjectToDescriptors.get(getSelectedProject());
         entry.policiesCompatibilityOverride.teamExplorer = myTeamExplorerCheckBox.isSelected();
@@ -258,6 +266,7 @@ public class CheckInPoliciesForm {
     });
 
     myNonInstalledPoliciesCheckBox.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         ModifyableProjectEntry entry = myProjectToDescriptors.get(getSelectedProject());
         entry.policiesCompatibilityOverride.nonInstalled = myNonInstalledPoliciesCheckBox.isSelected();
@@ -266,6 +275,7 @@ public class CheckInPoliciesForm {
     });
 
     myOverrideCheckBox.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         ModifyableProjectEntry entry = myProjectToDescriptors.get(getSelectedProject());
         if (myOverrideCheckBox.isSelected()) {
@@ -280,6 +290,7 @@ public class CheckInPoliciesForm {
     });
 
     ActionListener l = new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         boolean b = myTeamExplorerCheckBox.isSelected() || myTeampriseCheckBox.isSelected();
         myNonInstalledPoliciesCheckBox.setEnabled(b);

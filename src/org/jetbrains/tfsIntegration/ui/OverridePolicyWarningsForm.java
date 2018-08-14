@@ -70,6 +70,7 @@ public class OverridePolicyWarningsForm {
       new ListTableModel<>(new ColumnInfo[]{CheckinParametersForm.WARNING_COLUMN_INFO}, failures, -1));
 
     myOverrideCheckBox.addChangeListener(new ChangeListener() {
+      @Override
       public void stateChanged(ChangeEvent e) {
         myReasonTextArea.setEnabled(myOverrideCheckBox.isSelected());
         if (myReasonTextArea.isEnabled()) {

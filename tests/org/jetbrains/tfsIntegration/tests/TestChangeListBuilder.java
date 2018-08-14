@@ -48,18 +48,22 @@ public class TestChangeListBuilder extends MockChangelistBuilder {
     myProject = project;
   }
 
+  @Override
   public void processUnversionedFile(VirtualFile file) {
     myUnversionedFiles.add(file);
   }
 
+  @Override
   public void processLocallyDeletedFile(FilePath file) {
     myLocallyDeletedFiles.add(file);
   }
 
+  @Override
   public void processModifiedWithoutCheckout(VirtualFile file) {
     myHijackedFiles.add(file);
   }
 
+  @Override
   public void processIgnoredFile(VirtualFile file) {
     myIgnoredFiles.add(file);
   }
@@ -95,6 +99,7 @@ public class TestChangeListBuilder extends MockChangelistBuilder {
     assertFileStatus(path, FileStatus.DELETED_FROM_FS);
   }
 
+  @Override
   public List<VirtualFile> getHijackedFiles() {
     return myHijackedFiles;
   }

@@ -55,11 +55,13 @@ public class TFSAnnotationProvider implements AnnotationProvider {
     myVcs = vcs;
   }
 
+  @Override
   @Nullable
   public FileAnnotation annotate(final VirtualFile file) throws VcsException {
     return annotate(file, CURRENT_CHANGESET);
   }
 
+  @Override
   @Nullable
   public FileAnnotation annotate(final VirtualFile file, final VcsFileRevision revision) throws VcsException {
     return annotate(file, ((VcsRevisionNumber.Int)revision.getRevisionNumber()).getValue());
@@ -133,6 +135,7 @@ public class TFSAnnotationProvider implements AnnotationProvider {
     final ProgressIndicator progressIndicator = ProgressManager.getInstance().getProgressIndicator();
 
     final AnnotationBuilder annotationBuilder = new AnnotationBuilder(revisions, new AnnotationBuilder.ContentProvider() {
+      @Override
       public String getContent(final TFSFileRevision revision) throws VcsException {
         TFSProgressUtil.checkCanceled(progressIndicator);
         //noinspection ConstantConditions

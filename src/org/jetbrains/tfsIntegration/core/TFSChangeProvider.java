@@ -43,13 +43,16 @@ public class TFSChangeProvider implements ChangeProvider {
     myProject = project;
   }
 
+  @Override
   public boolean isModifiedDocumentTrackingRequired() {
     return true;
   }
 
+  @Override
   public void doCleanup(final List<VirtualFile> files) {
   }
 
+  @Override
   public void getChanges(@NotNull final VcsDirtyScope dirtyScope,
                          @NotNull final ChangelistBuilder builder,
                          @NotNull final ProgressIndicator progress,
@@ -83,6 +86,7 @@ public class TFSChangeProvider implements ChangeProvider {
       final Ref<Boolean> mappingFound = Ref.create(false);
       // ingore orphan roots here
       WorkstationHelper.processByWorkspaces(roots, true, myProject, new WorkstationHelper.VoidProcessDelegate() {
+        @Override
         public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) throws TfsException {
           StatusProvider
             .visitByStatus(workspace, paths, true, progress, new ChangelistBuilderStatusVisitor(myProject, builder, workspace), myProject);

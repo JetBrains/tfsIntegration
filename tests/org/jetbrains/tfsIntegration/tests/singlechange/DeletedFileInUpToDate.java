@@ -28,10 +28,12 @@ public class DeletedFileInUpToDate extends SingleChangeTestCase {
 
   private FilePath myDeletedFile;
 
+  @Override
   protected void preparePaths() {
     myDeletedFile = getChildPath(mySandboxRoot, "deleted_file.txt");
   }
 
+  @Override
   protected void checkChildChangePending() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertScheduledForDeletion(myDeletedFile);
@@ -39,12 +41,14 @@ public class DeletedFileInUpToDate extends SingleChangeTestCase {
     assertFolder(mySandboxRoot, 0);
   }
 
+  @Override
   protected void checkOriginalStateAfterUpdate() throws VcsException {
     getChanges().assertTotalItems(0);
     assertFolder(mySandboxRoot, 1);
     assertFile(myDeletedFile, FILE_CONTENT, false);
   }
 
+  @Override
   protected void checkOriginalStateAfterRollback() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -52,24 +56,29 @@ public class DeletedFileInUpToDate extends SingleChangeTestCase {
     assertFile(myDeletedFile, FILE_CONTENT, false);
   }
 
+  @Override
   protected void checkChildChangeCommitted() throws VcsException {
     getChanges().assertTotalItems(0);
 
     assertFolder(mySandboxRoot, 0);
   }
 
+  @Override
   protected void makeOriginalState() {
     createFileInCommand(myDeletedFile, FILE_CONTENT);
   }
 
+  @Override
   protected void makeChildChange() {
     deleteFileInCommand(myDeletedFile);
   }
 
+  @Override
   protected Change getPendingChildChange() throws VcsException {
     return getChanges().getDeleteChange(myDeletedFile);
   }
 
+  @Override
   @Test
   public void doTest() throws VcsException, IOException {
     super.doTest();

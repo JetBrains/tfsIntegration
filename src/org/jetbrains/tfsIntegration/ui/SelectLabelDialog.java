@@ -40,10 +40,12 @@ public class SelectLabelDialog extends DialogWrapper {
     updateButtons();
   }
 
+  @Override
   @Nullable
   protected JComponent createCenterPanel() {
     mySelectLabelForm = new SelectLabelForm(this, myWorkspace);
     mySelectLabelForm.addListener(new SelectLabelForm.Listener() {
+      @Override
       public void selectionChanged() {
         updateButtons();
       }

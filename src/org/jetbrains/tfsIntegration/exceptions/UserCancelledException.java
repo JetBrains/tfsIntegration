@@ -20,6 +20,7 @@ import org.jetbrains.tfsIntegration.core.TFSBundle;
 
 public class UserCancelledException extends TfsException {
 
+  @Override
   public String getMessage() {
     return TFSBundle.message("operation.canceled");
   }

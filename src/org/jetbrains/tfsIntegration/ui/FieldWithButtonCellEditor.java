@@ -20,7 +20,9 @@ import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.util.EventObject;
 
 public class FieldWithButtonCellEditor<T> extends DefaultCellEditor {
@@ -44,6 +46,7 @@ public class FieldWithButtonCellEditor<T> extends DefaultCellEditor {
     field.getTextField().setBorder(BorderFactory.createEmptyBorder());
 
     field.getButton().addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         String result = helper.processButtonClick(field.getText());
         if (result != null) {
@@ -53,16 +56,19 @@ public class FieldWithButtonCellEditor<T> extends DefaultCellEditor {
     });
 
     delegate = new EditorDelegate() {
+      @Override
       public void setValue(Object value) {
         //noinspection unchecked
         field.setText(helper.toStringRepresentation((T)value));
       }
 
+      @Override
       @Nullable
       public Object getCellEditorValue() {
         return helper.fromStringRepresentation(field.getText());
       }
 
+      @Override
       public boolean shouldSelectCell(EventObject anEvent) {
         if (anEvent instanceof MouseEvent) {
           MouseEvent e = (MouseEvent)anEvent;

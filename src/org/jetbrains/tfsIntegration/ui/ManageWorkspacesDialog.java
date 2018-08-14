@@ -16,8 +16,8 @@
 
 package org.jetbrains.tfsIntegration.ui;
 
-import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.vcs.changes.VcsDirtyScopeManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -36,12 +36,14 @@ public class ManageWorkspacesDialog extends DialogWrapper {
     init();
   }
 
+  @Override
   @NotNull
   protected Action[] createActions() {
     return new Action[]{getOKAction(), getHelpAction()};
   }
 
 
+  @Override
   @Nullable
   protected JComponent createCenterPanel() {
     ManageWorkspacesForm f = new ManageWorkspacesForm(myProject, true);

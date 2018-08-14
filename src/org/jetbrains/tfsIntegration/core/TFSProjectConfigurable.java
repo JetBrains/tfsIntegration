@@ -37,6 +37,7 @@ public class TFSProjectConfigurable implements Configurable {
     myProject = project;
   }
 
+  @Override
   @Nullable
   @Nls
   public String getDisplayName() {
@@ -49,11 +50,13 @@ public class TFSProjectConfigurable implements Configurable {
     return "project.propVCSSupport.VCSs.TFS";
   }
 
+  @Override
   public JComponent createComponent() {
     myComponent = new ProjectConfigurableForm(myProject);
     return myComponent.getContentPane();
   }
 
+  @Override
   public boolean isModified() {
     if (TFSConfigurationManager.getInstance().useIdeaHttpProxy() != myComponent.useProxy()) return true;
     TfsCheckinPoliciesCompatibility c = TFSConfigurationManager.getInstance().getCheckinPoliciesCompatibility();
@@ -63,6 +66,7 @@ public class TFSProjectConfigurable implements Configurable {
     return false;
   }
 
+  @Override
   public void apply() throws ConfigurationException {
     TFSConfigurationManager.getInstance().setUseIdeaHttpProxy(myComponent.useProxy());
     TFSConfigurationManager.getInstance().setSupportTfsCheckinPolicies(myComponent.supportTfsCheckinPolicies());
@@ -70,6 +74,7 @@ public class TFSProjectConfigurable implements Configurable {
     TFSConfigurationManager.getInstance().setReportNotInstalledCheckinPolicies(myComponent.reportNotInstalledCheckinPolicies());
   }
 
+  @Override
   public void reset() {
     myComponent.setUserProxy(TFSConfigurationManager.getInstance().useIdeaHttpProxy());
     TfsCheckinPoliciesCompatibility c = TFSConfigurationManager.getInstance().getCheckinPoliciesCompatibility();
@@ -78,6 +83,7 @@ public class TFSProjectConfigurable implements Configurable {
     myComponent.setReportNotInstalledCheckinPolicies(c.nonInstalled);
   }
 
+  @Override
   public void disposeUIResources() {
     myComponent = null;
   }

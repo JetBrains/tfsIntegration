@@ -77,6 +77,7 @@ public class ResolveConflictsForm {
 
   private void addListeners() {
     myItemsTableModel.addTableModelListener(new TableModelListener() {
+      @Override
       public void tableChanged(final TableModelEvent e) {
         if (myItemsTableModel.getRowCount() == 0) {
           myEventDispatcher.getMulticaster().close();
@@ -85,6 +86,7 @@ public class ResolveConflictsForm {
     });
 
     myItemsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+      @Override
       public void valueChanged(final ListSelectionEvent se) {
         int[] selectedIndices = myItemsTable.getSelectedRows();
         enableButtons(selectedIndices);
@@ -92,18 +94,21 @@ public class ResolveConflictsForm {
     });
 
     myAcceptYoursButton.addActionListener(new MergeActionListener() {
+      @Override
       protected void execute(final Conflict conflict) throws TfsException, VcsException {
         myResolveConflictHelper.acceptYours(conflict);
       }
     });
 
     myAcceptTheirsButton.addActionListener(new MergeActionListener() {
+      @Override
       protected void execute(final Conflict conflict) throws TfsException, IOException, VcsException {
         myResolveConflictHelper.acceptTheirs(conflict);
       }
     });
 
     myMergeButton.addActionListener(new MergeActionListener() {
+      @Override
       protected void execute(final Conflict conflict) throws TfsException, VcsException {
         myResolveConflictHelper.acceptMerge(conflict);
       }
@@ -137,6 +142,7 @@ public class ResolveConflictsForm {
   }
 
   private abstract class MergeActionListener implements ActionListener {
+    @Override
     public void actionPerformed(final ActionEvent ae) {
       int[] selectedIndices = myItemsTable.getSelectedRows();
       try {

@@ -24,6 +24,7 @@ import org.jetbrains.tfsIntegration.ui.MergeNameDialog;
 
 public class DialogNameMerger implements NameMerger {
 
+  @Override
   @Nullable
   public String mergeName(final WorkspaceInfo workspace, Conflict conflict, Project project) {
     final String yoursName;

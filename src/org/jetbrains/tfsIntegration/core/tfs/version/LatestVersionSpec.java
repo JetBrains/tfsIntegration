@@ -29,12 +29,14 @@ public class LatestVersionSpec extends VersionSpecBase {
   private LatestVersionSpec() {
   }
 
+  @Override
   protected void writeAttributes(final QName parentQName, final OMFactory factory, final MTOMAwareXMLStreamWriter xmlWriter)
     throws XMLStreamException {
     writeVersionAttribute("", "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance", xmlWriter);
     writeVersionAttribute("", "xsi:type", "LatestVersionSpec", xmlWriter);
   }
 
+  @Override
   public String getPresentableString() {
     return "Latest";
   }

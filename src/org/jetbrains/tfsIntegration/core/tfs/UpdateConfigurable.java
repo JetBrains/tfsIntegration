@@ -37,28 +37,34 @@ public class UpdateConfigurable implements Configurable {
     myWorkspaceSettings = workspaceSettings;
   }
 
+  @Override
   public void apply() throws ConfigurationException {
     myUpdateSettingsForm.apply(TFSProjectConfiguration.getInstance(myProject));
   }
 
+  @Override
   public void reset() {
     myUpdateSettingsForm.reset(TFSProjectConfiguration.getInstance(myProject));
   }
 
+  @Override
   @Nls
   public String getDisplayName() {
     return "Update Project";
   }
 
+  @Override
   public JComponent createComponent() {
     myUpdateSettingsForm = new UpdateSettingsForm(myProject, getDisplayName(), myWorkspaceSettings);
     return myUpdateSettingsForm.getPanel();
   }
 
+  @Override
   public boolean isModified() {
     return false;
   }
 
+  @Override
   public void disposeUIResources() {
     myUpdateSettingsForm = null;
   }

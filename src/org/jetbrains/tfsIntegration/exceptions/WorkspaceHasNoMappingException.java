@@ -31,6 +31,7 @@ public class WorkspaceHasNoMappingException extends TfsException {
     myWorkspace = workspace;
   }
 
+  @Override
   public String getMessage() {
     return MessageFormat
       .format("Mappings for workspace ''{0}'' were modified on server. Please review your mapping settings before you continue working.",

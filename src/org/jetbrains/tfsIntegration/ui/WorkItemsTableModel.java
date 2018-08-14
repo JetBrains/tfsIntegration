@@ -260,6 +260,7 @@ class WorkItemsTableModel extends ListTreeTableModelOnColumns {
 
     private final ComboBox myComboBox = new ComboBox(new CheckinWorkItemAction[]{CheckinWorkItemAction.Resolve, CheckinWorkItemAction.Associate});
     private final TableCellEditor myCellEditor = new DefaultCellEditor(myComboBox) {
+      @Override
       @Nullable
       public Component getTableCellEditorComponent(final JTable table,
                                                    final Object value,

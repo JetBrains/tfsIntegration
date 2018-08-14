@@ -59,6 +59,7 @@ public class LocalAndServerPathsForm implements Disposable {
 
     myLocalPathLabel.setLabelFor(myLocalPathField.getChildComponent());
     myLocalPathField.getChildComponent().getDocument().addDocumentListener(new DocumentAdapter() {
+      @Override
       protected void textChanged(final DocumentEvent e) {
         myEventDispatcher.getMulticaster().stateChanged(new ChangeEvent(this));
       }

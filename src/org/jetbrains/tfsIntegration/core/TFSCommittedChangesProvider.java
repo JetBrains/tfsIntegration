@@ -58,19 +58,23 @@ public class TFSCommittedChangesProvider implements CachingCommittedChangesProvi
     myVcs = TFSVcs.getInstance(myProject);
   }
 
+  @Override
   public ChangesBrowserSettingsEditor<ChangeBrowserSettings> createFilterUI(final boolean showDateFilter) {
     return new TFSVersionFilterComponent(showDateFilter);
   }
 
+  @Override
   @Nullable
   public VcsCommittedListsZipper getZipper() {
     return null;
   }
 
+  @Override
   public RepositoryLocation getLocationFor(final FilePath root) {
     final Map<WorkspaceInfo, List<FilePath>> pathsByWorkspaces = new HashMap<>();
     try {
       WorkstationHelper.processByWorkspaces(Collections.singletonList(root), true, myProject, new WorkstationHelper.VoidProcessDelegate() {
+        @Override
         public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) {
           pathsByWorkspaces.put(workspace, TfsUtil.getLocalPaths(paths));
         }
@@ -113,6 +117,7 @@ public class TFSCommittedChangesProvider implements CachingCommittedChangesProvi
     return true;
   }
 
+  @Override
   public void loadCommittedChanges(ChangeBrowserSettings settings,
                                    RepositoryLocation location,
                                    int maxCount,
@@ -188,6 +193,7 @@ public class TFSCommittedChangesProvider implements CachingCommittedChangesProvi
     }
   }
 
+  @Override
   public List<TFSChangeList> getCommittedChanges(final ChangeBrowserSettings settings,
                                                  final RepositoryLocation location,
                                                  final int maxCount) throws VcsException {
@@ -220,39 +226,48 @@ public class TFSCommittedChangesProvider implements CachingCommittedChangesProvi
     return changeSets.get(0).getCset();
   }
 
+  @Override
   public ChangeListColumn[] getColumns() {
     return new ChangeListColumn[]{new ChangeListColumn.ChangeListNumberColumn("Revision"), ChangeListColumn.NAME, ChangeListColumn.DATE,
       ChangeListColumn.DESCRIPTION};
   }
 
+  @Override
   public int getFormatVersion() {
     return 1;
   }
 
+  @Override
   public void writeChangeList(final DataOutput stream, final TFSChangeList list) throws IOException {
     list.writeToStream(stream);
   }
 
+  @Override
   public TFSChangeList readChangeList(final RepositoryLocation location, final DataInput stream) {
     return new TFSChangeList(myVcs, stream);
   }
 
+  @Override
   public boolean isMaxCountSupported() {
     return true;
   }
 
+  @Override
   public Collection<FilePath> getIncomingFiles(final RepositoryLocation location) {
     return null;
   }
 
+  @Override
   public boolean refreshCacheByNumber() {
     return true;
   }
 
+  @Override
   public String getChangelistTitle() {
     return "Changelist";
   }
 
+  @Override
   public boolean isChangeLocallyAvailable(final FilePath filePath,
                                           @Nullable final VcsRevisionNumber localRevision,
                                           final VcsRevisionNumber changeRevision,
@@ -260,15 +275,18 @@ public class TFSCommittedChangesProvider implements CachingCommittedChangesProvi
     return localRevision != null && localRevision.compareTo(changeRevision) >= 0;
   }
 
+  @Override
   public boolean refreshIncomingWithCommitted() {
     // TODO
     return false;
   }
 
+  @Override
   public int getUnlimitedCountValue() {
     return 0;
   }
 
+  @Override
   @Nullable
   public VcsCommittedViewAuxiliary createActions(final DecoratorManager manager, final RepositoryLocation location) {
     return null;

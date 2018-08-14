@@ -38,6 +38,7 @@ public class MovedFileFromUpToDateToAdded extends ParentChildChangeTestCase {
   private FilePath mySourceFolder;
   private FilePath myAddedFolder;
 
+  @Override
   protected void preparePaths() {
     mySourceFolder = getChildPath(mySandboxRoot, "SourceFolder");
     myAddedFolder = getChildPath(mySandboxRoot, "AddedFolder");
@@ -45,6 +46,7 @@ public class MovedFileFromUpToDateToAdded extends ParentChildChangeTestCase {
     myMovedFile = getChildPath(myAddedFolder, FILE_ORIGINAL);
   }
 
+  @Override
   protected void checkParentChangePendingChildRolledBack() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertScheduledForAddition(myAddedFolder);
@@ -55,6 +57,7 @@ public class MovedFileFromUpToDateToAdded extends ParentChildChangeTestCase {
     assertFile(myOriginalFile, ORIGINAL_CONTENT, false);
   }
 
+  @Override
   protected void checkChildChangePendingParentRolledBack() throws VcsException {
     // added folder on rollback becomes unversioned
     getChanges().assertTotalItems(2);
@@ -67,6 +70,7 @@ public class MovedFileFromUpToDateToAdded extends ParentChildChangeTestCase {
     assertFile(myMovedFile, ORIGINAL_CONTENT, false);
   }
 
+  @Override
   protected void checkParentAndChildChangesPending() throws VcsException {
     getChanges().assertTotalItems(2);
     getChanges().assertScheduledForAddition(myAddedFolder);
@@ -78,6 +82,7 @@ public class MovedFileFromUpToDateToAdded extends ParentChildChangeTestCase {
     assertFile(myMovedFile, ORIGINAL_CONTENT, false);
   }
 
+  @Override
   protected void checkOriginalStateAfterRollbackParentChild() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertUnversioned(myAddedFolder);
@@ -88,6 +93,7 @@ public class MovedFileFromUpToDateToAdded extends ParentChildChangeTestCase {
     assertFile(myOriginalFile, ORIGINAL_CONTENT, false);
   }
 
+  @Override
   protected void checkOriginalStateAfterUpdate() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -96,6 +102,7 @@ public class MovedFileFromUpToDateToAdded extends ParentChildChangeTestCase {
     assertFile(myOriginalFile, ORIGINAL_CONTENT, false);
   }
 
+  @Override
   protected void checkParentChangeCommitted() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -105,10 +112,12 @@ public class MovedFileFromUpToDateToAdded extends ParentChildChangeTestCase {
     assertFile(myOriginalFile, ORIGINAL_CONTENT, false);
   }
 
+  @Override
   protected void checkChildChangeCommitted() throws VcsException {
     checkParentAndChildChangesCommitted(); // see remark 1
   }
 
+  @Override
   protected void checkParentAndChildChangesCommitted() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -118,6 +127,7 @@ public class MovedFileFromUpToDateToAdded extends ParentChildChangeTestCase {
     assertFile(myMovedFile, ORIGINAL_CONTENT, false);
   }
 
+  @Override
   protected void checkParentChangeCommittedChildPending() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertRenamedOrMoved(myOriginalFile, myMovedFile);
@@ -128,10 +138,12 @@ public class MovedFileFromUpToDateToAdded extends ParentChildChangeTestCase {
     assertFile(myMovedFile, ORIGINAL_CONTENT, false);
   }
 
+  @Override
   protected void checkChildChangeCommittedParentPending() throws VcsException {
     checkParentAndChildChangesCommitted(); // see remark 1
   }
 
+  @Override
   protected void checkParentChangePending() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertScheduledForAddition(myAddedFolder);
@@ -142,6 +154,7 @@ public class MovedFileFromUpToDateToAdded extends ParentChildChangeTestCase {
     assertFile(myOriginalFile, ORIGINAL_CONTENT, false);
   }
 
+  @Override
   protected void checkChildChangePending() throws VcsException {
     final TestChangeListBuilder changes = getChanges();
     changes.assertTotalItems(2);
@@ -150,11 +163,13 @@ public class MovedFileFromUpToDateToAdded extends ParentChildChangeTestCase {
     assertFile(myMovedFile, ORIGINAL_CONTENT, false);
   }
 
+  @Override
   protected void makeOriginalState() {
     createDirInCommand(mySourceFolder);
     createFileInCommand(myOriginalFile, ORIGINAL_CONTENT);
   }
 
+  @Override
   protected void makeParentChange() throws VcsException {
     if (myAddedFolder.getIOFile().exists()) {
       if (getChanges().isUnversioned(myAddedFolder)) {
@@ -166,25 +181,30 @@ public class MovedFileFromUpToDateToAdded extends ParentChildChangeTestCase {
     }
   }
 
+  @Override
   protected void makeChildChange(ParentChangeState parentChangeState) {
     moveFileInCommand(myOriginalFile, myAddedFolder);
   }
 
+  @Override
   @Nullable
   protected Change getPendingParentChange() throws VcsException {
     return getChanges().getAddChange(myAddedFolder);
   }
 
+  @Override
   @Nullable
   protected Change getPendingChildChange(ParentChangeState parentChangeState) throws VcsException {
     return getChanges().getMoveChange(myOriginalFile, myMovedFile);
   }
 
+  @Override
   @Test
   public void testPendingAndRollback() throws VcsException, IOException {
     super.testPendingAndRollback();
   }
 
+  @Override
   @Test
   public void testCommitParentThenChildChanges() throws VcsException, IOException {
     super.testCommitParentThenChildChanges();
@@ -196,6 +216,7 @@ public class MovedFileFromUpToDateToAdded extends ParentChildChangeTestCase {
   //  super.testCommitChildThenParentChanges();
   //}
 
+  @Override
   @Test
   public void testCommitParentChangesChildPending() throws VcsException, IOException {
     super.testCommitParentChangesChildPending();

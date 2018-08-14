@@ -55,6 +55,7 @@ public abstract class SingleItemAction extends AnAction {
     return ALLOWED_STATUSES;
   }
 
+  @Override
   public void actionPerformed(@NotNull final AnActionEvent e) {
     final Project project = e.getData(CommonDataKeys.PROJECT);
     VirtualFile file = VcsUtil.getOneVirtualFile(e);
@@ -87,6 +88,7 @@ public abstract class SingleItemAction extends AnAction {
     }
   }
 
+  @Override
   public void update(@NotNull AnActionEvent e) {
     e.getPresentation().setEnabled(isEnabled(e.getProject(), VcsUtil.getOneVirtualFile(e)));
   }

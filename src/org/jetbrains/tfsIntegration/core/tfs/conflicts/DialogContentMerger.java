@@ -34,6 +34,7 @@ import org.jetbrains.tfsIntegration.ui.ContentTriplet;
 import java.util.List;
 
 public class DialogContentMerger implements ContentMerger {
+  @Override
   public boolean mergeContent(Conflict conflict, ContentTriplet contentTriplet, Project project, final VirtualFile localFile, String localPath,
                               VcsRevisionNumber serverVersion) throws VcsException {
     TFSVcs.assertTrue(localFile.isWritable(), localFile.getPresentableUrl() + " must be writable");

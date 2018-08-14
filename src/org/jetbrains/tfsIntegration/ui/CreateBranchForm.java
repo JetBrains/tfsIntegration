@@ -51,6 +51,7 @@ public class CreateBranchForm {
 
     myTargetLabel.setLabelFor(myTargetField.getChildComponent());
     myTargetField.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         String serverPath =
           myTargetField.getText() != null && myTargetField.getText().length() > 0 ? myTargetField.getText() : mySourceField.getText();

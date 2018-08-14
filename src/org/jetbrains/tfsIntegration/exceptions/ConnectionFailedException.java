@@ -43,6 +43,7 @@ public class ConnectionFailedException extends TfsException {
     myMessage = message;
   }
 
+  @Override
   public String getMessage() {
     if (myMessage != null) {
       return myMessage;

@@ -19,6 +19,7 @@ import com.intellij.util.WaitForProgressToShow;
 import org.jetbrains.tfsIntegration.ui.ResolveConflictsDialog;
 
 public class DialogConflictsHandler implements ConflictsHandler {
+  @Override
   public void resolveConflicts(final ResolveConflictHelper resolveConflictHelper) {
     if (resolveConflictHelper.getConflicts().isEmpty()) {
       return;

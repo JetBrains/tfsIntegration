@@ -45,6 +45,7 @@ public class TFSFileAnnotation extends FileAnnotation {
   private final VirtualFile myFile;
 
   private final LineAnnotationAspect REVISION_ASPECT = new TFSAnnotationAspect(TFSAnnotationAspect.REVISION, false) {
+    @Override
     public String getValue(int lineNumber) {
       VcsFileRevision fileRevision = getLineRevision(lineNumber);
       if (fileRevision == null) return "";
@@ -54,6 +55,7 @@ public class TFSFileAnnotation extends FileAnnotation {
   };
 
   private final LineAnnotationAspect DATE_ASPECT = new TFSAnnotationAspect(TFSAnnotationAspect.DATE, true) {
+    @Override
     public String getValue(int lineNumber) {
       VcsFileRevision fileRevision = getLineRevision(lineNumber);
       if (fileRevision == null) return "";
@@ -63,6 +65,7 @@ public class TFSFileAnnotation extends FileAnnotation {
   };
 
   private final LineAnnotationAspect AUTHOR_ASPECT = new TFSAnnotationAspect(TFSAnnotationAspect.AUTHOR, true) {
+    @Override
     public String getValue(int lineNumber) {
       VcsFileRevision fileRevision = getLineRevision(lineNumber);
       if (fileRevision == null) return "";
@@ -72,6 +75,7 @@ public class TFSFileAnnotation extends FileAnnotation {
   };
 
   private final TFSVcs.RevisionChangedListener myListener = new TFSVcs.RevisionChangedListener() {
+    @Override
     public void revisionChanged() {
       try {
         GuiUtils.runOrInvokeAndWait(() -> TFSFileAnnotation.this.close());
@@ -98,14 +102,17 @@ public class TFSFileAnnotation extends FileAnnotation {
     myVcs.addRevisionChangedListener(myListener);
   }
 
+  @Override
   public void dispose() {
     myVcs.removeRevisionChangedListener(myListener);
   }
 
+  @Override
   public String getAnnotatedContent() {
     return myAnnotatedContent;
   }
 
+  @Override
   public LineAnnotationAspect[] getAspects() {
     return new LineAnnotationAspect[]{REVISION_ASPECT, DATE_ASPECT, AUTHOR_ASPECT};
   }
@@ -116,6 +123,7 @@ public class TFSFileAnnotation extends FileAnnotation {
     return myLineRevisions[lineNumber];
   }
 
+  @Override
   public String getToolTip(final int lineNumber) {
     VcsFileRevision fileRevision = getLineRevision(lineNumber);
     if (fileRevision == null) return "";
@@ -125,6 +133,7 @@ public class TFSFileAnnotation extends FileAnnotation {
                                 ((TfsRevisionNumber)fileRevision.getRevisionNumber()).getChangesetString(), commitMessage);
   }
 
+  @Override
   @Nullable
   public VcsRevisionNumber getLineRevisionNumber(final int lineNumber) {
     VcsFileRevision fileRevision = getLineRevision(lineNumber);
@@ -141,6 +150,7 @@ public class TFSFileAnnotation extends FileAnnotation {
     return fileRevision.getRevisionDate();
   }
 
+  @Override
   public List<VcsFileRevision> getRevisions() {
     Set<VcsFileRevision> set = new HashSet<>(Arrays.asList(myLineRevisions));
     List<VcsFileRevision> result = new ArrayList<>(set);

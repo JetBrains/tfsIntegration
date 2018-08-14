@@ -27,7 +27,7 @@ public class CachedContentRevision implements ContentRevision {
   private final FilePath myFile;
   private final String myContent;
   private final VcsRevisionNumber myRevisionNumber;
-                      
+
 
   public CachedContentRevision(ContentRevision contentRevision) throws VcsException {
     myFile = contentRevision.getFile();
@@ -35,16 +35,19 @@ public class CachedContentRevision implements ContentRevision {
     myRevisionNumber = contentRevision.getRevisionNumber();
   }
 
+  @Override
   @Nullable
   public String getContent() {
     return myContent;
   }
 
+  @Override
   @NotNull
   public FilePath getFile() {
     return myFile;
   }
 
+  @Override
   @NotNull
   public VcsRevisionNumber getRevisionNumber() {
     return myRevisionNumber;

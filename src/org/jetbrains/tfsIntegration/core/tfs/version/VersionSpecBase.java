@@ -27,6 +27,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 public abstract class VersionSpecBase extends VersionSpec {
 
+  @Override
   public void serialize(final QName parentQName, final OMFactory factory, final MTOMAwareXMLStreamWriter xmlWriter)
     throws XMLStreamException {
 

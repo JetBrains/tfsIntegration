@@ -50,24 +50,29 @@ public class TFSHistoryProvider implements VcsHistoryProvider {
     myProject = project;
   }
 
+  @Override
   public VcsDependentHistoryComponents getUICustomization(final VcsHistorySession session, JComponent forShortcutRegistration) {
     return VcsDependentHistoryComponents.createOnlyColumns(ColumnInfo.EMPTY_ARRAY);
   }
 
+  @Override
   public AnAction[] getAdditionalActions(final Runnable refresher) {
     return AnAction.EMPTY_ARRAY;
   }
 
+  @Override
   public boolean isDateOmittable() {
     return false;
   }
 
+  @Override
   @Nullable
   @NonNls
   public String getHelpId() {
     return null;
   }
 
+  @Override
   @Nullable
   public VcsHistorySession createSessionFor(final FilePath filePath) throws VcsException {
     try {
@@ -94,10 +99,12 @@ public class TFSHistoryProvider implements VcsHistoryProvider {
   private static VcsAbstractHistorySession createSession(final Pair<WorkspaceInfo, ExtendedItem> workspaceAndItem,
                                                          final List<? extends VcsFileRevision> revisions) {
     return new VcsAbstractHistorySession(revisions) {
+      @Override
       public VcsRevisionNumber calcCurrentRevisionNumber() {
         return TfsUtil.getCurrentRevisionNumber(workspaceAndItem.second);
       }
 
+      @Override
       public HistoryAsTreeProvider getHistoryAsTreeProvider() {
         return null;
       }
@@ -114,6 +121,7 @@ public class TFSHistoryProvider implements VcsHistoryProvider {
     };
   }
 
+  @Override
   public void reportAppendableHistory(FilePath path, VcsAppendableHistorySessionPartner partner) throws VcsException {
     //??
     final VcsHistorySession session = createSessionFor(path);
@@ -142,6 +150,7 @@ public class TFSHistoryProvider implements VcsHistoryProvider {
     return revisions;
   }
 
+  @Override
   public boolean supportsHistoryForDirectories() {
     return true;
   }

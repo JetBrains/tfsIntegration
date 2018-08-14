@@ -22,6 +22,7 @@ import com.intellij.openapi.vcs.actions.StandardVcsGroup;
 
 public class TFSGroup extends StandardVcsGroup {
 
+  @Override
   public AbstractVcs getVcs(Project project) {
     return TFSVcs.getInstance(project);
   }

@@ -37,6 +37,7 @@ public class TFSRepositoryLocation implements RepositoryLocation {
     return myPathsByWorkspaces;
   }
 
+  @Override
   public String getKey() {
     return toString();
   }
@@ -49,6 +50,7 @@ public class TFSRepositoryLocation implements RepositoryLocation {
   public void onAfterBatch() {
   }
 
+  @Override
   public String toPresentableString() {
     if (myPathsByWorkspaces.size() == 1 && myPathsByWorkspaces.values().iterator().next().size() == 1) {
       return myPathsByWorkspaces.values().iterator().next().iterator().next().getPresentableUrl();

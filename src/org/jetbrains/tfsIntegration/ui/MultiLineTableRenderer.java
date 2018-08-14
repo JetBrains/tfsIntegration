@@ -30,6 +30,7 @@ public abstract class MultiLineTableRenderer extends JTextArea implements TableC
     setBorder(UIManager.getBorder("Table.cellNoFocusBorder"));
   }
 
+  @Override
   public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
     if (isSelected) {
       super.setForeground(table.getSelectionForeground());

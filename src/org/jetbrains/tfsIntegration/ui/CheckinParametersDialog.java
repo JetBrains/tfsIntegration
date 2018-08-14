@@ -38,6 +38,7 @@ public class CheckinParametersDialog extends DialogWrapper {
     setSize(700, 500);
   }
 
+  @Override
   protected JComponent createCenterPanel() {
     myForm = new CheckinParametersForm(myParameters, myProject);
     Disposer.register(getDisposable(), myForm);

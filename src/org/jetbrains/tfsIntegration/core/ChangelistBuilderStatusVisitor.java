@@ -43,12 +43,14 @@ class ChangelistBuilderStatusVisitor implements StatusVisitor {
     myWorkspace = workspace;
   }
 
+  @Override
   public void unversioned(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull ServerStatus serverStatus) {
     if (localItemExists) {
       myChangelistBuilder.processUnversionedFile(localPath.getVirtualFile());
     }
   }
 
+  @Override
   public void checkedOutForEdit(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull ServerStatus serverStatus)
     throws TfsException {
     if (localItemExists) {
@@ -61,6 +63,7 @@ class ChangelistBuilderStatusVisitor implements StatusVisitor {
     }
   }
 
+  @Override
   public void scheduledForAddition(final @NotNull FilePath localPath,
                                    final boolean localItemExists,
                                    final @NotNull ServerStatus serverStatus) {
@@ -72,6 +75,7 @@ class ChangelistBuilderStatusVisitor implements StatusVisitor {
     }
   }
 
+  @Override
   public void scheduledForDeletion(final @NotNull FilePath localPath,
                                    final boolean localItemExists,
                                    final @NotNull ServerStatus serverStatus) {
@@ -80,16 +84,19 @@ class ChangelistBuilderStatusVisitor implements StatusVisitor {
     myChangelistBuilder.processChange(new Change(baseRevision, null), TFSVcs.getKey());
   }
 
+  @Override
   public void outOfDate(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull ServerStatus serverStatusm) {
     upToDate(localPath, localItemExists, serverStatusm);
   }
 
+  @Override
   public void deleted(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull ServerStatus serverStatus) {
     if (localItemExists) {
       myChangelistBuilder.processUnversionedFile(localPath.getVirtualFile());
     }
   }
 
+  @Override
   public void upToDate(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull ServerStatus serverStatus) {
     if (localItemExists) {
       if (!myWorkspace.isLocal() && TfsFileUtil.isFileWritable(localPath)) {
@@ -101,6 +108,7 @@ class ChangelistBuilderStatusVisitor implements StatusVisitor {
     }
   }
 
+  @Override
   public void renamed(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull ServerStatus serverStatus)
     throws TfsException {
     if (localItemExists) {
@@ -118,6 +126,7 @@ class ChangelistBuilderStatusVisitor implements StatusVisitor {
     }
   }
 
+  @Override
   public void renamedCheckedOut(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull ServerStatus serverStatus)
     throws TfsException {
     if (localItemExists) {
@@ -135,6 +144,7 @@ class ChangelistBuilderStatusVisitor implements StatusVisitor {
     }
   }
 
+  @Override
   public void undeleted(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull ServerStatus serverStatus)
     throws TfsException {
     checkedOutForEdit(localPath, localItemExists, serverStatus);

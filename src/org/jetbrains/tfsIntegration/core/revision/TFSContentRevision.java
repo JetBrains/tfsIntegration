@@ -77,25 +77,30 @@ public abstract class TFSContentRevision implements ByteBackedContentRevision {
     }
 
     return new TFSContentRevision(project, workspace.getServer()) {
+      @Override
       @Nullable
       protected Item getItem() {
         return item;
       }
 
+      @Override
       protected int getItemId() {
         return itemId;
       }
 
+      @Override
       protected int getChangeset() throws TfsException {
         return changeset;
       }
 
+      @Override
       @NotNull
       public FilePath getFile() {
         //noinspection ConstantConditions
         return localPath;
       }
 
+      @Override
       @NotNull
       public VcsRevisionNumber getRevisionNumber() {
         return new TfsRevisionNumber(changeset, itemId);
@@ -109,24 +114,29 @@ public abstract class TFSContentRevision implements ByteBackedContentRevision {
                                           final int changeset,
                                           final int itemId) {
     return new TFSContentRevision(project, workspace.getServer()) {
+      @Override
       @Nullable
       protected Item getItem() throws TfsException {
         return workspace.getServer().getVCS().queryItemById(itemId, changeset, true, project, TFSBundle.message("loading.item"));
       }
 
+      @Override
       protected int getItemId() {
         return itemId;
       }
 
+      @Override
       protected int getChangeset() {
         return changeset;
       }
 
+      @Override
       @NotNull
       public FilePath getFile() {
         return localPath;
       }
 
+      @Override
       @NotNull
       public VcsRevisionNumber getRevisionNumber() {
         return new TfsRevisionNumber(changeset, itemId);
@@ -145,6 +155,7 @@ public abstract class TFSContentRevision implements ByteBackedContentRevision {
     return new TFSContentRevision(project, workspace.getServer()) {
       private @Nullable Item myItem;
 
+      @Override
       @Nullable
       protected Item getItem() throws TfsException {
         if (myItem == null) {
@@ -155,21 +166,25 @@ public abstract class TFSContentRevision implements ByteBackedContentRevision {
         return myItem;
       }
 
+      @Override
       protected int getItemId() throws TfsException {
         Item item = getItem();
         return item != null ? item.getItemid() : Integer.MIN_VALUE;
       }
 
+      @Override
       protected int getChangeset() throws TfsException {
         Item item = getItem();
         return item != null ? item.getCs() : Integer.MIN_VALUE;
       }
 
+      @Override
       @NotNull
       public VcsRevisionNumber getRevisionNumber() {
         return new TfsRevisionNumber(changeset);
       }
 
+      @Override
       @NotNull
       public FilePath getFile() {
         return localPath;
@@ -177,6 +192,7 @@ public abstract class TFSContentRevision implements ByteBackedContentRevision {
     };
   }
 
+  @Override
   @Nullable
   public String getContent() throws VcsException {
     return new String(getContentAsBytes(), getFile().getCharset(myProject));
@@ -221,6 +237,7 @@ public abstract class TFSContentRevision implements ByteBackedContentRevision {
       store = TFSContentStoreFactory.create(myServer.getUri().toASCIIString(), itemId, changeset);
       final Ref<TfsException> exception = new Ref<>();
       store.saveContent(new TfsFileUtil.ContentWriter() {
+        @Override
         public void write(final OutputStream outputStream) {
           try {
             myServer.getVCS().downloadItem(myProject, downloadUrl, outputStream, TFSBundle.message("downloading.0", getFile().getName()));

@@ -34,36 +34,44 @@ public class TestFolderYoursAddedTheirsAdded extends TestFolderConflict {
 
   private FilePath myBaseFolder;
 
+  @Override
   protected boolean updateToThePast() {
     return true;
   }
 
+  @Override
   protected boolean canMerge() {
     return false;
   }
 
+  @Override
   protected void preparePaths() {
     myBaseFolder = getChildPath(mySandboxRoot, BASE_FOLDERNAME);
   }
 
+  @Override
   protected void prepareBaseRevision() throws VcsException {
     createDirInCommand(myBaseFolder);
     commit(getChanges().getChanges(), "0-th revision");
     deleteFileInCommand(myBaseFolder);
   }
 
+  @Override
   protected void prepareTargetRevision() {
     Assert.fail("Not supported");
   }
 
+  @Override
   protected void makeLocalChanges() {
     createDirInCommand(myBaseFolder);
   }
 
+  @Override
   protected void checkResolvedYoursState() {
     Assert.fail("Not supported");
   }
 
+  @Override
   protected void checkResolvedTheirsState() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -71,16 +79,19 @@ public class TestFolderYoursAddedTheirsAdded extends TestFolderConflict {
     assertFolder(myBaseFolder, 0);
   }
 
+  @Override
   protected void checkResolvedMergeState() {
     Assert.fail("can't merge");
   }
 
+  @Override
   @Nullable
   protected String mergeName() {
     Assert.fail("can't merge");
     return null;
   }
 
+  @Override
   protected void checkConflictProperties(final Conflict conflict) throws TfsException {
     Assert.assertTrue(
       new ChangeTypeMask(conflict.getYchg()).containsOnly(ChangeType_type0.Add, ChangeType_type0.Encoding));
@@ -93,6 +104,7 @@ public class TestFolderYoursAddedTheirsAdded extends TestFolderConflict {
     Assert.assertEquals(findServerPath(myBaseFolder), conflict.getTsitem());
   }
 
+  @Override
   @Nullable
   protected String mergeContent() {
     Assert.fail("Not supported");
@@ -105,11 +117,13 @@ public class TestFolderYoursAddedTheirsAdded extends TestFolderConflict {
   //  super.testAcceptYours();
   //}
 
+  @Override
   @Test
   public void testAcceptTheirs() throws VcsException, IOException {
     super.testAcceptTheirs();
   }
 
+  @Override
   @Test
   public void testAcceptMerge() throws VcsException, IOException {
     super.testAcceptMerge();

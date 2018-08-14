@@ -68,6 +68,7 @@ public abstract class ServerStatus {
       super(0, 0, false, null, null);
     }
 
+    @Override
     public void visitBy(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull StatusVisitor statusVisitor)
       throws TfsException {
       statusVisitor.unversioned(localPath, localItemExists, this);
@@ -94,6 +95,7 @@ public abstract class ServerStatus {
       super(item);
     }
 
+    @Override
     public void visitBy(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull StatusVisitor statusVisitor)
       throws TfsException {
       statusVisitor.checkedOutForEdit(localPath, localItemExists, this);
@@ -109,6 +111,7 @@ public abstract class ServerStatus {
       super(extendedItem);
     }
 
+    @Override
     public void visitBy(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull StatusVisitor statusVisitor)
       throws TfsException {
       statusVisitor.scheduledForAddition(localPath, localItemExists, this);
@@ -124,6 +127,7 @@ public abstract class ServerStatus {
       super(item);
     }
 
+    @Override
     public void visitBy(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull StatusVisitor statusVisitor)
       throws TfsException {
       statusVisitor.scheduledForDeletion(localPath, localItemExists, this);
@@ -135,6 +139,7 @@ public abstract class ServerStatus {
       super(extendedItem);
     }
 
+    @Override
     public void visitBy(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull StatusVisitor statusVisitor)
       throws TfsException {
       statusVisitor.outOfDate(localPath, localItemExists, this);
@@ -146,6 +151,7 @@ public abstract class ServerStatus {
       super(extendedItem);
     }
 
+    @Override
     public void visitBy(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull StatusVisitor statusVisitor)
       throws TfsException {
       statusVisitor.upToDate(localPath, localItemExists, this);
@@ -161,6 +167,7 @@ public abstract class ServerStatus {
       super(item);
     }
 
+    @Override
     public void visitBy(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull StatusVisitor statusVisitor)
       throws TfsException {
       statusVisitor.renamed(localPath, localItemExists, this);
@@ -176,6 +183,7 @@ public abstract class ServerStatus {
       super(item);
     }
 
+    @Override
     public void visitBy(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull StatusVisitor statusVisitor)
       throws TfsException {
       statusVisitor.renamedCheckedOut(localPath, localItemExists, this);
@@ -191,6 +199,7 @@ public abstract class ServerStatus {
       super(item);
     }
 
+    @Override
     public void visitBy(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull StatusVisitor statusVisitor)
       throws TfsException {
       statusVisitor.undeleted(localPath, localItemExists, this);

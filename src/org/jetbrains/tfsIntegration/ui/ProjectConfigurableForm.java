@@ -38,6 +38,7 @@ public class ProjectConfigurableForm {
     myProject = project;
 
     myManageButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         ManageWorkspacesDialog d = new ManageWorkspacesDialog(myProject);
         d.show();
@@ -47,6 +48,7 @@ public class ProjectConfigurableForm {
     myUseIdeaHttpProxyCheckBox.setSelected(TFSConfigurationManager.getInstance().useIdeaHttpProxy());
 
     myResetPasswordsButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         final String title = "Reset Stored Passwords";
         if (Messages.showYesNoDialog(myProject, "Do you want to reset all stored passwords?", title, Messages.getQuestionIcon()) == Messages.YES) {
@@ -57,6 +59,7 @@ public class ProjectConfigurableForm {
     });
 
     ActionListener l = new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         updateNonInstalledCheckbox();
       }

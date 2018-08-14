@@ -32,6 +32,7 @@ public class LabelVersionSpec extends VersionSpecBase {
     myScope = scope;
   }
 
+  @Override
   protected void writeAttributes(QName parentQName, OMFactory factory, MTOMAwareXMLStreamWriter xmlWriter) throws XMLStreamException {
     writeVersionAttribute("", "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance", xmlWriter);
     writeVersionAttribute("", "xsi:type", "LabelVersionSpec", xmlWriter);
@@ -41,6 +42,7 @@ public class LabelVersionSpec extends VersionSpecBase {
     }
   }
 
+  @Override
   public String getPresentableString() {
     return myScope != null ? myLabel + "@" + myScope : myLabel;
   }

@@ -46,6 +46,7 @@ import java.util.List;
 
 public class BranchAction extends SingleItemAction implements DumbAware {
 
+  @Override
   protected void execute(final @NotNull Project project,
                          final @NotNull WorkspaceInfo workspace,
                          final @NotNull FilePath sourceLocalPath,

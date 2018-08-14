@@ -46,12 +46,14 @@ public class TFSDiffProvider implements DiffProvider {
     myProject = project;
   }
 
+  @Override
   @Nullable
   public ItemLatestState getLastRevision(final VirtualFile virtualFile) {
     final FilePath localPath = TfsFileUtil.getFilePath(virtualFile);
     return getLastRevision(localPath);
   }
 
+  @Override
   @Nullable
   public ContentRevision createFileContent(final VcsRevisionNumber vcsRevisionNumber, final VirtualFile virtualFile) {
     if (VcsRevisionNumber.NULL.equals(vcsRevisionNumber)) {
@@ -78,11 +80,13 @@ public class TFSDiffProvider implements DiffProvider {
     }
   }
 
+  @Override
   @Nullable
   public VcsRevisionNumber getCurrentRevision(final VirtualFile virtualFile) {
     return TfsUtil.getCurrentRevisionNumber(TfsFileUtil.getFilePath(virtualFile), myProject, TFSBundle.message("loading.item"));
   }
 
+  @Override
   public ItemLatestState getLastRevision(final FilePath localPath) {
     try {
       Collection<WorkspaceInfo> workspaces = Workstation.getInstance().findWorkspaces(localPath, false, myProject);
@@ -115,6 +119,7 @@ public class TFSDiffProvider implements DiffProvider {
     }
   }
 
+  @Override
   public VcsRevisionNumber getLatestCommittedRevision(VirtualFile vcsRoot) {
     // todo.
     return null;

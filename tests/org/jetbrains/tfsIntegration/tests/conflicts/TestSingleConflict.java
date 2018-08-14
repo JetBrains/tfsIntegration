@@ -143,6 +143,7 @@ abstract class TestSingleConflict extends TFSTestCase {
       myResolution = resolution;
     }
 
+    @Override
     public void resolveConflicts(final ResolveConflictHelper resolveConflictHelper) throws TfsException {
       Collection<Conflict> conflicts = resolveConflictHelper.getConflicts();
       Assert.assertEquals("Expected conflicts count differs: ", 1, conflicts.size());
@@ -176,6 +177,7 @@ abstract class TestSingleConflict extends TFSTestCase {
   }
 
   private class NameMergerImpl implements NameMerger {
+    @Override
     @Nullable
     public String mergeName(final WorkspaceInfo workspace, final Conflict conflict, Project project) {
       try {
@@ -189,6 +191,7 @@ abstract class TestSingleConflict extends TFSTestCase {
   }
 
   private class ContentMergerImpl implements ContentMerger {
+    @Override
     public boolean mergeContent(final Conflict conflict,
                                 final ContentTriplet contentTriplet,
                                 final Project project,

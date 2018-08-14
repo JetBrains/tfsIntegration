@@ -29,7 +29,7 @@ import java.util.Map;
 
 // Notes
 // 1. On update server sends get operation to rename BaseParent -> TheirsParent. After this operation was performed and ULV(TheirsFolder)
-//  sent to server conflict.srclitem = BaseParent\YoursChild, not TheirsParent\YoursChild, so TheirsParent\YoursChild is preserved  
+//  sent to server conflict.srclitem = BaseParent\YoursChild, not TheirsParent\YoursChild, so TheirsParent\YoursChild is preserved
 //
 
 @SuppressWarnings({"HardCodedStringLiteral"})
@@ -59,6 +59,7 @@ public class TestTheirsParentFolderRenamedYoursChildFolderRenamed extends TestMu
   private static final String YOURS_CHILD_NAME = "YoursChild";
   private static final String MERGED_CHILD_NAME = "MergedChild";
 
+  @Override
   protected void preparePaths() {
     myBaseParentFolder = getChildPath(mySandboxRoot, BASE_PARENT_NAME);
     myTheirsParentFolder = getChildPath(mySandboxRoot, THEIRS_PARENT_NAME);
@@ -77,19 +78,23 @@ public class TestTheirsParentFolderRenamedYoursChildFolderRenamed extends TestMu
     myMergedChildFolderInMergedParent = getChildPath(myMergedParentFolder, MERGED_CHILD_NAME);
   }
 
+  @Override
   protected void prepareBaseRevision() {
     createDirInCommand(myBaseParentFolder);
     createDirInCommand(myBaseChildFolderInBaseParent);
   }
 
+  @Override
   protected void prepareTargetRevision() {
     renameFileInCommand(myBaseParentFolder, THEIRS_PARENT_NAME);
   }
 
+  @Override
   protected void makeLocalChanges() {
     renameFileInCommand(myBaseChildFolderInBaseParent, YOURS_CHILD_NAME);
   }
 
+  @Override
   protected void checkResolvedState(final Map<ConflictingItem, Resolution> resolution) throws VcsException {
     if (resolution.get(CHILD) == Resolution.AcceptTheirs) {
       // see Note1
@@ -111,17 +116,20 @@ public class TestTheirsParentFolderRenamedYoursChildFolderRenamed extends TestMu
     }
   }
 
+  @Override
   @Nullable
   protected String mergeContent(final ConflictingItem conflictingItem) {
     Assert.fail("not supported");
     return null;
   }
 
+  @Override
   @Nullable
   protected String mergeName(final ConflictingItem conflictingItem) {
     return MERGED_CHILD_NAME;
   }
 
+  @Override
   protected FilePath getPath(final ConflictingItem conflictingItem) {
     if (CHILD.equals(conflictingItem)) {
       return myBaseChildFolderInBaseParent;
@@ -129,18 +137,21 @@ public class TestTheirsParentFolderRenamedYoursChildFolderRenamed extends TestMu
     throw new IllegalArgumentException(conflictingItem.toString());
   }
 
+  @Override
   @Nullable
   protected byte[] getExpectedTheirsContent(final ConflictingItem conflictingItem) {
     Assert.fail("not supported");
     return null;
   }
 
+  @Override
   @Nullable
   protected byte[] getExpectedBaseContent(final ConflictingItem conflictingItem) {
     Assert.fail("not supported");
     return null;
   }
 
+  @Override
   @Nullable
   protected byte[] getExpectedYoursContent(final ConflictingItem conflictingItem) {
     Assert.fail("not supported");

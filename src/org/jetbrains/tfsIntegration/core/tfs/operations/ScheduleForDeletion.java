@@ -68,54 +68,64 @@ public class ScheduleForDeletion {
       final List<FilePath> scheduleForDeletion = new ArrayList<>();
       StatusProvider.visitByStatus(workspace, undoneRoots, false, null, new StatusVisitor() {
 
+        @Override
         public void unversioned(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull ServerStatus serverStatus)
           throws TfsException {
           // ignore
         }
 
+        @Override
         public void deleted(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull ServerStatus serverStatus) {
           // ignore
         }
 
+        @Override
         public void checkedOutForEdit(final @NotNull FilePath localPath,
                                       final boolean localItemExists,
                                       final @NotNull ServerStatus serverStatus) throws TfsException {
           TFSVcs.error("Unexpected status " + serverStatus.getClass().getName() + " for " + localPath.getPresentableUrl());
         }
 
+        @Override
         public void scheduledForAddition(final @NotNull FilePath localPath,
                                          final boolean localItemExists,
                                          final @NotNull ServerStatus serverStatus) {
           TFSVcs.error("Unexpected status " + serverStatus.getClass().getName() + " for " + localPath.getPresentableUrl());
         }
 
+        @Override
         public void scheduledForDeletion(final @NotNull FilePath localPath,
                                          final boolean localItemExists,
                                          final @NotNull ServerStatus serverStatus) {
           TFSVcs.error("Unexpected status " + serverStatus.getClass().getName() + " for " + localPath.getPresentableUrl());
         }
 
+        @Override
         public void outOfDate(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull ServerStatus serverStatus)
           throws TfsException {
           scheduleForDeletion.add(localPath);
         }
 
+        @Override
         public void upToDate(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull ServerStatus serverStatus)
           throws TfsException {
           scheduleForDeletion.add(localPath);
         }
 
+        @Override
         public void renamed(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull ServerStatus serverStatus)
           throws TfsException {
           TFSVcs.error("Unexpected status " + serverStatus.getClass().getName() + " for " + localPath.getPresentableUrl());
         }
 
+        @Override
         public void renamedCheckedOut(final @NotNull FilePath localPath,
                                       final boolean localItemExists,
                                       final @NotNull ServerStatus serverStatus) throws TfsException {
           TFSVcs.error("Unexpected status " + serverStatus.getClass().getName() + " for " + localPath.getPresentableUrl());
         }
 
+        @Override
         public void undeleted(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull ServerStatus serverStatus)
           throws TfsException {
           TFSVcs.error("Unexpected status " + serverStatus.getClass().getName() + " for " + localPath.getPresentableUrl());

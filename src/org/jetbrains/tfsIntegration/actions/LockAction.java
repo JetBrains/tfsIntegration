@@ -47,6 +47,7 @@ import java.util.Map;
 
 public class LockAction extends AnAction implements DumbAware {
 
+  @Override
   public void actionPerformed(@NotNull AnActionEvent e) {
     final Project project = e.getData(CommonDataKeys.PROJECT);
     final VirtualFile[] files = VcsUtil.getVirtualFiles(e);
@@ -60,6 +61,7 @@ public class LockAction extends AnAction implements DumbAware {
         ProgressManager.getInstance().getProgressIndicator().setIndeterminate(true);
         WorkstationHelper
           .processByWorkspaces(TfsFileUtil.getFilePaths(files), false, project, new WorkstationHelper.VoidProcessDelegate() {
+            @Override
             public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) throws TfsException {
               mappingFound.set(true);
               final Map<FilePath, ExtendedItem> itemsMap =
@@ -168,6 +170,7 @@ public class LockAction extends AnAction implements DumbAware {
     return exceptions;
   }
 
+  @Override
   public void update(@NotNull final AnActionEvent e) {
     final Project project = e.getData(CommonDataKeys.PROJECT);
     final VirtualFile[] files = VcsUtil.getVirtualFiles(e);

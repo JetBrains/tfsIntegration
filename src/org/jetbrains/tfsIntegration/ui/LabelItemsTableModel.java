@@ -29,10 +29,12 @@ public class LabelItemsTableModel extends AbstractTableModel {
 
   enum Column {
     Item("Item", 300) {
+      @Override
       public Item getValue(final ItemAndVersion itemAndVersion) {
         return itemAndVersion.getItem();
       }},
     Version("Version", 100) {
+      @Override
       public String getValue(final ItemAndVersion itemAndVersion) {
         return ((VersionSpecBase)itemAndVersion.getVersionSpec()).getPresentableString();
       }
@@ -68,18 +70,22 @@ public class LabelItemsTableModel extends AbstractTableModel {
     fireTableDataChanged();
   }
 
+  @Override
   public int getRowCount() {
     return myContent.size();
   }
 
+  @Override
   public int getColumnCount() {
     return Column.values().length;
   }
 
+  @Override
   public String getColumnName(final int column) {
     return Column.values()[column].getName();
   }
 
+  @Override
   public Object getValueAt(final int rowIndex, final int columnIndex) {
     return Column.values()[columnIndex].getValue(getItem(rowIndex));
   }

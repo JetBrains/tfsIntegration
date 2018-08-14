@@ -47,6 +47,7 @@ public class TFSRollbackEnvironment extends DefaultRollbackEnvironment {
     myProject = project;
   }
 
+  @Override
   @SuppressWarnings({"ConstantConditions"})
   public void rollbackChanges(final List<Change> changes,
                               final List<VcsException> vcsExceptions,
@@ -61,34 +62,40 @@ public class TFSRollbackEnvironment extends DefaultRollbackEnvironment {
     undoPendingChanges(localPaths, vcsExceptions, listener, false);
   }
 
+  @Override
   public void rollbackMissingFileDeletion(final List<FilePath> files,
                                           final List<VcsException> errors,
                                           final RollbackProgressListener listener) {
     try {
       WorkstationHelper.processByWorkspaces(files, false, myProject, new WorkstationHelper.VoidProcessDelegate() {
+        @Override
         public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) throws TfsException {
           final List<VersionControlServer.GetRequestParams> download = new ArrayList<>();
           final Collection<String> undo = new ArrayList<>();
           StatusProvider.visitByStatus(workspace, paths, false, null, new StatusVisitor() {
 
+            @Override
             public void unversioned(final @NotNull FilePath localPath,
                                     final boolean localItemExists,
                                     final @NotNull ServerStatus serverStatus) throws TfsException {
               TFSVcs.error("Server returned status Unversioned when rolling back missing file deletion: " + localPath.getPresentableUrl());
             }
 
+            @Override
             public void checkedOutForEdit(final @NotNull FilePath localPath,
                                           final boolean localItemExists,
                                           final @NotNull ServerStatus serverStatus) {
               undo.add(serverStatus.targetItem);
             }
 
+            @Override
             public void scheduledForAddition(final @NotNull FilePath localPath,
                                              final boolean localItemExists,
                                              final @NotNull ServerStatus serverStatus) {
               undo.add(serverStatus.targetItem);
             }
 
+            @Override
             public void scheduledForDeletion(final @NotNull FilePath localPath,
                                              final boolean localItemExists,
                                              final @NotNull ServerStatus serverStatus) {
@@ -96,6 +103,7 @@ public class TFSRollbackEnvironment extends DefaultRollbackEnvironment {
                 "Server returned status ScheduledForDeletion when rolling back missing file deletion: " + localPath.getPresentableUrl());
             }
 
+            @Override
             public void outOfDate(final @NotNull FilePath localPath,
                                   final boolean localItemExists,
                                   final @NotNull ServerStatus serverStatus) throws TfsException {
@@ -103,29 +111,34 @@ public class TFSRollbackEnvironment extends DefaultRollbackEnvironment {
               addForDownload(serverStatus);
             }
 
+            @Override
             public void deleted(final @NotNull FilePath localPath,
                                 final boolean localItemExists,
                                 final @NotNull ServerStatus serverStatus) {
               TFSVcs.error("Server returned status Deleted when rolling back missing file deletion: " + localPath.getPath());
             }
 
+            @Override
             public void upToDate(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull ServerStatus serverStatus)
               throws TfsException {
               //noinspection ConstantConditions
               addForDownload(serverStatus);
             }
 
+            @Override
             public void renamed(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull ServerStatus serverStatus)
               throws TfsException {
               undo.add(serverStatus.targetItem);
             }
 
+            @Override
             public void renamedCheckedOut(final @NotNull FilePath localPath,
                                           final boolean localItemExists,
                                           final @NotNull ServerStatus serverStatus) throws TfsException {
               undo.add(serverStatus.targetItem);
             }
 
+            @Override
             public void undeleted(final @NotNull FilePath localPath,
                                   final boolean localItemExists,
                                   final @NotNull ServerStatus serverStatus) throws TfsException {
@@ -158,11 +171,13 @@ public class TFSRollbackEnvironment extends DefaultRollbackEnvironment {
     }
   }
 
+  @Override
   public void rollbackModifiedWithoutCheckout(final List<VirtualFile> files,
                                               final List<VcsException> errors,
                                               final RollbackProgressListener listener) {
     try {
       WorkstationHelper.processByWorkspaces(TfsFileUtil.getFilePaths(files), false, myProject, new WorkstationHelper.VoidProcessDelegate() {
+        @Override
         public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) throws TfsException {
           // query extended items to determine base (local) version
           //Map<ItemPath, ExtendedItem> extendedItems = workspace.getExtendedItems(paths);
@@ -194,6 +209,7 @@ public class TFSRollbackEnvironment extends DefaultRollbackEnvironment {
                                   final boolean tolerateNoChangesFailure) {
     try {
       WorkstationHelper.processByWorkspaces(localPaths, false, myProject, new WorkstationHelper.VoidProcessDelegate() {
+        @Override
         public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) throws TfsException {
           Collection<String> serverPaths = new ArrayList<>(paths.size());
           for (ItemPath itemPath : paths) {

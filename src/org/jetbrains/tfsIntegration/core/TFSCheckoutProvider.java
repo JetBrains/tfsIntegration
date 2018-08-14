@@ -54,6 +54,7 @@ import java.util.List;
 
 public class TFSCheckoutProvider implements CheckoutProvider {
 
+  @Override
   public void doCheckout(@NotNull final Project project, @Nullable final Listener listener) {
     final CheckoutWizardModel model = new CheckoutWizardModel();
     List<CheckoutWizardStep> steps = Arrays
@@ -132,6 +133,7 @@ public class TFSCheckoutProvider implements CheckoutProvider {
   }
 
 
+  @Override
   @NonNls
   public String getVcsName() {
     return "_TFS";

@@ -40,6 +40,7 @@ import java.io.PushbackInputStream;
 
 public class CustomSOAPBuilder implements Builder {
 
+    @Override
     public OMElement processDocument(InputStream inputStream, String contentType,
                                      MessageContext messageContext) throws AxisFault {
         XMLStreamReader streamReader;

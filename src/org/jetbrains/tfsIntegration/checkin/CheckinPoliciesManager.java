@@ -45,17 +45,21 @@ public class CheckinPoliciesManager {
       return new PolicyFailure[0];
     }
 
+    @Override
     public boolean canEdit() {
       return false;
     }
 
+    @Override
     public boolean edit(Project project) {
       return false;
     }
 
+    @Override
     public void loadState(@NotNull Element element) {
     }
 
+    @Override
     public void saveState(@NotNull Element element) {
     }
   };

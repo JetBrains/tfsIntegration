@@ -64,6 +64,7 @@ public class TfsTreeForm implements Disposable, DataProvider {
     new TreeSpeedSearch(myTree);
     myTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
     myTree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
+      @Override
       public void valueChanged(TreeSelectionEvent e) {
         mySelectedItem = doGetSelectedItem();
         myPathField.setText(mySelectedItem != null ? mySelectedItem.path : null);

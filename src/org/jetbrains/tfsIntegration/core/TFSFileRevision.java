@@ -57,15 +57,18 @@ public class TFSFileRevision implements VcsFileRevision {
     myItemId = itemId;
   }
 
+  @Override
   @NotNull
   public VcsRevisionNumber.Int getRevisionNumber() {
     return new TfsRevisionNumber(myChangeset, myItemId);
   }
 
+  @Override
   public String getBranchName() {
     return null;
   }
 
+  @Override
   public Date getRevisionDate() {
     return myDate;
   }
@@ -76,18 +79,22 @@ public class TFSFileRevision implements VcsFileRevision {
     return null;
   }
 
+  @Override
   public String getAuthor() {
     return myAuthor;
   }
 
+  @Override
   public String getCommitMessage() {
     return myCommitMessage;
   }
 
+  @Override
   public byte[] loadContent() throws IOException, VcsException {
     return myContent = createContentRevision().getContentAsBytes();
   }
 
+  @Override
   @Nullable
   public byte[] getContent() throws IOException, VcsException {
     return myContent;

@@ -36,10 +36,12 @@ public class TestFolderYoursRenamedTheirsRenamed extends TestFolderConflict {
   private FilePath myTheirsFolder;
   private FilePath myMergedFolder;
 
+  @Override
   protected boolean canMerge() {
     return true;
   }
 
+  @Override
   protected void preparePaths() {
     myBaseFolder = getChildPath(mySandboxRoot, BASE_FOLDERNAME);
     myYoursFolder = getChildPath(mySandboxRoot, YOURS_FOLDERNAME);
@@ -47,18 +49,22 @@ public class TestFolderYoursRenamedTheirsRenamed extends TestFolderConflict {
     myMergedFolder = getChildPath(mySandboxRoot, MERGED_FOLDERNAME);
   }
 
+  @Override
   protected void prepareBaseRevision() {
     createDirInCommand(myBaseFolder);
   }
 
+  @Override
   protected void prepareTargetRevision() {
     rename(myBaseFolder, THEIRS_FOLDERNAME);
   }
 
+  @Override
   protected void makeLocalChanges() {
     rename(myBaseFolder, YOURS_FOLDERNAME);
   }
 
+  @Override
   protected void checkResolvedYoursState() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertRenamedOrMoved(myTheirsFolder, myYoursFolder);
@@ -67,6 +73,7 @@ public class TestFolderYoursRenamedTheirsRenamed extends TestFolderConflict {
     assertFolder(myYoursFolder, 0);
   }
 
+  @Override
   protected void checkResolvedTheirsState() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -74,6 +81,7 @@ public class TestFolderYoursRenamedTheirsRenamed extends TestFolderConflict {
     assertFolder(myTheirsFolder, 0);
   }
 
+  @Override
   protected void checkResolvedMergeState() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertRenamedOrMoved(myTheirsFolder, myMergedFolder);
@@ -82,6 +90,7 @@ public class TestFolderYoursRenamedTheirsRenamed extends TestFolderConflict {
     assertFolder(myMergedFolder, 0);
   }
 
+  @Override
   protected void checkConflictProperties(final Conflict conflict) throws TfsException {
     Assert.assertTrue(new ChangeTypeMask(conflict.getYchg()).containsOnly(ChangeType_type0.Rename));
     Assert.assertTrue(new ChangeTypeMask(conflict.getBchg()).containsOnly(ChangeType_type0.Rename));
@@ -94,28 +103,33 @@ public class TestFolderYoursRenamedTheirsRenamed extends TestFolderConflict {
     Assert.assertEquals(findServerPath(myTheirsFolder), conflict.getTsitem());
   }
 
+  @Override
   @Nullable
   protected String mergeName() throws TfsException {
     return findServerPath(myMergedFolder);
   }
 
 
+  @Override
   @Nullable
   protected String mergeContent() {
     Assert.fail("not supported");
     return null;
   }
 
+  @Override
   @Test
   public void testAcceptYours() throws VcsException, IOException {
     super.testAcceptYours();
   }
 
+  @Override
   @Test
   public void testAcceptTheirs() throws VcsException, IOException {
     super.testAcceptTheirs();
   }
 
+  @Override
   @Test
   public void testAcceptMerge() throws VcsException, IOException {
     super.testAcceptMerge();

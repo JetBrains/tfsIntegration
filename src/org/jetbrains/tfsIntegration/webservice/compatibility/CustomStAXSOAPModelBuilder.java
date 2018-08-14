@@ -159,6 +159,7 @@ public class CustomStAXSOAPModelBuilder extends StAXOMBuilder {
      * the default Builder mechanism.
      * @return
      */
+    @Override
     protected OMNode createNextOMElement() {
         OMNode newElement = null;
 
@@ -197,6 +198,7 @@ public class CustomStAXSOAPModelBuilder extends StAXOMBuilder {
      * @return Returns OMNode.
      * @throws OMException
      */
+    @Override
     protected OMNode createOMElement() throws OMException {
 
         OMElement node;
@@ -402,6 +404,7 @@ public class CustomStAXSOAPModelBuilder extends StAXOMBuilder {
         return envelope.getVersion().getReceiverFaultCode().getLocalPart();
     }
 
+    @Override
     public void endElement() {
         if (lastNode.isComplete()) {
             OMElement parent = (OMElement) lastNode.getParent();
@@ -414,11 +417,13 @@ public class CustomStAXSOAPModelBuilder extends StAXOMBuilder {
     }
 
     /** Method createDTD. Overriding the default behaviour as a SOAPMessage should not have a DTD. */
+    @Override
     protected OMNode createDTD() throws OMException {
         throw new OMException("SOAP message MUST NOT contain a Document Type Declaration(DTD)");
     }
 
     /** Method createPI. Overriding the default behaviour as a SOAP Message should not have a PI. */
+    @Override
     protected OMNode createPI() throws OMException {
         throw new OMException("SOAP message MUST NOT contain Processing Instructions(PI)");
     }
@@ -428,6 +433,7 @@ public class CustomStAXSOAPModelBuilder extends StAXOMBuilder {
      *
      * @return Returns OMElement.
      */
+    @Override
     public OMElement getDocumentElement() {
         return envelope != null ? envelope : getSOAPEnvelope();
     }
@@ -476,6 +482,7 @@ public class CustomStAXSOAPModelBuilder extends StAXOMBuilder {
         return soapMessage;
     }
 
+    @Override
     public OMDocument getDocument() {
         return this.soapMessage;
     }

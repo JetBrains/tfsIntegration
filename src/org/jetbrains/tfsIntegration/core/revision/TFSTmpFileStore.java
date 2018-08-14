@@ -67,10 +67,12 @@ public class TFSTmpFileStore implements TFSContentStore {
     return myTfsTmpDir;
   }
 
+  @Override
   public void saveContent(TfsFileUtil.ContentWriter contentWriter) throws TfsException, IOException {
     TfsFileUtil.setFileContent(myTmpFile, contentWriter);
   }
 
+  @Override
   public byte[] loadContent() throws IOException {
     InputStream fileStream = null;
     try {

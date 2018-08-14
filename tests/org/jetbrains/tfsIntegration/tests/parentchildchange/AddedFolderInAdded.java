@@ -31,11 +31,13 @@ public class AddedFolderInAdded extends ParentChildChangeTestCase {
   private FilePath myAddedParentFolder;
   private FilePath myAddedChildFolder;
 
+  @Override
   protected void preparePaths() {
     myAddedParentFolder = getChildPath(mySandboxRoot, "AddedFolder");
     myAddedChildFolder = getChildPath(myAddedParentFolder, "AddedSubfolder");
   }
 
+  @Override
   protected void checkParentChangePendingChildRolledBack() throws VcsException {
     getChanges().assertTotalItems(2);
     getChanges().assertScheduledForAddition(myAddedParentFolder);
@@ -46,6 +48,7 @@ public class AddedFolderInAdded extends ParentChildChangeTestCase {
     assertFolder(myAddedChildFolder, 0);
   }
 
+  @Override
   protected void checkChildChangePendingParentRolledBack() throws VcsException {
     getChanges().assertTotalItems(2);
     getChanges().assertUnversioned(myAddedParentFolder);
@@ -56,6 +59,7 @@ public class AddedFolderInAdded extends ParentChildChangeTestCase {
     assertFolder(myAddedChildFolder, 0);
   }
 
+  @Override
   protected void checkParentAndChildChangesPending() throws VcsException {
     getChanges().assertTotalItems(2);
     getChanges().assertScheduledForAddition(myAddedParentFolder);
@@ -66,6 +70,7 @@ public class AddedFolderInAdded extends ParentChildChangeTestCase {
     assertFolder(myAddedChildFolder, 0);
   }
 
+  @Override
   protected void checkOriginalStateAfterRollbackParentChild() throws VcsException {
     getChanges().assertTotalItems(2);
     getChanges().assertUnversioned(myAddedParentFolder);
@@ -76,11 +81,13 @@ public class AddedFolderInAdded extends ParentChildChangeTestCase {
     assertFolder(myAddedChildFolder, 0);
   }
 
+  @Override
   protected void checkOriginalStateAfterUpdate() throws VcsException {
     getChanges().assertTotalItems(0);
     assertFolder(mySandboxRoot, 0);
   }
 
+  @Override
   protected void checkParentChangeCommittedChildPending() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertScheduledForAddition(myAddedChildFolder);
@@ -90,10 +97,12 @@ public class AddedFolderInAdded extends ParentChildChangeTestCase {
     assertFolder(myAddedChildFolder, 0);
   }
 
+  @Override
   protected void checkChildChangeCommittedParentPending() throws VcsException {
     checkParentAndChildChangesCommitted(); // see remark 2
   }
 
+  @Override
   protected void checkParentChangePending() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertScheduledForAddition(myAddedParentFolder);
@@ -101,6 +110,7 @@ public class AddedFolderInAdded extends ParentChildChangeTestCase {
     assertFolder(myAddedParentFolder, 0);
   }
 
+  @Override
   protected void checkChildChangePending() throws VcsException {
     getChanges().assertTotalItems(2);
     getChanges().assertUnversioned(myAddedParentFolder); // see remark 1
@@ -110,6 +120,7 @@ public class AddedFolderInAdded extends ParentChildChangeTestCase {
     assertFolder(myAddedChildFolder, 0);
   }
 
+  @Override
   protected void checkParentChangeCommitted() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -117,10 +128,12 @@ public class AddedFolderInAdded extends ParentChildChangeTestCase {
     assertFolder(myAddedParentFolder, 0);
   }
 
+  @Override
   protected void checkChildChangeCommitted() throws VcsException {
     checkParentAndChildChangesCommitted(); // see remark 2
   }
 
+  @Override
   protected void checkParentAndChildChangesCommitted() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -129,9 +142,11 @@ public class AddedFolderInAdded extends ParentChildChangeTestCase {
     assertFolder(myAddedChildFolder, 0);
   }
 
+  @Override
   protected void makeOriginalState() {
   }
 
+  @Override
   protected void makeParentChange() throws VcsException {
     if (myAddedParentFolder.getIOFile().exists()) {
       if (getChanges().isUnversioned(myAddedParentFolder)) {
@@ -143,6 +158,7 @@ public class AddedFolderInAdded extends ParentChildChangeTestCase {
     }
   }
 
+  @Override
   protected void makeChildChange(ParentChangeState parentChangeState) {
     if (parentChangeState == ParentChangeState.NotDone) {
       myAddedParentFolder.getIOFile().mkdirs();
@@ -157,35 +173,42 @@ public class AddedFolderInAdded extends ParentChildChangeTestCase {
     }
   }
 
+  @Override
   @Nullable
   protected Change getPendingParentChange() throws VcsException {
     return getChanges().getAddChange(myAddedParentFolder);
   }
 
+  @Override
   protected Change getPendingChildChange(ParentChangeState parentChangeState) throws VcsException {
     return getChanges().getAddChange(myAddedChildFolder);
   }
 
+  @Override
   @Test
   public void testPendingAndRollback() throws VcsException, IOException {
     super.testPendingAndRollback();
   }
 
+  @Override
   @Test
   public void testCommitParentThenChildChanges() throws VcsException, IOException {
     super.testCommitParentThenChildChanges();
   }
 
+  @Override
   @Test
   public void testCommitChildThenParentChanges() throws VcsException, IOException {
     super.testCommitChildThenParentChanges();
   }
 
+  @Override
   @Test
   public void testCommitParentChangesChildPending() throws VcsException, IOException {
     super.testCommitParentChangesChildPending();
   }
 
+  @Override
   @Test
   public void testCommitChildChangesParentPending() throws VcsException, IOException {
     super.testCommitChildChangesParentPending();

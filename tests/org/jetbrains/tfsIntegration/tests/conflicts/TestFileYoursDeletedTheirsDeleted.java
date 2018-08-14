@@ -34,22 +34,27 @@ public class TestFileYoursDeletedTheirsDeleted extends TestFileConflict {
 
   private FilePath myBaseFile;
 
+  @Override
   protected boolean canMerge() {
     return false;
   }
 
+  @Override
   protected void preparePaths() {
     myBaseFile = getChildPath(mySandboxRoot, BASE_FILENAME);
   }
 
+  @Override
   protected void prepareBaseRevision() {
     createFileInCommand(myBaseFile, BASE_CONTENT);
   }
 
+  @Override
   protected void prepareTargetRevision() {
     deleteFileInCommand(myBaseFile);
   }
 
+  @Override
   protected void makeLocalChanges() {
     deleteFileInCommand(myBaseFile);
     // need to try commit to have conflict reported on next Get
@@ -62,19 +67,23 @@ public class TestFileYoursDeletedTheirsDeleted extends TestFileConflict {
     }
   }
 
+  @Override
   protected void checkResolvedYoursState() throws VcsException {
     getChanges().assertTotalItems(0);
     assertFolder(mySandboxRoot, 0);
   }
 
+  @Override
   protected void checkResolvedTheirsState() throws VcsException {
     checkResolvedYoursState();
   }
 
+  @Override
   protected void checkResolvedMergeState() {
     Assert.fail("not supported");
   }
 
+  @Override
   protected void checkConflictProperties(final Conflict conflict) throws TfsException {
     Assert.assertTrue(new ChangeTypeMask(conflict.getYchg()).containsOnly(ChangeType_type0.Delete));
     Assert.assertTrue(new ChangeTypeMask(conflict.getBchg()).containsOnly(ChangeType_type0.Delete));
@@ -86,43 +95,51 @@ public class TestFileYoursDeletedTheirsDeleted extends TestFileConflict {
     Assert.assertEquals(findServerPath(myBaseFile), conflict.getTsitem());
   }
 
+  @Override
   @Nullable
   protected String mergeName() {
     Assert.fail("not supported");
     return null;
   }
 
+  @Override
   @Nullable
   protected String mergeContent() {
     Assert.fail("not supported");
     return null;
   }
 
+  @Override
   @Nullable
   protected String getExpectedBaseContent() {
     return BASE_CONTENT;
   }
 
+  @Override
   @Nullable
   protected String getExpectedYoursContent() {
     return YOURS_CONTENT;
   }
 
+  @Override
   @Nullable
   protected String getExpectedTheirsContent() {
     return THEIRS_CONTENT;
   }
 
+  @Override
   @Test
   public void testAcceptYours() throws VcsException, IOException {
     super.testAcceptYours();
   }
 
+  @Override
   @Test
   public void testAcceptTheirs() throws VcsException, IOException {
     super.testAcceptTheirs();
   }
 
+  @Override
   @Test
   public void testAcceptMerge() throws VcsException, IOException {
     super.testAcceptMerge();

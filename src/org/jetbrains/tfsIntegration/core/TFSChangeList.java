@@ -82,14 +82,17 @@ public class TFSChangeList implements CommittedChangeList {
     myServerUri = myWorkspace.getServer().getUri();
   }
 
+  @Override
   public String getCommitterName() {
     return myAuthor;
   }
 
+  @Override
   public Date getCommitDate() {
     return myDate;
   }
 
+  @Override
   public long getNumber() {
     return myRevisionNumber;
   }
@@ -100,10 +103,12 @@ public class TFSChangeList implements CommittedChangeList {
     return null;
   }
 
+  @Override
   public AbstractVcs getVcs() {
     return myVcs;
   }
 
+  @Override
   public Collection<Change> getChanges() {
     if (myCachedChanges == null) {
       try {
@@ -153,11 +158,13 @@ public class TFSChangeList implements CommittedChangeList {
     myComment = newMessage;
   }
 
+  @Override
   @NotNull
   public String getName() {
     return myComment;
   }
 
+  @Override
   @NotNull
   public String getComment() {
     return myComment;
@@ -251,7 +258,7 @@ public class TFSChangeList implements CommittedChangeList {
     }
 
     if (changeType.containsAny(ChangeType_type0.Edit, ChangeType_type0.Merge)) {
-      int previousCs = change.getItem().getCs() - 1; // same as getPreviousVersion(change.getItem(), changeset).getCs())   
+      int previousCs = change.getItem().getCs() - 1; // same as getPreviousVersion(change.getItem(), changeset).getCs())
       //Item item = getPreviousVersion(change.getItem(), changeset);
       //TFSVcs.assertTrue(changeType.contains(ChangeType.Value.Encoding));
       myModifiedPaths.put(localPath, previousCs);

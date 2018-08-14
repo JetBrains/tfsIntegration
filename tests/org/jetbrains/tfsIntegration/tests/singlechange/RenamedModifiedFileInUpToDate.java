@@ -31,51 +31,60 @@ public class RenamedModifiedFileInUpToDate extends SingleChangeTestCase {
   private FilePath myOriginalFile;
   private FilePath myRenamedModifiedFile;
 
+  @Override
   protected void preparePaths() {
     myOriginalFile = getChildPath(mySandboxRoot, "original.txt");
     myRenamedModifiedFile = getChildPath(mySandboxRoot, "file_renamed_modified.txt");
   }
 
+  @Override
   protected void checkChildChangePending() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertRenamedOrMoved(myOriginalFile, myRenamedModifiedFile, ORIGINAL_CONTENT, MODIFIED_CONTENT);
-    
+
     assertFolder(mySandboxRoot, 1);
     assertFile(myRenamedModifiedFile, MODIFIED_CONTENT, true);
   }
 
+  @Override
   protected void checkOriginalStateAfterUpdate() throws VcsException {
     getChanges().assertTotalItems(0);
     assertFolder(mySandboxRoot, 1);
     assertFile(myOriginalFile, ORIGINAL_CONTENT, false);
   }
 
+  @Override
   protected void checkOriginalStateAfterRollback() throws VcsException {
     checkOriginalStateAfterUpdate();
   }
 
+  @Override
   protected void checkChildChangeCommitted() throws VcsException {
     getChanges().assertTotalItems(0);
-    
+
     assertFolder(mySandboxRoot, 1);
     assertFile(myRenamedModifiedFile, MODIFIED_CONTENT, false);
   }
 
+  @Override
   protected void makeOriginalState() {
     createFileInCommand(myOriginalFile, ORIGINAL_CONTENT);
   }
 
+  @Override
   protected void makeChildChange() throws IOException, VcsException {
     rename(myOriginalFile, myRenamedModifiedFile.getName());
     editFiles(myRenamedModifiedFile);
     setFileContent(myRenamedModifiedFile, MODIFIED_CONTENT);
   }
 
+  @Override
   @Nullable
   protected Change getPendingChildChange() throws VcsException {
     return getChanges().getMoveChange(myOriginalFile, myRenamedModifiedFile);
   }
 
+  @Override
   @Test
   public void doTest() throws VcsException, IOException {
     super.doTest();

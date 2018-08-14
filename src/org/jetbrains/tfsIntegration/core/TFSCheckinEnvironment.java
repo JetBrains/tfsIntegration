@@ -57,8 +57,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 public class TFSCheckinEnvironment implements CheckinEnvironment {
   @NotNull private final TFSVcs myVcs;
@@ -67,6 +67,7 @@ public class TFSCheckinEnvironment implements CheckinEnvironment {
     myVcs = vcs;
   }
 
+  @Override
   @Nullable
   public RefreshableOnComponent createAdditionalOptionsPanel(@NotNull CheckinProjectPanel checkinProjectPanel,
                                                              PairConsumer<Object, Object> additionalDataConsumer) {
@@ -104,6 +105,7 @@ public class TFSCheckinEnvironment implements CheckinEnvironment {
 
     configureButton.addActionListener(new ActionListener() {
 
+      @Override
       public void actionPerformed(final ActionEvent event) {
         CheckinParameters copy = myVcs.getCheckinData().parameters.createCopy();
 
@@ -142,21 +144,25 @@ public class TFSCheckinEnvironment implements CheckinEnvironment {
     }
   }
 
+  @Override
   @Nullable
   public String getDefaultMessageFor(final FilePath[] filesToCheckin) {
     return null;
   }
 
+  @Override
   @Nullable
   @NonNls
   public String getHelpId() {
     return null;  // TODO: help id for check in
   }
 
+  @Override
   public String getCheckinOperationName() {
     return "Checkin";
   }
 
+  @Override
   @Nullable
   public List<VcsException> commit(final List<Change> changes,
                                    final String preparedComment,
@@ -182,6 +188,7 @@ public class TFSCheckinEnvironment implements CheckinEnvironment {
     final List<VcsException> errors = new ArrayList<>();
     try {
       WorkstationHelper.processByWorkspaces(files, false, myVcs.getProject(), new WorkstationHelper.VoidProcessDelegate() {
+        @Override
         public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) throws TfsException {
           try {
             TFSProgressUtil.setProgressText(progressIndicator, TFSBundle.message("loading.pending.changes"));
@@ -301,15 +308,18 @@ public class TFSCheckinEnvironment implements CheckinEnvironment {
     return errors;
   }
 
+  @Override
   public List<VcsException> commit(List<Change> changes, String preparedComment) {
     return commit(changes, preparedComment, FunctionUtil.nullConstant(), null);
   }
 
+  @Override
   @Nullable
   public List<VcsException> scheduleMissingFileForDeletion(final List<FilePath> files) {
     final List<VcsException> errors = new ArrayList<>();
     try {
       WorkstationHelper.processByWorkspaces(files, false, myVcs.getProject(), new WorkstationHelper.VoidProcessDelegate() {
+        @Override
         public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) {
           Collection<VcsException> schedulingErrors = ScheduleForDeletion.execute(myVcs.getProject(), workspace, paths);
           errors.addAll(schedulingErrors);
@@ -323,6 +333,7 @@ public class TFSCheckinEnvironment implements CheckinEnvironment {
     return errors;
   }
 
+  @Override
   @Nullable
   public List<VcsException> scheduleUnversionedFilesForAddition(final List<VirtualFile> files) {
     // TODO: schedule parent folders?
@@ -331,6 +342,7 @@ public class TFSCheckinEnvironment implements CheckinEnvironment {
       final List<FilePath> orphans =
         WorkstationHelper
           .processByWorkspaces(TfsFileUtil.getFilePaths(files), false, myVcs.getProject(), new WorkstationHelper.VoidProcessDelegate() {
+            @Override
             public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) {
               Collection<VcsException> schedulingErrors = ScheduleForAddition.execute(myVcs.getProject(), workspace, paths);
               exceptions.addAll(schedulingErrors);
@@ -372,19 +384,24 @@ public class TFSCheckinEnvironment implements CheckinEnvironment {
       myConfigureButton = configureButton;
     }
 
+    @Override
     public JComponent getComponent() {
       return myPanel;
     }
 
+    @Override
     public void refresh() {
     }
 
+    @Override
     public void saveState() {
     }
 
+    @Override
     public void restoreState() {
     }
 
+    @Override
     public void onChangeListSelected(LocalChangeList list) {
       if (myCurrentList == list) {
         return;

@@ -37,16 +37,19 @@ public class SummaryStep extends CheckoutWizardStep {
     mySummaryForm = new SummaryForm();
   }
 
+  @Override
   @NotNull
   public Object getStepId() {
     return ID;
   }
 
+  @Override
   @Nullable
   public Object getNextStepId() {
     return null;
   }
 
+  @Override
   @Nullable
   public Object getPreviousStepId() {
     if (myModel.getMode() == CheckoutWizardModel.Mode.Manual) {
@@ -57,18 +60,22 @@ public class SummaryStep extends CheckoutWizardStep {
     }
   }
 
+  @Override
   public boolean isComplete() {
     return true;
   }
 
+  @Override
   public void commit(final CommitType commitType) throws CommitStepException {
     // nothing here
   }
 
+  @Override
   public JComponent getComponent() {
     return mySummaryForm.getContentPanel();
   }
 
+  @Override
   public void _init() {
     mySummaryForm.setServer(myModel.getServer());
     mySummaryForm.setServerPath(myModel.getServerPath());
@@ -95,6 +102,7 @@ public class SummaryStep extends CheckoutWizardStep {
     return null;
   }
 
+  @Override
   public String getHelpId() {
     return "reference.checkoutTFS.summary";
   }

@@ -27,34 +27,40 @@ import java.io.IOException;
 
 // REMARKS:
 // 1. when parent item is scheduled for deletion after its child was, child is reported as not downloaded and having no pending changes
-// 
+//
 
 @SuppressWarnings({"HardCodedStringLiteral"})
 public class DeletedFolderInDeleted extends ParentChildChangeTestCase {
   private FilePath myParentFolder;
   private FilePath myChildFolder;
 
+  @Override
   protected void preparePaths() {
     myParentFolder = getChildPath(mySandboxRoot, "ParentFolder");
     myChildFolder = getChildPath(myParentFolder, "ChildFolder");
   }
 
+  @Override
   protected void checkParentChangePendingChildRolledBack() {
     Assert.fail("Can't happen"); // see remark 1
   }
 
+  @Override
   protected void checkChildChangePendingParentRolledBack() throws VcsException {
     checkOriginalStateAfterUpdate();
   }
 
+  @Override
   protected void checkParentAndChildChangesPending() throws VcsException {
     checkParentChangePending(); // see remark 1
   }
 
+  @Override
   protected void checkOriginalStateAfterRollbackParentChild() throws VcsException {
     checkOriginalStateAfterUpdate();
   }
 
+  @Override
   protected void checkOriginalStateAfterUpdate() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -63,14 +69,17 @@ public class DeletedFolderInDeleted extends ParentChildChangeTestCase {
     assertFolder(myChildFolder, 0);
   }
 
+  @Override
   protected void checkParentChangeCommittedChildPending() {
     Assert.fail("Can't happen"); // see remark 1
   }
 
+  @Override
   protected void checkChildChangeCommittedParentPending() throws VcsException {
     checkParentAndChildChangesPending();
   }
 
+  @Override
   protected void checkParentChangePending() throws VcsException {
     // see remark 1
     getChanges().assertTotalItems(1);
@@ -79,6 +88,7 @@ public class DeletedFolderInDeleted extends ParentChildChangeTestCase {
     assertFolder(mySandboxRoot, 0);
   }
 
+  @Override
   protected void checkChildChangePending() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertScheduledForDeletion(myChildFolder);
@@ -87,10 +97,12 @@ public class DeletedFolderInDeleted extends ParentChildChangeTestCase {
     assertFolder(myParentFolder, 0);
   }
 
+  @Override
   protected void checkParentChangeCommitted() throws VcsException {
     checkParentAndChildChangesCommitted();
   }
 
+  @Override
   protected void checkChildChangeCommitted() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -98,35 +110,42 @@ public class DeletedFolderInDeleted extends ParentChildChangeTestCase {
     assertFolder(myParentFolder, 0);
   }
 
+  @Override
   protected void checkParentAndChildChangesCommitted() throws VcsException {
     getChanges().assertTotalItems(0);
     assertFolder(mySandboxRoot, 0);
   }
 
+  @Override
   protected void makeOriginalState() {
     createDirInCommand(myParentFolder);
     createDirInCommand(myChildFolder);
   }
 
+  @Override
   protected void makeParentChange() {
     deleteFileInCommand(myParentFolder);
   }
 
+  @Override
   protected void makeChildChange(ParentChangeState parentChangeState) {
     if (parentChangeState == ParentChangeState.NotDone) {
       deleteFileInCommand(myChildFolder);
     }
   }
 
+  @Override
   @Nullable
   protected Change getPendingParentChange() throws VcsException {
     return getChanges().getDeleteChange(myParentFolder);
   }
 
+  @Override
   protected Change getPendingChildChange(ParentChangeState parentChangeState) throws VcsException {
     return parentChangeState == ParentChangeState.NotDone ? getChanges().getDeleteChange(myChildFolder) : null;
   }
 
+  @Override
   @Test
   public void testPendingAndRollback() throws VcsException, IOException {
     super.testPendingAndRollback();
@@ -138,6 +157,7 @@ public class DeletedFolderInDeleted extends ParentChildChangeTestCase {
   //  super.testCommitParentThenChildChanges();
   //}
 
+  @Override
   @Test
   public void testCommitChildThenParentChanges() throws VcsException, IOException {
     super.testCommitChildThenParentChanges();
@@ -149,6 +169,7 @@ public class DeletedFolderInDeleted extends ParentChildChangeTestCase {
   //  super.testCommitParentChangesChildPending();
   //}
 
+  @Override
   @Test
   public void testCommitChildChangesParentPending() throws VcsException, IOException {
     super.testCommitChildChangesParentPending();

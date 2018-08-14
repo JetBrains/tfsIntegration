@@ -37,12 +37,14 @@ public class TFSEditFileProvider implements EditFileProvider {
     myProject = project;
   }
 
+  @Override
   public void editFiles(final VirtualFile[] files) throws VcsException {
     final Collection<VcsException> errors = new ArrayList<>();
     try {
       Collection<FilePath> orphans =
         WorkstationHelper.processByWorkspaces(TfsFileUtil.getFilePaths(files), false, myProject,
                                               new WorkstationHelper.VoidProcessDelegate() {
+          @Override
           public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) throws TfsException {
             final ResultWithFailures<GetOperation> processResult =
               workspace.getServer().getVCS()
@@ -81,6 +83,7 @@ public class TFSEditFileProvider implements EditFileProvider {
     }
   }
 
+  @Override
   public String getRequestText() {
     return "Perform a checkout?";
 

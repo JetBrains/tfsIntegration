@@ -41,6 +41,7 @@ public class DateVersionSpec extends VersionSpecBase {
     return myDate;
   }
 
+  @Override
   protected void writeAttributes(QName parentQName, OMFactory factory, MTOMAwareXMLStreamWriter xmlWriter) throws XMLStreamException {
     writeVersionAttribute("", "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance", xmlWriter);
     writeVersionAttribute("", "xsi:type", "DateVersionSpec", xmlWriter);
@@ -65,6 +66,7 @@ public class DateVersionSpec extends VersionSpecBase {
     return myDate;
   }
 
+  @Override
   public String getPresentableString() {
     return defaultDateFormat.format(myDate);
   }

@@ -111,6 +111,7 @@ public class MergeBranchForm {
     mySourceIsDirectory = initialSourcePathIsDirectory;
 
     mySourceField.getButton().addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         ServerBrowserDialog d =
           new ServerBrowserDialog(TFSBundle.message("choose.source.item.dialog.title"), project, workspace.getServer(),
@@ -125,6 +126,7 @@ public class MergeBranchForm {
     });
 
     mySourceFieldFocusListener = new FocusAdapter() {
+      @Override
       public void focusLost(final FocusEvent e) {
         mySourceIsDirectory = true;
 
@@ -136,6 +138,7 @@ public class MergeBranchForm {
 
     myTargetCombo.setModel(new DefaultComboBoxModel());
     myTargetCombo.setRenderer(new DefaultListCellRenderer() {
+      @Override
       public Component getListCellRendererComponent(final JList list,
                                                     final Object value,
                                                     final int index,
@@ -151,6 +154,7 @@ public class MergeBranchForm {
     });
 
     myTargetCombo.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         if (myChangesTypeCombo.getSelectedItem() == ChangesType.SELECTED) {
           updateChangesetsTable();
@@ -161,6 +165,7 @@ public class MergeBranchForm {
     myChangesTypeCombo.setModel(new DefaultComboBoxModel(ChangesType.values()));
 
     myChangesTypeCombo.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         if (myChangesTypeCombo.getSelectedItem() == ChangesType.SELECTED) {
           updateChangesetsTable();
@@ -171,6 +176,7 @@ public class MergeBranchForm {
     });
 
     myChangesetsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+      @Override
       public void valueChanged(final ListSelectionEvent e) {
         fireStateChanged();
       }

@@ -42,17 +42,20 @@ public class CheckoutModeForm {
     myErrorLabel.setIcon(UIUtil.getBalloonWarningIcon());
 
     myAutoModeButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         myEventDispatcher.getMulticaster().stateChanged(new ChangeEvent(this));
         IdeFocusManager.findInstanceByComponent(myContentPanel).requestFocus(myWorkspaceNameField, true);
       }
     });
     myManualModeButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         myEventDispatcher.getMulticaster().stateChanged(new ChangeEvent(this));
       }
     });
     myWorkspaceNameField.getDocument().addDocumentListener(new DocumentAdapter() {
+      @Override
       protected void textChanged(final DocumentEvent e) {
         myAutoModeButton.setSelected(true);
         myEventDispatcher.getMulticaster().stateChanged(new ChangeEvent(this));

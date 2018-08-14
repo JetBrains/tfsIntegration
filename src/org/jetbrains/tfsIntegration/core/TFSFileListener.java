@@ -40,77 +40,92 @@ public class TFSFileListener extends VcsVFSListener {
     super(project, vcs);
   }
 
+  @Override
   protected String getAddTitle() {
     return TFSBundle.message("add.items");
   }
 
+  @Override
   protected String getSingleFileAddTitle() {
     return TFSBundle.message("add.item");
   }
 
+  @Override
   protected String getSingleFileAddPromptTemplate() {
     return TFSBundle.message("add.item.prompt");
   }
 
+  @Override
   protected void executeAdd() {
     try {
       WorkstationHelper.processByWorkspaces(TfsFileUtil.getFilePaths(myAddedFiles), false, myProject,
                                             new WorkstationHelper.VoidProcessDelegate() {
+        @Override
         public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) throws TfsException {
           StatusProvider.visitByStatus(workspace, paths, false, null, new StatusVisitor() {
+            @Override
             public void unversioned(final @NotNull FilePath localPath,
                                     final boolean localItemExists,
                                     final @NotNull ServerStatus serverStatus) throws TfsException {
               // ignore
             }
 
+            @Override
             public void checkedOutForEdit(final @NotNull FilePath localPath,
                                           final boolean localItemExists,
                                           final @NotNull ServerStatus serverStatus) {
               // TODO: add local conflict
             }
 
+            @Override
             public void scheduledForAddition(final @NotNull FilePath localPath,
                                              final boolean localItemExists,
                                              final @NotNull ServerStatus serverStatus) {
               myAddedFiles.remove(localPath.getVirtualFile());
             }
 
+            @Override
             public void scheduledForDeletion(final @NotNull FilePath localPath,
                                              final boolean localItemExists,
                                              final @NotNull ServerStatus serverStatus) {
               // TODO: add local conflict
             }
 
+            @Override
             public void outOfDate(final @NotNull FilePath localPath,
                                   final boolean localItemExists,
                                   final @NotNull ServerStatus serverStatus) throws TfsException {
               // TODO: add local conflict
             }
 
+            @Override
             public void deleted(final @NotNull FilePath localPath,
                                 final boolean localItemExists,
                                 final @NotNull ServerStatus serverStatus) {
               // ignore
             }
 
+            @Override
             public void upToDate(final @NotNull FilePath localPath,
                                  final boolean localItemExists,
                                  final @NotNull ServerStatus serverStatusm) throws TfsException {
               // TODO: add local conflict
             }
 
+            @Override
             public void renamed(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull ServerStatus serverStatus)
               throws TfsException {
               // TODO: add local conflict
             }
 
+            @Override
             public void renamedCheckedOut(final @NotNull FilePath localPath,
                                           final boolean localItemExists,
                                           final @NotNull ServerStatus serverStatus) throws TfsException {
               // TODO: add local conflict
             }
 
+            @Override
             public void undeleted(final @NotNull FilePath localPath,
                                   final boolean localItemExists,
                                   final @NotNull ServerStatus serverStatus) throws TfsException {
@@ -129,6 +144,7 @@ public class TFSFileListener extends VcsVFSListener {
     }
   }
 
+  @Override
   protected void executeDelete() {
     // choose roots
     // revert all pending schedules for addition recursively
@@ -139,6 +155,7 @@ public class TFSFileListener extends VcsVFSListener {
 
     try {
       WorkstationHelper.processByWorkspaces(deletedFiles, false, myProject, new WorkstationHelper.VoidProcessDelegate() {
+        @Override
         public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) throws TfsException {
           RootsCollection.ItemPathRootsCollection roots = new RootsCollection.ItemPathRootsCollection(paths);
 
@@ -172,58 +189,68 @@ public class TFSFileListener extends VcsVFSListener {
           }
 
           StatusProvider.visitByStatus(workspace, pathsToProcess, false, null, new StatusVisitor() {
+            @Override
             public void scheduledForAddition(final @NotNull FilePath localPath,
                                              final boolean localItemExists,
                                              final @NotNull ServerStatus serverStatus) {
               TFSVcs.error("Cannot revert an item scheduled for addition: " + localPath.getPresentableUrl());
             }
 
+            @Override
             public void unversioned(final @NotNull FilePath localPath,
                                     final boolean localItemExists,
                                     final @NotNull ServerStatus serverStatus) {
               excludeFromFurtherProcessing(localPath);
             }
 
+            @Override
             public void deleted(final @NotNull FilePath localPath,
                                 final boolean localItemExists,
                                 final @NotNull ServerStatus serverStatus) {
               excludeFromFurtherProcessing(localPath);
             }
 
+            @Override
             public void scheduledForDeletion(final @NotNull FilePath localPath,
                                              final boolean localItemExists,
                                              final @NotNull ServerStatus serverStatus) {
               excludeFromFurtherProcessing(localPath);
             }
 
+            @Override
             public void checkedOutForEdit(final @NotNull FilePath localPath,
                                           final boolean localItemExists,
                                           final @NotNull ServerStatus serverStatus) {
               // keep for further processing
             }
 
+            @Override
             public void outOfDate(final @NotNull FilePath localPath,
                                   final boolean localItemExists,
                                   final @NotNull ServerStatus serverStatus) throws TfsException {
               // keep for further processing
             }
 
+            @Override
             public void upToDate(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull ServerStatus serverStatus)
               throws TfsException {
               // keep for further processing
             }
 
+            @Override
             public void renamed(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull ServerStatus serverStatus)
               throws TfsException {
               // keep for further processing
             }
 
+            @Override
             public void renamedCheckedOut(final @NotNull FilePath localPath,
                                           final boolean localItemExists,
                                           final @NotNull ServerStatus serverStatus) throws TfsException {
               // keep for further processing
             }
 
+            @Override
             public void undeleted(final @NotNull FilePath localPath,
                                   final boolean localItemExists,
                                   final @NotNull ServerStatus serverStatus) throws TfsException {
@@ -242,10 +269,12 @@ public class TFSFileListener extends VcsVFSListener {
     }
   }
 
+  @Override
   protected void performDeletion(final List<FilePath> filesToDelete) {
     final List<VcsException> errors = new ArrayList<>();
     try {
       WorkstationHelper.processByWorkspaces(filesToDelete, false, myProject, new WorkstationHelper.VoidProcessDelegate() {
+        @Override
         public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) {
           Collection<VcsException> scheduleErrors = ScheduleForDeletion.execute(myProject, workspace, paths);
           errors.addAll(scheduleErrors);
@@ -267,12 +296,14 @@ public class TFSFileListener extends VcsVFSListener {
     }
   }
 
+  @Override
   protected void performAdding(final Collection<VirtualFile> addedFiles, final Map<VirtualFile, VirtualFile> copyFromMap) {
     final List<VcsException> errors = new ArrayList<>();
     try {
       final List<FilePath> orphans =
         WorkstationHelper.processByWorkspaces(TfsFileUtil.getFilePaths(addedFiles), false, myProject,
                                               new WorkstationHelper.VoidProcessDelegate() {
+          @Override
           public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) {
             Collection<VcsException> schedulingErrors = ScheduleForAddition.execute(myProject, workspace, paths);
             errors.addAll(schedulingErrors);
@@ -298,18 +329,22 @@ public class TFSFileListener extends VcsVFSListener {
     }
   }
 
+  @Override
   protected String getDeleteTitle() {
     return "Do you want to schedule these items for deletion from TFS?";
   }
 
+  @Override
   protected String getSingleFileDeleteTitle() {
     return null;
   }
 
+  @Override
   protected String getSingleFileDeletePromptTemplate() {
     return null;
   }
 
+  @Override
   protected void performMoveRename(final List<MovedFileInfo> movedFiles) {
     final Map<FilePath, FilePath> movedPaths = new HashMap<>(movedFiles.size());
     for (MovedFileInfo movedFileInfo : movedFiles) {
@@ -320,62 +355,73 @@ public class TFSFileListener extends VcsVFSListener {
     try {
       WorkstationHelper.processByWorkspaces(movedPaths.keySet(), false, myProject, new WorkstationHelper.VoidProcessDelegate() {
 
+        @Override
         public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) throws TfsException {
           // TODO simplify this
           StatusProvider.visitByStatus(workspace, paths, false, null, new StatusVisitor() {
 
+            @Override
             public void unversioned(final @NotNull FilePath localPath,
                                     final boolean localItemExists,
                                     final @NotNull ServerStatus serverStatus) throws TfsException {
               // ignore
             }
 
+            @Override
             public void checkedOutForEdit(final @NotNull FilePath localPath,
                                           final boolean localItemExists,
                                           final @NotNull ServerStatus serverStatus) {
               scheduleMove.put(localPath, movedPaths.get(localPath));
             }
 
+            @Override
             public void scheduledForAddition(final @NotNull FilePath localPath,
                                              final boolean localItemExists,
                                              final @NotNull ServerStatus serverStatus) {
               scheduleMove.put(localPath, movedPaths.get(localPath));
             }
 
+            @Override
             public void scheduledForDeletion(final @NotNull FilePath localPath,
                                              final boolean localItemExists,
                                              final @NotNull ServerStatus serverStatus) {
               TFSVcs.error("Cannot rename a file that does not exist on local machine: " + localPath.getPresentableUrl());
             }
 
+            @Override
             public void outOfDate(final @NotNull FilePath localPath,
                                   final boolean localItemExists,
                                   final @NotNull ServerStatus serverStatus) throws TfsException {
               scheduleMove.put(localPath, movedPaths.get(localPath));
             }
 
+            @Override
             public void deleted(final @NotNull FilePath localPath,
                                 final boolean localItemExists,
                                 final @NotNull ServerStatus serverStatus) {
               // ignore
             }
 
+            @Override
             public void upToDate(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull ServerStatus serverStatus)
               throws TfsException {
               scheduleMove.put(localPath, movedPaths.get(localPath));
             }
 
+            @Override
             public void renamed(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull ServerStatus serverStatus)
               throws TfsException {
               scheduleMove.put(localPath, movedPaths.get(localPath));
             }
 
+            @Override
             public void renamedCheckedOut(final @NotNull FilePath localPath,
                                           final boolean localItemExists,
                                           final @NotNull ServerStatus serverStatus) throws TfsException {
               scheduleMove.put(localPath, movedPaths.get(localPath));
             }
 
+            @Override
             public void undeleted(final @NotNull FilePath localPath,
                                   final boolean localItemExists,
                                   final @NotNull ServerStatus serverStatus) throws TfsException {
@@ -406,6 +452,7 @@ public class TFSFileListener extends VcsVFSListener {
     }
   }
 
+  @Override
   protected boolean isDirectoryVersioningSupported() {
     return true;
   }

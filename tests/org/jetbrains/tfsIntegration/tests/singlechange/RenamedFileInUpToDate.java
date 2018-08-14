@@ -30,11 +30,13 @@ public class RenamedFileInUpToDate extends SingleChangeTestCase {
   private FilePath myOriginalFile;
   private FilePath myRenamedFile;
 
+  @Override
   protected void preparePaths() {
     myOriginalFile = getChildPath(mySandboxRoot, "original.txt");
     myRenamedFile = getChildPath(mySandboxRoot, "renamed.txt");
   }
 
+  @Override
   protected void checkChildChangePending() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertRenamedOrMoved(myOriginalFile, myRenamedFile);
@@ -43,16 +45,19 @@ public class RenamedFileInUpToDate extends SingleChangeTestCase {
     assertFile(myRenamedFile, FILE_CONTENT, false);
   }
 
+  @Override
   protected void checkOriginalStateAfterUpdate() throws VcsException {
     getChanges().assertTotalItems(0);
     assertFolder(mySandboxRoot, 1);
     assertFile(myOriginalFile, FILE_CONTENT, false);
   }
 
+  @Override
   protected void checkOriginalStateAfterRollback() throws VcsException {
     checkOriginalStateAfterUpdate();
   }
 
+  @Override
   protected void checkChildChangeCommitted() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -60,19 +65,23 @@ public class RenamedFileInUpToDate extends SingleChangeTestCase {
     assertFile(myRenamedFile, FILE_CONTENT, false);
   }
 
+  @Override
   protected void makeOriginalState() {
     createFileInCommand(myOriginalFile, FILE_CONTENT);
   }
 
+  @Override
   protected void makeChildChange() {
     rename(myOriginalFile, myRenamedFile.getName());
   }
 
+  @Override
   @Nullable
   protected Change getPendingChildChange() throws VcsException {
     return getChanges().getMoveChange(myOriginalFile, myRenamedFile);
   }
 
+  @Override
   @Test
   public void doTest() throws VcsException, IOException {
     super.doTest();

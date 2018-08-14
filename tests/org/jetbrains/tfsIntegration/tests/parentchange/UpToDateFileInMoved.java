@@ -37,6 +37,7 @@ public class UpToDateFileInMoved extends ParentChangeTestCase {
   private FilePath mySubfolder;
   private FilePath mySubfolder2;
 
+  @Override
   protected void preparePaths() {
     final String filename = "up_to_date.txt";
     final String foldernameOriginal = "Folder_Original";
@@ -49,6 +50,7 @@ public class UpToDateFileInMoved extends ParentChangeTestCase {
     myChildFileInMovedFolder = getChildPath(myParentFolderMoved, filename);
   }
 
+  @Override
   protected void makeOriginalState() throws VcsException {
     doActionSilently(VcsConfiguration.StandardConfirmation.ADD);
     createDirInCommand(myParentFolderOriginal);
@@ -58,6 +60,7 @@ public class UpToDateFileInMoved extends ParentChangeTestCase {
     commit(getChanges().getChanges(), "original state");
   }
 
+  @Override
   protected void checkOriginalState() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -68,10 +71,12 @@ public class UpToDateFileInMoved extends ParentChangeTestCase {
     assertFile(myChildFileOriginal, FILE_CONTENT, false);
   }
 
+  @Override
   protected void makeParentChanges() {
     moveFileInCommand(myParentFolderOriginal, VcsUtil.getVirtualFile(mySubfolder2.getIOFile()));
   }
 
+  @Override
   protected void checkParentChangesPending() throws VcsException {
     getChanges().assertTotalItems(1);
     getChanges().assertRenamedOrMoved(myParentFolderOriginal, myParentFolderMoved);
@@ -83,6 +88,7 @@ public class UpToDateFileInMoved extends ParentChangeTestCase {
     assertFile(myChildFileInMovedFolder, FILE_CONTENT, false);
   }
 
+  @Override
   protected void checkParentChangesCommitted() throws VcsException {
     getChanges().assertTotalItems(0);
 
@@ -93,10 +99,12 @@ public class UpToDateFileInMoved extends ParentChangeTestCase {
     assertFile(myChildFileInMovedFolder, FILE_CONTENT, false);
   }
 
+  @Override
   protected Collection<Change> getPendingParentChanges() throws VcsException {
     return Collections.singletonList(getChanges().getMoveChange(myParentFolderOriginal, myParentFolderMoved));
   }
 
+  @Override
   @Test
   public void doTest() throws VcsException {
     super.doTest();
