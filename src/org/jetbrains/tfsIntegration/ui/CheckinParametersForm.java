@@ -293,7 +293,7 @@ public class CheckinParametersForm implements Disposable {
 
       field.getDocument().addDocumentListener(new DocumentAdapter() {
         @Override
-        protected void textChanged(DocumentEvent e) {
+        protected void textChanged(@NotNull DocumentEvent e) {
           note.value = field.getText();
           updateErrorMessage(true);
         }

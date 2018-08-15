@@ -22,6 +22,7 @@ import com.intellij.util.EventDispatcher;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.Item;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.ItemType;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.LabelItemSpec;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.tfsIntegration.core.tfs.WorkspaceInfo;
 import org.jetbrains.tfsIntegration.core.tfs.labels.LabelItemSpecWithItems;
 import org.jetbrains.tfsIntegration.core.tfs.labels.LabelModel;
@@ -70,7 +71,7 @@ public class ApplyLabelForm {
 
     myLabelNameTextField.getDocument().addDocumentListener(new DocumentAdapter() {
       @Override
-      protected void textChanged(final DocumentEvent e) {
+      protected void textChanged(@NotNull final DocumentEvent e) {
         myEventDispatcher.getMulticaster().dataChanged(getLabelName(), myTableModel.getRowCount());
       }
     });

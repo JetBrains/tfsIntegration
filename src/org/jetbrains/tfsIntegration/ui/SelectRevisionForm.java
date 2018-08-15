@@ -20,6 +20,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import com.intellij.ui.DocumentAdapter;
 import com.intellij.util.EventDispatcher;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.tfsIntegration.core.tfs.TfsUtil;
 import org.jetbrains.tfsIntegration.core.tfs.WorkspaceInfo;
@@ -70,7 +71,7 @@ public class SelectRevisionForm {
   public SelectRevisionForm() {
     final DocumentListener documentListener = new DocumentAdapter() {
       @Override
-      protected void textChanged(final DocumentEvent e1) {
+      protected void textChanged(@NotNull final DocumentEvent e1) {
         myEventDispatcher.getMulticaster().revisionChanged();
       }
     };

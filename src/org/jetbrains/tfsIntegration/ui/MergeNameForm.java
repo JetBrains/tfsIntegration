@@ -18,6 +18,7 @@ package org.jetbrains.tfsIntegration.ui;
 
 import com.intellij.ui.DocumentAdapter;
 import com.intellij.util.EventDispatcher;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -74,7 +75,7 @@ public class MergeNameForm {
 
     myCustomPathTextField.getDocument().addDocumentListener(new DocumentAdapter() {
       @Override
-      protected void textChanged(final DocumentEvent e) {
+      protected void textChanged(@NotNull final DocumentEvent e) {
         myEventDispatcher.getMulticaster().selectedPathChanged();
       }
     });

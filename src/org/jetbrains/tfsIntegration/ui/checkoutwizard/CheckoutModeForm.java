@@ -20,6 +20,7 @@ import com.intellij.openapi.wm.IdeFocusManager;
 import com.intellij.ui.DocumentAdapter;
 import com.intellij.util.EventDispatcher;
 import com.intellij.util.ui.UIUtil;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -56,7 +57,7 @@ public class CheckoutModeForm {
     });
     myWorkspaceNameField.getDocument().addDocumentListener(new DocumentAdapter() {
       @Override
-      protected void textChanged(final DocumentEvent e) {
+      protected void textChanged(@NotNull final DocumentEvent e) {
         myAutoModeButton.setSelected(true);
         myEventDispatcher.getMulticaster().stateChanged(new ChangeEvent(this));
       }

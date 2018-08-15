@@ -210,7 +210,7 @@ public class WorkspaceForm {
     myWorkingFoldrersLabel.setLabelFor(myTable.getPreferredFocusedComponent());
     DocumentAdapter listener = new DocumentAdapter() {
       @Override
-      protected void textChanged(final DocumentEvent e) {
+      protected void textChanged(@NotNull final DocumentEvent e) {
         myEventDispatcher.getMulticaster().stateChanged(new ChangeEvent(e));
       }
     };

@@ -25,6 +25,7 @@ import com.intellij.ui.table.TableView;
 import com.intellij.util.EventDispatcher;
 import com.intellij.util.ui.ColumnInfo;
 import com.intellij.util.ui.ListTableModel;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.tfsIntegration.checkin.PolicyFailure;
 
@@ -84,7 +85,7 @@ public class OverridePolicyWarningsForm {
 
     myReasonTextArea.getDocument().addDocumentListener(new DocumentAdapter() {
       @Override
-      protected void textChanged(DocumentEvent e) {
+      protected void textChanged(@NotNull DocumentEvent e) {
         myEventDispatcher.getMulticaster().stateChanged();
       }
     });

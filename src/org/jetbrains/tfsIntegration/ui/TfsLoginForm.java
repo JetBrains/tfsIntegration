@@ -25,6 +25,7 @@ import com.intellij.ui.HyperlinkLabel;
 import com.intellij.ui.ListCellRendererWrapper;
 import com.intellij.util.EventDispatcher;
 import com.intellij.util.net.HttpConfigurable;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.tfsIntegration.core.TFSBundle;
 import org.jetbrains.tfsIntegration.core.configuration.Credentials;
 import org.jetbrains.tfsIntegration.core.tfs.TfsUtil;
@@ -64,7 +65,7 @@ public class TfsLoginForm {
 
     final DocumentListener changeListener = new DocumentAdapter() {
       @Override
-      protected void textChanged(final DocumentEvent e) {
+      protected void textChanged(@NotNull final DocumentEvent e) {
         myEventDispatcher.getMulticaster().stateChanged(new ChangeEvent(this));
       }
     };

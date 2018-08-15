@@ -26,6 +26,7 @@ import com.intellij.openapi.util.Disposer;
 import com.intellij.ui.DocumentAdapter;
 import com.intellij.util.EventDispatcher;
 import com.intellij.util.ui.UIUtil;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.tfsIntegration.core.TFSBundle;
 import org.jetbrains.tfsIntegration.core.tfs.ServerInfo;
@@ -60,7 +61,7 @@ public class LocalAndServerPathsForm implements Disposable {
     myLocalPathLabel.setLabelFor(myLocalPathField.getChildComponent());
     myLocalPathField.getChildComponent().getDocument().addDocumentListener(new DocumentAdapter() {
       @Override
-      protected void textChanged(final DocumentEvent e) {
+      protected void textChanged(@NotNull final DocumentEvent e) {
         myEventDispatcher.getMulticaster().stateChanged(new ChangeEvent(this));
       }
     });
