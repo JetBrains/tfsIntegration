@@ -18,7 +18,7 @@ public class TfsRevisionNumber extends VcsRevisionNumber.Int {
   @Override
   public String asString() {
     if (myItemId != UNDEFINED_ID) {
-      return String.valueOf(getValue()) + SEPARATOR + String.valueOf(myItemId);
+      return getValue() + SEPARATOR + myItemId;
     }
     else {
       return String.valueOf(getValue());

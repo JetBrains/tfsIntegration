@@ -299,11 +299,11 @@ public class WebServiceHelper {
   private static void trace(long threadId, @NonNls String msg) {
     // you may need this for debugging
     String dispatch = ApplicationManager.getApplication().isDispatchThread() ? " [d]" : "";
-    @NonNls String message = String.valueOf(System.currentTimeMillis()) +
+    @NonNls String message = System.currentTimeMillis() +
                              ", thread=" +
-                             String.valueOf(threadId) +
+                             threadId +
                              ", cur thread=" +
-                             String.valueOf(Thread.currentThread().getId()) +
+                             Thread.currentThread().getId() +
                              dispatch +
                              ": " +
                              msg;
