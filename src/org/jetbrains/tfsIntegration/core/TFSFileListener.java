@@ -40,16 +40,19 @@ public class TFSFileListener extends VcsVFSListener {
     super(project, vcs);
   }
 
+  @NotNull
   @Override
   protected String getAddTitle() {
     return TFSBundle.message("add.items");
   }
 
+  @NotNull
   @Override
   protected String getSingleFileAddTitle() {
     return TFSBundle.message("add.item");
   }
 
+  @NotNull
   @Override
   protected String getSingleFileAddPromptTemplate() {
     return TFSBundle.message("add.item.prompt");
@@ -270,7 +273,7 @@ public class TFSFileListener extends VcsVFSListener {
   }
 
   @Override
-  protected void performDeletion(final List<FilePath> filesToDelete) {
+  protected void performDeletion(@NotNull final List<FilePath> filesToDelete) {
     final List<VcsException> errors = new ArrayList<>();
     try {
       WorkstationHelper.processByWorkspaces(filesToDelete, false, myProject, new WorkstationHelper.VoidProcessDelegate() {
@@ -297,7 +300,7 @@ public class TFSFileListener extends VcsVFSListener {
   }
 
   @Override
-  protected void performAdding(final Collection<VirtualFile> addedFiles, final Map<VirtualFile, VirtualFile> copyFromMap) {
+  protected void performAdding(@NotNull final Collection<VirtualFile> addedFiles, @NotNull final Map<VirtualFile, VirtualFile> copyFromMap) {
     final List<VcsException> errors = new ArrayList<>();
     try {
       final List<FilePath> orphans =
@@ -329,6 +332,7 @@ public class TFSFileListener extends VcsVFSListener {
     }
   }
 
+  @NotNull
   @Override
   protected String getDeleteTitle() {
     return "Do you want to schedule these items for deletion from TFS?";
@@ -345,7 +349,7 @@ public class TFSFileListener extends VcsVFSListener {
   }
 
   @Override
-  protected void performMoveRename(final List<MovedFileInfo> movedFiles) {
+  protected void performMoveRename(@NotNull final List<MovedFileInfo> movedFiles) {
     final Map<FilePath, FilePath> movedPaths = new HashMap<>(movedFiles.size());
     for (MovedFileInfo movedFileInfo : movedFiles) {
       movedPaths.put(VcsUtil.getFilePath(movedFileInfo.myOldPath), VcsUtil.getFilePath(movedFileInfo.myNewPath));
