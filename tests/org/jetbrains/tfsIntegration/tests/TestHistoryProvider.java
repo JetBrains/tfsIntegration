@@ -166,8 +166,8 @@ public class TestHistoryProvider extends TFSTestCase {
     Assert.assertEquals(comment2, lastRevision.getCommitMessage());
     firstRevision.loadContent();
     lastRevision.loadContent();
-    Assert.assertArrayEquals(fileRenamedModifiedContent1.getBytes(), firstRevision.getContent());
-    Assert.assertArrayEquals(fileRenamedModifiedContent2.getBytes(), lastRevision.getContent());
+    Assert.assertArrayEquals(fileRenamedModifiedContent1.getBytes(), firstRevision.loadContent());
+    Assert.assertArrayEquals(fileRenamedModifiedContent2.getBytes(), lastRevision.loadContent());
   }
 
 }
