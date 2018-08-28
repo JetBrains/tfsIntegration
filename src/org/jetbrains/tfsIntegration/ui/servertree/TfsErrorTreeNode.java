@@ -3,6 +3,7 @@ package org.jetbrains.tfsIntegration.ui.servertree;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ui.treeStructure.SimpleNode;
 import com.intellij.util.PlatformIcons;
+import org.jetbrains.annotations.NotNull;
 
 public class TfsErrorTreeNode extends SimpleNode {
   private final String myMessage;
@@ -13,7 +14,7 @@ public class TfsErrorTreeNode extends SimpleNode {
   }
 
   @Override
-  protected void update(PresentationData presentation) {
+  protected void update(@NotNull PresentationData presentation) {
     super.update(presentation);
     presentation.addText(myMessage, getErrorAttributes());
     presentation.setIcon(PlatformIcons.ERROR_INTRODUCTION_ICON);

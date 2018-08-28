@@ -74,7 +74,7 @@ public class TfsTreeNode extends SimpleNode {
   }
 
   @Override
-  protected void update(PresentationData presentation) {
+  protected void update(@NotNull PresentationData presentation) {
     if (isRoot()) {
       //noinspection ConstantConditions
       presentation.addText(myTreeContext.myServer.getPresentableUri(), getPlainAttributes());
