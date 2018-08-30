@@ -13,7 +13,6 @@
     <orderEntry type="module-library">
       <library name="axis2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/wstx-asl-3.2.4.jar!/" />
           <root url="jar://$MODULE_DIR$/lib/wsdl4j-1.6.2.jar!/" />
           <root url="jar://$MODULE_DIR$/lib/geronimo-stax-api_1.0_spec-1.0.1.jar!/" />
           <root url="jar://$MODULE_DIR$/lib/backport-util-concurrent-3.1.jar!/" />
@@ -89,6 +88,16 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/com.microsoft.tfs.sdk-14.0.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="wstx-asl" type="repository">
+        <properties include-transitive-deps="false" maven-id="org.codehaus.woodstox:wstx-asl:3.2.9" />
+        <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/woodstox/wstx-asl/3.2.9/wstx-asl-3.2.9.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
