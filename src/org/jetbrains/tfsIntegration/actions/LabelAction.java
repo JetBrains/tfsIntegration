@@ -57,7 +57,7 @@ public class LabelAction extends SingleItemAction implements DumbAware {
 
       errors.addAll(TfsUtil.getVcsExceptions(resultWithFailures.getFailures()));
 
-      StringBuffer buffer = new StringBuffer();
+      StringBuilder buffer = new StringBuilder();
       for (LabelResult labelResult : resultWithFailures.getResult()) {
         if (buffer.length() > 0) {
           buffer.append("\n");
