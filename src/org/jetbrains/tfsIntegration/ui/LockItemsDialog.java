@@ -120,7 +120,7 @@ public class LockItemsDialog extends DialogWrapper {
   }
 
   private class LockAction extends AbstractAction {
-    public LockAction() {
+    LockAction() {
       super("Lock");
       putValue(DEFAULT_ACTION, Boolean.TRUE);
     }
@@ -141,7 +141,7 @@ public class LockItemsDialog extends DialogWrapper {
   }
 
   private class UnlockAction extends AbstractAction {
-    public UnlockAction() {
+    UnlockAction() {
       super("Unlock");
     }
 

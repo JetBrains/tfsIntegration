@@ -103,7 +103,7 @@ public class WorkspaceForm {
 
   private class LocalPathColumn extends ColumnInfo<WorkingFolderInfo, String> implements ValidatingTableEditor.RowHeightProvider {
 
-    public LocalPathColumn() {
+    LocalPathColumn() {
       super(TFSBundle.message("working.folder.local.path.column"));
     }
 

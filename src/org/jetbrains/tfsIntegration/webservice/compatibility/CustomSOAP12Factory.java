@@ -31,19 +31,19 @@ public class CustomSOAP12Factory extends SOAP12Factory {
 
   private static class CustomSOAP12FaultImpl extends SOAP12FaultImpl {
 
-    public CustomSOAP12FaultImpl(SOAPFactory factory) {
+    CustomSOAP12FaultImpl(SOAPFactory factory) {
       super(factory);
     }
 
-    public CustomSOAP12FaultImpl(SOAPBody parent, Exception e, SOAPFactory factory) throws SOAPProcessingException {
+    CustomSOAP12FaultImpl(SOAPBody parent, Exception e, SOAPFactory factory) throws SOAPProcessingException {
       super(parent, e, factory);
     }
 
-    public CustomSOAP12FaultImpl(SOAPBody parent, OMXMLParserWrapper builder, SOAPFactory factory) {
+    CustomSOAP12FaultImpl(SOAPBody parent, OMXMLParserWrapper builder, SOAPFactory factory) {
       super(parent, builder, factory);
     }
 
-    public CustomSOAP12FaultImpl(SOAPBody parent, SOAPFactory factory) throws SOAPProcessingException {
+    CustomSOAP12FaultImpl(SOAPBody parent, SOAPFactory factory) throws SOAPProcessingException {
       super(parent, factory);
     }
 

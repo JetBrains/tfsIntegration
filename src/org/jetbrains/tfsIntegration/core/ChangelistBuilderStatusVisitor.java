@@ -35,7 +35,7 @@ class ChangelistBuilderStatusVisitor implements StatusVisitor {
   private @NotNull final ChangelistBuilder myChangelistBuilder;
   private @NotNull final WorkspaceInfo myWorkspace;
 
-  public ChangelistBuilderStatusVisitor(final @NotNull Project project,
+  ChangelistBuilderStatusVisitor(final @NotNull Project project,
                                         final @NotNull ChangelistBuilder changelistBuilder,
                                         final @NotNull WorkspaceInfo workspace) {
     myProject = project;

@@ -66,7 +66,7 @@ public class TfsServerConnectionHelper {
     public final String instanceId;
     public final Workspace[] workspaces;
 
-    public Tfs200xServerDescriptor(String instanceId,
+    Tfs200xServerDescriptor(String instanceId,
                                    Credentials authorizedCredentials,
                                    URI uri,
                                    Workspace[] workspaces,
@@ -80,7 +80,7 @@ public class TfsServerConnectionHelper {
   private static class Tfs2010ServerDescriptor extends ServerDescriptor {
     public final Collection<TeamProjectCollectionDescriptor> teamProjectCollections;
 
-    public Tfs2010ServerDescriptor(Collection<TeamProjectCollectionDescriptor> teamProjectCollections,
+    Tfs2010ServerDescriptor(Collection<TeamProjectCollectionDescriptor> teamProjectCollections,
                                    Credentials authorizedCredentials, URI uri, TfsBeansHolder servicesPaths) {
       super(authorizedCredentials, uri, servicesPaths);
       this.teamProjectCollections = teamProjectCollections;

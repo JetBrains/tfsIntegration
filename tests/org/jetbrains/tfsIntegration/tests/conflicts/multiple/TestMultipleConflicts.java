@@ -111,7 +111,7 @@ abstract class TestMultipleConflicts extends TFSTestCase {
   private static class ConflictsHandlerImpl implements ConflictsHandler {
     private final List<Pair<Integer, Resolution>> myResolution;
 
-    public ConflictsHandlerImpl(final List<Pair<Integer, Resolution>> resolution) {
+    ConflictsHandlerImpl(final List<Pair<Integer, Resolution>> resolution) {
       myResolution = resolution;
     }
 
@@ -156,7 +156,7 @@ abstract class TestMultipleConflicts extends TFSTestCase {
   private class NameMergerImpl implements NameMerger {
     private final Map<Integer /*itemId*/, ConflictingItem> myId2item;
 
-    public NameMergerImpl(final Map<Integer, ConflictingItem> id2item) {
+    NameMergerImpl(final Map<Integer, ConflictingItem> id2item) {
       myId2item = id2item;
     }
 
@@ -170,7 +170,7 @@ abstract class TestMultipleConflicts extends TFSTestCase {
   private class ContentMergerImpl implements ContentMerger {
     private final Map<Integer /*itemId*/, ConflictingItem> myId2item;
 
-    public ContentMergerImpl(final Map<Integer, ConflictingItem> id2item) {
+    ContentMergerImpl(final Map<Integer, ConflictingItem> id2item) {
       myId2item = id2item;
     }
 

@@ -466,7 +466,7 @@ public class TestComplexOperations extends TFSTestCase {
     public final FilePath folderUnversioned;
     public final FilePath fileRenamed;
 
-    public PendingChanges() throws Exception {
+    PendingChanges() throws Exception {
       doActionSilently(VcsConfiguration.StandardConfirmation.ADD);
       final String filenameUpToDate = "upToDate.txt";
       final String filenameToAdd = "ScheduledForAddition.txt";

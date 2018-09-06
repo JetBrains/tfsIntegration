@@ -378,7 +378,7 @@ public class TFSCheckinEnvironment implements CheckinEnvironment {
     private final JButton myConfigureButton;
     private LocalChangeList myCurrentList;
 
-    public TFSAdditionalOptionsPanel(JComponent panel, CheckinProjectPanel checkinProjectPanel, JButton configureButton) {
+    TFSAdditionalOptionsPanel(JComponent panel, CheckinProjectPanel checkinProjectPanel, JButton configureButton) {
       myPanel = panel;
       myCheckinProjectPanel = checkinProjectPanel;
       myConfigureButton = configureButton;

@@ -167,7 +167,7 @@ public class TFSFileAnnotation extends FileAnnotation {
     (revision1, revision2) -> -1 * revision1.getRevisionNumber().compareTo(revision2.getRevisionNumber());
 
   private abstract class TFSAnnotationAspect extends LineAnnotationAspectAdapter {
-    public TFSAnnotationAspect(String id, boolean showByDefault) {
+    TFSAnnotationAspect(String id, boolean showByDefault) {
       super(id, showByDefault);
     }
 

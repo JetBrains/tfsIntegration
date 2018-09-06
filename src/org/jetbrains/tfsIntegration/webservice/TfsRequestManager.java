@@ -187,7 +187,7 @@ public class TfsRequestManager {
     private T myResult;
     private TfsException myError;
 
-    public ExecuteSession(Credentials credentials,
+    ExecuteSession(Credentials credentials,
                           Object projectOrComponent,
                           final Request<T> request,
                           URI currentServerUri) {

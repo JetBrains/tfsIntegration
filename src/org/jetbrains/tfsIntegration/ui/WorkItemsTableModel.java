@@ -50,7 +50,7 @@ class WorkItemsTableModel extends ListTreeTableModelOnColumns {
   @NotNull private final DefaultMutableTreeNode myRoot;
   @NotNull private final WorkItemsCheckinParameters myContent;
 
-  public WorkItemsTableModel(@NotNull WorkItemsCheckinParameters content) {
+  WorkItemsTableModel(@NotNull WorkItemsCheckinParameters content) {
     super(null, new ColumnInfo[]{new CheckBoxColumn(content), TYPE, ID, TITLE, STATE, new CheckInActionColumn(content)});
 
     myContent = content;
@@ -129,7 +129,7 @@ class WorkItemsTableModel extends ListTreeTableModelOnColumns {
 
     private final int myWidth;
 
-    public WorkItemFieldColumn(@NotNull String name, int width) {
+    WorkItemFieldColumn(@NotNull String name, int width) {
       super(name);
 
       myWidth = width;
@@ -174,7 +174,7 @@ class WorkItemsTableModel extends ListTreeTableModelOnColumns {
     // TODO: Do we need this renderer?
     private final TableCellRenderer myRenderer = new NoBackgroundBooleanTableCellRenderer();
 
-    public CheckBoxColumn(@NotNull WorkItemsCheckinParameters content) {
+    CheckBoxColumn(@NotNull WorkItemsCheckinParameters content) {
       super(" ", 50);
 
       myContent = content;
@@ -286,7 +286,7 @@ class WorkItemsTableModel extends ListTreeTableModelOnColumns {
 
     @NotNull private final WorkItemsCheckinParameters myContent;
 
-    public CheckInActionColumn(@NotNull WorkItemsCheckinParameters content) {
+    CheckInActionColumn(@NotNull WorkItemsCheckinParameters content) {
       super("Checkin Action", 400);
 
       myContent = content;

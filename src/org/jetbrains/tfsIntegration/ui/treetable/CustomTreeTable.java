@@ -41,7 +41,7 @@ public class CustomTreeTable<T> extends TreeTable {
 
   private static final class FakeColumn<T> extends TreeTableColumn<T> {
 
-    public FakeColumn() {
+    FakeColumn() {
       super(null, 0);
     }
 

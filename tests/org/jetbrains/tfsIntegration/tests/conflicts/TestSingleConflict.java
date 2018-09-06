@@ -139,7 +139,7 @@ abstract class TestSingleConflict extends TFSTestCase {
   private class ConflictsHandlerImpl implements ConflictsHandler {
     private final Resolution myResolution;
 
-    public ConflictsHandlerImpl(final Resolution resolution) {
+    ConflictsHandlerImpl(final Resolution resolution) {
       myResolution = resolution;
     }
 
