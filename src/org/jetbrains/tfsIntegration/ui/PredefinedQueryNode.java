@@ -33,6 +33,7 @@ public class PredefinedQueryNode extends BaseQueryNode {
     return new Object[]{myQuery};
   }
 
+  @NotNull
   @Override
   public SimpleNode[] getChildren() {
     return NO_CHILDREN;

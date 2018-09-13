@@ -30,13 +30,14 @@ public class WorkItemQueriesTreeStructure extends SimpleTreeStructure implements
     return myRootNode.getPredefinedQueriesGroupNode();
   }
 
+  @NotNull
   @Override
   public Object getRootElement() {
     return myRootNode;
   }
 
   @Override
-  public boolean isToBuildChildrenInBackground(Object element) {
+  public boolean isToBuildChildrenInBackground(@NotNull Object element) {
     return element instanceof SavedQueryFolderNode && ((SavedQueryFolderNode)element).isProject();
   }
 

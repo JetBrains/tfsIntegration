@@ -41,12 +41,12 @@ public class TfsTreeBuilder extends AbstractTreeBuilder {
     tree.setModel(treeModel);
     return new TfsTreeBuilder(tree, treeModel, new SimpleTreeStructure.Impl(root) {
       @Override
-      public boolean isToBuildChildrenInBackground(Object element) {
+      public boolean isToBuildChildrenInBackground(@NotNull Object element) {
         return true;
       }
 
       @Override
-      public boolean isAlwaysLeaf(Object element) {
+      public boolean isAlwaysLeaf(@NotNull Object element) {
         if (element instanceof TfsTreeNode) {
           return !((TfsTreeNode)element).isDirectory();
         }

@@ -48,6 +48,7 @@ public class SavedQueryDefinitionNode extends BaseQueryNode {
     return new Object[]{myQueryDefinition.getID()};
   }
 
+  @NotNull
   @Override
   public SimpleNode[] getChildren() {
     return NO_CHILDREN;

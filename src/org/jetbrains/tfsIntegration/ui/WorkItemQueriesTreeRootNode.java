@@ -28,6 +28,7 @@ public class WorkItemQueriesTreeRootNode extends BaseQueryNode {
     return new Object[]{getServer().getUri()};
   }
 
+  @NotNull
   @Override
   public SimpleNode[] getChildren() {
     List<SimpleNode> result = ContainerUtil.newArrayList();

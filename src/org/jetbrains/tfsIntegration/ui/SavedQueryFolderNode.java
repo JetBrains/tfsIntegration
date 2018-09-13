@@ -64,6 +64,7 @@ public class SavedQueryFolderNode extends BaseQueryNode {
     return myQueryFolder == null;
   }
 
+  @NotNull
   @Override
   public SimpleNode[] getChildren() {
     List<SimpleNode> result = ContainerUtil.newArrayList();

@@ -20,6 +20,7 @@ public class TfsErrorTreeNode extends SimpleNode {
     presentation.setIcon(PlatformIcons.ERROR_INTRODUCTION_ICON);
   }
 
+  @NotNull
   @Override
   public SimpleNode[] getChildren() {
     return NO_CHILDREN;

@@ -29,6 +29,7 @@ public class PredefinedQueriesGroupNode extends BaseQueryNode {
     return new Object[]{getServer().getUri(), WorkItemsQuery.class};
   }
 
+  @NotNull
   @Override
   public SimpleNode[] getChildren() {
     List<SimpleNode> result = ContainerUtil.newArrayList();

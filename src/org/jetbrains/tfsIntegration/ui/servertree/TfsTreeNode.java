@@ -52,6 +52,7 @@ public class TfsTreeNode extends SimpleNode {
     myTreeContext = parent.myTreeContext;
   }
 
+  @NotNull
   @Override
   public SimpleNode[] getChildren() {
     if (!myIsDirectory) {
