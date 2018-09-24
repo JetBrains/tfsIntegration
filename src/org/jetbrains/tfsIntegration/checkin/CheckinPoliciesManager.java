@@ -16,7 +16,6 @@
 
 package org.jetbrains.tfsIntegration.checkin;
 
-import com.intellij.openapi.extensions.Extensions;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.project.Project;
 import org.jdom.Element;
@@ -25,11 +24,11 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.tfsIntegration.core.TFSVcs;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class CheckinPoliciesManager {
-
-  private static PolicyBase[] ourInstalledPolicies;
+  private static List<PolicyBase> ourInstalledPolicies;
 
   public static final PolicyBase DUMMY_POLICY = new PolicyBase() {
     final PolicyType DUMMY = new PolicyType("DUMMY_POLICY", "", "", "");
@@ -64,11 +63,10 @@ public class CheckinPoliciesManager {
     }
   };
 
-  public static PolicyBase[] getInstalledPolicies() throws DuplicatePolicyIdException {
+  public static List<PolicyBase> getInstalledPolicies() throws DuplicatePolicyIdException {
     if (ourInstalledPolicies == null) {
-      final PolicyBase[] installedPolicies = Extensions.getExtensions(PolicyBase.EP_NAME);
-
-      Set<PolicyType> types = new HashSet<>(installedPolicies.length);
+      final List<PolicyBase> installedPolicies = PolicyBase.EP_NAME.getExtensionList();
+      Set<PolicyType> types = new HashSet<>(installedPolicies.size());
       for (PolicyBase policy : installedPolicies) {
         if (!types.add(policy.getPolicyType())) {
           TFSVcs.LOG.warn("Duplicate checkin policy type: " + policy.getPolicyType().getId());
