@@ -43,7 +43,7 @@ public class LabelItemsTableModel extends AbstractTableModel {
     private final String myName;
     private final int myWidth;
 
-    private Column(final String name, final int width) {
+    Column(final String name, final int width) {
       myName = name;
       myWidth = width;
     }

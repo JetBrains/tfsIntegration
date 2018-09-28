@@ -42,7 +42,7 @@ public enum WorkItemField {
 
   private @NonNls final String mySerialized;
 
-  private WorkItemField(@NonNls String serialized) {
+  WorkItemField(@NonNls String serialized) {
     mySerialized = serialized;
   }
 
