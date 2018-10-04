@@ -301,9 +301,7 @@ public class Workstation {
     if (myDuplicateMappedPath == null) {
       myDuplicateMappedPath = Ref.create(findDuplicateMappedPath());
     }
-    //noinspection ConstantConditions
     if (!myDuplicateMappedPath.isNull()) {
-      //noinspection ConstantConditions
       throw new DuplicateMappingException(myDuplicateMappedPath.get());
     }
   }

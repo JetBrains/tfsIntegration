@@ -25,7 +25,6 @@ import org.jetbrains.tfsIntegration.tests.TestChangeListBuilder;
 import java.util.HashMap;
 import java.util.Map;
 
-@SuppressWarnings({"HardCodedStringLiteral"})
 public abstract class MoveChangeTestCase extends TFSTestCase {
 
   protected enum ChangeStatus {

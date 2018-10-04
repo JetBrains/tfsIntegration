@@ -65,7 +65,7 @@ public class ResolveConflictHelper {
 
     final WorkspaceInfo workspace = myConflict2Workspace.get(conflict);
 
-    @SuppressWarnings({"ConstantConditions"}) @NotNull final FilePath localPath = VersionControlPath
+    @NotNull final FilePath localPath = VersionControlPath
       .getFilePath(conflict.getSrclitem() != null ? conflict.getSrclitem() : conflict.getTgtlitem(),
                    conflict.getYtype() == ItemType.Folder);
 

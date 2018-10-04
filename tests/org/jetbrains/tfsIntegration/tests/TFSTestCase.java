@@ -547,7 +547,6 @@ public abstract class TFSTestCase extends AbstractJunitVcsTestCase  {
     return result;
   }
 
-  @SuppressWarnings({"MethodOverloadsMethodOfSuperclass"})
   protected VirtualFile createFileInCommand(final FilePath path, @Nullable final String content) {
     return createFileInCommand(path.getParentPath(), path.getName(), content);
   }

@@ -49,7 +49,6 @@ public class ItemInfoAction extends SingleItemAction implements DumbAware {
                          final @NotNull WorkspaceInfo workspace,
                          final @NotNull FilePath localPath,
                          final @NotNull ExtendedItem extendedItem) throws TfsException {
-    //noinspection ConstantConditions
     if (extendedItem.getLver() == Integer.MIN_VALUE) {
       final String itemType = localPath.isDirectory() ? "Folder" : "File";
       final String message = MessageFormat.format("{0} ''{1}'' is unversioned", itemType, localPath.getPresentableUrl());

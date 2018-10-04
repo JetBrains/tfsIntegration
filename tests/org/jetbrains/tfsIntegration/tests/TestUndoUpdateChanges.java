@@ -16,7 +16,6 @@
 
 package org.jetbrains.tfsIntegration.tests;
 
-@SuppressWarnings({"HardCodedStringLiteral"})
 public class TestUndoUpdateChanges extends TFSTestCase {
 
   /*

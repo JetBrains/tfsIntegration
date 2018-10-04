@@ -283,7 +283,6 @@ public class CheckinParameters {
   }
 
   public void evaluatePolicies(ProgressIndicator pi) {
-    //noinspection ConstantConditions
     for (final Map.Entry<ServerInfo, ServerData> entry : myData.entrySet()) {
       PolicyContext context = createPolicyContext(entry.getKey());
 
@@ -406,14 +405,12 @@ public class CheckinParameters {
       checkWarning = false;
     }
 
-    //noinspection ConstantConditions
     for (Map.Entry<ServerInfo, ServerData> entry : myData.entrySet()) {
       final ServerData data = entry.getValue();
       if ((checkError && !data.myEmptyNotes.isEmpty()) || (checkWarning && !data.myPolicyFailures.isEmpty())) {
         if (result.length() > 0) {
           result.append("\n");
         }
-        //noinspection ConstantConditions
         if (myData.size() > 1) {
           result.append(entry.getKey().getPresentableUri()).append("\n");
         }
@@ -444,7 +441,6 @@ public class CheckinParameters {
   }
 
   public void validateNotes() {
-    //noinspection ConstantConditions
     for (ServerData serverData : myData.values()) {
       List<String> emptyNotes = new ArrayList<>();
       for (CheckinNote checkinNote : serverData.myCheckinNotes) {
@@ -503,7 +499,6 @@ public class CheckinParameters {
   //}
 
   public List<ServerInfo> getServers() {
-    //noinspection ConstantConditions
     return new ArrayList<>(myData.keySet());
   }
 
@@ -513,12 +508,10 @@ public class CheckinParameters {
   }
 
   public List<CheckinNote> getCheckinNotes(ServerInfo server) {
-    //noinspection ConstantConditions
     return Collections.unmodifiableList(myData.get(server).myCheckinNotes);
   }
 
   public boolean hasEmptyNotes(ServerInfo server) {
-    //noinspection ConstantConditions
     return !myData.get(server).myEmptyNotes.isEmpty();
   }
 
@@ -531,7 +524,6 @@ public class CheckinParameters {
         break;
       }
     }
-    //noinspection ConstantConditions
     return evaluationEnabled && (!myPoliciesEvaluated || !serverData.myPolicyFailures.isEmpty());
   }
 
@@ -559,7 +551,6 @@ public class CheckinParameters {
 
 
   public WorkItemsCheckinParameters getWorkItems(ServerInfo server) {
-    //noinspection ConstantConditions
     return myData.get(server).myWorkItems;
   }
 
@@ -606,8 +597,7 @@ public class CheckinParameters {
   //}
 
   public CheckinParameters createCopy() {
-    @SuppressWarnings({"ConstantConditions"}) Map<ServerInfo, ServerData> result = new LinkedHashMap<>(myData.size());
-    //noinspection ConstantConditions
+    Map<ServerInfo, ServerData> result = new LinkedHashMap<>(myData.size());
     for (Map.Entry<ServerInfo, ServerData> entry : myData.entrySet()) {
       final ServerData serverData = entry.getValue();
       List<CheckinNote> checkinNotesCopy = new ArrayList<>(serverData.myCheckinNotes.size());

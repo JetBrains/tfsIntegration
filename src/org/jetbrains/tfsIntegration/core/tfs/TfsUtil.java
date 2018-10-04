@@ -127,7 +127,6 @@ public class TfsUtil {
    * @return Gregorian calendar that stores date "0001-01-01T00:00:00.000Z" to be used in requests to TFS server
    */
   public static Calendar getZeroCalendar() {
-    @SuppressWarnings({"HardCodedStringLiteral"})
     final Calendar calendar = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
     calendar.clear();
     calendar.set(1, Calendar.JANUARY, 1, 0, 0, 0);

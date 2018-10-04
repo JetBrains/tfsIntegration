@@ -75,7 +75,6 @@ public class WebServiceHelper {
 
   public static final String USE_NATIVE_CREDENTIALS = WebServiceHelper.class.getName() + ".overrideCredentials";
 
-  @SuppressWarnings("UseOfArchaicSystemPropertyAccessors")
   private static final int SOCKET_TIMEOUT = Integer.getInteger("org.jetbrains.tfsIntegration.socketTimeout", 30000);
 
   static {

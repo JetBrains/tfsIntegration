@@ -435,7 +435,6 @@ public class VersionControlServer {
         param.setOldWorkspaceName(oldWorkspaceName);
         param.setOwnerName(credentials.getQualifiedUsername());
         myBeans.getRepositoryStub(credentials, pi).updateWorkspace(param).getUpdateWorkspaceResult();
-        //noinspection ConstantConditions
         return null;
       }
     });
@@ -463,7 +462,6 @@ public class VersionControlServer {
         param.setOwnerName(workspaceOwner);
         param.setWorkspaceName(workspaceName);
         myBeans.getRepositoryStub(credentials, pi).deleteWorkspace(param);
-        //noinspection ConstantConditions
         return null;
       }
     });
@@ -872,13 +870,11 @@ public class VersionControlServer {
         param.setWorkspaceName(workspaceName);
         param.setUpdates(arrayOfLocalVersionUpdate);
         myBeans.getRepositoryStub(credentials, pi).updateLocalVersion(param);
-        //noinspection ConstantConditions
         return null;
       }
 
       @Override
       public Void merge(Collection<Void> results) {
-        //noinspection ConstantConditions
         return null;
       }
     };

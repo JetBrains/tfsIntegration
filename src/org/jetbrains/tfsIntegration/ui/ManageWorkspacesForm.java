@@ -185,7 +185,6 @@ public class ManageWorkspacesForm {
     myCreateWorkspaceButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(final ActionEvent e) {
-        //noinspection ConstantConditions
         ServerInfo server = getSelectedServer();
         if (server == null) {
           //noinspection ConstantConditions

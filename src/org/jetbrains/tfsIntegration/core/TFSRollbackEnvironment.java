@@ -107,7 +107,6 @@ public class TFSRollbackEnvironment extends DefaultRollbackEnvironment {
             public void outOfDate(final @NotNull FilePath localPath,
                                   final boolean localItemExists,
                                   final @NotNull ServerStatus serverStatus) throws TfsException {
-              //noinspection ConstantConditions
               addForDownload(serverStatus);
             }
 
@@ -121,7 +120,6 @@ public class TFSRollbackEnvironment extends DefaultRollbackEnvironment {
             @Override
             public void upToDate(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull ServerStatus serverStatus)
               throws TfsException {
-              //noinspection ConstantConditions
               addForDownload(serverStatus);
             }
 
@@ -166,7 +164,6 @@ public class TFSRollbackEnvironment extends DefaultRollbackEnvironment {
       });
     }
     catch (TfsException e) {
-      //noinspection ThrowableInstanceNeverThrown
       errors.add(new VcsException(e.getMessage(), e));
     }
   }
@@ -198,7 +195,6 @@ public class TFSRollbackEnvironment extends DefaultRollbackEnvironment {
       });
     }
     catch (TfsException e) {
-      //noinspection ThrowableInstanceNeverThrown
       errors.add(new VcsException("Cannot undo pending changes", e));
     }
   }
@@ -235,7 +231,6 @@ public class TFSRollbackEnvironment extends DefaultRollbackEnvironment {
       });
     }
     catch (TfsException e) {
-      //noinspection ThrowableInstanceNeverThrown
       errors.add(new VcsException("Cannot undo pending changes", e));
     }
   }

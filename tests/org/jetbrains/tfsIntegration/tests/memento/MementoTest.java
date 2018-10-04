@@ -228,7 +228,6 @@ public class MementoTest extends TestCase {
       @Override
       public Void compute() throws Exception {
         ((com.teamprise.core.memento.XMLMemento)teampriseMemento).save(os);
-        //noinspection ConstantConditions
         return null;
       }
     });

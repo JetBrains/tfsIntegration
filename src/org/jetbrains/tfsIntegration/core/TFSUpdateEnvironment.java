@@ -111,7 +111,6 @@ public class TFSUpdateEnvironment implements UpdateEnvironment {
       }
     }
     catch (TfsException e) {
-      //noinspection ThrowableInstanceNeverThrown
       exceptions.add(new VcsException(e));
     }
 
@@ -188,7 +187,6 @@ public class TFSUpdateEnvironment implements UpdateEnvironment {
     ProgressManager.getInstance().runProcessWithProgressSynchronously(r, "TFS: preparing for update...", false, myVcs.getProject());
 
     if (!error.isNull()) {
-      //noinspection ThrowableResultOfMethodCallIgnored
       //Messages.showErrorDialog(myVcs.getProject(), error.get().getMessage(), "Update Project");
       return null;
     }

@@ -156,7 +156,6 @@ public class TfsExecutionUtil {
         explicitlyCancelled.set(true);
       }
       catch (TfsException e) {
-        //noinspection ThrowableInstanceNeverThrown
         errors.add(new VcsException(e.getMessage(), e));
       }
       catch (VcsException e) {
@@ -195,7 +194,6 @@ public class TfsExecutionUtil {
       }
     });
     assert result.errors.size() < 2;
-    //noinspection ThrowableResultOfMethodCallIgnored
     return new ResultWithError<>(ContainerUtil.getFirstItem(result.errors, null), result.result, project, result.cancelled);
   }
 

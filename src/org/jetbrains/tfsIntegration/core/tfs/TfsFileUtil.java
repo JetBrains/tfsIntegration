@@ -246,7 +246,6 @@ public class TfsFileUtil {
   public static byte[] calculateMD5(File file) throws IOException {
     final MessageDigest digest;
     try {
-      //noinspection HardCodedStringLiteral
       digest = MessageDigest.getInstance("MD5");
     }
     catch (NoSuchAlgorithmException e) {

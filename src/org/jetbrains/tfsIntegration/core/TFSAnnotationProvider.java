@@ -138,7 +138,6 @@ public class TFSAnnotationProvider implements AnnotationProvider {
       @Override
       public String getContent(final TFSFileRevision revision) throws VcsException {
         TFSProgressUtil.checkCanceled(progressIndicator);
-        //noinspection ConstantConditions
         final String content = revision.createContentRevision().getContent();
         if (content == null) {
           final String errorMessage =

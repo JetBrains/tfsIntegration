@@ -343,7 +343,6 @@ public class WorkspaceInfo {
     WorkingFolderInfo.Status status =
       WorkingFolderType.Cloak.equals(bean.getType()) ? WorkingFolderInfo.Status.Cloaked : WorkingFolderInfo.Status.Active;
     if (bean.getLocal() != null) {
-      //noinspection ConstantConditions
       return new WorkingFolderInfo(status, VersionControlPath.getFilePath(bean.getLocal(), true), bean.getItem());
     }
     else {

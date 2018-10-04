@@ -148,7 +148,6 @@ abstract class TestMultipleConflicts extends TFSTestCase {
         }
       }
       Assert.fail("Conflict with item id " + itemId + " not found");
-      //noinspection ConstantConditions
       return null;
     }
   }

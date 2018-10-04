@@ -234,7 +234,6 @@ public class StatusProvider {
 
     TFSVcs.LOG.error("Uncovered case for item " +
                      (item.getLocal() != null ? VersionControlPath.localPathFromTfsRepresentation(item.getLocal()) : item.getTitem()));
-    //noinspection ConstantConditions
     return null;
   }
 

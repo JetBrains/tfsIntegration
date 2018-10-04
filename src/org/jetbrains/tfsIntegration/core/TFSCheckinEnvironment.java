@@ -293,14 +293,12 @@ public class TFSCheckinEnvironment implements CheckinEnvironment {
             TfsFileUtil.markDirty(myVcs.getProject(), invalidateRoots, invalidateFiles);
           }
           catch (IOException e) {
-            //noinspection ThrowableInstanceNeverThrown
             errors.add(new VcsException(e));
           }
         }
       });
     }
     catch (TfsException e) {
-      //noinspection ThrowableInstanceNeverThrown
       errors.add(new VcsException(e));
     }
     myVcs.getCheckinData().parameters = null;
@@ -327,7 +325,6 @@ public class TFSCheckinEnvironment implements CheckinEnvironment {
       });
     }
     catch (TfsException e) {
-      //noinspection ThrowableInstanceNeverThrown
       errors.add(new VcsException(e));
     }
     return errors;
@@ -360,7 +357,6 @@ public class TFSCheckinEnvironment implements CheckinEnvironment {
       }
     }
     catch (TfsException e) {
-      //noinspection ThrowableInstanceNeverThrown
       exceptions.add(new VcsException(e));
     }
     return exceptions;

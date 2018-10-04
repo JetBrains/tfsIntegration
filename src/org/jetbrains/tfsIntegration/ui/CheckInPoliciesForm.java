@@ -356,7 +356,6 @@ public class CheckInPoliciesForm {
   }
 
   private void updateTable() {
-    //noinspection unchecked
     List<Pair<StatefulPolicyDescriptor, Boolean>> list =
       new ArrayList<>(myProjectToDescriptors.get(getSelectedProject()).descriptors.size());
     try {
@@ -368,7 +367,6 @@ public class CheckInPoliciesForm {
       // can't get here
       throw new RuntimeException(e);
     }
-    //noinspection unchecked
     ((ListTableModel)myPoliciesTable.getModel()).setItems(list);
   }
 

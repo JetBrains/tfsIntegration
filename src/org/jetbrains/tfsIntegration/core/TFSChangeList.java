@@ -282,11 +282,9 @@ public class TFSChangeList implements CommittedChangeList {
       readMoved(stream, myMovedPaths);
     }
     catch (IOException e) {
-      //noinspection ThrowableInstanceNeverThrown
       AbstractVcsHelper.getInstance(myVcs.getProject()).showError(new VcsException(e), TFSVcs.TFS_NAME);
     }
     catch (URISyntaxException e) {
-      //noinspection ThrowableInstanceNeverThrown
       AbstractVcsHelper.getInstance(myVcs.getProject()).showError(new VcsException(e), TFSVcs.TFS_NAME);
     }
   }

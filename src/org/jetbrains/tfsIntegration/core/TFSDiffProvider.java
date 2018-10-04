@@ -73,7 +73,6 @@ public class TFSDiffProvider implements DiffProvider {
         return TFSContentRevision.create(myProject, workspaceAndItem.first, revisionNumber.getValue(), itemId);
       }
       catch (TfsException e) {
-        //noinspection ThrowableInstanceNeverThrown
         AbstractVcsHelper.getInstance(myProject).showError(new VcsException(e), TFSVcs.TFS_NAME);
         return null;
       }

@@ -77,10 +77,8 @@ public class UndoPendingChanges {
       Map<ItemPath, ItemPath> undonePaths = new HashMap<>();
       for (GetOperation getOperation : result.getResult()) {
         if (getOperation.getSlocal() != null && getOperation.getTlocal() != null) {
-          @SuppressWarnings({"ConstantConditions"})
           @NotNull FilePath sourcePath =
             VersionControlPath.getFilePath(getOperation.getSlocal(), getOperation.getType() == ItemType.Folder);
-          @SuppressWarnings({"ConstantConditions"})
           @NotNull FilePath targetPath =
             VersionControlPath.getFilePath(getOperation.getTlocal(), getOperation.getType() == ItemType.Folder);
           undonePaths.put(new ItemPath(sourcePath, workspace.findServerPathsByLocalPath(sourcePath, false, project).iterator().next()),
