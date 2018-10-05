@@ -38,7 +38,7 @@ import java.util.*;
 public class StatusProvider {
 
   public static void visitByStatus(final @NotNull WorkspaceInfo workspace,
-                                   final List<ItemPath> roots,
+                                   final List<? extends ItemPath> roots,
                                    boolean recursive,
                                    final @Nullable ProgressIndicator progress,
                                    final @NotNull StatusVisitor statusVisitor,
@@ -129,7 +129,7 @@ public class StatusProvider {
     }
   }
 
-  private static void addExistingFilesRecursively(final @NotNull Collection<FilePath> result, final @Nullable VirtualFile root) {
+  private static void addExistingFilesRecursively(final @NotNull Collection<? super FilePath> result, final @Nullable VirtualFile root) {
     if (root != null && root.exists()) {
       VfsUtilCore.visitChildrenRecursively(root, new VirtualFileVisitor() {
         @Override

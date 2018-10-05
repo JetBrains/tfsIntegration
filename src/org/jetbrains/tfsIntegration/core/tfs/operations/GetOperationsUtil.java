@@ -27,7 +27,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class GetOperationsUtil {
-  static List<GetOperation> sortGetOperations(Collection<GetOperation> getOperations) {
+  static List<GetOperation> sortGetOperations(Collection<? extends GetOperation> getOperations) {
     List<GetOperation> result = new ArrayList<>(getOperations.size());
     for (GetOperation newOperation : getOperations) {
       TFSVcs.assertTrue(newOperation.getSlocal() != null || newOperation.getTlocal() != null);
@@ -48,7 +48,7 @@ public class GetOperationsUtil {
     return result;
   }
 
-  public static void updateSourcePaths(final List<GetOperation> sortedOperations, final int index, final GetOperation operation) {
+  public static void updateSourcePaths(final List<? extends GetOperation> sortedOperations, final int index, final GetOperation operation) {
     // TODO: replaceFirst to handle unix paths: problem if replace /a -> /aa in /a/a/a
     for (GetOperation operationToUpdate : sortedOperations.subList(index + 1, sortedOperations.size())) {
       if (operationToUpdate.getSlocal() != null) {

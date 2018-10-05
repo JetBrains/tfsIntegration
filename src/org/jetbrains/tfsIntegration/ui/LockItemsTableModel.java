@@ -82,11 +82,11 @@ public class LockItemsTableModel extends AbstractTableModel {
     public abstract Object getValue(final LockItemModel item);
   }
 
-  private final @NotNull List<LockItemModel> myContent;
+  private final @NotNull List<? extends LockItemModel> myContent;
 
   private final EventDispatcher<Listener> myEventDispatcher = EventDispatcher.create(Listener.class);
 
-  public LockItemsTableModel(final @NotNull List<LockItemModel> content) {
+  public LockItemsTableModel(final @NotNull List<? extends LockItemModel> content) {
     myContent = content;
     Collections.sort(myContent, LockItemModel.LOCK_ITEM_PARENT_FIRST);
   }

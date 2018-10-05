@@ -34,7 +34,7 @@ public abstract class RootsCollection<T> {
     public FilePathRootsCollection() {
     }
 
-    public FilePathRootsCollection(final Collection<FilePath> items) {
+    public FilePathRootsCollection(final Collection<? extends FilePath> items) {
       super(items);
     }
 
@@ -50,7 +50,7 @@ public abstract class RootsCollection<T> {
     public ItemPathRootsCollection() {
     }
 
-    public ItemPathRootsCollection(final Collection<ItemPath> items) {
+    public ItemPathRootsCollection(final Collection<? extends ItemPath> items) {
       super(items);
     }
 
@@ -66,7 +66,7 @@ public abstract class RootsCollection<T> {
     public VirtualFileRootsCollection() {
     }
 
-    public VirtualFileRootsCollection(final Collection<VirtualFile> items) {
+    public VirtualFileRootsCollection(final Collection<? extends VirtualFile> items) {
       super(items);
     }
 

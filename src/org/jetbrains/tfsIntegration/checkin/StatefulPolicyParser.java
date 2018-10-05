@@ -99,7 +99,7 @@ public class StatefulPolicyParser {
     return new Element(CONFIGURATION_DATA);
   }
 
-  public static String saveDescriptors(List<StatefulPolicyDescriptor> value) {
+  public static String saveDescriptors(List<? extends StatefulPolicyDescriptor> value) {
     Element root = new Element(POLICY_ANNOTATION);
     root.setAttribute(VERSION, CURRENT_VERSION);
     for (StatefulPolicyDescriptor descriptor : value) {

@@ -51,7 +51,7 @@ public class ItemInfoForm {
   private JLabel myLockLabel;
   private JScrollPane myTreePane;
   private JLabel myWorkspaceLabel;
-  private final Collection<BranchRelative> myBranches;
+  private final Collection<? extends BranchRelative> myBranches;
 
   private static final TreeTableColumn<BranchRelative> SERVER_PATH_COLUMN = new TreeTableColumn<BranchRelative>("Server path", 350) {
     @Override
@@ -71,7 +71,7 @@ public class ItemInfoForm {
       }
     };
 
-  public ItemInfoForm(final WorkspaceInfo workspace, final ExtendedItem item, final Collection<BranchRelative> branches) {
+  public ItemInfoForm(final WorkspaceInfo workspace, final ExtendedItem item, final Collection<? extends BranchRelative> branches) {
     myBranches = branches;
     myServerNameLabel.setText(item.getTitem() != null ? item.getTitem() : item.getSitem());
     myLocalNameLabel.setText(VersionControlPath.localPathFromTfsRepresentation(item.getLocal()));

@@ -143,7 +143,7 @@ public class TfsExecutionUtil {
     void run() throws TfsException, VcsException;
   }
 
-  public static <T> ResultWithErrors<T> executeInBackground(String progressText, Project project, final ProcessWithErrors<T> process) {
+  public static <T> ResultWithErrors<T> executeInBackground(String progressText, Project project, final ProcessWithErrors<? extends T> process) {
     final Ref<T> result = new Ref<>();
     final List<VcsException> errors = new ArrayList<>();
     final Ref<Boolean> explicitlyCancelled = new Ref<>();
@@ -186,7 +186,7 @@ public class TfsExecutionUtil {
     });
   }
 
-  public static <T> ResultWithError<T> executeInBackground(String progressText, Project project, final Process<T> process) {
+  public static <T> ResultWithError<T> executeInBackground(String progressText, Project project, final Process<? extends T> process) {
     ResultWithErrors<T> result = executeInBackground(progressText, project, new ProcessWithErrors<T>() {
       @Override
       public T run(Collection<VcsException> errorsHolder) throws TfsException, VcsException {

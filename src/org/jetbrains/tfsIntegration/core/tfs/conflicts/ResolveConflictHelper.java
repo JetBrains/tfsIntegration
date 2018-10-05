@@ -266,7 +266,7 @@ public class ResolveConflictHelper {
     return yourChange.contains(ChangeType_type0.Edit) || baseChange.contains(ChangeType_type0.Edit);
   }
 
-  public static Collection<Conflict> getUnresolvedConflicts(Collection<Conflict> conflicts) {
+  public static Collection<Conflict> getUnresolvedConflicts(Collection<? extends Conflict> conflicts) {
     Collection<Conflict> result = new ArrayList<>();
     for (Conflict c : conflicts) {
       if (!c.getIsresolved()) {

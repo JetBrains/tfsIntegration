@@ -37,7 +37,7 @@ public class ChooseTeamProjectCollectionForm {
   private final EventDispatcher<Listener> myEventDispatcher = EventDispatcher.create(Listener.class);
 
   public ChooseTeamProjectCollectionForm(String serverAddress,
-                                         Collection<TfsServerConnectionHelper.TeamProjectCollectionDescriptor> items) {
+                                         Collection<? extends TfsServerConnectionHelper.TeamProjectCollectionDescriptor> items) {
     myAddressField.setText(serverAddress);
 
     ColumnInfo<TfsServerConnectionHelper.TeamProjectCollectionDescriptor, String> displayNameColumn =

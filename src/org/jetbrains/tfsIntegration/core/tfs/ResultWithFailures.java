@@ -48,7 +48,7 @@ public class ResultWithFailures<T> {
     return failures;
   }
 
-  public static <T> ResultWithFailures<T> merge(Collection<ResultWithFailures<T>> results) {
+  public static <T> ResultWithFailures<T> merge(Collection<? extends ResultWithFailures<T>> results) {
     ResultWithFailures<T> merged = new ResultWithFailures<>();
     for (ResultWithFailures<T> r : results) {
       merged.getResult().addAll(r.getResult());

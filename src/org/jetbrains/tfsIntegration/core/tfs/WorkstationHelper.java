@@ -38,7 +38,7 @@ public class WorkstationHelper {
    * @throws TfsException in case error occurs
    */
   // TODO process orphan paths in every caller
-  public static List<FilePath> processByWorkspaces(Collection<FilePath> localPaths,
+  public static List<FilePath> processByWorkspaces(Collection<? extends FilePath> localPaths,
                                                    boolean considerChildMappings,
                                                    Object projectOrComponent,
                                                    VoidProcessDelegate processor) throws TfsException {

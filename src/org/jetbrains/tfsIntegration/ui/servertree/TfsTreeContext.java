@@ -16,9 +16,9 @@ public class TfsTreeContext {
   private final boolean myFoldersOnly;
   private final Object myProjectOrComponent;
   @Nullable
-  private final Condition<String> myFilter;
+  private final Condition<? super String> myFilter;
 
-  public TfsTreeContext(ServerInfo server, boolean foldersOnly, Object projectOrComponent, Condition<String> filter) {
+  public TfsTreeContext(ServerInfo server, boolean foldersOnly, Object projectOrComponent, Condition<? super String> filter) {
     myServer = server;
     myFoldersOnly = foldersOnly;
     myFilter = filter;

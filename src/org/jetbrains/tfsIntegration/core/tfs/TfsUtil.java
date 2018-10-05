@@ -95,7 +95,7 @@ public class TfsUtil {
     return item.getLver() != Integer.MIN_VALUE ? new TfsRevisionNumber(item.getLver(), item.getItemid()) : VcsRevisionNumber.NULL;
   }
 
-  public static VcsException collectExceptions(Collection<VcsException> exceptions) {
+  public static VcsException collectExceptions(Collection<? extends VcsException> exceptions) {
     if (exceptions.isEmpty()) {
       throw new IllegalArgumentException("No exceptions to collect");
     }
@@ -115,7 +115,7 @@ public class TfsUtil {
     }
   }
 
-  public static List<FilePath> getLocalPaths(final List<ItemPath> paths) {
+  public static List<FilePath> getLocalPaths(final List<? extends ItemPath> paths) {
     List<FilePath> localPaths = new ArrayList<>(paths.size());
     for (ItemPath path : paths) {
       localPaths.add(path.getLocalPath());
@@ -133,7 +133,7 @@ public class TfsUtil {
     return calendar;
   }
 
-  public static List<VcsException> getVcsExceptions(Collection<Failure> failures) {
+  public static List<VcsException> getVcsExceptions(Collection<? extends Failure> failures) {
     final List<VcsException> exceptions = new ArrayList<>();
     for (Failure failure : failures) {
       if (failure.getSev() != SeverityType.Warning) {
@@ -208,7 +208,7 @@ public class TfsUtil {
     return domain + "\\" + userName;
   }
 
-  public static <T, E extends Throwable> void consumeInParts(List<T> items, int maxPartSize, ThrowableConsumer<List<T>, E> consumer) throws E {
+  public static <T, E extends Throwable> void consumeInParts(List<T> items, int maxPartSize, ThrowableConsumer<? super List<T>, E> consumer) throws E {
     for (int group = 0; group <= items.size() / maxPartSize; group++) {
       List<T> subList = items.subList(group * maxPartSize, Math.min((group + 1) * maxPartSize, items.size()));
       if (!subList.isEmpty()) {

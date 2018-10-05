@@ -50,7 +50,7 @@ public class TfsFileUtil {
     return getFilePaths(Arrays.asList(files));
   }
 
-  public static List<FilePath> getFilePaths(@NotNull final Collection<VirtualFile> files) {
+  public static List<FilePath> getFilePaths(@NotNull final Collection<? extends VirtualFile> files) {
     List<FilePath> paths = new ArrayList<>(files.size());
     for (VirtualFile f : files) {
       paths.add(getFilePath(f));
@@ -66,7 +66,7 @@ public class TfsFileUtil {
     setReadOnly(Collections.singletonList(file), status);
   }
 
-  public static void setReadOnly(final Collection<VirtualFile> files, final boolean status) throws IOException {
+  public static void setReadOnly(final Collection<? extends VirtualFile> files, final boolean status) throws IOException {
     final Ref<IOException> exception = new Ref<>();
     try {
       GuiUtils.runOrInvokeAndWait(() -> ApplicationManager.getApplication().runWriteAction(() -> {
@@ -118,7 +118,7 @@ public class TfsFileUtil {
     ApplicationManager.getApplication().runReadAction(() -> VcsDirtyScopeManager.getInstance(project).fileDirty(file));
   }
 
-  public static void markDirtyRecursively(final Project project, final Collection<FilePath> roots) {
+  public static void markDirtyRecursively(final Project project, final Collection<? extends FilePath> roots) {
     if (roots.isEmpty()) {
       return;
     }
@@ -130,7 +130,7 @@ public class TfsFileUtil {
     });
   }
 
-  public static void markDirty(final Project project, final Collection<FilePath> roots, final Collection<FilePath> files) {
+  public static void markDirty(final Project project, final Collection<? extends FilePath> roots, final Collection<? extends FilePath> files) {
     if (roots.isEmpty() && files.isEmpty()) {
       return;
     }
@@ -153,7 +153,7 @@ public class TfsFileUtil {
     ApplicationManager.getApplication().runReadAction(() -> VcsDirtyScopeManager.getInstance(project).fileDirty(file));
   }
 
-  public static void refreshAndMarkDirty(final Project project, final Collection<VirtualFile> roots, boolean async) {
+  public static void refreshAndMarkDirty(final Project project, final Collection<? extends VirtualFile> roots, boolean async) {
     refreshAndMarkDirty(project, VfsUtil.toVirtualFileArray(roots), async);
   }
 
