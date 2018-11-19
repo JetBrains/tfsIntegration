@@ -10,12 +10,12 @@ import com.intellij.ui.treeStructure.SimpleNode;
 import com.intellij.util.PlatformIcons;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.Item;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.ItemType;
-import icons.TFSIcons;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.tfsIntegration.core.tfs.ServerInfo;
 import org.jetbrains.tfsIntegration.core.tfs.VersionControlPath;
 import org.jetbrains.tfsIntegration.exceptions.TfsException;
+import org.jetbrains.tfsIntegration.ui.UiConstants;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -78,7 +78,7 @@ public class TfsTreeNode extends SimpleNode {
   protected void update(@NotNull PresentationData presentation) {
     if (isRoot()) {
       presentation.addText(myTreeContext.myServer.getPresentableUri(), getPlainAttributes());
-      presentation.setIcon(TFSIcons.Teamserver);
+      presentation.setIcon(UiConstants.ICON_SERVER);
     }
     else {
       if (isDirectory()) {

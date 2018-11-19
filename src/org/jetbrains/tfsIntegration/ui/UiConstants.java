@@ -16,12 +16,12 @@
 
 package org.jetbrains.tfsIntegration.ui;
 
-import org.jetbrains.annotations.NonNls;
+import com.intellij.icons.AllIcons;
 
 import javax.swing.*;
 
 public interface UiConstants {
-
-  @NonNls Icon ICON_FILE = UIManager.getIcon("Tree.leafIcon");
-  @NonNls Icon ICON_FOLDER = UIManager.getIcon("Tree.closedIcon");
+  Icon ICON_FILE = AllIcons.FileTypes.Any_type;
+  Icon ICON_FOLDER = AllIcons.Nodes.Folder;
+  Icon ICON_SERVER = AllIcons.Nodes.Servlet;
 }

@@ -31,7 +31,6 @@ import com.intellij.util.ui.ColumnInfo;
 import com.intellij.util.ui.EmptyIcon;
 import com.intellij.util.ui.ListTableModel;
 import com.intellij.util.ui.UIUtil;
-import icons.TFSIcons;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.tfsIntegration.checkin.CheckinParameters;
@@ -123,7 +122,7 @@ public class CheckinParametersForm implements Disposable {
         if (value instanceof ServerInfo) {
           label.setText(((ServerInfo)value).getPresentableUri());
         }
-        label.setIcon(TFSIcons.Teamserver);
+        label.setIcon(UiConstants.ICON_SERVER);
         return label;
       }
     });

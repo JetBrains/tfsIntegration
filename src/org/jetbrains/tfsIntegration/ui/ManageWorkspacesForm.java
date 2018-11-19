@@ -24,7 +24,6 @@ import com.intellij.ui.DoubleClickListener;
 import com.intellij.util.EventDispatcher;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.Annotation;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.Item;
-import icons.TFSIcons;
 import org.jdom.JDOMException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -532,7 +531,7 @@ public class ManageWorkspacesForm {
 
       if (column == COLUMN_SERVER_WORKSPACE || column == COLUMN_SERVER) {
         if (value instanceof ServerInfo) {
-          cell.setIcon(TFSIcons.Teamserver);
+          cell.setIcon(UiConstants.ICON_SERVER);
         }
         else if (value instanceof WorkspaceInfo) {
           cell.setIcon(UiConstants.ICON_FILE);
