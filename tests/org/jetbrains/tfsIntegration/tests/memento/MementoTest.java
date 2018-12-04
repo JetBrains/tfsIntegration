@@ -3,7 +3,6 @@ package org.jetbrains.tfsIntegration.tests.memento;
 import com.intellij.openapi.util.ClassLoaderUtil;
 import com.intellij.openapi.util.JDOMUtil;
 import com.intellij.openapi.util.ThrowableComputable;
-import com.intellij.util.JDOMCompare;
 import com.intellij.util.JdomKt;
 import junit.framework.TestCase;
 import org.jdom.Document;
@@ -23,6 +22,8 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.charset.StandardCharsets;
+
+import static com.intellij.testFramework.assertions.Assertions.assertThat;
 
 // this test checks that IDEA's Memento implementation is identical to the Teamprise' one,
 // so that checkin policy definitions have the same storage format
@@ -192,10 +193,7 @@ public class MementoTest extends TestCase {
   private static void compareXml(String s1, String s2) throws Exception {
     Element d1 = JdomKt.loadElement(s1);
     Element d2 = JdomKt.loadElement(s2);
-    final String difference = JDOMCompare.diffElements(d1, d2);
-    if (difference != null) {
-      assertEquals(s1, s2); // will fail
-    }
+    assertThat(d2).isEqualTo(d1);
   }
 
   protected static com.teamprise.core.memento.Memento createTeampriseMemento() {
