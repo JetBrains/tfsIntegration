@@ -146,12 +146,6 @@ public class TFSCheckinEnvironment implements CheckinEnvironment {
 
   @Override
   @Nullable
-  public String getDefaultMessageFor(final FilePath[] filesToCheckin) {
-    return null;
-  }
-
-  @Override
-  @Nullable
   @NonNls
   public String getHelpId() {
     return null;  // TODO: help id for check in
