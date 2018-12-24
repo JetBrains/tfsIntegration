@@ -40,7 +40,7 @@ public class NativeNTLM2Scheme extends NTLM2Scheme {
       }
       Constructor constructor = clazz.getDeclaredConstructor(String.class, String.class, String.class);
       constructor.setAccessible(true);
-      Object sequence = constructor.newInstance(new Object[]{null, null, null});
+      Object sequence = constructor.newInstance(null, null, null);
       Method method = clazz.getMethod("getAuthHeader", String.class);
       if (method == null) {
         return null;
