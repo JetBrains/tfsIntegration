@@ -227,7 +227,7 @@ public abstract class TFSTestCase extends AbstractJunitVcsTestCase  {
   }
 
   private TestChangeListBuilder getChanges(VirtualFile root) throws VcsException {
-    ChangeListManager.getInstance(myProject).ensureUpToDate(false);
+    ChangeListManagerImpl.getInstanceImpl(myProject).ensureUpToDate();
     TestChangeListBuilder changeListBuilder = new TestChangeListBuilder(mySandboxRoot, myProject);
     getVcs().getChangeProvider().getChanges(getDirtyScopeForFile(root), changeListBuilder, new EmptyProgressIndicator(), null);
     return changeListBuilder;
@@ -469,7 +469,7 @@ public abstract class TFSTestCase extends AbstractJunitVcsTestCase  {
 
   protected void refreshAll() {
     TfsFileUtil.refreshAndMarkDirty(myProject, Collections.singletonList(mySandboxRoot), false);
-    ChangeListManager.getInstance(myProject).ensureUpToDate(false);
+    ChangeListManagerImpl.getInstanceImpl(myProject).ensureUpToDate();
   }
 
   protected void editFiles(VirtualFile... files) throws VcsException {
