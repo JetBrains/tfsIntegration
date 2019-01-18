@@ -1,7 +1,6 @@
 <idea-plugin>
   <id>TFS</id>
   <name>TFS</name>
-  <version>999.999</version>
   <idea-version since-build="146.1512"/>
   <description>
       <![CDATA[
