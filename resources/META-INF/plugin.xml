@@ -1,7 +1,6 @@
 <idea-plugin>
   <id>TFS</id>
   <name>TFS</name>
-  <idea-version since-build="146.1512"/>
   <description>
       <![CDATA[
       Provides integration with Team Foundation Server (TFS).
