@@ -109,7 +109,7 @@ public class ChangeHelper {
     for (Change c : changes) {
       if (c.getBeforeRevision() != null && c.getAfterRevision() != null) {
         if (c.getBeforeRevision().getFile().equals(file) &&
-            c.getBeforeRevision().getFile().equals(file) &&
+            c.getAfterRevision().getFile().equals(file) &&
             c.getType() == Change.Type.MODIFICATION) {
           return c;
         }
