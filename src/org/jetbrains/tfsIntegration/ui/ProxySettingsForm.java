@@ -87,9 +87,7 @@ public class ProxySettingsForm {
     myProxyUrlLabel.setEnabled(myProxyServerRadioButton.isSelected());
 
     if (myProxyServerRadioButton.isSelected()) {
-      IdeFocusManager.getGlobalInstance().doWhenFocusSettlesDown(() -> {
-        IdeFocusManager.getGlobalInstance().requestFocus(myProxyServerTextField, true);
-      });
+      IdeFocusManager.getGlobalInstance().doWhenFocusSettlesDown(() -> IdeFocusManager.getGlobalInstance().requestFocus(myProxyServerTextField, true));
     }
   }
 

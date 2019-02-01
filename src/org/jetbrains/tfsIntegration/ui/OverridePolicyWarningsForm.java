@@ -75,9 +75,7 @@ public class OverridePolicyWarningsForm {
       public void stateChanged(ChangeEvent e) {
         myReasonTextArea.setEnabled(myOverrideCheckBox.isSelected());
         if (myReasonTextArea.isEnabled()) {
-          IdeFocusManager.getGlobalInstance().doWhenFocusSettlesDown(() -> {
-            IdeFocusManager.getGlobalInstance().requestFocus(myReasonTextArea, true);
-          });
+          IdeFocusManager.getGlobalInstance().doWhenFocusSettlesDown(() -> IdeFocusManager.getGlobalInstance().requestFocus(myReasonTextArea, true));
         }
         myEventDispatcher.getMulticaster().stateChanged();
       }

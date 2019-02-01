@@ -110,9 +110,7 @@ public class UpdateSettingsForm {
     }
     else {
       myWorkspacesList.setSelectedIndex(0);
-      IdeFocusManager.getGlobalInstance().doWhenFocusSettlesDown(() -> {
-        IdeFocusManager.getGlobalInstance().requestFocus(myWorkspacesList, true);
-      });
+      IdeFocusManager.getGlobalInstance().doWhenFocusSettlesDown(() -> IdeFocusManager.getGlobalInstance().requestFocus(myWorkspacesList, true));
     }
   }
 
