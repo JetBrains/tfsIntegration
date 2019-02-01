@@ -5,7 +5,6 @@ import com.intellij.openapi.util.ThrowableComputable;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.ui.treeStructure.SimpleNode;
-import com.intellij.util.ArrayUtil;
 import com.intellij.util.ObjectUtils;
 import com.intellij.util.containers.ContainerUtil;
 import com.microsoft.tfs.core.clients.workitem.project.Project;
@@ -84,7 +83,7 @@ public class SavedQueryFolderNode extends BaseQueryNode {
       result.add(buildErrorNode(e));
     }
 
-    return ArrayUtil.toObjectArray(result, SimpleNode.class);
+    return result.toArray(new SimpleNode[0]);
   }
 
   @NotNull

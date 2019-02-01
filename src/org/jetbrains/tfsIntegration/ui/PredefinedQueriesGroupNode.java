@@ -3,7 +3,6 @@ package org.jetbrains.tfsIntegration.ui;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.ui.treeStructure.SimpleNode;
-import com.intellij.util.ArrayUtil;
 import com.intellij.util.containers.ContainerUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.tfsIntegration.core.tfs.workitems.WorkItemsQuery;
@@ -38,6 +37,6 @@ public class PredefinedQueriesGroupNode extends BaseQueryNode {
       result.add(new PredefinedQueryNode(myQueriesTreeContext, query));
     }
 
-    return ArrayUtil.toObjectArray(result, SimpleNode.class);
+    return result.toArray(new SimpleNode[0]);
   }
 }

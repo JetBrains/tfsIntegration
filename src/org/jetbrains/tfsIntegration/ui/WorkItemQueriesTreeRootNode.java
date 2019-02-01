@@ -1,7 +1,6 @@
 package org.jetbrains.tfsIntegration.ui;
 
 import com.intellij.ui.treeStructure.SimpleNode;
-import com.intellij.util.ArrayUtil;
 import com.intellij.util.containers.ContainerUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,6 +37,6 @@ public class WorkItemQueriesTreeRootNode extends BaseQueryNode {
       result.add(new SavedQueryFolderNode(myQueriesTreeContext, projectPath));
     }
 
-    return ArrayUtil.toObjectArray(result, SimpleNode.class);
+    return result.toArray(new SimpleNode[0]);
   }
 }
