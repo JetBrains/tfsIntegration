@@ -35,21 +35,21 @@ public interface PolicyContext {
   /**
    * @return set of files that are changed (created, modified, deleted, moved)
    */
-  public Collection<FilePath> getFiles();
+  Collection<FilePath> getFiles();
 
   /**
    * @return current project
    */
-  public Project getProject();
+  Project getProject();
 
   /**
    * @return commit message
    */
-  public String getCommitMessage();
+  String getCommitMessage();
 
   /**
    * @return associated work items
    */
-  public Map<WorkItem, WorkItemAction> getWorkItems();
+  Map<WorkItem, WorkItemAction> getWorkItems();
 
 }
