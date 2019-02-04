@@ -218,9 +218,7 @@ public class CheckinParametersForm implements Disposable {
       });
     }
     else {
-      for (PolicyFailure failure : myState.getFailures(getSelectedServer())) {
-        failures.add(failure);
-      }
+      failures.addAll(myState.getFailures(getSelectedServer()));
     }
     //noinspection unchecked
     ((ListTableModel)myWarningsTable.getModel()).setItems(failures);
