@@ -17,6 +17,7 @@
 package org.jetbrains.tfsIntegration.core.tfs.workitems;
 
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.util.containers.ContainerUtil;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.CheckinWorkItemAction;
 import com.microsoft.schemas.teamfoundation._2005._06.workitemtracking.clientservices._03.*;
 import org.jetbrains.annotations.Nullable;
@@ -29,9 +30,9 @@ import java.util.List;
 
 public class WorkItemSerialize {
 
-  public static final List<WorkItemField> FIELDS = Arrays.asList(WorkItemField.ID, WorkItemField.STATE,
-                                                                 WorkItemField.TITLE, WorkItemField.REVISION, WorkItemField.TYPE,
-                                                                 WorkItemField.REASON, WorkItemField.ASSIGNED_TO);
+  public static final List<WorkItemField> FIELDS =
+    ContainerUtil.immutableList(WorkItemField.ID, WorkItemField.STATE, WorkItemField.TITLE, WorkItemField.REVISION, WorkItemField.TYPE,
+                                WorkItemField.REASON, WorkItemField.ASSIGNED_TO);
 
   private static final String SERVER_DATE_TIME = "ServerDateTime";
   private static final Logger LOG = Logger.getInstance(WorkItemSerialize.class);
