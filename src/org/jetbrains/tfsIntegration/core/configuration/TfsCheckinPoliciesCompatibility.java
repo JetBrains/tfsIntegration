@@ -1,7 +1,6 @@
 package org.jetbrains.tfsIntegration.core.configuration;
 
 import com.intellij.openapi.util.JDOMUtil;
-import com.intellij.util.JdomKt;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -26,7 +25,7 @@ public class TfsCheckinPoliciesCompatibility {
   }
 
   public static TfsCheckinPoliciesCompatibility fromOverridesAnnotationValue(String s) throws JDOMException, IOException {
-    Element doc = JdomKt.loadElement(s);
+    Element doc = JDOMUtil.load(s);
     boolean enforceTeamprise = Boolean.parseBoolean(doc.getAttributeValue(ENFORCE_TEAMPRISE_EVALUATION_ATTR));
     boolean enforceTeamExplorer = Boolean.parseBoolean(doc.getAttributeValue(ENFORCE_TEAM_EXPLORER_EVALUATION_ATTR));
     boolean enforceNonInstalledWarning = Boolean.parseBoolean(doc.getAttributeValue(ENFORCE_NOT_INSTALLED_ATTR));

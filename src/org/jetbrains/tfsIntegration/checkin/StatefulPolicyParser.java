@@ -17,7 +17,6 @@
 package org.jetbrains.tfsIntegration.checkin;
 
 import com.intellij.openapi.util.JDOMUtil;
-import com.intellij.util.JdomKt;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -47,7 +46,7 @@ public class StatefulPolicyParser {
   public static List<StatefulPolicyDescriptor> parseDescriptors(String input) throws PolicyParseException {
     final Element document;
     try {
-      document = JdomKt.loadElement(input);
+      document = JDOMUtil.load(input);
     }
     catch (IOException e) {
       throw new PolicyParseException(e);

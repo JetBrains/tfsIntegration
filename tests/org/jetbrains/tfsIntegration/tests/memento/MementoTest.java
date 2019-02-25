@@ -3,7 +3,6 @@ package org.jetbrains.tfsIntegration.tests.memento;
 import com.intellij.openapi.util.ClassLoaderUtil;
 import com.intellij.openapi.util.JDOMUtil;
 import com.intellij.openapi.util.ThrowableComputable;
-import com.intellij.util.JdomKt;
 import junit.framework.TestCase;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -191,8 +190,8 @@ public class MementoTest extends TestCase {
   }
 
   private static void compareXml(String s1, String s2) throws Exception {
-    Element d1 = JdomKt.loadElement(s1);
-    Element d2 = JdomKt.loadElement(s2);
+    Element d1 = JDOMUtil.load(s1);
+    Element d2 = JDOMUtil.load(s2);
     assertThat(d2).isEqualTo(d1);
   }
 
@@ -206,7 +205,7 @@ public class MementoTest extends TestCase {
   }
 
   protected static Memento deserializeIdeaMemento(String s) throws JDOMException, IOException {
-    return new XMLMemento(JdomKt.loadElement(s));
+    return new XMLMemento(JDOMUtil.load(s));
   }
 
   protected static com.teamprise.core.memento.Memento deserializeTeampriseMemento(final String s) throws Exception {
