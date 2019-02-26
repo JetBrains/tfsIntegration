@@ -30,7 +30,7 @@
     <applicationService serviceImplementation="org.jetbrains.tfsIntegration.core.TfsSdkManager"/>
 
     <checkoutProvider implementation="org.jetbrains.tfsIntegration.core.TFSCheckoutProvider"/>
-    <search.topHitProvider implementation="org.jetbrains.tfsIntegration.core.configuration.TFSOptionsTopHitProvider"/>
+    <search.projectOptionsTopHitProvider implementation="org.jetbrains.tfsIntegration.core.configuration.TFSOptionsTopHitProvider"/>
     <vcs name="TFS" vcsClass="org.jetbrains.tfsIntegration.core.TFSVcs" displayName="TFS"/>
     <vcsCheckinHandlerFactory implementation="org.jetbrains.tfsIntegration.core.TFSCheckinHandlerFactory"/>
 
