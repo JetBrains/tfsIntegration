@@ -22,13 +22,13 @@ public class CreateVirtualFolderAction extends DumbAwareAction {
   }
 
   private static boolean isEnabled(AnActionEvent e) {
-    TfsTreeForm form = TfsTreeForm.KEY.getData(e.getDataContext());
+    TfsTreeForm form = e.getData(TfsTreeForm.KEY);
     return form != null && form.getSelectedItem() != null && form.canCreateVirtualFolders();
   }
 
   @Override
   public void actionPerformed(@NotNull AnActionEvent e) {
-    TfsTreeForm form = TfsTreeForm.KEY.getData(e.getDataContext());
+    TfsTreeForm form = e.getData(TfsTreeForm.KEY);
     String folderName = Messages
       .showInputDialog(form.getContentPane(), TFSBundle.message("create.subfolder.prompt"), TFSBundle.message("create.subfolder.title"),
                        null);
