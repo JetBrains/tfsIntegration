@@ -58,9 +58,6 @@
               <showsRootHandles value="true"/>
               <visible value="true"/>
             </properties>
-            <clientProperties>
-              <JTree.lineStyle class="java.lang.String" value="Angled"/>
-            </clientProperties>
           </component>
         </children>
       </scrollpane>
