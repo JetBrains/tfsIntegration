@@ -64,6 +64,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @SuppressWarnings({"ConstantConditions", "HardCodedStringLiteral"})
@@ -672,7 +673,7 @@ public abstract class TFSTestCase extends AbstractJunitVcsTestCase  {
     InputStream stream = null;
     try {
       stream = new FileInputStream(file);
-      Assert.assertEquals("File content differs", content, StreamUtil.readText(stream, CharsetToolkit.UTF8_CHARSET));
+      Assert.assertEquals("File content differs", content, StreamUtil.readText(stream, StandardCharsets.UTF_8));
     }
     catch (IOException e) {
       Assert.fail(e.getMessage());
