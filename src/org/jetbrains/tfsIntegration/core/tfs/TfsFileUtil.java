@@ -27,6 +27,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.openapi.vfs.newvfs.RefreshQueue;
 import com.intellij.ui.GuiUtils;
+import com.intellij.util.io.DigestUtil;
 import com.intellij.util.io.ReadOnlyAttributeUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.tfsIntegration.core.TFSVcs;
@@ -35,7 +36,6 @@ import org.jetbrains.tfsIntegration.exceptions.TfsException;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 // TODO review usage of getFilePath(), getVirtualFile()
@@ -244,14 +244,7 @@ public class TfsFileUtil {
   }
 
   public static byte[] calculateMD5(File file) throws IOException {
-    final MessageDigest digest;
-    try {
-      digest = MessageDigest.getInstance("MD5");
-    }
-    catch (NoSuchAlgorithmException e) {
-      throw new RuntimeException(e);
-    }
-
+    final MessageDigest digest = DigestUtil.md5();
     InputStream is = null;
     try {
       is = new BufferedInputStream(new FileInputStream(file));
