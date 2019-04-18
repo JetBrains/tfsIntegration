@@ -68,7 +68,7 @@ public class TFSCheckinEnvironment implements CheckinEnvironment {
   @Override
   @Nullable
   public RefreshableOnComponent createAdditionalOptionsPanel(@NotNull CheckinProjectPanel checkinProjectPanel,
-                                                             PairConsumer<Object, Object> additionalDataConsumer) {
+                                                             @NotNull PairConsumer<Object, Object> additionalDataConsumer) {
     final JComponent panel = new JPanel();
     panel.setLayout(new BorderLayout(5, 0));
 
@@ -145,8 +145,8 @@ public class TFSCheckinEnvironment implements CheckinEnvironment {
 
   @Override
   @Nullable
-  public List<VcsException> commit(final List<Change> changes,
-                                   final String preparedComment,
+  public List<VcsException> commit(@NotNull final List<Change> changes,
+                                   @NotNull final String preparedComment,
                                    @NotNull NullableFunction<Object, Object> parametersHolder, Set<String> feedback) {
     myVcs.getCheckinData().messageLabel = null;
 
@@ -288,13 +288,13 @@ public class TFSCheckinEnvironment implements CheckinEnvironment {
   }
 
   @Override
-  public List<VcsException> commit(List<Change> changes, String preparedComment) {
+  public List<VcsException> commit(@NotNull List<Change> changes, @NotNull String preparedComment) {
     return commit(changes, preparedComment, FunctionUtil.nullConstant(), null);
   }
 
   @Override
   @Nullable
-  public List<VcsException> scheduleMissingFileForDeletion(final List<FilePath> files) {
+  public List<VcsException> scheduleMissingFileForDeletion(@NotNull final List<FilePath> files) {
     final List<VcsException> errors = new ArrayList<>();
     try {
       WorkstationHelper.processByWorkspaces(files, false, myVcs.getProject(), new WorkstationHelper.VoidProcessDelegate() {
@@ -313,7 +313,7 @@ public class TFSCheckinEnvironment implements CheckinEnvironment {
 
   @Override
   @Nullable
-  public List<VcsException> scheduleUnversionedFilesForAddition(final List<VirtualFile> files) {
+  public List<VcsException> scheduleUnversionedFilesForAddition(@NotNull final List<VirtualFile> files) {
     // TODO: schedule parent folders?
     final List<VcsException> exceptions = new ArrayList<>();
     try {
