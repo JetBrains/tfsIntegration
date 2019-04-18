@@ -25,8 +25,7 @@
   </extensionPoints>
 
   <extensions defaultExtensionNs="com.intellij">
-    <applicationService serviceInterface="org.jetbrains.tfsIntegration.core.configuration.TFSConfigurationManager"
-                        serviceImplementation="org.jetbrains.tfsIntegration.core.configuration.TFSConfigurationManager"/>
+    <applicationService serviceImplementation="org.jetbrains.tfsIntegration.core.configuration.TFSConfigurationManager"/>
     <applicationService serviceImplementation="org.jetbrains.tfsIntegration.core.TfsSdkManager"/>
 
     <checkoutProvider implementation="org.jetbrains.tfsIntegration.core.TFSCheckoutProvider"/>
