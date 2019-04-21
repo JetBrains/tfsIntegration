@@ -22,7 +22,7 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.wm.IdeFocusManager;
 import com.intellij.ui.DocumentAdapter;
 import com.intellij.ui.HyperlinkLabel;
-import com.intellij.ui.ListCellRendererWrapper;
+import com.intellij.ui.SimpleListCellRenderer;
 import com.intellij.util.EventDispatcher;
 import com.intellij.util.net.HttpConfigurable;
 import org.jetbrains.annotations.NotNull;
@@ -95,16 +95,7 @@ public class TfsLoginForm {
       myProxyPanel.setVisible(false);
     }
 
-    myTypeCombo.setRenderer(new ListCellRendererWrapper<Credentials.Type>() {
-      @Override
-      public void customize(final JList list,
-                            final Credentials.Type value,
-                            final int index,
-                            final boolean selected,
-                            final boolean hasFocus) {
-        setText(value.getPresentableText());
-      }
-    });
+    myTypeCombo.setRenderer(SimpleListCellRenderer.create("", Credentials.Type::getPresentableText));
     if (NativeNTLM2Scheme.isAvailable()) {
       myTypeCombo.setModel(new DefaultComboBoxModel<>(
         new Credentials.Type[]{Credentials.Type.NtlmNative, Credentials.Type.NtlmExplicit, Credentials.Type.Alternate}));
