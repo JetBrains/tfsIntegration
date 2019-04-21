@@ -259,7 +259,7 @@ public abstract class TFSTestCase extends AbstractJunitVcsTestCase  {
 
   protected void commit(final Collection<Change> changes, final String comment) {
     CheckinEnvironment env = getVcs().getCheckinEnvironment();
-    RefreshableOnComponent panel = env.createAdditionalOptionsPanel(new CheckinProjectPanel() {
+    RefreshableOnComponent panel = env.createCommitOptions(new CheckinProjectPanel() {
       @Override
       public JComponent getComponent() {
         return null;
@@ -344,7 +344,7 @@ public abstract class TFSTestCase extends AbstractJunitVcsTestCase  {
       @Override
       public void restoreState() {
       }
-    }, new PseudoMap<>());
+    }, new CommitContext());
     ((CheckinChangeListSpecificComponent)panel).onChangeListSelected(new LocalChangeList() {
       @Override
       public Collection<Change> getChanges() {

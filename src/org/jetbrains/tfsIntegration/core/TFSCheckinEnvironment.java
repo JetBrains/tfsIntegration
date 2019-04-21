@@ -25,6 +25,7 @@ import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.ProjectLevelVcsManager;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.changes.Change;
+import com.intellij.openapi.vcs.changes.CommitContext;
 import com.intellij.openapi.vcs.changes.ContentRevision;
 import com.intellij.openapi.vcs.changes.LocalChangeList;
 import com.intellij.openapi.vcs.checkin.CheckinChangeListSpecificComponent;
@@ -33,8 +34,6 @@ import com.intellij.openapi.vcs.ui.RefreshableOnComponent;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.MultiLineTooltipUI;
 import com.intellij.ui.components.labels.BoldLabel;
-import com.intellij.util.NullableFunction;
-import com.intellij.util.PairConsumer;
 import com.intellij.util.ui.UIUtil;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.*;
 import org.jetbrains.annotations.NonNls;
@@ -64,10 +63,9 @@ public class TFSCheckinEnvironment implements CheckinEnvironment {
     myVcs = vcs;
   }
 
+  @NotNull
   @Override
-  @Nullable
-  public RefreshableOnComponent createAdditionalOptionsPanel(@NotNull CheckinProjectPanel checkinProjectPanel,
-                                                             @NotNull PairConsumer<Object, Object> additionalDataConsumer) {
+  public RefreshableOnComponent createCommitOptions(@NotNull CheckinProjectPanel commitPanel, @NotNull CommitContext commitContext) {
     final JComponent panel = new JPanel();
     panel.setLayout(new BorderLayout(5, 0));
 
@@ -81,7 +79,6 @@ public class TFSCheckinEnvironment implements CheckinEnvironment {
         toolTip.setComponent(this);
         return toolTip;
       }
-
     };
 
     panel.add(myVcs.getCheckinData().messageLabel, BorderLayout.WEST);
@@ -95,7 +92,7 @@ public class TFSCheckinEnvironment implements CheckinEnvironment {
       public void actionPerformed(final ActionEvent event) {
         CheckinParameters copy = myVcs.getCheckinData().parameters.createCopy();
 
-        CheckinParametersDialog d = new CheckinParametersDialog(checkinProjectPanel.getProject(), copy);
+        CheckinParametersDialog d = new CheckinParametersDialog(commitPanel.getProject(), copy);
         if (d.showAndGet()) {
           myVcs.getCheckinData().parameters = copy;
           updateMessage(myVcs.getCheckinData());
@@ -103,7 +100,7 @@ public class TFSCheckinEnvironment implements CheckinEnvironment {
       }
     });
 
-    return new TFSAdditionalOptionsPanel(panel, checkinProjectPanel, configureButton);
+    return new TFSAdditionalOptionsPanel(panel, commitPanel, configureButton);
   }
 
   public static void updateMessage(TFSVcs.CheckinData checkinData) {
@@ -142,11 +139,12 @@ public class TFSCheckinEnvironment implements CheckinEnvironment {
     return "Checkin";
   }
 
+  @NotNull
   @Override
-  @Nullable
-  public List<VcsException> commit(@NotNull final List<Change> changes,
-                                   @NotNull final String preparedComment,
-                                   @NotNull NullableFunction<Object, Object> parametersHolder, Set<String> feedback) {
+  public List<VcsException> commit(@NotNull List<Change> changes,
+                                   @NotNull String commitMessage,
+                                   @NotNull CommitContext commitContext,
+                                   @NotNull Set<String> feedback) {
     myVcs.getCheckinData().messageLabel = null;
 
     final ProgressIndicator progressIndicator = ProgressManager.getInstance().getProgressIndicator();
@@ -210,7 +208,7 @@ public class TFSCheckinEnvironment implements CheckinEnvironment {
 
             TFSProgressUtil.setProgressText(progressIndicator, TFSBundle.message("checking.in"));
             ResultWithFailures<CheckinResult> result = workspace.getServer().getVCS()
-              .checkIn(workspace.getName(), workspace.getOwnerName(), checkIn, preparedComment, workItemActions, checkinNotes,
+              .checkIn(workspace.getName(), workspace.getOwnerName(), checkIn, commitMessage, workItemActions, checkinNotes,
                        myVcs.getCheckinData().parameters.getPolicyOverride(workspace.getServer()), myVcs.getProject(), null);
             errors.addAll(TfsUtil.getVcsExceptions(result.getFailures()));
 
