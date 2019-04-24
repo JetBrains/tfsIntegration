@@ -21,6 +21,7 @@ import jcifs.util.Base64;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +63,7 @@ public class StatelessPolicyParser {
   private static String readString(InputStream is) throws PolicyParseException, IOException {
     int length = read7BitEncodedInt(is);
     byte[] buf = readBytes(is, length);
-    return new String(buf, 0, length);
+    return new String(buf, 0, length, StandardCharsets.UTF_8);
   }
 
   private static byte[] readBytes(InputStream is, int len) throws PolicyParseException, IOException {

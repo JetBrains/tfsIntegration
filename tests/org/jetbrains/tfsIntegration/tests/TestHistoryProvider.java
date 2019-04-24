@@ -31,6 +31,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @SuppressWarnings({"HardCodedStringLiteral"})
@@ -166,8 +167,8 @@ public class TestHistoryProvider extends TFSTestCase {
     Assert.assertEquals(comment2, lastRevision.getCommitMessage());
     firstRevision.loadContent();
     lastRevision.loadContent();
-    Assert.assertArrayEquals(fileRenamedModifiedContent1.getBytes(), firstRevision.loadContent());
-    Assert.assertArrayEquals(fileRenamedModifiedContent2.getBytes(), lastRevision.loadContent());
+    Assert.assertArrayEquals(fileRenamedModifiedContent1.getBytes(StandardCharsets.UTF_8), firstRevision.loadContent());
+    Assert.assertArrayEquals(fileRenamedModifiedContent2.getBytes(StandardCharsets.UTF_8), lastRevision.loadContent());
   }
 
 }
