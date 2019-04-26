@@ -24,6 +24,7 @@ import com.intellij.openapi.util.io.StreamUtil;
 import com.intellij.openapi.vcs.*;
 import com.intellij.openapi.vcs.changes.Change;
 import com.intellij.openapi.vcs.changes.*;
+import com.intellij.openapi.vcs.changes.ui.NullCommitWorkflowHandler;
 import com.intellij.openapi.vcs.checkin.CheckinChangeListSpecificComponent;
 import com.intellij.openapi.vcs.checkin.CheckinEnvironment;
 import com.intellij.openapi.vcs.rollback.RollbackProgressListener;
@@ -268,6 +269,12 @@ public abstract class TFSTestCase extends AbstractJunitVcsTestCase  {
       @Override
       public JComponent getPreferredFocusedComponent() {
         return null;
+      }
+
+      @NotNull
+      @Override
+      public CommitWorkflowHandler getCommitWorkflowHandler() {
+        return NullCommitWorkflowHandler.INSTANCE;
       }
 
       @Override
