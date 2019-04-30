@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2000-2008 JetBrains s.r.o.
  *
@@ -14,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.jetbrains.tfsIntegration.core.tfs;
 
 import com.intellij.notification.NotificationGroup;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.MessageType;
 import com.intellij.openapi.util.ClassLoaderUtil;
@@ -41,15 +38,11 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.tfsIntegration.core.revision.TFSContentRevision;
 import org.jetbrains.tfsIntegration.exceptions.TfsException;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLDecoder;
 import java.util.*;
 
 public class TfsUtil {
-
-  private static final Logger LOG = Logger.getInstance(TfsUtil.class.getName());
   private static final NotificationGroup NOTIFICATION_GROUP = NotificationGroup.toolWindowGroup("TFS", ToolWindowId.VCS);
 
   @Nullable
@@ -195,13 +188,7 @@ public class TfsUtil {
   }
 
   public static String getPresentableUri(URI uri) {
-    try {
-      return URLDecoder.decode(uri.toString(), "UTF-8");
-    }
-    catch (UnsupportedEncodingException e) {
-      LOG.error(e);
-      return null;
-    }
+    return URLUtil.decode(uri.toString());
   }
 
   public static String getQualifiedUsername(String domain, String userName) {
