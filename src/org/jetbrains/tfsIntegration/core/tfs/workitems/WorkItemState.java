@@ -1,9 +1,9 @@
 package org.jetbrains.tfsIntegration.core.tfs.workitems;
 
-import com.intellij.util.containers.ContainerUtil;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class WorkItemState {
 
-  private static final Map<String, WorkItemState> ourAllStates = ContainerUtil.newHashMap();
+  private static final Map<String, WorkItemState> ourAllStates = new HashMap<>();
 
   public static final WorkItemState ACTIVE = register("Active");
   public static final WorkItemState RESOLVED = register("Resolved");

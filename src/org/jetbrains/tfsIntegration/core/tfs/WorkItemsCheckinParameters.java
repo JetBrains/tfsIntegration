@@ -25,6 +25,7 @@ import org.jetbrains.tfsIntegration.core.tfs.workitems.WorkItem;
 import org.jetbrains.tfsIntegration.ui.WorkItemsQueryResult;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +44,7 @@ public class WorkItemsCheckinParameters {
   }
 
   public WorkItemsCheckinParameters() {
-    this(Collections.emptyList(), ContainerUtil.newHashMap(), null);
+    this(Collections.emptyList(), new HashMap<>(), null);
   }
 
   @Nullable
@@ -71,7 +72,7 @@ public class WorkItemsCheckinParameters {
 
   @NotNull
   public WorkItemsCheckinParameters createCopy() {
-    return new WorkItemsCheckinParameters(ContainerUtil.newArrayList(myWorkItems), ContainerUtil.newHashMap(myActions), getLinks());
+    return new WorkItemsCheckinParameters(ContainerUtil.newArrayList(myWorkItems), new HashMap<>(myActions), getLinks());
   }
 
   public void update(@NotNull WorkItemsQueryResult queryResult) {

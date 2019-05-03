@@ -16,15 +16,15 @@
 
 package org.jetbrains.tfsIntegration.core.tfs.workitems;
 
-import com.intellij.util.containers.ContainerUtil;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class WorkItemType {
 
-  private static final Map<String, WorkItemType> ourAllTypes = ContainerUtil.newHashMap();
+  private static final Map<String, WorkItemType> ourAllTypes = new HashMap<>();
 
   public static final WorkItemType BUG = register("Bug");
   public static final WorkItemType TASK = register("Task");
