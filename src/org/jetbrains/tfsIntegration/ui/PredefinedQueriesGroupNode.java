@@ -3,10 +3,10 @@ package org.jetbrains.tfsIntegration.ui;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.ui.treeStructure.SimpleNode;
-import com.intellij.util.containers.ContainerUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.tfsIntegration.core.tfs.workitems.WorkItemsQuery;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PredefinedQueriesGroupNode extends BaseQueryNode {
@@ -31,7 +31,7 @@ public class PredefinedQueriesGroupNode extends BaseQueryNode {
   @NotNull
   @Override
   public SimpleNode[] getChildren() {
-    List<SimpleNode> result = ContainerUtil.newArrayList();
+    List<SimpleNode> result = new ArrayList<>();
 
     for (WorkItemsQuery query : WorkItemsQuery.values()) {
       result.add(new PredefinedQueryNode(myQueriesTreeContext, query));

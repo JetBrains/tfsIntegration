@@ -46,7 +46,7 @@ public class WorkspaceInfo {
   private String myModifiedName;
   @NotNull private Location myLocation = Location.SERVER;
   @Nullable private String myOwnerDisplayName;
-  @NotNull private final List<String> myOwnerAliases = ContainerUtil.newArrayList();
+  @NotNull private final List<String> myOwnerAliases = new ArrayList<>();
   @Nullable private String mySecurityToken;
   private int myOptions;
 

@@ -1,9 +1,9 @@
 package org.jetbrains.tfsIntegration.ui;
 
 import com.intellij.ui.treeStructure.SimpleNode;
-import com.intellij.util.containers.ContainerUtil;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WorkItemQueriesTreeRootNode extends BaseQueryNode {
@@ -30,7 +30,7 @@ public class WorkItemQueriesTreeRootNode extends BaseQueryNode {
   @NotNull
   @Override
   public SimpleNode[] getChildren() {
-    List<SimpleNode> result = ContainerUtil.newArrayList();
+    List<SimpleNode> result = new ArrayList<>();
 
     result.add(myPredefinedQueriesGroupNode);
     for (String projectPath : getState().getProjectPaths(getServer())) {

@@ -6,7 +6,6 @@ import com.intellij.openapi.vcs.VcsException;
 import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.ui.treeStructure.SimpleNode;
 import com.intellij.util.ObjectUtils;
-import com.intellij.util.containers.ContainerUtil;
 import com.microsoft.tfs.core.clients.workitem.project.Project;
 import com.microsoft.tfs.core.clients.workitem.queryhierarchy.QueryDefinition;
 import com.microsoft.tfs.core.clients.workitem.queryhierarchy.QueryFolder;
@@ -17,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.tfsIntegration.core.tfs.VersionControlPath;
 import org.jetbrains.tfsIntegration.ui.servertree.TfsErrorTreeNode;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -66,7 +66,7 @@ public class SavedQueryFolderNode extends BaseQueryNode {
   @NotNull
   @Override
   public SimpleNode[] getChildren() {
-    List<SimpleNode> result = ContainerUtil.newArrayList();
+    List<SimpleNode> result = new ArrayList<>();
 
     try {
       result.addAll(forcePluginClassLoader(new ThrowableComputable<Collection<? extends SimpleNode>, VcsException>() {
@@ -88,7 +88,7 @@ public class SavedQueryFolderNode extends BaseQueryNode {
 
   @NotNull
   private List<SimpleNode> getChildren(@NotNull QueryFolder folder) {
-    List<SimpleNode> result = ContainerUtil.newArrayList();
+    List<SimpleNode> result = new ArrayList<>();
 
     for (QueryItem item : folder.getItems()) {
       SimpleNode child;

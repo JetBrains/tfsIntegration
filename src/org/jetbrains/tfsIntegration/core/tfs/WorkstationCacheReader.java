@@ -15,7 +15,6 @@
  */
 package org.jetbrains.tfsIntegration.core.tfs;
 
-import com.intellij.util.containers.ContainerUtil;
 import com.intellij.vcsUtil.VcsUtil;
 import org.apache.axis2.databinding.utils.ConverterUtil;
 import org.jetbrains.annotations.NotNull;
@@ -27,6 +26,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -34,7 +34,7 @@ import static org.jetbrains.tfsIntegration.core.tfs.XmlConstants.*;
 
 class WorkstationCacheReader extends DefaultHandler {
 
-  @NotNull private final List<ServerInfo> myServerInfos = ContainerUtil.newArrayList();
+  @NotNull private final List<ServerInfo> myServerInfos = new ArrayList<>();
 
   private ServerInfo myCurrentServerInfo;
   private WorkspaceInfo myCurrentWorkspaceInfo;

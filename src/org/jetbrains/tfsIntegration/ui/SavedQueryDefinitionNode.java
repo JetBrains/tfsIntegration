@@ -17,10 +17,7 @@ import org.jetbrains.tfsIntegration.core.tfs.workitems.WorkItem;
 import org.jetbrains.tfsIntegration.core.tfs.workitems.WorkItemSerialize;
 import org.jetbrains.tfsIntegration.exceptions.TfsException;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class SavedQueryDefinitionNode extends BaseQueryNode {
 
@@ -94,7 +91,7 @@ public class SavedQueryDefinitionNode extends BaseQueryNode {
 
   @NotNull
   private static List<WorkItem> toList(@NotNull WorkItemCollection workItems) throws WorkItemException, ProxyException {
-    List<WorkItem> result = ContainerUtil.newArrayList();
+    List<WorkItem> result = new ArrayList<>();
 
     for (int i = 0; i < workItems.size(); i++) {
       result.add(WorkItem.create(workItems.getWorkItem(i)));
