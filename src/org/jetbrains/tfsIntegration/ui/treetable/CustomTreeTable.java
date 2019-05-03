@@ -27,8 +27,10 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
-import java.util.*;
 
 public class CustomTreeTable<T> extends TreeTable {
   private List<? extends TreeTableColumn<T>> myColumns;
@@ -65,7 +67,7 @@ public class CustomTreeTable<T> extends TreeTable {
   }
 
   public CustomTreeTable(final CellRenderer<T> renderer, boolean showCellFocus, boolean showSelection) {
-    this(Arrays.asList(new FakeColumn<>()), new FakeContentProvider<>(), renderer, showCellFocus, showSelection);
+    this(Collections.singletonList(new FakeColumn<>()), new FakeContentProvider<>(), renderer, showCellFocus, showSelection);
   }
 
   /**
