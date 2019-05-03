@@ -16,7 +16,6 @@
 
 package org.jetbrains.tfsIntegration.core.tfs;
 
-import com.intellij.util.containers.ContainerUtil;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.CheckinWorkItemAction;
 import com.microsoft.tfs.core.clients.workitem.query.WorkItemLinkInfo;
 import org.jetbrains.annotations.NotNull;
@@ -24,10 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.tfsIntegration.core.tfs.workitems.WorkItem;
 import org.jetbrains.tfsIntegration.ui.WorkItemsQueryResult;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class WorkItemsCheckinParameters {
 
@@ -72,7 +68,7 @@ public class WorkItemsCheckinParameters {
 
   @NotNull
   public WorkItemsCheckinParameters createCopy() {
-    return new WorkItemsCheckinParameters(ContainerUtil.newArrayList(myWorkItems), new HashMap<>(myActions), getLinks());
+    return new WorkItemsCheckinParameters(new ArrayList<>(myWorkItems), new HashMap<>(myActions), getLinks());
   }
 
   public void update(@NotNull WorkItemsQueryResult queryResult) {
