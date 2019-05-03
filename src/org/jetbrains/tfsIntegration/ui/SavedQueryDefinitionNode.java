@@ -17,6 +17,7 @@ import org.jetbrains.tfsIntegration.core.tfs.workitems.WorkItem;
 import org.jetbrains.tfsIntegration.core.tfs.workitems.WorkItemSerialize;
 import org.jetbrains.tfsIntegration.exceptions.TfsException;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -124,7 +125,7 @@ public class SavedQueryDefinitionNode extends BaseQueryNode {
 
   @NotNull
   private static Set<Integer> getWorkItemIds(@NotNull Iterable<WorkItemLinkInfo> links) {
-    Set<Integer> result = ContainerUtil.newHashSet();
+    Set<Integer> result = new HashSet<>();
 
     for (WorkItemLinkInfo link : links) {
       addId(result, link.getSourceID());
