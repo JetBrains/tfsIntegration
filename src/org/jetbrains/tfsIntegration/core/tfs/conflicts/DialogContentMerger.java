@@ -26,11 +26,11 @@ import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vcs.merge.MergeDialogCustomizer;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.util.containers.ContainerUtil;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.Conflict;
 import org.jetbrains.tfsIntegration.core.TFSVcs;
 import org.jetbrains.tfsIntegration.ui.ContentTriplet;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class DialogContentMerger implements ContentMerger {
@@ -39,15 +39,12 @@ public class DialogContentMerger implements ContentMerger {
                               VcsRevisionNumber serverVersion) throws VcsException {
     TFSVcs.assertTrue(localFile.isWritable(), localFile.getPresentableUrl() + " must be writable");
 
-    List<byte[]> contents = ContainerUtil.list(contentTriplet.localContent,
-                                               contentTriplet.baseContent,
-                                               contentTriplet.serverContent);
+    List<byte[]> contents = Arrays.asList(contentTriplet.localContent, contentTriplet.baseContent, contentTriplet.serverContent);
 
     MergeDialogCustomizer c = new MergeDialogCustomizer();
     String title = c.getMergeWindowTitle(localFile);
-    List<String> contentTitles = ContainerUtil.list(c.getLeftPanelTitle(localFile),
-                                                    c.getCenterPanelTitle(localFile),
-                                                    c.getRightPanelTitle(localFile, serverVersion));
+    List<String> contentTitles =
+      Arrays.asList(c.getLeftPanelTitle(localFile), c.getCenterPanelTitle(localFile), c.getRightPanelTitle(localFile, serverVersion));
 
 
     try {
