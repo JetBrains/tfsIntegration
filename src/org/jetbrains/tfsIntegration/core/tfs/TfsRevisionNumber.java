@@ -1,6 +1,7 @@
 package org.jetbrains.tfsIntegration.core.tfs;
 
 import com.intellij.openapi.vcs.history.VcsRevisionNumber;
+import org.jetbrains.annotations.NotNull;
 
 public class TfsRevisionNumber extends VcsRevisionNumber.Int {
 
@@ -15,6 +16,7 @@ public class TfsRevisionNumber extends VcsRevisionNumber.Int {
     myItemId = itemId;
   }
 
+  @NotNull
   @Override
   public String asString() {
     if (myItemId != UNDEFINED_ID) {
