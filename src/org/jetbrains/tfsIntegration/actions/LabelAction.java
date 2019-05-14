@@ -19,6 +19,7 @@ package org.jetbrains.tfsIntegration.actions;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.MessageType;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vcs.AbstractVcsHelper;
 import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.VcsException;
@@ -63,7 +64,7 @@ public class LabelAction extends SingleItemAction implements DumbAware {
           buffer.append("\n");
         }
         String message = MessageFormat.format("Label ''{0}@{1}'' {2}", labelResult.getLabel(), labelResult.getScope(),
-                                              labelResult.getStatus().getValue().toLowerCase());
+                                              StringUtil.toLowerCase(labelResult.getStatus().getValue()));
         buffer.append(message);
       }
       if (buffer.length() > 0) {

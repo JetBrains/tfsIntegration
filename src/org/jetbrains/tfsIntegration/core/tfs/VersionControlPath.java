@@ -89,8 +89,8 @@ public class VersionControlPath {
   }
 
   public static boolean isUnder(String parent, String child) {
-    parent = parent.toLowerCase();
-    return parent.equals(getCommonAncestor(parent, child.toLowerCase()));
+    parent = StringUtil.toLowerCase(parent);
+    return parent.equals(getCommonAncestor(parent, StringUtil.toLowerCase(child)));
   }
 
   /**
