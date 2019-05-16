@@ -47,7 +47,7 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="intellij.platform.vcs.impl" scope="TEST" />
-    <orderEntry type="module" module-name="intellij.platform.vcs.tests" scope="TEST" />
+    <orderEntry type="module" module-name="intellij.platform.vcs.testFramework" scope="TEST" />
     <orderEntry type="module" module-name="intellij.platform.testExtensions" scope="TEST" />
   </component>
 </module>
