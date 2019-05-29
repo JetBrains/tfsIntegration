@@ -16,7 +16,7 @@
 
 package org.jetbrains.tfsIntegration.core.tfs;
 
-import com.intellij.openapi.util.SystemInfo;
+import com.intellij.openapi.util.SystemInfoRt;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vcs.FilePath;
@@ -42,7 +42,7 @@ public class VersionControlPath {
       return null;
     }
     localPath = localPath.replace("/", WINDOWS_PATH_SEPARATOR);
-    return SystemInfo.isWindows ? localPath : FAKE_DRIVE_PREFIX + localPath;
+    return SystemInfoRt.isWindows ? localPath : FAKE_DRIVE_PREFIX + localPath;
   }
 
   public static String toTfsRepresentation(@NotNull FilePath localPath) {
@@ -56,7 +56,7 @@ public class VersionControlPath {
     }
 
     final String systemDependent = FileUtil.toSystemDependentName(localPath);
-    if (!SystemInfo.isWindows && systemDependent.startsWith(FAKE_DRIVE_PREFIX)) {
+    if (!SystemInfoRt.isWindows && systemDependent.startsWith(FAKE_DRIVE_PREFIX)) {
       return systemDependent.substring(FAKE_DRIVE_PREFIX.length());
     }
     else {
