@@ -23,7 +23,7 @@ import com.intellij.openapi.vcs.changes.CurrentContentRevision;
 import com.intellij.openapi.vcs.update.FileGroup;
 import com.intellij.openapi.vcs.update.UpdatedFiles;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.util.ArrayUtil;
+import com.intellij.util.ArrayUtilRt;
 import com.intellij.vcsUtil.VcsRunnable;
 import com.intellij.vcsUtil.VcsUtil;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.*;
@@ -88,9 +88,9 @@ public class ResolveConflictHelper {
               last = TFSContentRevision.create(myProject, workspace, conflict.getTver(), conflict.getTitemid()).getContentAsBytes();
             }
             byte[] original = TFSContentRevision.create(myProject, workspace, conflict.getBver(), conflict.getBitemid()).getContentAsBytes();
-            contentTriplet.baseContent = original != null ? original : ArrayUtil.EMPTY_BYTE_ARRAY;
-            contentTriplet.localContent = current != null ? current : ArrayUtil.EMPTY_BYTE_ARRAY;
-            contentTriplet.serverContent = last != null ? last : ArrayUtil.EMPTY_BYTE_ARRAY;
+            contentTriplet.baseContent = original != null ? original : ArrayUtilRt.EMPTY_BYTE_ARRAY;
+            contentTriplet.localContent = current != null ? current : ArrayUtilRt.EMPTY_BYTE_ARRAY;
+            contentTriplet.serverContent = last != null ? last : ArrayUtilRt.EMPTY_BYTE_ARRAY;
           }
         }
         catch (TfsException e) {

@@ -26,7 +26,7 @@ import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.wm.ToolWindowId;
-import com.intellij.util.ArrayUtil;
+import com.intellij.util.ArrayUtilRt;
 import com.intellij.util.ThrowableConsumer;
 import com.intellij.util.ThrowableRunnable;
 import com.intellij.util.UriUtil;
@@ -223,7 +223,7 @@ public class TfsUtil {
 
     if (values != null) {
       result = new ArrayOfString();
-      result.setString(ArrayUtil.toStringArray(values));
+      result.setString(ArrayUtilRt.toStringArray(values));
     }
 
     return result;

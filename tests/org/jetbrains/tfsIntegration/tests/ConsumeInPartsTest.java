@@ -17,6 +17,7 @@
 package org.jetbrains.tfsIntegration.tests;
 
 import com.intellij.util.ArrayUtil;
+import com.intellij.util.ArrayUtilRt;
 import com.intellij.util.ThrowableConsumer;
 import gnu.trove.Equality;
 import junit.framework.TestCase;
@@ -34,7 +35,7 @@ public class ConsumeInPartsTest extends TestCase {
 
     @Override
     public void consume(List<String> strings) {
-      myResults.add(ArrayUtil.toStringArray(strings));
+      myResults.add(ArrayUtilRt.toStringArray(strings));
     }
 
     public void assertEquals(String[][] expected) {

@@ -25,7 +25,7 @@ import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.util.Ref;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vcs.FilePath;
-import com.intellij.util.ArrayUtil;
+import com.intellij.util.ArrayUtilRt;
 import com.intellij.util.containers.ContainerUtil;
 import com.microsoft.schemas.teamfoundation._2005._06.services.authorization._03.Identity;
 import com.microsoft.schemas.teamfoundation._2005._06.services.authorization._03.QueryMembership;
@@ -1707,7 +1707,7 @@ public class VersionControlServer {
     for (WorkItemField field : WorkItemSerialize.FIELDS) {
       serializedFields.add(field.getSerialized());
     }
-    workItemFields.setString(ArrayUtil.toStringArray(serializedFields));
+    workItemFields.setString(ArrayUtilRt.toStringArray(serializedFields));
 
     PageWorkitemsByIdsResponse pageWorkitemsByIdsResponse =
       TfsRequestManager

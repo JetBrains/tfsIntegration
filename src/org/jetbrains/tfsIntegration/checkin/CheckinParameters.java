@@ -27,7 +27,7 @@ import com.intellij.openapi.vcs.CheckinProjectPanel;
 import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.actions.VcsContextFactory;
-import com.intellij.util.ArrayUtil;
+import com.intellij.util.ArrayUtilRt;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.containers.MultiMap;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.Annotation;
@@ -419,7 +419,7 @@ public class CheckinParameters {
           final String message;
           if (data.myEmptyNotes.size() > 1) {
             message = MessageFormat
-              .format("Checkin notes ''{0}'' are required to commit", StringUtil.join(ArrayUtil.toStringArray(data.myEmptyNotes), "', '"));
+              .format("Checkin notes ''{0}'' are required to commit", StringUtil.join(ArrayUtilRt.toStringArray(data.myEmptyNotes), "', '"));
 
           }
           else {

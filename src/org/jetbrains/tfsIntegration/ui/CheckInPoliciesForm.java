@@ -21,7 +21,7 @@ import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.Pair;
 import com.intellij.ui.DoubleClickListener;
 import com.intellij.ui.table.TableView;
-import com.intellij.util.ArrayUtil;
+import com.intellij.util.ArrayUtilRt;
 import com.intellij.util.ui.ColumnInfo;
 import com.intellij.util.ui.ListTableModel;
 import com.intellij.util.ui.UIUtil;
@@ -149,7 +149,7 @@ public class CheckInPoliciesForm {
     List<String> projects = new ArrayList<>(myProjectToDescriptors.keySet());
     Collections.sort(projects, (s1, s2) -> s1.compareTo(s2));
 
-    myProjectCombo.setModel(new DefaultComboBoxModel(ArrayUtil.toStringArray(projects)));
+    myProjectCombo.setModel(new DefaultComboBoxModel(ArrayUtilRt.toStringArray(projects)));
     myProjectCombo.setRenderer(new DefaultListCellRenderer() {
       @Override
       public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
