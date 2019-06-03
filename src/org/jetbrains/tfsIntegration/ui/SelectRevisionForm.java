@@ -33,7 +33,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.EventListener;
 
@@ -43,7 +42,7 @@ public class SelectRevisionForm {
     void revisionChanged();
   }
 
-  private static final DateFormat DATE_FORMAT = SimpleDateFormat.getInstance();
+  private static final DateFormat DATE_FORMAT = DateFormat.getInstance();
 
   private JPanel myPanel;
   private JRadioButton latestRadioButton;

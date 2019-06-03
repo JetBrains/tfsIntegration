@@ -37,7 +37,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.EventListener;
@@ -45,7 +44,7 @@ import java.util.List;
 
 public class SelectChangesetForm {
 
-  private static final DateFormat DATE_FORMAT = SimpleDateFormat.getInstance();
+  private static final DateFormat DATE_FORMAT = DateFormat.getInstance();
 
   interface Listener extends EventListener {
     void selectionChanged(Integer changeset);
@@ -142,10 +141,10 @@ public class SelectChangesetForm {
       }
       else if (myCreatedDateRadioButton.isSelected()) {
         if (myFromDateField.getText() != null && myFromDateField.getText().length() > 0) {
-          versionFrom = new DateVersionSpec(SimpleDateFormat.getInstance().parse(myFromDateField.getText()));
+          versionFrom = new DateVersionSpec(DateFormat.getInstance().parse(myFromDateField.getText()));
         }
         if (myToDateField.getText() != null && myToDateField.getText().length() > 0) {
-          versionTo = new DateVersionSpec(SimpleDateFormat.getInstance().parse(myToDateField.getText()));
+          versionTo = new DateVersionSpec(DateFormat.getInstance().parse(myToDateField.getText()));
         }
       }
 

@@ -17,15 +17,12 @@
 package org.jetbrains.tfsIntegration.core.tfs;
 
 import com.intellij.openapi.vcs.FilePath;
+import com.intellij.openapi.vfs.VfsUtilCore;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.util.containers.DistinctRootsCollection;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
 
 public abstract class RootsCollection<T> {
 
@@ -76,7 +73,7 @@ public abstract class RootsCollection<T> {
 
     @Override
     protected boolean isAncestor(@NotNull VirtualFile parent, @NotNull VirtualFile child) {
-      return VfsUtil.isAncestor(parent, child, false);
+      return VfsUtilCore.isAncestor(parent, child, false);
     }
 
   }
