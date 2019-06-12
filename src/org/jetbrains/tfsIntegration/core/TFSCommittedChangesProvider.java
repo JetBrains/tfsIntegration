@@ -121,7 +121,7 @@ public class TFSCommittedChangesProvider implements CachingCommittedChangesProvi
   public void loadCommittedChanges(ChangeBrowserSettings settings,
                                    RepositoryLocation location,
                                    int maxCount,
-                                   AsynchConsumer<CommittedChangeList> consumer)
+                                   AsynchConsumer<? super CommittedChangeList> consumer)
     throws VcsException {
     // TODO: deletion id
     // TODO: if revision and date filters are both set, which one should have priority?
