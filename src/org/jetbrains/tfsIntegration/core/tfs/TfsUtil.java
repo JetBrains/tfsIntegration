@@ -210,7 +210,7 @@ public class TfsUtil {
   }
 
   public static <T, E extends Throwable> T forcePluginClassLoader(@NotNull ThrowableComputable<T, E> computable) throws E {
-    return ClassLoaderUtil.runWithClassLoader(null, computable);
+    return ClassLoaderUtil.computeWithClassLoader(null, computable);
   }
 
   public static <E extends Throwable> void forcePluginClassLoader(@NotNull ThrowableRunnable<E> runnable) throws E {

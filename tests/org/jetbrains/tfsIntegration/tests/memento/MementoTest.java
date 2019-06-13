@@ -232,7 +232,7 @@ public class MementoTest extends TestCase {
   }
 
   private static <T> T runWithPatchedClassloader(ThrowableComputable<T, Exception> computable) throws Exception {
-    return ClassLoaderUtil.runWithClassLoader(new URLClassLoader(new URL[0], Thread.currentThread().getContextClassLoader()) {
+    return ClassLoaderUtil.computeWithClassLoader(new URLClassLoader(new URL[0], Thread.currentThread().getContextClassLoader()) {
       @Override
       public InputStream getResourceAsStream(String name) {
         if (XML_ENTITIES_URL.equals(name)) {

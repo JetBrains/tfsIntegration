@@ -19,7 +19,6 @@ package org.jetbrains.tfsIntegration.webservice;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.ClassLoaderUtil;
-import com.intellij.openapi.util.Computable;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.util.io.StreamUtil;
 import com.intellij.openapi.util.registry.Registry;
@@ -165,7 +164,7 @@ public class WebServiceHelper {
   }
 
   public static ConfigurationContext getStubConfigurationContext() {
-    return ClassLoaderUtil.runWithClassLoader(TFSVcs.class.getClassLoader(), (Computable<ConfigurationContext>)() -> {
+    return ClassLoaderUtil.computeWithClassLoader(TFSVcs.class.getClassLoader(), () -> {
       try {
         ConfigurationContext configContext = ConfigurationContextFactory.createDefaultConfigurationContext();
         configContext.getAxisConfiguration().addMessageBuilder(SOAP_BUILDER_KEY, new CustomSOAPBuilder());

@@ -8,7 +8,6 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.ClassLoaderUtil;
 import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.util.Ref;
-import com.intellij.openapi.util.ThrowableComputable;
 import com.intellij.util.WaitForProgressToShow;
 import com.intellij.util.concurrency.Semaphore;
 import org.apache.commons.httpclient.HttpStatus;
@@ -404,22 +403,18 @@ public class TfsRequestManager {
   private static <T> T executeRequestImpl(final URI serverUri,
                                           final Ref<Credentials> credentialsRef,
                                           final Request<T> request,
-                                          final ProgressIndicator pi)
-    throws Exception {
-    return ClassLoaderUtil.runWithClassLoader(TfsRequestManager.class.getClassLoader(), new ThrowableComputable<T, Exception>() {
-      @Override
-      public T compute() throws Exception {
-        Credentials credentials = credentialsRef.get();
-        boolean needsAuthentication =
-          credentials == null ||
-          request.retrieveAuthorizedCredentials() && (credentials.getUserName().length() == 0 || credentials.getDomain().length() == 0);
-        if (needsAuthentication) {
-          TfsServerConnectionHelper.ServerDescriptor descriptor =
-            TfsServerConnectionHelper.connect(serverUri, credentialsRef.get(), true, pi);
-          credentialsRef.set(descriptor.authorizedCredentials);
-        }
-        return request.execute(credentialsRef.get(), serverUri, pi);
+                                          final ProgressIndicator pi) throws Exception {
+    return ClassLoaderUtil.computeWithClassLoader(TfsRequestManager.class.getClassLoader(), () -> {
+      Credentials credentials = credentialsRef.get();
+      boolean needsAuthentication =
+        credentials == null ||
+        request.retrieveAuthorizedCredentials() && (credentials.getUserName().length() == 0 || credentials.getDomain().length() == 0);
+      if (needsAuthentication) {
+        TfsServerConnectionHelper.ServerDescriptor descriptor =
+          TfsServerConnectionHelper.connect(serverUri, credentialsRef.get(), true, pi);
+        credentialsRef.set(descriptor.authorizedCredentials);
       }
+      return request.execute(credentialsRef.get(), serverUri, pi);
     });
   }
 }
