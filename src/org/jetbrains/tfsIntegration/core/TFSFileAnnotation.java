@@ -28,6 +28,7 @@ import com.intellij.openapi.vcs.versionBrowser.CommittedChangeList;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.GuiUtils;
 import com.intellij.util.text.DateFormatUtil;
+import git4idea.annotate.AnnotationTooltipBuilder;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.tfsIntegration.core.tfs.TfsRevisionNumber;
 import org.jetbrains.tfsIntegration.core.tfs.TfsUtil;
@@ -123,14 +124,28 @@ public class TFSFileAnnotation extends FileAnnotation {
     return myLineRevisions[lineNumber];
   }
 
+  @Nullable
   @Override
-  public String getToolTip(final int lineNumber) {
+  public String getToolTip(int lineNumber) {
+    return getToolTip(lineNumber, false);
+  }
+
+  @Nullable
+  @Override
+  public String getHtmlToolTip(int lineNumber) {
+    return getToolTip(lineNumber, true);
+  }
+
+  @Nullable
+  private String getToolTip(int lineNumber, boolean asHtml) {
     VcsFileRevision fileRevision = getLineRevision(lineNumber);
-    if (fileRevision == null) return "";
+    if (fileRevision == null) return null;
 
     String commitMessage = fileRevision.getCommitMessage() == null ? "(no comment)" : fileRevision.getCommitMessage();
-    return MessageFormat.format("Changeset {0}: {1}",
-                                ((TfsRevisionNumber)fileRevision.getRevisionNumber()).getChangesetString(), commitMessage);
+
+    return AnnotationTooltipBuilder.buildSimpleTooltip(getProject(), asHtml, "Changeset",
+                                                       ((TfsRevisionNumber)fileRevision.getRevisionNumber()).getChangesetString(),
+                                                       commitMessage);
   }
 
   @Override
