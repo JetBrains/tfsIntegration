@@ -24,7 +24,6 @@ import com.intellij.openapi.util.io.StreamUtil;
 import com.intellij.openapi.vcs.*;
 import com.intellij.openapi.vcs.changes.Change;
 import com.intellij.openapi.vcs.changes.*;
-import com.intellij.vcs.commit.NullCommitWorkflowHandler;
 import com.intellij.openapi.vcs.checkin.CheckinChangeListSpecificComponent;
 import com.intellij.openapi.vcs.checkin.CheckinEnvironment;
 import com.intellij.openapi.vcs.rollback.RollbackProgressListener;
@@ -39,6 +38,7 @@ import com.intellij.testFramework.fixtures.IdeaTestFixtureFactory;
 import com.intellij.testFramework.fixtures.TempDirTestFixture;
 import com.intellij.testFramework.vcs.AbstractJunitVcsTestCase;
 import com.intellij.vcs.commit.CommitWorkflowHandler;
+import com.intellij.vcs.commit.NullCommitWorkflowHandler;
 import com.intellij.vcsUtil.VcsUtil;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.*;
 import org.jetbrains.annotations.NotNull;
@@ -549,7 +549,7 @@ public abstract class TFSTestCase extends AbstractJunitVcsTestCase  {
   }
 
   @Override
-  public VirtualFile createFileInCommand(final VirtualFile parent, final String name, @Nullable final String content) {
+  public VirtualFile createFileInCommand(@NotNull final VirtualFile parent, @NotNull final String name, @Nullable final String content) {
     final VirtualFile result = super.createFileInCommand(parent, name, content);
     assertFile(result, content, true);
     refreshAll();
