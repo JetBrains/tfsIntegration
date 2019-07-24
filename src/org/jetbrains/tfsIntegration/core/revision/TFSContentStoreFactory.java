@@ -16,7 +16,6 @@
 
 package org.jetbrains.tfsIntegration.core.revision;
 
-import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
