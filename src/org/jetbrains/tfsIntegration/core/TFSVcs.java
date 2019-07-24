@@ -113,6 +113,11 @@ public class TFSVcs extends AbstractVcs {
   }
 
   @Override
+  public boolean needsLegacyDefaultMappings() {
+    return true;
+  }
+
+  @Override
   public ChangeProvider getChangeProvider() {
     return new TFSChangeProvider(myProject);
   }
