@@ -499,6 +499,6 @@ public class CustomStAXSOAPModelBuilder extends StAXOMBuilder {
      * @param value
      */
     void adjustElementLevel(int value) {
-        elementLevel = elementLevel + value;
+        elementLevel += value;
     }
 }

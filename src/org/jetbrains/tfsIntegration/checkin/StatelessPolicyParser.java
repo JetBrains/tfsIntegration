@@ -101,9 +101,9 @@ public class StatelessPolicyParser {
     }
 
     int i = (buf[0] & 0xFF);
-    i = i | (buf[1] & 0xFF) << 8;
-    i = i | (buf[2] & 0xFF) << 16;
-    i = i | (buf[3] & 0xFF) << 24;
+    i |= (buf[1] & 0xFF) << 8;
+    i |= (buf[2] & 0xFF) << 16;
+    i |= (buf[3] & 0xFF) << 24;
 
     return i;
   }
