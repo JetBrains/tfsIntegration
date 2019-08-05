@@ -131,7 +131,7 @@ public class StatusProvider {
 
   private static void addExistingFilesRecursively(final @NotNull Collection<? super FilePath> result, final @Nullable VirtualFile root) {
     if (root != null && root.exists()) {
-      VfsUtilCore.visitChildrenRecursively(root, new VirtualFileVisitor() {
+      VfsUtilCore.visitChildrenRecursively(root, new VirtualFileVisitor<Void>() {
         @Override
         public boolean visitFile(@NotNull VirtualFile file) {
           result.add(TfsFileUtil.getFilePath(file));
