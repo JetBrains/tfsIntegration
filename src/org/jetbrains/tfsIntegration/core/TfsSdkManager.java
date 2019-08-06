@@ -1,7 +1,7 @@
 package org.jetbrains.tfsIntegration.core;
 
 import com.intellij.ide.plugins.IdeaPluginDescriptor;
-import com.intellij.ide.plugins.PluginManager;
+import com.intellij.ide.plugins.PluginManagerCore;
 import com.intellij.openapi.application.PluginPathManager;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.extensions.PluginId;
@@ -68,7 +68,7 @@ public class TfsSdkManager {
   @NotNull
   private static File getPluginDirectory() {
     PluginId pluginId = PluginId.getId("TFS");
-    IdeaPluginDescriptor pluginDescriptor = ObjectUtils.assertNotNull(PluginManager.getPlugin(pluginId));
+    IdeaPluginDescriptor pluginDescriptor = ObjectUtils.assertNotNull(PluginManagerCore.getPlugin(pluginId));
 
     return pluginDescriptor.isBundled()
            ? PluginPathManager.getPluginHome("tfsIntegration")
