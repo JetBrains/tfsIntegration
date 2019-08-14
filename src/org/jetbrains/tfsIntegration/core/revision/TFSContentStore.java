@@ -16,6 +16,7 @@
 
 package org.jetbrains.tfsIntegration.core.revision;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.tfsIntegration.core.tfs.TfsFileUtil;
 import org.jetbrains.tfsIntegration.exceptions.TfsException;
 
@@ -25,5 +26,6 @@ public interface TFSContentStore {
 
   void saveContent(TfsFileUtil.ContentWriter contentWriter) throws TfsException, IOException;
 
+  @NotNull
   byte[] loadContent() throws TfsException, IOException;
 }

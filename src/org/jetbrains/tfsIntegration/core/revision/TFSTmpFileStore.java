@@ -19,6 +19,7 @@ package org.jetbrains.tfsIntegration.core.revision;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.io.StreamUtil;
 import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.tfsIntegration.core.tfs.TfsFileUtil;
 import org.jetbrains.tfsIntegration.exceptions.TfsException;
@@ -72,6 +73,7 @@ public class TFSTmpFileStore implements TFSContentStore {
     TfsFileUtil.setFileContent(myTmpFile, contentWriter);
   }
 
+  @NotNull
   @Override
   public byte[] loadContent() throws IOException {
     InputStream fileStream = null;
