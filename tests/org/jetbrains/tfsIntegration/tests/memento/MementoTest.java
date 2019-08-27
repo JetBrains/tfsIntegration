@@ -200,7 +200,7 @@ public class MementoTest extends TestCase {
   }
 
   protected static String serialize(Memento ideaMemento) {
-    Document doc = new Document((Element)((XMLMemento)ideaMemento).getElement().clone());
+    Document doc = new Document(((XMLMemento)ideaMemento).getElement().clone());
     return JDOMUtil.writeDocument(doc, "");
   }
 
@@ -209,24 +209,18 @@ public class MementoTest extends TestCase {
   }
 
   protected static com.teamprise.core.memento.Memento deserializeTeampriseMemento(final String s) throws Exception {
-    return runWithPatchedClassloader(new ThrowableComputable<com.teamprise.core.memento.Memento, Exception>() {
-      @Override
-      public com.teamprise.core.memento.Memento compute() throws Exception {
-        // the same way as Teamprise does
-        return com.teamprise.core.memento.XMLMemento.createReadRoot(new ByteArrayInputStream(s.getBytes(StandardCharsets.UTF_8)));
-      }
+    return runWithPatchedClassloader((ThrowableComputable<com.teamprise.core.memento.Memento, Exception>)() -> {
+      // the same way as Teamprise does
+      return com.teamprise.core.memento.XMLMemento.createReadRoot(new ByteArrayInputStream(s.getBytes(StandardCharsets.UTF_8)));
     });
   }
 
   protected static String serialize(final com.teamprise.core.memento.Memento teampriseMemento) throws Exception {
     // the same way as Teamprise does
     final ByteArrayOutputStream os = new ByteArrayOutputStream();
-    runWithPatchedClassloader(new ThrowableComputable<Void, Exception>() {
-      @Override
-      public Void compute() throws Exception {
-        ((com.teamprise.core.memento.XMLMemento)teampriseMemento).save(os);
-        return null;
-      }
+    runWithPatchedClassloader((ThrowableComputable<Void, Exception>)() -> {
+      ((com.teamprise.core.memento.XMLMemento)teampriseMemento).save(os);
+      return null;
     });
     return os.toString("UTF-8");
   }

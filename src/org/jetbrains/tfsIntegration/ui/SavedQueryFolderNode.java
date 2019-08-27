@@ -69,12 +69,8 @@ public class SavedQueryFolderNode extends BaseQueryNode {
     List<SimpleNode> result = new ArrayList<>();
 
     try {
-      result.addAll(forcePluginClassLoader(new ThrowableComputable<Collection<? extends SimpleNode>, VcsException>() {
-        @Override
-        public Collection<? extends SimpleNode> compute() throws VcsException {
-          return getChildren(getQueryFolder());
-        }
-      }));
+      result.addAll(forcePluginClassLoader(
+        (ThrowableComputable<Collection<? extends SimpleNode>, VcsException>)() -> getChildren(getQueryFolder())));
     }
     catch (VcsException e) {
       result.add(buildErrorNode(e));
