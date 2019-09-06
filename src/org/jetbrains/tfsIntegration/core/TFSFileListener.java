@@ -148,7 +148,7 @@ public class TFSFileListener extends VcsVFSListener {
   }
 
   @Override
-  protected void executeDelete() {
+  protected void processDelete() {
     // choose roots
     // revert all pending schedules for addition recursively
     // throw out all the unversioned items
@@ -268,7 +268,7 @@ public class TFSFileListener extends VcsVFSListener {
     }
 
     if (!myDeletedFiles.isEmpty() || !myDeletedWithoutConfirmFiles.isEmpty()) {
-      super.executeDelete();
+      super.processDelete();
     }
   }
 
