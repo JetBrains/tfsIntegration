@@ -60,8 +60,9 @@ public class TFSFileListener extends VcsVFSListener {
 
   @Override
   protected void executeAdd() {
+    List<VirtualFile> addedFiles = myProcessor.acquireAddedFiles();
     try {
-      WorkstationHelper.processByWorkspaces(TfsFileUtil.getFilePaths(myAddedFiles), false, myProject,
+      WorkstationHelper.processByWorkspaces(TfsFileUtil.getFilePaths(addedFiles), false, myProject,
                                             new WorkstationHelper.VoidProcessDelegate() {
         @Override
         public void executeRequest(final WorkspaceInfo workspace, final List<ItemPath> paths) throws TfsException {
@@ -84,7 +85,7 @@ public class TFSFileListener extends VcsVFSListener {
             public void scheduledForAddition(final @NotNull FilePath localPath,
                                              final boolean localItemExists,
                                              final @NotNull ServerStatus serverStatus) {
-              myAddedFiles.remove(localPath.getVirtualFile());
+              addedFiles.remove(localPath.getVirtualFile());
             }
 
             @Override
@@ -142,19 +143,19 @@ public class TFSFileListener extends VcsVFSListener {
     catch (TfsException e) {
       AbstractVcsHelper.getInstance(myProject).showError(new VcsException(e), TFSVcs.TFS_NAME);
     }
-    if (!myAddedFiles.isEmpty()) {
+    if (!addedFiles.isEmpty()) {
       super.executeAdd();
     }
   }
 
   @Override
-  protected void processDelete() {
+  protected void executeDelete() {
     // choose roots
     // revert all pending schedules for addition recursively
     // throw out all the unversioned items
-
-    List<FilePath> deletedFiles = new ArrayList<>(myDeletedFiles);
-    deletedFiles.addAll(myDeletedWithoutConfirmFiles);
+    AllDeletedFiles files = myProcessor.acquireAllDeletedFiles();
+    List<FilePath> deletedFiles = files.deletedFiles;
+    deletedFiles.addAll(files.deletedWithoutConfirmFiles);
 
     try {
       WorkstationHelper.processByWorkspaces(deletedFiles, false, myProject, new WorkstationHelper.VoidProcessDelegate() {
@@ -177,7 +178,7 @@ public class TFSFileListener extends VcsVFSListener {
               revertImmediately.add(pendingChange.getItem());
               final FilePath localPath =
                 VersionControlPath.getFilePath(pendingChange.getLocal(), pendingChange.getType() == ItemType.Folder);
-              excludeFromFurtherProcessing(localPath);
+              deletedFiles.remove(localPath);
               final ItemPath itemPath = new ItemPath(localPath, pendingChange.getItem());
               pathsToProcess.remove(itemPath);
             }
@@ -203,21 +204,21 @@ public class TFSFileListener extends VcsVFSListener {
             public void unversioned(final @NotNull FilePath localPath,
                                     final boolean localItemExists,
                                     final @NotNull ServerStatus serverStatus) {
-              excludeFromFurtherProcessing(localPath);
+             deletedFiles.remove(localPath);
             }
 
             @Override
             public void deleted(final @NotNull FilePath localPath,
                                 final boolean localItemExists,
                                 final @NotNull ServerStatus serverStatus) {
-              excludeFromFurtherProcessing(localPath);
+              deletedFiles.remove(localPath);
             }
 
             @Override
             public void scheduledForDeletion(final @NotNull FilePath localPath,
                                              final boolean localItemExists,
                                              final @NotNull ServerStatus serverStatus) {
-              excludeFromFurtherProcessing(localPath);
+              deletedFiles.remove(localPath);
             }
 
             @Override
@@ -267,8 +268,8 @@ public class TFSFileListener extends VcsVFSListener {
       AbstractVcsHelper.getInstance(myProject).showError(new VcsException(e), TFSVcs.TFS_NAME);
     }
 
-    if (!myDeletedFiles.isEmpty() || !myDeletedWithoutConfirmFiles.isEmpty()) {
-      super.processDelete();
+    if (!deletedFiles.isEmpty()) {
+      performDeletion(deletedFiles);
     }
   }
 
@@ -289,13 +290,6 @@ public class TFSFileListener extends VcsVFSListener {
     }
     if (!errors.isEmpty()) {
       AbstractVcsHelper.getInstance(myProject).showErrors(errors, TFSVcs.TFS_NAME);
-    }
-  }
-
-
-  private void excludeFromFurtherProcessing(final FilePath localPath) {
-    if (!myDeletedFiles.remove(localPath)) {
-      myDeletedWithoutConfirmFiles.remove(localPath);
     }
   }
 
