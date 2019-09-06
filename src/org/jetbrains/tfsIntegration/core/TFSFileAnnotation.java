@@ -27,7 +27,6 @@ import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vcs.versionBrowser.CommittedChangeList;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.GuiUtils;
-import com.intellij.util.text.DateFormatUtil;
 import git4idea.annotate.AnnotationTooltipBuilder;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.tfsIntegration.core.tfs.TfsRevisionNumber;
@@ -61,7 +60,7 @@ public class TFSFileAnnotation extends FileAnnotation {
       VcsFileRevision fileRevision = getLineRevision(lineNumber);
       if (fileRevision == null) return "";
 
-      return DateFormatUtil.formatPrettyDate(fileRevision.getRevisionDate());
+      return FileAnnotation.formatDate(fileRevision.getRevisionDate());
     }
   };
 
