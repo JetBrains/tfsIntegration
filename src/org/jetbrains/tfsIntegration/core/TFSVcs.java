@@ -56,7 +56,7 @@ public class TFSVcs extends AbstractVcs {
 
   // TODO make private
   @NonNls public static final String TFS_NAME = "TFS";
-  public static final Logger LOG = Logger.getInstance("org.jetbrains.tfsIntegration.core.TFSVcs");
+  public static final Logger LOG = Logger.getInstance(TFSVcs.class);
   private static final VcsKey ourKey = createKey(TFS_NAME);
 
   private VcsVFSListener myFileListener;
