@@ -454,4 +454,9 @@ public class TFSFileListener extends VcsVFSListener {
   protected boolean isDirectoryVersioningSupported() {
     return true;
   }
+
+  @Override
+  protected boolean isFileCopyingFromTrackingSupported() {
+    return false;
+  }
 }
