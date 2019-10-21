@@ -27,6 +27,7 @@ import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vcs.versionBrowser.CommittedChangeList;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.GuiUtils;
+import com.intellij.util.containers.ContainerUtil;
 import git4idea.annotate.AnnotationTooltipBuilder;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.tfsIntegration.core.tfs.TfsRevisionNumber;
@@ -166,7 +167,7 @@ public class TFSFileAnnotation extends FileAnnotation {
 
   @Override
   public List<VcsFileRevision> getRevisions() {
-    Set<VcsFileRevision> set = new HashSet<>(Arrays.asList(myLineRevisions));
+    Set<VcsFileRevision> set = ContainerUtil.set(myLineRevisions);
     List<VcsFileRevision> result = new ArrayList<>(set);
     Collections.sort(result, REVISION_COMPARATOR);
     return result;
