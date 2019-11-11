@@ -22,7 +22,6 @@ import com.intellij.openapi.util.Ref;
 import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.changes.*;
-import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.tfsIntegration.core.tfs.*;
 import org.jetbrains.tfsIntegration.exceptions.TfsException;
@@ -46,10 +45,6 @@ public class TFSChangeProvider implements ChangeProvider {
   @Override
   public boolean isModifiedDocumentTrackingRequired() {
     return true;
-  }
-
-  @Override
-  public void doCleanup(final List<VirtualFile> files) {
   }
 
   @Override
