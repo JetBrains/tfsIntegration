@@ -46,7 +46,7 @@ class ChangelistBuilderStatusVisitor implements StatusVisitor {
   @Override
   public void unversioned(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull ServerStatus serverStatus) {
     if (localItemExists) {
-      myChangelistBuilder.processUnversionedFile(localPath.getVirtualFile());
+      myChangelistBuilder.processUnversionedFile(localPath);
     }
   }
 
@@ -92,7 +92,7 @@ class ChangelistBuilderStatusVisitor implements StatusVisitor {
   @Override
   public void deleted(final @NotNull FilePath localPath, final boolean localItemExists, final @NotNull ServerStatus serverStatus) {
     if (localItemExists) {
-      myChangelistBuilder.processUnversionedFile(localPath.getVirtualFile());
+      myChangelistBuilder.processUnversionedFile(localPath);
     }
   }
 
