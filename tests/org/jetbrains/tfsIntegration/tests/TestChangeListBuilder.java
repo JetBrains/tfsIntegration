@@ -32,25 +32,17 @@ import org.junit.Assert;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings({"HardCodedStringLiteral"})
 public class TestChangeListBuilder extends MockChangelistBuilder {
 
   private final VirtualFile myRootPath;
   private final Project myProject;
 
-  private final List<VirtualFile> myUnversionedFiles = new ArrayList<>();
   private final List<FilePath> myLocallyDeletedFiles = new ArrayList<>();
   private final List<VirtualFile> myHijackedFiles = new ArrayList<>();
-  private final List<VirtualFile> myIgnoredFiles = new ArrayList<>();
 
   public TestChangeListBuilder(final VirtualFile rootPath, final Project project) {
     myRootPath = rootPath;
     myProject = project;
-  }
-
-  @Override
-  public void processUnversionedFile(VirtualFile file) {
-    myUnversionedFiles.add(file);
   }
 
   @Override
@@ -63,26 +55,16 @@ public class TestChangeListBuilder extends MockChangelistBuilder {
     myHijackedFiles.add(file);
   }
 
-  @Override
-  public void processIgnoredFile(VirtualFile file) {
-    myIgnoredFiles.add(file);
-  }
-
   public void assertUnversioned(FilePath file) {
     Assert.assertTrue(toString(), isUnversioned(file));
   }
 
   public boolean isUnversioned(FilePath file) {
-    return myUnversionedFiles.contains(VcsUtil.getVirtualFile(file.getIOFile()));
+    return getUnversionedFiles().contains(file);
   }
 
   public void assertUnversioned(VirtualFile file) {
-    Assert.assertTrue(toString(), myUnversionedFiles.contains(file));
-    assertFileStatus(file, FileStatus.UNKNOWN);
-  }
-
-  public void assertUnversioned(String file) {
-    Assert.assertTrue(toString(), myUnversionedFiles.contains(VcsUtil.getVirtualFile(file)));
+    Assert.assertTrue(toString(), getUnversionedFiles().contains(VcsUtil.getFilePath(file)));
     assertFileStatus(file, FileStatus.UNKNOWN);
   }
 
@@ -116,16 +98,6 @@ public class TestChangeListBuilder extends MockChangelistBuilder {
   public void assertHijacked(String file) {
     Assert.assertTrue(toString(), myHijackedFiles.contains(VcsUtil.getVirtualFile(file)));
     assertFileStatus(file, FileStatus.HIJACKED);
-  }
-
-  public void assertIgnored(VirtualFile file) {
-    Assert.assertTrue(toString(), myIgnoredFiles.contains(file));
-    assertFileStatus(file, FileStatus.IGNORED);
-  }
-
-  public void assertIgnored(String file) {
-    Assert.assertTrue(toString(), myIgnoredFiles.contains(VcsUtil.getVirtualFile(file)));
-    assertFileStatus(file, FileStatus.IGNORED);
   }
 
   public void assertScheduledForAddition(VirtualFile file) {
@@ -232,10 +204,10 @@ public class TestChangeListBuilder extends MockChangelistBuilder {
   }
 
   private int getTotalItems() {
-    return getChanges().size() + myUnversionedFiles.size() + myLocallyDeletedFiles.size() + myHijackedFiles.size() + myIgnoredFiles.size();
+    return getChanges().size() + getUnversionedFiles().size() + myLocallyDeletedFiles.size() + myHijackedFiles.size() + getIgnoredFiles().size();
   }
 
-  @SuppressWarnings({"HardCodedStringLiteral"})
+  @Override
   public String toString() {
     StringBuilder s = new StringBuilder();
     s.append("Total changes: ").append(getTotalItems()).append("\n");
@@ -258,9 +230,9 @@ public class TestChangeListBuilder extends MockChangelistBuilder {
       }
     }
 
-    if (!myUnversionedFiles.isEmpty()) {
+    if (!getUnversionedFiles().isEmpty()) {
       s.append("Unversioned:\n");
-      for (VirtualFile f : myUnversionedFiles) {
+      for (FilePath f : getUnversionedFiles()) {
         s.append("\t").append(ChangeHelper.getPathRemainder(f, myRootPath)).append("\n");
       }
     }
