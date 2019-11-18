@@ -4,6 +4,7 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
+import com.intellij.openapi.progress.util.ProgressIndicatorUtils;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.ClassLoaderUtil;
 import com.intellij.openapi.util.Condition;
@@ -46,8 +47,6 @@ public class TfsRequestManager {
       return true;
     }
   }
-
-  private static final long POLL_TIMEOUT = 200; //ms
 
   private static final Map<URI, TfsRequestManager> ourInstances = new HashMap<>();
   private static final Logger LOG = Logger.getInstance(TfsRequestManager.class.getName());
@@ -226,11 +225,7 @@ public class TfsRequestManager {
           done.up();
         }
       });
-      while (!done.waitFor(POLL_TIMEOUT)) {
-        if (pi.isCanceled()) {
-          break;
-        }
-      }
+      ProgressIndicatorUtils.awaitWithCheckCanceled(done, pi);
     }
 
     /**

@@ -18,14 +18,13 @@ package org.jetbrains.tfsIntegration.core;
 
 import com.intellij.openapi.progress.ProcessCanceledException;
 import com.intellij.openapi.progress.ProgressIndicator;
+import com.intellij.openapi.progress.util.ProgressIndicatorUtils;
 import org.jetbrains.annotations.Nullable;
 
 public class TFSProgressUtil {
 
   public static void checkCanceled(final @Nullable ProgressIndicator progressIndicator) throws ProcessCanceledException {
-    if (progressIndicator != null && progressIndicator.isCanceled()) {
-      throw new ProcessCanceledException();
-    }
+    ProgressIndicatorUtils.checkCancelledEvenWithPCEDisabled(progressIndicator);
   }
 
   public static boolean isCanceled(final @Nullable ProgressIndicator progressIndicator) {
