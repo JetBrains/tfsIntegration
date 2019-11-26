@@ -18,6 +18,7 @@ package org.jetbrains.tfsIntegration.ui;
 
 import com.intellij.openapi.vcs.versionBrowser.ChangeBrowserSettings;
 import com.intellij.openapi.vcs.versionBrowser.StandardVersionFilterComponent;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -31,7 +32,7 @@ public class TFSVersionFilterComponent extends StandardVersionFilterComponent<Ch
   private JTextField myAuthorField;
   private JPanel myStandardPanel;
 
-  public TFSVersionFilterComponent(final boolean showDateFilter) {
+  public TFSVersionFilterComponent(boolean showDateFilter) {
     super(showDateFilter);
     myStandardPanel.setLayout(new BorderLayout());
     myStandardPanel.add(getStandardPanel(), BorderLayout.CENTER);
@@ -39,27 +40,27 @@ public class TFSVersionFilterComponent extends StandardVersionFilterComponent<Ch
   }
 
   @Override
-  protected void updateAllEnabled(final ActionEvent e) {
+  protected void updateAllEnabled(@Nullable ActionEvent e) {
     super.updateAllEnabled(e);
     updatePair(myUseAuthorFilter, myAuthorField, e);
   }
 
   @Override
-  protected void initValues(ChangeBrowserSettings settings) {
+  protected void initValues(@NotNull ChangeBrowserSettings settings) {
     super.initValues(settings);
     myUseAuthorFilter.setSelected(settings.USE_USER_FILTER);
     myAuthorField.setText(settings.USER);
   }
 
   @Override
-  public void saveValues(ChangeBrowserSettings settings) {
+  public void saveValues(@NotNull ChangeBrowserSettings settings) {
     super.saveValues(settings);
     settings.USER = myAuthorField.getText();
     settings.USE_USER_FILTER = myUseAuthorFilter.isSelected();
   }
 
   @Override
-  protected void installCheckBoxListener(final ActionListener filterListener) {
+  protected void installCheckBoxListener(@NotNull ActionListener filterListener) {
     super.installCheckBoxListener(filterListener);
     myUseAuthorFilter.addActionListener(filterListener);
     myAuthorField.addActionListener(filterListener);
@@ -84,6 +85,7 @@ public class TFSVersionFilterComponent extends StandardVersionFilterComponent<Ch
     return "Revision";
   }
 
+  @NotNull
   @Override
   public JComponent getComponent() {
     return getPanel();
