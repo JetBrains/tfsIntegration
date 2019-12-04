@@ -29,6 +29,7 @@ import com.intellij.openapi.vcs.versionBrowser.CommittedChangeList;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.AsynchConsumer;
 import com.microsoft.schemas.teamfoundation._2005._06.versioncontrol.clientservices._03.*;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.tfsIntegration.core.tfs.*;
 import org.jetbrains.tfsIntegration.core.tfs.version.ChangesetVersionSpec;
@@ -236,41 +237,19 @@ public class TFSCommittedChangesProvider implements CachingCommittedChangesProvi
   }
 
   @Override
-  public void writeChangeList(final DataOutput stream, final TFSChangeList list) throws IOException {
+  public void writeChangeList(@NotNull DataOutput stream, @NotNull TFSChangeList list) throws IOException {
     list.writeToStream(stream);
   }
 
+  @NotNull
   @Override
-  public TFSChangeList readChangeList(final RepositoryLocation location, final DataInput stream) {
+  public TFSChangeList readChangeList(@NotNull RepositoryLocation location, @NotNull DataInput stream) {
     return new TFSChangeList(myVcs, stream);
-  }
-
-  @Override
-  public boolean isMaxCountSupported() {
-    return true;
-  }
-
-  @Override
-  public Collection<FilePath> getIncomingFiles(final RepositoryLocation location) {
-    return null;
-  }
-
-  @Override
-  public boolean refreshCacheByNumber() {
-    return true;
   }
 
   @Override
   public String getChangelistTitle() {
     return "Changelist";
-  }
-
-  @Override
-  public boolean isChangeLocallyAvailable(final FilePath filePath,
-                                          @Nullable final VcsRevisionNumber localRevision,
-                                          final VcsRevisionNumber changeRevision,
-                                          final TFSChangeList changeList) {
-    return localRevision != null && localRevision.compareTo(changeRevision) >= 0;
   }
 
   @Override

@@ -60,7 +60,7 @@ public class TFSChangeList implements CommittedChangeList {
   private URI myServerUri;
   private String myWorkspaceName;
 
-  public TFSChangeList(final TFSVcs vcs, final DataInput stream) {
+  public TFSChangeList(final TFSVcs vcs, @NotNull DataInput stream) {
     myVcs = vcs;
     readFromStream(stream);
   }
@@ -170,7 +170,7 @@ public class TFSChangeList implements CommittedChangeList {
     return myComment;
   }
 
-  void writeToStream(final DataOutput stream) throws IOException {
+  void writeToStream(@NotNull DataOutput stream) throws IOException {
     stream.writeUTF(myServerUri.toString());
     stream.writeUTF(myWorkspaceName);
     stream.writeInt(myRevisionNumber);
@@ -268,7 +268,7 @@ public class TFSChangeList implements CommittedChangeList {
     TFSVcs.error("Unknown change: " + changeType + " for item " + change.getItem().getItem());
   }
 
-  private void readFromStream(final DataInput stream) {
+  private void readFromStream(@NotNull DataInput stream) {
     try {
       myServerUri = new URI(stream.readUTF());
       myWorkspaceName = stream.readUTF();
