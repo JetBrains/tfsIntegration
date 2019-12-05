@@ -58,7 +58,8 @@ public class TfsFileUtil {
     return paths;
   }
 
-  public static FilePath getFilePath(@NotNull final VirtualFile f) {
+  @NotNull
+  public static FilePath getFilePath(@NotNull VirtualFile f) {
     return VcsContextFactory.SERVICE.getInstance().createFilePathOn(f);
   }
 

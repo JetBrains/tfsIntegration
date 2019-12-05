@@ -21,7 +21,6 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.vcs.*;
 import com.intellij.openapi.vcs.actions.VcsContextFactory;
-import com.intellij.openapi.vcs.changes.committed.VcsCommittedListsZipper;
 import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vcs.versionBrowser.ChangeBrowserSettings;
 import com.intellij.openapi.vcs.versionBrowser.ChangesBrowserSettingsEditor;
@@ -57,19 +56,15 @@ public class TFSCommittedChangesProvider implements CachingCommittedChangesProvi
     myVcs = TFSVcs.getInstance(myProject);
   }
 
+  @NotNull
   @Override
-  public ChangesBrowserSettingsEditor<ChangeBrowserSettings> createFilterUI(final boolean showDateFilter) {
+  public ChangesBrowserSettingsEditor<ChangeBrowserSettings> createFilterUI(boolean showDateFilter) {
     return new TFSVersionFilterComponent(showDateFilter);
   }
 
-  @Override
   @Nullable
-  public VcsCommittedListsZipper getZipper() {
-    return null;
-  }
-
   @Override
-  public RepositoryLocation getLocationFor(final FilePath root) {
+  public RepositoryLocation getLocationFor(@NotNull FilePath root) {
     final Map<WorkspaceInfo, List<FilePath>> pathsByWorkspaces = new HashMap<>();
     try {
       WorkstationHelper.processByWorkspaces(Collections.singletonList(root), true, myProject, new WorkstationHelper.VoidProcessDelegate() {
@@ -91,8 +86,9 @@ public class TFSCommittedChangesProvider implements CachingCommittedChangesProvi
     return null;
   }
 
+  @Nullable
   @Override
-  public Pair<TFSChangeList, FilePath> getOneList(VirtualFile file, VcsRevisionNumber number) throws VcsException {
+  public Pair<TFSChangeList, FilePath> getOneList(@NotNull VirtualFile file, @NotNull VcsRevisionNumber number) throws VcsException {
     final ChangeBrowserSettings settings = createDefaultSettings();
     settings.USE_CHANGE_AFTER_FILTER = true;
     settings.USE_CHANGE_BEFORE_FILTER = true;
@@ -107,21 +103,10 @@ public class TFSCommittedChangesProvider implements CachingCommittedChangesProvi
   }
 
   @Override
-  public RepositoryLocation getForNonLocal(VirtualFile file) {
-    return null;
-  }
-
-  @Override
-  public boolean supportsIncomingChanges() {
-    return true;
-  }
-
-  @Override
-  public void loadCommittedChanges(ChangeBrowserSettings settings,
-                                   RepositoryLocation location,
+  public void loadCommittedChanges(@NotNull ChangeBrowserSettings settings,
+                                   @NotNull RepositoryLocation location,
                                    int maxCount,
-                                   AsynchConsumer<? super CommittedChangeList> consumer)
-    throws VcsException {
+                                   @NotNull AsynchConsumer<? super CommittedChangeList> consumer) throws VcsException {
     // TODO: deletion id
     // TODO: if revision and date filters are both set, which one should have priority?
     VersionSpec versionFrom = new ChangesetVersionSpec(1);
@@ -192,10 +177,11 @@ public class TFSCommittedChangesProvider implements CachingCommittedChangesProvi
     }
   }
 
+  @NotNull
   @Override
-  public List<TFSChangeList> getCommittedChanges(final ChangeBrowserSettings settings,
-                                                 final RepositoryLocation location,
-                                                 final int maxCount) throws VcsException {
+  public List<TFSChangeList> getCommittedChanges(@NotNull ChangeBrowserSettings settings,
+                                                 @NotNull RepositoryLocation location,
+                                                 int maxCount) throws VcsException {
     final List<TFSChangeList> result = new ArrayList<>();
     loadCommittedChanges(settings, location, maxCount, new AsynchConsumer<CommittedChangeList>() {
       @Override
@@ -225,6 +211,7 @@ public class TFSCommittedChangesProvider implements CachingCommittedChangesProvi
     return changeSets.get(0).getCset();
   }
 
+  @NotNull
   @Override
   public ChangeListColumn[] getColumns() {
     return new ChangeListColumn[]{new ChangeListColumn.ChangeListNumberColumn("Revision"), ChangeListColumn.NAME, ChangeListColumn.DATE,
