@@ -14,7 +14,7 @@
         </constraints>
         <properties>
           <selected value="true"/>
-          <text resource-bundle="org/jetbrains/tfsIntegration/core/TFSBundle" key="checkbox.update.switch.configurable.descend.into.child.directories"/>
+          <text resource-bundle="messages/TFSBundle" key="checkbox.update.switch.configurable.descend.into.child.directories"/>
         </properties>
       </component>
       <scrollpane id="56d1b" class="com.intellij.ui.components.JBScrollPane">

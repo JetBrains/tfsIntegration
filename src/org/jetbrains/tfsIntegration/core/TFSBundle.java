@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.PropertyKey;
 
 public class TFSBundle extends DynamicBundle {
-  @NonNls private static final String BUNDLE = "org.jetbrains.tfsIntegration.core.TFSBundle";
+  @NonNls private static final String BUNDLE = "messages.TFSBundle";
   private static final TFSBundle INSTANCE = new TFSBundle();
 
   private TFSBundle() { super(BUNDLE); }
