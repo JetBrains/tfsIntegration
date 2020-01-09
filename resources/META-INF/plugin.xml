@@ -37,15 +37,15 @@
   </extensions>
 
   <actions>
-    <group id="TfsGlobalGroup" class="org.jetbrains.tfsIntegration.core.TFSGroup" popup="true" text="TFS">
+    <group id="TfsGlobalGroup" class="org.jetbrains.tfsIntegration.core.TFSGroup" popup="true">
       <add-to-group group-id="VcsGroups" anchor="last"/>
     </group>
 
-    <group id="TfsFilePopupGroup" popup="true" class="org.jetbrains.tfsIntegration.core.TFSGroup" text="TFS">
+    <group id="TfsFilePopupGroup" popup="true" class="org.jetbrains.tfsIntegration.core.TFSGroup">
       <add-to-group group-id="VcsGroup" anchor="last"/>
     </group>
 
-    <group id="TfsGroup" text="TFS">
+    <group id="TfsGroup">
       <separator/>
       <reference ref="ChangesView.AddUnversioned"/>
       <reference id="CheckinFiles"/>
@@ -56,13 +56,13 @@
       <separator/>
       <reference id="ChangesView.Revert"/>
       <separator/>
-      <action id="Tfs.Checkout" class="org.jetbrains.tfsIntegration.actions.CheckoutAction" text="_Edit"/>
-      <action id="Tfs.Branch" class="org.jetbrains.tfsIntegration.actions.BranchAction" text="_Branch..."/>
-      <action id="Tfs.MergeChanges" class="org.jetbrains.tfsIntegration.actions.MergeBranchAction" text="_Merge Branch Changes..."/>
+      <action id="Tfs.Checkout" class="org.jetbrains.tfsIntegration.actions.CheckoutAction"/>
+      <action id="Tfs.Branch" class="org.jetbrains.tfsIntegration.actions.BranchAction"/>
+      <action id="Tfs.MergeChanges" class="org.jetbrains.tfsIntegration.actions.MergeBranchAction"/>
       <separator/>
-      <action id="Tfs.Label" class="org.jetbrains.tfsIntegration.actions.LabelAction" text="Apply _Label..."/>
+      <action id="Tfs.Label" class="org.jetbrains.tfsIntegration.actions.LabelAction"/>
       <separator/>
-      <action id="Tfs.Lock" class="org.jetbrains.tfsIntegration.actions.LockAction" text="L_ock/Unlock..."/>
+      <action id="Tfs.Lock" class="org.jetbrains.tfsIntegration.actions.LockAction"/>
       <separator/>
       <reference id="Compare.SameVersion"/>
       <reference id="Compare.LastVersion"/>
@@ -72,19 +72,18 @@
       <reference id="Annotate"/>
       <reference id="ChangesView.Browse"/>
       <separator/>
-      <action id="Tfs.ItemInfo" class="org.jetbrains.tfsIntegration.actions.ItemInfoAction" text="V_ersion Control Information..."/>
+      <action id="Tfs.ItemInfo" class="org.jetbrains.tfsIntegration.actions.ItemInfoAction"/>
       <add-to-group group-id="TfsGlobalGroup" anchor="last"/>
       <add-to-group group-id="TfsFilePopupGroup" anchor="last"/>
       <separator/>
-      <action id="TFS.ManageWorkspaces" text="Edit _Configuration..."
-              description="Change Team Foundation Servers and workspaces configuration"
+      <action id="TFS.ManageWorkspaces"
               class="org.jetbrains.tfsIntegration.actions.TfsEditConfigurationAction"/>
     </group>
 
     <group id="TfsTreePopupMenu">
     </group>
 
-    <action id="TFS.CreateVirtualFolder" text="Create _Folder..." description="Create folder on server"
+    <action id="TFS.CreateVirtualFolder"
             class="org.jetbrains.tfsIntegration.ui.servertree.CreateVirtualFolderAction" icon="AllIcons.Actions.NewFolder">
       <add-to-group group-id="TfsTreePopupMenu" anchor="first"/>
       </action>
