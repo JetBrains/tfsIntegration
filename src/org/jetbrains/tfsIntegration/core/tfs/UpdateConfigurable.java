@@ -18,7 +18,7 @@ package org.jetbrains.tfsIntegration.core.tfs;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.project.Project;
-import org.jetbrains.annotations.Nls;
+import org.jetbrains.tfsIntegration.core.TFSBundle;
 import org.jetbrains.tfsIntegration.core.TFSProjectConfiguration;
 import org.jetbrains.tfsIntegration.ui.UpdateSettingsForm;
 
@@ -48,9 +48,8 @@ public class UpdateConfigurable implements Configurable {
   }
 
   @Override
-  @Nls
   public String getDisplayName() {
-    return "Update Project";
+    return TFSBundle.message("configurable.TFSUpdateConfigurable.display.name");
   }
 
   @Override
