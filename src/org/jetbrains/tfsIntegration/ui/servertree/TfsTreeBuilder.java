@@ -16,7 +16,7 @@ public class TfsTreeBuilder extends AbstractTreeBuilder {
 
   private static final Logger LOG = Logger.getInstance(TfsTreeBuilder.class.getName());
 
-  private static final Comparator<NodeDescriptor> COMPARATOR = (o1, o2) -> {
+  private static final Comparator<NodeDescriptor<?>> COMPARATOR = (o1, o2) -> {
     if (o1 instanceof TfsErrorTreeNode) {
       return o2 instanceof TfsErrorTreeNode ? ((TfsErrorTreeNode)o1).getMessage().compareTo(((TfsErrorTreeNode)o2).getMessage()) : -1;
     }
