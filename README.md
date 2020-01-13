@@ -14,7 +14,7 @@ The following features are available:
 * Checkout from TFS Wizard.
 
 
-###To build and run the plugin:
+### To build and run the plugin:
 1. Clone the project and open in IDEA (tfsintegration.iml should be used)
 2. Configure IntelliJ Platform Plugin SDK called **IntelliJ IDEA SDK** pointing to the existing IDEA installation using Project Settings
 3. Run using provided **IDEA** run configuration
