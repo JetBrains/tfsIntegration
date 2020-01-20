@@ -1,4 +1,4 @@
-[![official JetBrains project](http://jb.gg/badges/official.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
+[![official JetBrains project](http://jb.gg/badges/obsolete.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
 
 IntelliJ Team Foundation Server Integration
 ==
@@ -9,7 +9,7 @@ Supported TFS versions: up to TFS 2015.
 
 The following features are available:
 * Dedicated page under the Version Control node in the Settings/Preferences dialog.
-* Ability to create and manage TFS workspaces.>
+* Ability to create and manage TFS workspaces.
 * Ability to download the files from a TFS server according to the settings from a new or the existing workspace.
 * Checkout from TFS Wizard.
 
