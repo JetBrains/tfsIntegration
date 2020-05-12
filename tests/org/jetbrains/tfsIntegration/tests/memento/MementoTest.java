@@ -22,7 +22,6 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.charset.StandardCharsets;
 
-import static com.intellij.testFramework.assertions.Assertions.assertThat;
 
 // this test checks that IDEA's Memento implementation is identical to the Teamprise' one,
 // so that checkin policy definitions have the same storage format
@@ -192,7 +191,7 @@ public class MementoTest extends TestCase {
   private static void compareXml(String s1, String s2) throws Exception {
     Element d1 = JDOMUtil.load(s1);
     Element d2 = JDOMUtil.load(s2);
-    assertThat(d2).isEqualTo(d1);
+    assert((d2).equals(d1));
   }
 
   protected static com.teamprise.core.memento.Memento createTeampriseMemento() {

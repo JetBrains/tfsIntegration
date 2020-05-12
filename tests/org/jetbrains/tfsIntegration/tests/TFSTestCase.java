@@ -24,6 +24,7 @@ import com.intellij.openapi.util.io.StreamUtil;
 import com.intellij.openapi.vcs.*;
 import com.intellij.openapi.vcs.changes.Change;
 import com.intellij.openapi.vcs.changes.*;
+import com.intellij.openapi.vcs.changes.committed.MockAbstractVcs;
 import com.intellij.openapi.vcs.checkin.CheckinChangeListSpecificComponent;
 import com.intellij.openapi.vcs.checkin.CheckinEnvironment;
 import com.intellij.openapi.vcs.rollback.RollbackProgressListener;
@@ -232,7 +233,8 @@ public abstract class TFSTestCase extends AbstractJunitVcsTestCase  {
   private TestChangeListBuilder getChanges(VirtualFile root) throws VcsException {
     ChangeListManagerImpl.getInstanceImpl(myProject).ensureUpToDate();
     TestChangeListBuilder changeListBuilder = new TestChangeListBuilder(mySandboxRoot, myProject);
-    getVcs().getChangeProvider().getChanges(getDirtyScopeForFile(root), changeListBuilder, new EmptyProgressIndicator(), null);
+    VcsDirtyScopeImpl scope = new VcsDirtyScopeImpl(new MockAbstractVcs(myProject));
+    getVcs().getChangeProvider().getChanges(scope, changeListBuilder, new EmptyProgressIndicator(), null);
     return changeListBuilder;
   }
 
